@@ -178,6 +178,10 @@
 				Name="Engine"
 				>
 				<File
+					RelativePath=".\animation.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\contactListener.cpp"
 					>
 				</File>
@@ -203,6 +207,10 @@
 			<Filter
 				Name="Engine"
 				>
+				<File
+					RelativePath=".\Animation.h"
+					>
+				</File>
 				<File
 					RelativePath=".\Camera.h"
 					>

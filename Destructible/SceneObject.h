@@ -27,5 +27,10 @@ class SceneArea
 public:
 	SceneArea() = 0;
 	
-	bool overLap(b2AABB &area) = 0;
+	//called by camera
+	virtual bool overLap(b2AABB &area) = 0;
+	virtual void onEnterCamera() = 0;
+	virtual void onLeaveCamera() = 0;
+	virtual void onPlayerEnter() = 0;
+	virtual void onPlayerLeave() = 0;
 };

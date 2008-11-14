@@ -1,4 +1,5 @@
 
+class Animation;
 class SceneObject;
 
 /**
@@ -13,7 +14,8 @@ class Player : public SceneObject {
 	b2Vec2 origin;
 	
 	// Image Data
-	boost::scoped_ptr<Gosu::Image> image;
+	Animation root;
+	Animation walk;
 	
 	// Extra stuff
 	float32 rotation;

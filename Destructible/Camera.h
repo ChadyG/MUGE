@@ -1,5 +1,3 @@
-#include <Gosu/Gosu.hpp>
-
 /**
 * The camera takes care of following player,
 * identifying what needs to be drawn, and
@@ -23,5 +21,5 @@ class Camera
 public:
 	Camera();
 	
-	void update();
+	void update(std::vector< SceneArea* >::iterator);
 };

@@ -14,8 +14,8 @@ class Environment
 {
 	// Game Data
 	Camera* m_Camerap;
-	std::vector< SceneObject* > m_Objects;
-	std::vector< SceneArea* > m_Areas;
+	std::vector< SceneObject > m_Objects;
+	std::vector< SceneArea > m_Areas;
 	
 	// Box2D data
 	b2World* m_Worldp;

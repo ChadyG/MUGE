@@ -18,7 +18,7 @@ public:
 	void resume();
 	
 	void update();
-	void draw();
+	void draw() const;
 	
 	void instance();
 };
