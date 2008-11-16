@@ -23,14 +23,19 @@ public:
 class SceneArea
 {
 	b2AABB m_Box;
+	bool m_inCamera;
+	bool m_inPlayer;
 
 public:
-	SceneArea() = 0;
+	SceneArea();
 	
 	//called by camera
-	virtual bool overLap(b2AABB &area) = 0;
+	virtual bool overLap(b2AABB&) = 0;
+	virtual bool pointIn(b2Vec2&) = 0;
+	virtual bool inCamera() = 0;
 	virtual void onEnterCamera() = 0;
 	virtual void onLeaveCamera() = 0;
+	virtual bool playerIn() = 0;
 	virtual void onPlayerEnter() = 0;
 	virtual void onPlayerLeave() = 0;
 };

@@ -14,8 +14,8 @@ class Environment
 {
 	// Game Data
 	Camera* m_Camerap;
-	std::vector< SceneObject > m_Objects;
-	std::vector< SceneArea > m_Areas;
+	std::vector< SceneObject* > m_Objects;
+	std::vector< SceneArea* > m_Areas;
 	
 	// Box2D data
 	b2World* m_Worldp;
@@ -26,7 +26,7 @@ class Environment
 	//	Pixel transformation data
 	int m_aOrigin[2];
 	int m_aExtents[2];
-	int m_iUnits;
+	int m_Units;
 
 public:
 	Environment(std::wstring, Gosu::Graphics &);

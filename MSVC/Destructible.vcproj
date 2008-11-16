@@ -118,7 +118,7 @@
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="Gosu.lib"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
-				RuntimeLibrary="2"
+				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -174,23 +174,27 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
+			<File
+				RelativePath="..\src\main.cpp"
+				>
+			</File>
 			<Filter
 				Name="Engine"
 				>
 				<File
-					RelativePath=".\animation.cpp"
+					RelativePath="..\src\Engine\animation.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\contactListener.cpp"
+					RelativePath="..\src\Engine\camera.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\environment.cpp"
+					RelativePath="..\src\Engine\contactListener.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\main.cpp"
+					RelativePath="..\src\Engine\environment.cpp"
 					>
 				</File>
 			</Filter>
@@ -201,38 +205,38 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\TitleState.h"
+				RelativePath="..\src\TitleState.h"
 				>
 			</File>
 			<Filter
 				Name="Engine"
 				>
 				<File
-					RelativePath=".\Animation.h"
+					RelativePath="..\src\Engine\Animation.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Camera.h"
+					RelativePath="..\src\Engine\Camera.h"
 					>
 				</File>
 				<File
-					RelativePath=".\ContactListener.h"
+					RelativePath="..\src\Engine\ContactListener.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Environment.h"
+					RelativePath="..\src\Engine\Environment.h"
 					>
 				</File>
 				<File
-					RelativePath=".\GameState.h"
+					RelativePath="..\src\Engine\GameState.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Player.h"
+					RelativePath="..\src\Engine\Player.h"
 					>
 				</File>
 				<File
-					RelativePath=".\SceneObject.h"
+					RelativePath="..\src\Engine\SceneObject.h"
 					>
 				</File>
 			</Filter>
