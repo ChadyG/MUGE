@@ -7,17 +7,7 @@
 
 Environment::Environment(std::wstring levelFile, Gosu::Graphics &graphics)
 {
-	b2AABB worldAABB;
-	worldAABB.lowerBound.Set( -50.0f, -50.0f);
-	worldAABB.upperBound.Set( 50.0f, 50.0f);
-	b2Vec2 gravity( 0.0f, 0.0f);
-	bool do_sleep = true;
-	m_ContactListenerp = new MyContactListener();
-	m_Worldp = new b2World(worldAABB, gravity, do_sleep);
-	m_Worldp->SetContactListener( m_ContactListenerp );
 
-	m_Iterations = 10;
-	m_TimeStep = 1.0f / 60.0f;
 
 	//
 	// Read in JSON encoded file
@@ -113,7 +103,8 @@ Environment::Environment(std::wstring levelFile, Gosu::Graphics &graphics)
 
 void Environment::update(const Gosu::Window &window, int offX, int offY)
 {
-	m_Worldp->Step(m_TimeStep, m_Iterations);
+	// Step physics simulation
+	//m_Worldp->Step(m_TimeStep, m_Iterations);
 	
 	m_aOrigin[0] = offX + window.graphics().width()/2;
 	m_aOrigin[1] = offY + window.graphics().height()/2;

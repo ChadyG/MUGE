@@ -9,6 +9,7 @@
 */
 class SceneObject
 {
+	//Basic physics data (body + position)
 	b2Body* m_Bodyp;
 	b2Vec2 m_Pos;
 
@@ -22,7 +23,9 @@ public:
 
 class SceneArea
 {
+	//structure holding extent information
 	b2AABB m_Box;
+	//booleans for current state of trigger
 	bool m_inCamera;
 	bool m_inPlayer;
 

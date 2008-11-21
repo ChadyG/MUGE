@@ -16,12 +16,12 @@ class Environment
 	Camera* m_Camerap;
 	std::vector< SceneObject* > m_Objects;
 	std::vector< SceneArea* > m_Areas;
+	boost::scoped_ptr< Gosu::Image > m_Background;
+	boost::scoped_ptr< Gosu::Image > m_Midground;
+	boost::scoped_ptr< Gosu::Image > m_Ground;
+	boost::scoped_ptr< Gosu::Image > m_Foreground;
 	
-	// Box2D data
-	b2World* m_Worldp;
-	MyContactListener* m_ContactListenerp;
-	float32 m_TimeStep;
-	int32 m_Iterations;
+	// Physics data
 	
 	//	Pixel transformation data
 	int m_aOrigin[2];
