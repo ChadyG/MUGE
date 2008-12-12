@@ -18,9 +18,24 @@ public:
 	
 	virtual void update() = 0;
 	virtual void draw() = 0;
+	
+	virtual int onAction() = 0;
 };
 
-
+/**
+* SceneArea descendants must implement the accessors and mutators below
+*	Tests
+*		overLap	-	given a b2AABB test to see if there is a collision with own AABB
+*		pointIn	-	given a b2Vec2 test to see if the point lies within own AABB
+*	Events
+*		onEnterCamera	-	entered camera zone
+*		onLeaveCamera	-	left camera zone
+*		onPlayerEnter	-	player entered area
+*		onPlayerLeave	-	player left area
+*	State Tests
+*		inCamera	-	are we in the camera? 
+*		playerIn	-	is the player inside?
+*/
 class SceneArea
 {
 	//structure holding extent information

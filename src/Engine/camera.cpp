@@ -48,6 +48,8 @@ void Camera::update(std::vector< SceneObject* >& objList, std::vector< SceneArea
 			}
 		}
 		
+		// This ties the camera focus to the player
+		// defeating any choreography systems
 		if ((*it)->pointIn(focus)) {
 			if (!(*it)->playerIn()) {
 				(*it)->onPlayerEnter();

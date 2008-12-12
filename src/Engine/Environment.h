@@ -5,6 +5,17 @@ class MyContactListener;
 class SceneObject;
 class SceneArea;
 class Camera;
+class InputFilter;
+
+/**
+* Used later for data baking/loading
+*/
+struct envData
+{
+	//pointer to data within
+	int vPointer[5];
+	//data
+};
 
 /**
 * Gameplay class, loads a level and handles common
@@ -14,6 +25,7 @@ class Environment
 {
 	// Game Data
 	Camera* m_Camerap;
+	InputFilter* m_Input;
 	std::vector< SceneObject* > m_Objects;
 	std::vector< SceneArea* > m_Areas;
 	boost::scoped_ptr< Gosu::Image > m_Background;

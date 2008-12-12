@@ -197,6 +197,30 @@
 					RelativePath="..\src\Engine\environment.cpp"
 					>
 				</File>
+				<File
+					RelativePath="..\src\Engine\InputFilter.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\MUGE.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="AI"
+				>
+			</Filter>
+			<Filter
+				Name="SceneData"
+				>
+			</Filter>
+			<Filter
+				Name="GameStates"
+				>
+				<File
+					RelativePath="..\src\TitleState.cpp"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -204,10 +228,6 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
-			<File
-				RelativePath="..\src\TitleState.h"
-				>
-			</File>
 			<Filter
 				Name="Engine"
 				>
@@ -232,11 +252,27 @@
 					>
 				</File>
 				<File
+					RelativePath="..\src\Engine\InputFilter.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\MUGE.h"
+					>
+				</File>
+				<File
 					RelativePath="..\src\Engine\Player.h"
 					>
 				</File>
 				<File
 					RelativePath="..\src\Engine\SceneObject.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="GameStates"
+				>
+				<File
+					RelativePath="..\src\TitleState.h"
 					>
 				</File>
 			</Filter>

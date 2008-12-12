@@ -68,7 +68,7 @@ void MyContactListener::Result(const b2ContactResult* point)
 
 }
 
-void MyContactListener::UpdateSensors()
+void MyContactListener::UpdateCallbacks()
 {
 	std::vector< b2ContactPoint >::iterator ic;
 	b2FilterData filter;

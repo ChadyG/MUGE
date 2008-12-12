@@ -1,3 +1,7 @@
+#ifndef GAMESTATE_H
+#define GAMESTATE_H
+
+class MUGE;
 
 /**
 * Abstract class to describe a game state
@@ -7,17 +11,19 @@
 */
 class GameState
 {
-	GameState();
+protected:
+	GameState() { }
 
 public:
-	virtual void init() = 0;
+	virtual void init(Gosu::Graphics &) = 0;
 	virtual void cleanup() = 0;
 	
 	virtual void pause() = 0;
 	virtual void resume() = 0;
 	
-	virtual void update() = 0;
+	virtual void update(const Gosu::Input &, MUGE*) = 0;
 	virtual void draw() const = 0;
 	
-	virtual void instance() = 0;
 };
+
+#endif

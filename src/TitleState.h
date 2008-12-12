@@ -1,4 +1,7 @@
-class GameState;
+#include <Gosu/Gosu.hpp>
+#include "Engine/GameState.h"
+
+class MUGE;
 
 /**
 * State for title screen and other middleware screens
@@ -6,19 +9,26 @@ class GameState;
 */
 class TitleState : public GameState
 {
-	TitleState();
+	boost::scoped_ptr<Gosu::Image> m_TitleScreen;
+	int counter;
+	int step;
 	
 	static TitleState m_StateInstance;
 
+protected:
+	TitleState() { }
+	
 public:
-	void init();
+	void init(Gosu::Graphics &graphics);
 	void cleanup();
 	
 	void pause();
 	void resume();
 	
-	void update();
+	void update(const Gosu::Input &, MUGE *);
 	void draw() const;
 	
-	void instance();
+	static TitleState* instance() {
+		return &m_StateInstance;
+	}
 };

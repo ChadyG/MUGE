@@ -16,5 +16,5 @@ public:
 	void Persist(const b2ContactPoint* point);
 	void Remove(const b2ContactPoint* point);
 	void Result(const b2ContactResult* point);
-	void UpdateSensors();
+	void UpdateCallbacks();
 };
