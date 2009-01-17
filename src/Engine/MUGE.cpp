@@ -38,10 +38,12 @@ void MUGE::popState()
 
 void MUGE::update()
 {
-	m_States.top()->update(input(), this);
+	if (!m_States.empty())
+		m_States.top()->update(input(), this);
 }
 
 void MUGE::draw()
 {
-	m_States.top()->draw();
+	if (!m_States.empty())
+		m_States.top()->draw();
 }

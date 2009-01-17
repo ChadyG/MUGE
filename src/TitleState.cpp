@@ -9,7 +9,7 @@ TitleState TitleState::m_StateInstance;
 
 void TitleState::init(Gosu::Graphics &graphics)
 {
-	std::wstring filename = Gosu::sharedResourcePrefix() + L"Images/MUGDTitle.png";
+	std::wstring filename = Gosu::resourcePrefix() + L"Images/MUGDTitle.png";
 	m_TitleScreen.reset(new Gosu::Image(graphics, filename, false));
 	
 	counter = 256;

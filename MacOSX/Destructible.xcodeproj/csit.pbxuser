@@ -1,0 +1,263 @@
+// !$*UTF8*$!
+{
+	29B97313FDCFA39411CA2CEA /* Project object */ = {
+		activeBuildConfigurationName = Debug;
+		activeExecutable = E9382FB80F2169230093F382 /* Destructible */;
+		activeTarget = 8D1107260486CEB800E47090 /* Destructible */;
+		addToTargets = (
+			8D1107260486CEB800E47090 /* Destructible */,
+		);
+		codeSenseManager = E9382FBC0F2169400093F382 /* Code sense */;
+		executables = (
+			E9382FB80F2169230093F382 /* Destructible */,
+		);
+		perUserDictionary = {
+			PBXConfiguration.PBXFileTableDataSource3.PBXExecutablesDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXExecutablesDataSource_NameID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					22,
+					300,
+					257,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXExecutablesDataSource_ActiveFlagID,
+					PBXExecutablesDataSource_NameID,
+					PBXExecutablesDataSource_CommentsID,
+				);
+			};
+			PBXConfiguration.PBXFileTableDataSource3.PBXFileTableDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					369,
+					20,
+					48,
+					43,
+					43,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+					PBXFileDataSource_Target_ColumnID,
+				);
+			};
+			PBXConfiguration.PBXTargetDataSource.PBXTargetDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					329,
+					60,
+					20,
+					48,
+					43,
+					43,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXTargetDataSource_PrimaryAttribute,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+				);
+			};
+			PBXPerProjectTemplateStateSaveDate = 253860234;
+			PBXWorkspaceStateSaveDate = 253860234;
+		};
+		perUserProjectItems = {
+			E938303B0F21965F0093F382 /* PlistBookmark */ = E938303B0F21965F0093F382 /* PlistBookmark */;
+			E93830400F21965F0093F382 /* PlistBookmark */ = E93830400F21965F0093F382 /* PlistBookmark */;
+			E938304F0F2197A80093F382 /* PBXTextBookmark */ = E938304F0F2197A80093F382 /* PBXTextBookmark */;
+			E93830520F2197A80093F382 /* PBXTextBookmark */ = E93830520F2197A80093F382 /* PBXTextBookmark */;
+			E93830F30F219B6F0093F382 /* PBXTextBookmark */ = E93830F30F219B6F0093F382 /* PBXTextBookmark */;
+			E93831060F21A1E20093F382 /* PBXTextBookmark */ = E93831060F21A1E20093F382 /* PBXTextBookmark */;
+		};
+		sourceControlManager = E9382FBB0F2169400093F382 /* Source Control */;
+		userBuildSettings = {
+		};
+	};
+	8D1107260486CEB800E47090 /* Destructible */ = {
+		activeExec = 0;
+		executables = (
+			E9382FB80F2169230093F382 /* Destructible */,
+		);
+	};
+	8D1107310486CEB800E47090 /* Info.plist */ = {
+		uiCtxt = {
+			sepNavWindowFrame = "{{264, 165}, {750, 558}}";
+		};
+	};
+	E9382FB80F2169230093F382 /* Destructible */ = {
+		isa = PBXExecutable;
+		activeArgIndices = (
+		);
+		argumentStrings = (
+		);
+		autoAttachOnCrash = 1;
+		breakpointsEnabled = 0;
+		configStateDict = {
+		};
+		customDataFormattersEnabled = 1;
+		debuggerPlugin = GDBDebugging;
+		disassemblyDisplayState = 0;
+		dylibVariantSuffix = "";
+		enableDebugStr = 1;
+		environmentEntries = (
+		);
+		executableSystemSymbolLevel = 0;
+		executableUserSymbolLevel = 0;
+		libgmallocEnabled = 0;
+		name = Destructible;
+		savedGlobals = {
+		};
+		sourceDirectories = (
+		);
+		variableFormatDictionary = {
+		};
+	};
+	E9382FBB0F2169400093F382 /* Source Control */ = {
+		isa = PBXSourceControlManager;
+		fallbackIsa = XCSourceControlManager;
+		isSCMEnabled = 0;
+		scmConfiguration = {
+		};
+	};
+	E9382FBC0F2169400093F382 /* Code sense */ = {
+		isa = PBXCodeSenseManager;
+		indexTemplatePath = "";
+	};
+	E9382FCA0F216B2A0093F382 /* animation.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {642, 308}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 471}";
+		};
+	};
+	E9382FCB0F216B2A0093F382 /* Animation.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {439, 322}}";
+			sepNavSelRange = "{0, 26}";
+			sepNavVisRange = "{0, 309}";
+		};
+	};
+	E9382FCD0F216B2A0093F382 /* Camera.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {547, 560}}";
+			sepNavSelRange = "{0, 20}";
+			sepNavVisRange = "{0, 0}";
+		};
+	};
+	E9382FD00F216B2A0093F382 /* environment.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {456, 1818}}";
+			sepNavSelRange = "{25, 33}";
+			sepNavVisRange = "{0, 260}";
+		};
+	};
+	E9382FD50F216B2A0093F382 /* MUGE.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {547, 686}}";
+			sepNavSelRange = "{725, 0}";
+			sepNavVisRange = "{468, 281}";
+		};
+	};
+	E9382FD60F216B2A0093F382 /* MUGE.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {547, 392}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{151, 318}";
+		};
+	};
+	E9382FD80F216B2A0093F382 /* SceneObject.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {547, 896}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 385}";
+		};
+	};
+	E9382FDF0F216B490093F382 /* TitleState.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {547, 644}}";
+			sepNavSelRange = "{194, 0}";
+			sepNavVisRange = "{435, 368}";
+		};
+	};
+	E93830360F2196510093F382 /* Audio.hpp */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.cpp.h;
+		name = Audio.hpp;
+		path = "/Users/csit/Projects/destructible/MacOSX/Destructible/../../../../Downloads/gosu-mac-0.7.11/Gosu.framework/Headers/Audio.hpp";
+		sourceTree = "<absolute>";
+	};
+	E938303B0F21965F0093F382 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D1107310486CEB800E47090 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			CFBundleIdentifier,
+		);
+		name = /Users/csit/Projects/destructible/MacOSX/Destructible/Info.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	E93830400F21965F0093F382 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D1107310486CEB800E47090 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			CFBundleIdentifier,
+		);
+		name = /Users/csit/Projects/destructible/MacOSX/Destructible/Info.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	E938304F0F2197A80093F382 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E93830360F2196510093F382 /* Audio.hpp */;
+		name = "Audio.hpp: 15";
+		rLen = 32;
+		rLoc = 344;
+		rType = 0;
+		vrLen = 423;
+		vrLoc = 0;
+	};
+	E93830520F2197A80093F382 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E93830360F2196510093F382 /* Audio.hpp */;
+		name = "Audio.hpp: 15";
+		rLen = 32;
+		rLoc = 344;
+		rType = 0;
+		vrLen = 423;
+		vrLoc = 0;
+	};
+	E93830F30F219B6F0093F382 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "error: Gosu/Gosu.hpp: No such file or directory";
+		fRef = E9382FCB0F216B2A0093F382 /* Animation.h */;
+		rLen = 1;
+		rLoc = 0;
+		rType = 1;
+	};
+	E93831060F21A1E20093F382 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E9382FCB0F216B2A0093F382 /* Animation.h */;
+		name = "Animation.h: 1";
+		rLen = 26;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 369;
+		vrLoc = 0;
+	};
+}

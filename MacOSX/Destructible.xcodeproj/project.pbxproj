@@ -1,0 +1,406 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
+		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		E9382FD90F216B2A0093F382 /* animation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9382FCA0F216B2A0093F382 /* animation.cpp */; };
+		E9382FDA0F216B2A0093F382 /* camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9382FCC0F216B2A0093F382 /* camera.cpp */; };
+		E9382FDB0F216B2A0093F382 /* contactListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9382FCE0F216B2A0093F382 /* contactListener.cpp */; };
+		E9382FDC0F216B2A0093F382 /* environment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9382FD00F216B2A0093F382 /* environment.cpp */; };
+		E9382FDD0F216B2A0093F382 /* InputFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9382FD30F216B2A0093F382 /* InputFilter.cpp */; };
+		E9382FDE0F216B2A0093F382 /* MUGE.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9382FD50F216B2A0093F382 /* MUGE.cpp */; };
+		E9382FE10F216B490093F382 /* TitleState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9382FDF0F216B490093F382 /* TitleState.cpp */; };
+		E9382FE30F216B5B0093F382 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9382FE20F216B5B0093F382 /* main.cpp */; };
+		E9382FE60F216BFC0093F382 /* MUGDsm.ico in Resources */ = {isa = PBXBuildFile; fileRef = E9382FE40F216BFC0093F382 /* MUGDsm.ico */; };
+		E9382FE70F216BFC0093F382 /* MUGDTitle.png in Resources */ = {isa = PBXBuildFile; fileRef = E9382FE50F216BFC0093F382 /* MUGDTitle.png */; };
+		E93830190F2170B70093F382 /* Images in Resources */ = {isa = PBXBuildFile; fileRef = E93830150F2170B70093F382 /* Images */; };
+		E93830FD0F219C150093F382 /* Gosu.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E93830FC0F219C150093F382 /* Gosu.framework */; };
+		E93830FE0F219C370093F382 /* Gosu.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = E93830FC0F219C150093F382 /* Gosu.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E93830140F21709D0093F382 /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				E93830FE0F219C370093F382 /* Gosu.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		32CA4F630368D1EE00C91783 /* Destructible_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Destructible_Prefix.pch; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8D1107320486CEB800E47090 /* Destructible.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Destructible.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9382FCA0F216B2A0093F382 /* animation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = animation.cpp; path = ../src/Engine/animation.cpp; sourceTree = SOURCE_ROOT; };
+		E9382FCB0F216B2A0093F382 /* Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Animation.h; path = ../src/Engine/Animation.h; sourceTree = SOURCE_ROOT; };
+		E9382FCC0F216B2A0093F382 /* camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = camera.cpp; path = ../src/Engine/camera.cpp; sourceTree = SOURCE_ROOT; };
+		E9382FCD0F216B2A0093F382 /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Camera.h; path = ../src/Engine/Camera.h; sourceTree = SOURCE_ROOT; };
+		E9382FCE0F216B2A0093F382 /* contactListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = contactListener.cpp; path = ../src/Engine/contactListener.cpp; sourceTree = SOURCE_ROOT; };
+		E9382FCF0F216B2A0093F382 /* ContactListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContactListener.h; path = ../src/Engine/ContactListener.h; sourceTree = SOURCE_ROOT; };
+		E9382FD00F216B2A0093F382 /* environment.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = environment.cpp; path = ../src/Engine/environment.cpp; sourceTree = SOURCE_ROOT; };
+		E9382FD10F216B2A0093F382 /* Environment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environment.h; path = ../src/Engine/Environment.h; sourceTree = SOURCE_ROOT; };
+		E9382FD20F216B2A0093F382 /* GameState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameState.h; path = ../src/Engine/GameState.h; sourceTree = SOURCE_ROOT; };
+		E9382FD30F216B2A0093F382 /* InputFilter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = InputFilter.cpp; path = ../src/Engine/InputFilter.cpp; sourceTree = SOURCE_ROOT; };
+		E9382FD40F216B2A0093F382 /* InputFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InputFilter.h; path = ../src/Engine/InputFilter.h; sourceTree = SOURCE_ROOT; };
+		E9382FD50F216B2A0093F382 /* MUGE.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MUGE.cpp; path = ../src/Engine/MUGE.cpp; sourceTree = SOURCE_ROOT; };
+		E9382FD60F216B2A0093F382 /* MUGE.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MUGE.h; path = ../src/Engine/MUGE.h; sourceTree = SOURCE_ROOT; };
+		E9382FD70F216B2A0093F382 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Player.h; path = ../src/Engine/Player.h; sourceTree = SOURCE_ROOT; };
+		E9382FD80F216B2A0093F382 /* SceneObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SceneObject.h; path = ../src/Engine/SceneObject.h; sourceTree = SOURCE_ROOT; };
+		E9382FDF0F216B490093F382 /* TitleState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TitleState.cpp; path = ../src/TitleState.cpp; sourceTree = SOURCE_ROOT; };
+		E9382FE00F216B490093F382 /* TitleState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TitleState.h; path = ../src/TitleState.h; sourceTree = SOURCE_ROOT; };
+		E9382FE20F216B5B0093F382 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../src/main.cpp; sourceTree = SOURCE_ROOT; };
+		E9382FE40F216BFC0093F382 /* MUGDsm.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; name = MUGDsm.ico; path = ../Images/MUGDsm.ico; sourceTree = SOURCE_ROOT; };
+		E9382FE50F216BFC0093F382 /* MUGDTitle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = MUGDTitle.png; path = ../Images/MUGDTitle.png; sourceTree = SOURCE_ROOT; };
+		E93830150F2170B70093F382 /* Images */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Images; path = ../Images; sourceTree = SOURCE_ROOT; };
+		E93830FC0F219C150093F382 /* Gosu.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Gosu.framework; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D11072E0486CEB800E47090 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+				E93830FD0F219C150093F382 /* Gosu.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		080E96DDFE201D6D7F000001 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				E9382FE20F216B5B0093F382 /* main.cpp */,
+				E9382FC90F216AA50093F382 /* GameStates */,
+				E9382FC80F216A7A0093F382 /* GameObjects */,
+				E9382FC70F216A740093F382 /* AI */,
+				E9382FC60F216A500093F382 /* Engine */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E93830FC0F219C150093F382 /* Gosu.framework */,
+				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
+				13E42FB307B3F0F600E4EEF1 /* CoreData.framework */,
+				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D1107320486CEB800E47090 /* Destructible.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* Destructible */ = {
+			isa = PBXGroup;
+			children = (
+				E93830150F2170B70093F382 /* Images */,
+				080E96DDFE201D6D7F000001 /* Classes */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+			);
+			name = Destructible;
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32CA4F630368D1EE00C91783 /* Destructible_Prefix.pch */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				E9382FE80F216C0E0093F382 /* Images */,
+				E9382FE40F216BFC0093F382 /* MUGDsm.ico */,
+				8D1107310486CEB800E47090 /* Info.plist */,
+				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
+				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E9382FC60F216A500093F382 /* Engine */ = {
+			isa = PBXGroup;
+			children = (
+				E9382FCA0F216B2A0093F382 /* animation.cpp */,
+				E9382FCB0F216B2A0093F382 /* Animation.h */,
+				E9382FCC0F216B2A0093F382 /* camera.cpp */,
+				E9382FCD0F216B2A0093F382 /* Camera.h */,
+				E9382FCE0F216B2A0093F382 /* contactListener.cpp */,
+				E9382FCF0F216B2A0093F382 /* ContactListener.h */,
+				E9382FD00F216B2A0093F382 /* environment.cpp */,
+				E9382FD10F216B2A0093F382 /* Environment.h */,
+				E9382FD20F216B2A0093F382 /* GameState.h */,
+				E9382FD30F216B2A0093F382 /* InputFilter.cpp */,
+				E9382FD40F216B2A0093F382 /* InputFilter.h */,
+				E9382FD50F216B2A0093F382 /* MUGE.cpp */,
+				E9382FD60F216B2A0093F382 /* MUGE.h */,
+				E9382FD70F216B2A0093F382 /* Player.h */,
+				E9382FD80F216B2A0093F382 /* SceneObject.h */,
+			);
+			name = Engine;
+			sourceTree = "<group>";
+		};
+		E9382FC70F216A740093F382 /* AI */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = AI;
+			sourceTree = "<group>";
+		};
+		E9382FC80F216A7A0093F382 /* GameObjects */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = GameObjects;
+			sourceTree = "<group>";
+		};
+		E9382FC90F216AA50093F382 /* GameStates */ = {
+			isa = PBXGroup;
+			children = (
+				E9382FDF0F216B490093F382 /* TitleState.cpp */,
+				E9382FE00F216B490093F382 /* TitleState.h */,
+			);
+			name = GameStates;
+			sourceTree = "<group>";
+		};
+		E9382FE80F216C0E0093F382 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				E9382FE50F216BFC0093F382 /* MUGDTitle.png */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D1107260486CEB800E47090 /* Destructible */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Destructible" */;
+			buildPhases = (
+				8D1107290486CEB800E47090 /* Resources */,
+				8D11072C0486CEB800E47090 /* Sources */,
+				8D11072E0486CEB800E47090 /* Frameworks */,
+				E93830140F21709D0093F382 /* Copy Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Destructible;
+			productInstallPath = "$(HOME)/Applications";
+			productName = Destructible;
+			productReference = 8D1107320486CEB800E47090 /* Destructible.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Destructible" */;
+			compatibilityVersion = "Xcode 3.1";
+			hasScannedForEncodings = 1;
+			mainGroup = 29B97314FDCFA39411CA2CEA /* Destructible */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D1107260486CEB800E47090 /* Destructible */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D1107290486CEB800E47090 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
+				E9382FE60F216BFC0093F382 /* MUGDsm.ico in Resources */,
+				E9382FE70F216BFC0093F382 /* MUGDTitle.png in Resources */,
+				E93830190F2170B70093F382 /* Images in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D11072C0486CEB800E47090 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E9382FD90F216B2A0093F382 /* animation.cpp in Sources */,
+				E9382FDA0F216B2A0093F382 /* camera.cpp in Sources */,
+				E9382FDB0F216B2A0093F382 /* contactListener.cpp in Sources */,
+				E9382FDC0F216B2A0093F382 /* environment.cpp in Sources */,
+				E9382FDD0F216B2A0093F382 /* InputFilter.cpp in Sources */,
+				E9382FDE0F216B2A0093F382 /* MUGE.cpp in Sources */,
+				E9382FE10F216B490093F382 /* TitleState.cpp in Sources */,
+				E9382FE30F216B5B0093F382 /* main.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C165DFE840E0CC02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C01FCF4B08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../Downloads/gosu-mac-0.7.11\"",
+					"\"$(SRCROOT)/../../../Downloads/gosu-mac-0.7.11\"",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Destructible_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_NAME = Destructible;
+			};
+			name = Debug;
+		};
+		C01FCF4C08A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../Downloads/gosu-mac-0.7.11\"",
+					"\"$(SRCROOT)/../../../Downloads/gosu-mac-0.7.11\"",
+				);
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Destructible_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_NAME = Destructible;
+			};
+			name = Release;
+		};
+		C01FCF4F08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include/TinyJSON,
+					/usr/local/include/Box2D,
+					/usr/local/include,
+				);
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				ONLY_ACTIVE_ARCH = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.5;
+			};
+			name = Debug;
+		};
+		C01FCF5008A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include/TinyJSON,
+					/usr/local/include/Box2D,
+					/usr/local/include,
+				);
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				PREBINDING = NO;
+				SDKROOT = macosx10.5;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Destructible" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4B08A954540054247B /* Debug */,
+				C01FCF4C08A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Destructible" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4F08A954540054247B /* Debug */,
+				C01FCF5008A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}
