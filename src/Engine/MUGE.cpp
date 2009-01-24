@@ -7,7 +7,7 @@
 * to the current state
 */
 MUGE::MUGE()
-	: Gosu::Window(640, 480, false, 20)
+	: Gosu::Window(768, 480, false, 20)
 {
 		
 }

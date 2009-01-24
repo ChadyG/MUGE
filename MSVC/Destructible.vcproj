@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="GosuDebug.lib"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\include\Box2D\Include&quot;;&quot;$(ProjectDir)\..\include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -61,8 +61,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="box2d_d.lib"
+				AdditionalDependencies="box2d_d.lib GosuDebug.lib"
 				LinkIncremental="2"
+				AdditionalLibraryDirectories="$(ProjectDir)\..\libs"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"
@@ -116,7 +117,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="Gosu.lib"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\include&quot;;&quot;$(ProjectDir)\..\include\Box2D\Include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -135,8 +136,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="box2d.lib"
+				AdditionalDependencies="box2d.lib Gosu.lib"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="$(ProjectDir)\..\libs"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -211,7 +213,7 @@
 				>
 			</Filter>
 			<Filter
-				Name="SceneData"
+				Name="GameObjects"
 				>
 			</Filter>
 			<Filter
@@ -275,6 +277,10 @@
 					RelativePath="..\src\TitleState.h"
 					>
 				</File>
+			</Filter>
+			<Filter
+				Name="GameObjects"
+				>
 			</Filter>
 		</Filter>
 		<Filter
