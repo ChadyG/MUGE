@@ -22,6 +22,9 @@
 		E93830190F2170B70093F382 /* Images in Resources */ = {isa = PBXBuildFile; fileRef = E93830150F2170B70093F382 /* Images */; };
 		E93830FD0F219C150093F382 /* Gosu.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E93830FC0F219C150093F382 /* Gosu.framework */; };
 		E93830FE0F219C370093F382 /* Gosu.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = E93830FC0F219C150093F382 /* Gosu.framework */; };
+		E9F6EB000F2BA14100587E82 /* libBox2D.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E9F6EAFE0F2BA14100587E82 /* libBox2D.dylib */; };
+		E9F6EB010F2BA14100587E82 /* libBox2D.dylib.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = E9F6EAFF0F2BA14100587E82 /* libBox2D.dylib.dSYM */; };
+		E9F6EB020F2BA15900587E82 /* libBox2D.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E9F6EAFE0F2BA14100587E82 /* libBox2D.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -34,6 +37,16 @@
 				E93830FE0F219C370093F382 /* Gosu.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E9F6EB2C0F2BA23D00587E82 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 6;
+			files = (
+				E9F6EB020F2BA15900587E82 /* libBox2D.dylib in CopyFiles */,
+			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -68,7 +81,9 @@
 		E9382FE40F216BFC0093F382 /* MUGDsm.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; name = MUGDsm.ico; path = ../Images/MUGDsm.ico; sourceTree = SOURCE_ROOT; };
 		E9382FE50F216BFC0093F382 /* MUGDTitle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = MUGDTitle.png; path = ../Images/MUGDTitle.png; sourceTree = SOURCE_ROOT; };
 		E93830150F2170B70093F382 /* Images */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Images; path = ../Images; sourceTree = SOURCE_ROOT; };
-		E93830FC0F219C150093F382 /* Gosu.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Gosu.framework; sourceTree = "<group>"; };
+		E93830FC0F219C150093F382 /* Gosu.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Gosu.framework; path = ../libs/Gosu.framework; sourceTree = "<group>"; };
+		E9F6EAFE0F2BA14100587E82 /* libBox2D.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libBox2D.dylib; path = ../libs/libBox2D.dylib; sourceTree = SOURCE_ROOT; };
+		E9F6EAFF0F2BA14100587E82 /* libBox2D.dylib.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = libBox2D.dylib.dSYM; path = ../libs/libBox2D.dylib.dSYM; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +93,7 @@
 			files = (
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				E93830FD0F219C150093F382 /* Gosu.framework in Frameworks */,
+				E9F6EB000F2BA14100587E82 /* libBox2D.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -107,6 +123,8 @@
 		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E9F6EAFF0F2BA14100587E82 /* libBox2D.dylib.dSYM */,
+				E9F6EAFE0F2BA14100587E82 /* libBox2D.dylib */,
 				E93830FC0F219C150093F382 /* Gosu.framework */,
 				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
 				13E42FB307B3F0F600E4EEF1 /* CoreData.framework */,
@@ -126,6 +144,7 @@
 		29B97314FDCFA39411CA2CEA /* Destructible */ = {
 			isa = PBXGroup;
 			children = (
+				E9F6EAFB0F2BA0EF00587E82 /* libs */,
 				E93830150F2170B70093F382 /* Images */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
@@ -217,6 +236,13 @@
 			name = Images;
 			sourceTree = "<group>";
 		};
+		E9F6EAFB0F2BA0EF00587E82 /* libs */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = libs;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -228,6 +254,7 @@
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
 				E93830140F21709D0093F382 /* Copy Frameworks */,
+				E9F6EB2C0F2BA23D00587E82 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -265,6 +292,7 @@
 				E9382FE60F216BFC0093F382 /* MUGDsm.ico in Resources */,
 				E9382FE70F216BFC0093F382 /* MUGDTitle.png in Resources */,
 				E93830190F2170B70093F382 /* Images in Resources */,
+				E9F6EB010F2BA14100587E82 /* libBox2D.dylib.dSYM in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -318,6 +346,10 @@
 				GCC_PREFIX_HEADER = Destructible_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../libs\"",
+				);
 				PRODUCT_NAME = Destructible;
 			};
 			name = Debug;
@@ -337,6 +369,10 @@
 				GCC_PREFIX_HEADER = Destructible_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../libs\"",
+				);
 				PRODUCT_NAME = Destructible;
 			};
 			name = Release;
@@ -350,8 +386,8 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					/usr/local/include/TinyJSON,
-					/usr/local/include/Box2D,
+					"\"$(SRCROOT)/../include/Box2D/Include\"",
+					"\"$(SRCROOT)/../include\"",
 					/usr/local/include,
 				);
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
