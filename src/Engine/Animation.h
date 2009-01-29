@@ -11,7 +11,7 @@ class Animation
 {
 	std::vector< boost::shared_ptr<Gosu::Image> > m_Sprites;
 	
-	int m_Frame;
+	unsigned int m_Frame;
 	int m_numFrames;
 	int m_Timer;
 	int m_Count;
