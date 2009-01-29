@@ -1,5 +1,5 @@
 #include <Gosu/Gosu.hpp>
-#include <Box2d.h>
+#include <Box2D.h>
 
 class MyContactListener;
 class SceneObject;
