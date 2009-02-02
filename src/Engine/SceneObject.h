@@ -1,3 +1,11 @@
+/*
+ *  SceneObject.h
+ *  Destructible
+ *
+ *  Created by Chad on 1/9/08.
+ *  Copyright 2009 Mizzou Game Design. All rights reserved.
+ *
+ */
 #include <Gosu/Gosu.hpp>
 
 /**

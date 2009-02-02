@@ -1,3 +1,11 @@
+/*
+ *  InputFilter.cpp
+ *  Destructible
+ *
+ *  Created by Chad on 12/12/08.
+ *  Copyright 2009 Mizzou Game Design. All rights reserved.
+ *
+ */
 #include "InputFilter.h"
 #define UP 0x0001
 #define DOWN 0x0002

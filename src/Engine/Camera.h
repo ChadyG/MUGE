@@ -1,3 +1,11 @@
+/*
+ *  Camera.h
+ *  Destructible
+ *
+ *  Created by Chad on 11/15/08.
+ *  Copyright 2009 Mizzou Game Design. All rights reserved.
+ *
+ */
 #include <Box2D.h>
 #include <vector>
 /**

@@ -184,29 +184,45 @@
 				Name="Engine"
 				>
 				<File
-					RelativePath="..\src\Engine\animation.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\src\Engine\camera.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\src\Engine\contactListener.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\src\Engine\environment.cpp"
-					>
-				</File>
-				<File
 					RelativePath="..\src\Engine\InputFilter.cpp"
 					>
 				</File>
-				<File
-					RelativePath="..\src\Engine\MUGE.cpp"
+				<Filter
+					Name="Core"
 					>
-				</File>
+					<File
+						RelativePath="..\src\Engine\environment.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\src\Engine\MUGE.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="AI"
+					>
+				</Filter>
+				<Filter
+					Name="Video"
+					>
+					<File
+						RelativePath="..\src\Engine\animation.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\src\Engine\camera.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Physics"
+					>
+					<File
+						RelativePath="..\src\Engine\contactListener.cpp"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="AI"
@@ -234,41 +250,69 @@
 				Name="Engine"
 				>
 				<File
-					RelativePath="..\src\Engine\Animation.h"
-					>
-				</File>
-				<File
-					RelativePath="..\src\Engine\Camera.h"
-					>
-				</File>
-				<File
-					RelativePath="..\src\Engine\ContactListener.h"
-					>
-				</File>
-				<File
 					RelativePath="..\src\Engine\Environment.h"
-					>
-				</File>
-				<File
-					RelativePath="..\src\Engine\GameState.h"
 					>
 				</File>
 				<File
 					RelativePath="..\src\Engine\InputFilter.h"
 					>
 				</File>
-				<File
-					RelativePath="..\src\Engine\MUGE.h"
+				<Filter
+					Name="AI"
 					>
-				</File>
-				<File
-					RelativePath="..\src\Engine\Player.h"
+					<File
+						RelativePath="..\src\Engine\AIController.h"
+						>
+					</File>
+					<File
+						RelativePath="..\src\Engine\AIManager.h"
+						>
+					</File>
+					<File
+						RelativePath="..\src\Engine\Player.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Video"
 					>
-				</File>
-				<File
-					RelativePath="..\src\Engine\SceneObject.h"
+					<File
+						RelativePath="..\src\Engine\Animation.h"
+						>
+					</File>
+					<File
+						RelativePath="..\src\Engine\Camera.h"
+						>
+					</File>
+					<File
+						RelativePath="..\src\Engine\UIComponent.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Core"
 					>
-				</File>
+					<File
+						RelativePath="..\src\Engine\GameState.h"
+						>
+					</File>
+					<File
+						RelativePath="..\src\Engine\MUGE.h"
+						>
+					</File>
+					<File
+						RelativePath="..\src\Engine\SceneObject.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Physics"
+					>
+					<File
+						RelativePath="..\src\Engine\ContactListener.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="GameStates"

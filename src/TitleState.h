@@ -1,3 +1,11 @@
+/*
+ *  TitleState.h
+ *  Destructible
+ *
+ *  Created by Chad on 11/12/08.
+ *  Copyright 2009 Mizzou Game Design. All rights reserved.
+ *
+ */
 #include <Gosu/Gosu.hpp>
 #include "Engine/GameState.h"
 

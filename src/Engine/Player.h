@@ -1,4 +1,11 @@
-
+/*
+ *  Player.h
+ *  Destructible
+ *
+ *  Created by Chad on 11/12/08.
+ *  Copyright 2009 Mizzou Game Design. All rights reserved.
+ *
+ */
 class Animation;
 class SceneObject;
 

@@ -1,4 +1,12 @@
-#include <Gosu/Gosu.hpp>
+/*
+ *  Main.cpp
+ *  Destructible
+ *
+ *  Created by Chad on 11/12/08.
+ *  Copyright 2009 Mizzou Game Design. All rights reserved.
+ *
+ */
+ #include <Gosu/Gosu.hpp>
 #include <Gosu/AutoLink.hpp>
 #include <Gosu/Window.hpp>
 

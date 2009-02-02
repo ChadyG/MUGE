@@ -1,3 +1,11 @@
+/*
+ *  Animation.cpp
+ *  Destructible
+ *
+ *  Created by Chad on 11/12/08.
+ *  Copyright 2009 Mizzou Game Design. All rights reserved.
+ *
+ */
 #include "Animation.h"
 
 Animation::Animation( Gosu::Graphics& graphics, std::wstring& fileName, int width, int height, int count)
