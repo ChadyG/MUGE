@@ -2,6 +2,7 @@
 /**
 *
 */
+
 class InputFilter
 {
 	unsigned int m_Input;
@@ -17,4 +18,14 @@ public:
 	bool Up();
 	bool Right();
 	bool Left();
+};
+
+class PlayerInput
+{
+	InputFilter m_input;
+public:
+	PlayerInput();
+	virtual void config(std::string &file);
+	virtual void update(Gosu::Input &);
+	
 };

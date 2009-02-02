@@ -84,6 +84,8 @@
 		E93830FC0F219C150093F382 /* Gosu.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Gosu.framework; path = ../libs/Gosu.framework; sourceTree = "<group>"; };
 		E9F6EAFE0F2BA14100587E82 /* libBox2D.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libBox2D.dylib; path = ../libs/libBox2D.dylib; sourceTree = SOURCE_ROOT; };
 		E9F6EAFF0F2BA14100587E82 /* libBox2D.dylib.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = libBox2D.dylib.dSYM; path = ../libs/libBox2D.dylib.dSYM; sourceTree = SOURCE_ROOT; };
+		E9FE1A490F3364DC004C97F6 /* AIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIManager.h; path = ../src/Engine/AIManager.h; sourceTree = "<group>"; };
+		E9FE1A4A0F33658D004C97F6 /* AIController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIController.h; path = ../src/Engine/AIController.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,21 +188,13 @@
 		E9382FC60F216A500093F382 /* Engine */ = {
 			isa = PBXGroup;
 			children = (
-				E9382FCA0F216B2A0093F382 /* animation.cpp */,
-				E9382FCB0F216B2A0093F382 /* Animation.h */,
-				E9382FCC0F216B2A0093F382 /* camera.cpp */,
-				E9382FCD0F216B2A0093F382 /* Camera.h */,
-				E9382FCE0F216B2A0093F382 /* contactListener.cpp */,
-				E9382FCF0F216B2A0093F382 /* ContactListener.h */,
+				E95F759C0F36786E00F6DAA0 /* Input */,
+				E95F759B0F36785300F6DAA0 /* Physics */,
+				E95F759A0F36781B00F6DAA0 /* AI */,
+				E95F75990F3677B500F6DAA0 /* Core */,
+				E95F75980F36779E00F6DAA0 /* Video */,
 				E9382FD00F216B2A0093F382 /* environment.cpp */,
 				E9382FD10F216B2A0093F382 /* Environment.h */,
-				E9382FD20F216B2A0093F382 /* GameState.h */,
-				E9382FD30F216B2A0093F382 /* InputFilter.cpp */,
-				E9382FD40F216B2A0093F382 /* InputFilter.h */,
-				E9382FD50F216B2A0093F382 /* MUGE.cpp */,
-				E9382FD60F216B2A0093F382 /* MUGE.h */,
-				E9382FD70F216B2A0093F382 /* Player.h */,
-				E9382FD80F216B2A0093F382 /* SceneObject.h */,
 			);
 			name = Engine;
 			sourceTree = "<group>";
@@ -234,6 +228,56 @@
 				E9382FE50F216BFC0093F382 /* MUGDTitle.png */,
 			);
 			name = Images;
+			sourceTree = "<group>";
+		};
+		E95F75980F36779E00F6DAA0 /* Video */ = {
+			isa = PBXGroup;
+			children = (
+				E9382FCA0F216B2A0093F382 /* animation.cpp */,
+				E9382FCB0F216B2A0093F382 /* Animation.h */,
+				E9382FCC0F216B2A0093F382 /* camera.cpp */,
+				E9382FCD0F216B2A0093F382 /* Camera.h */,
+			);
+			name = Video;
+			sourceTree = "<group>";
+		};
+		E95F75990F3677B500F6DAA0 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				E9382FD20F216B2A0093F382 /* GameState.h */,
+				E9382FD50F216B2A0093F382 /* MUGE.cpp */,
+				E9382FD60F216B2A0093F382 /* MUGE.h */,
+				E9382FD80F216B2A0093F382 /* SceneObject.h */,
+			);
+			name = Core;
+			sourceTree = "<group>";
+		};
+		E95F759A0F36781B00F6DAA0 /* AI */ = {
+			isa = PBXGroup;
+			children = (
+				E9FE1A490F3364DC004C97F6 /* AIManager.h */,
+				E9FE1A4A0F33658D004C97F6 /* AIController.h */,
+				E9382FD70F216B2A0093F382 /* Player.h */,
+			);
+			name = AI;
+			sourceTree = "<group>";
+		};
+		E95F759B0F36785300F6DAA0 /* Physics */ = {
+			isa = PBXGroup;
+			children = (
+				E9382FCE0F216B2A0093F382 /* contactListener.cpp */,
+				E9382FCF0F216B2A0093F382 /* ContactListener.h */,
+			);
+			name = Physics;
+			sourceTree = "<group>";
+		};
+		E95F759C0F36786E00F6DAA0 /* Input */ = {
+			isa = PBXGroup;
+			children = (
+				E9382FD30F216B2A0093F382 /* InputFilter.cpp */,
+				E9382FD40F216B2A0093F382 /* InputFilter.h */,
+			);
+			name = Input;
 			sourceTree = "<group>";
 		};
 		E9F6EAFB0F2BA0EF00587E82 /* libs */ = {

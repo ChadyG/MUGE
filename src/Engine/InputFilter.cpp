@@ -6,7 +6,7 @@
 
 InputFilter::InputFilter(const std::wstring &configFile)
 {
-
+	m_Input = 0x0000;
 }
 
 void InputFilter::reset()
@@ -40,20 +40,20 @@ void InputFilter::setRight()
 
 bool InputFilter::Up()
 {
-	return true;
+	return m_Input &= UP;
 }
 
 bool InputFilter::Down()
 {
-	return true;
+	return m_Input &= DOWN;
 }
 
 bool InputFilter::Right()
 {
-	return true;
+	return m_Input &= RIGHT;
 }
 
 bool InputFilter::Left()
 {
-	return true;
+	return m_Input &= LEFT;
 }
