@@ -7,7 +7,7 @@ LINUX_CXXFLAGS += `gosu-config --cxxflags` -Iinclude/Box2D/Include -Iinclude -I/
 LINUX_LIBS = -lgosu `gosu-config --libs`
 
 OSX_CXXFLAGS += -Iinclude/Box2D/Include -Iinclude -I/usr/local/include	\
--I/opt/local/include -Ilibs/Gosu.framework -framework Gosu
+-I/opt/local/include -Ilibs/Gosu.framework/Headers -framework Gosu -I/Users/zpconn/Code/boost_1_37_0/
 OSX_LIBS =
 
 default:
@@ -16,13 +16,14 @@ default:
 .PHONY: linux osx clean
 
 linux:
-	g++ ${SOURCES} $(LINUX_LIBS) $(LINUX_CXXFLAGS) -o destructable
+	g++ ${SOURCES} $(LINUX_LIBS) $(LINUX_CXXFLAGS) -o destructible
 
 
 osx:
-	g++ ${SOURCES} $(OSX_LIBS) $(OSX_CXXFLAGS) -o destructable
+	cp -rf libs/Gosu.framework /Library/Frameworks/
+	g++ ${SOURCES} $(OSX_LIBS) $(OSX_CXXFLAGS) -o destructible
 
 clean:
-	@rm -f destructable
+	@rm -f destructible
 
 
