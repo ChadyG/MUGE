@@ -6,8 +6,8 @@ src/Engine/MUGE.cpp src/Engine/JSONFile.cpp
 LINUX_CXXFLAGS += `gosu-config --cxxflags` -Iinclude/Box2D/Include -Iinclude -I/usr/local/include -I/opt/local/include
 LINUX_LIBS = -lgosu `gosu-config --libs`
 
-OSX_CXXFLAGS += -Iinclude/Box2D/Include -Iinclude -I/usr/local/include	\
--I/opt/local/include -Ilibs/Gosu.framework/Headers -framework Gosu -I/Users/zpconn/Code/boost_1_37_0/
+OSX_CXXFLAGS += -Iinclude/Box2D/Include -Iinclude -I/usr/local/include/boost-1_37	\
+-I/opt/local/include -Ilibs/Gosu.framework/Headers -framework Gosu
 OSX_LIBS =
 
 default:
