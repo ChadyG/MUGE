@@ -28,6 +28,7 @@ Environment::Environment(std::wstring levelFile, Gosu::Graphics &graphics)
 	json::grammar<char>::array::iterator it;
 	json::grammar<char>::array arr;
 	json::grammar<char>::object o;
+	int i;
 	
 	std::string tstring = jFile.get<std::string>("background");
 	std::wstring filename = Gosu::resourcePrefix() + Gosu::widen(tstring);
@@ -42,12 +43,13 @@ Environment::Environment(std::wstring levelFile, Gosu::Graphics &graphics)
 	m_ForegroundImage.reset(new Gosu::Image(graphics, filename, false));
 	
 	arr = jFile.get<json::grammar<char>::array>("ground");
-	for (int i = 0, it = arr.begin(); it != arr.end(); ++it, ++i) {
+	
+	for (i = 0, it = arr.begin(); it != arr.end(); ++it, ++i) {
 		m_Ground[i] = boost::any_cast<int>(**it);
 	}
 	
 	arr = jFile.get<json::grammar<char>::array>("platforms");
-	for (int i = 0, it = arr.begin(); it != arr.end(); ++it, ++i) {
+	for (i = 0, it = arr.begin(); it != arr.end(); ++it, ++i) {
 		o = boost::any_cast< json::grammar<char>::object >(**it);
 		//jFile.get<int>("x",o);
 		//jFile.get<int>("y",o);
@@ -55,7 +57,7 @@ Environment::Environment(std::wstring levelFile, Gosu::Graphics &graphics)
 	}
 	
 	arr = jFile.get<json::grammar<char>::array>("blocks");
-	for (int i = 0, it = arr.begin(); it != arr.end(); ++it, ++i) {
+	for (i = 0, it = arr.begin(); it != arr.end(); ++it, ++i) {
 		o = boost::any_cast< json::grammar<char>::object >(**it);
 		//jFile.get<int>("x",o);
 		//jFile.get<int>("y",o);
@@ -66,7 +68,7 @@ Environment::Environment(std::wstring levelFile, Gosu::Graphics &graphics)
 	}
 	
 	arr = jFile.get<json::grammar<char>::array>("items");
-	for (int i = 0, it = arr.begin(); it != arr.end(); ++it, ++i) {
+	for (i = 0, it = arr.begin(); it != arr.end(); ++it, ++i) {
 		o = boost::any_cast< json::grammar<char>::object >(**it);
 		//jFile.get<int>("x",o);
 		//jFile.get<int>("y",o);
@@ -75,7 +77,7 @@ Environment::Environment(std::wstring levelFile, Gosu::Graphics &graphics)
 	}
 	
 	arr = jFile.get<json::grammar<char>::array>("ai");
-	for (int i = 0, it = arr.begin(); it != arr.end(); ++it, ++i) {
+	for (i = 0, it = arr.begin(); it != arr.end(); ++it, ++i) {
 		o = boost::any_cast< json::grammar<char>::object >(**it);
 		//jFile.get<int>("x",o);
 		//jFile.get<int>("y",o);
