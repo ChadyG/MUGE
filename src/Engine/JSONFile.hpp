@@ -47,6 +47,7 @@ public:
       * type for the template should be the expected type of the
       * variable.
       **/
+      
      template <class T>
      T get(std::string name, 
 	    const boost::shared_ptr<boost::any> object = boost::shared_ptr<boost::any>());
@@ -59,5 +60,26 @@ private:
      std::string fileName;
      std::string fileContent;
 };
+
+template <class T>
+T JSONFile::get(std::string name, 
+		const boost::shared_ptr<boost::any> object)
+{
+     int index = name.find(".", 0);
+     
+     json::grammar<char>::object o = object ? boost::any_cast<json::grammar<char>::object>(*object) : this->config;
+  
+     if (index != std::string::npos)
+     {
+	  return get<T>(name.substr(index+1), o[name.substr(0, index)]);    
+     } 
+     else 
+     {
+	  if(o[name])
+	       return boost::any_cast<T>(*o[name]);
+     }
+  
+     return T();
+}
 
 #endif

@@ -36,10 +36,11 @@ class Environment
 	InputFilter* m_Input;
 	std::vector< SceneObject* > m_Objects;
 	std::vector< SceneArea* > m_Areas;
-	boost::scoped_ptr< Gosu::Image > m_Background;
-	boost::scoped_ptr< Gosu::Image > m_Midground;
-	boost::scoped_ptr< Gosu::Image > m_Ground;
-	boost::scoped_ptr< Gosu::Image > m_Foreground;
+	boost::scoped_ptr< Gosu::Image > m_BackgroundImage;
+	boost::scoped_ptr< Gosu::Image > m_MidgroundImage;
+	boost::scoped_ptr< Gosu::Image > m_GroundImage;
+	boost::scoped_ptr< Gosu::Image > m_ForegroundImage;
+	int m_Ground[128];
 	
 	// Physics data
 	

@@ -30,7 +30,7 @@ void JSONFile::parseContent()
 	
      this->config = boost::any_cast<json::grammar<char>::object>(*this->variant);	
 }
-
+/*
 template <class T>
 T JSONFile::get(std::string name, 
 		const boost::shared_ptr<boost::any> object)
@@ -51,4 +51,4 @@ T JSONFile::get(std::string name,
   
      return T();
 }
-
+*/

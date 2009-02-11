@@ -1,0 +1,55 @@
+{
+	"background" : "back.png",
+	"midground" : "mid.png",
+	"groundimage" : "ground.png",
+	"foreground" : "fore.png",
+	"ground" : [
+		1,
+		1,
+		1,
+		1,
+		1,
+		0,
+		1,
+		1,
+		1,
+		1
+	],
+	"platforms" : [
+		{
+			"x" : 6,
+			"y" : 3,
+			"size" : "short"
+		}
+	],
+	"blocks" : [
+		{
+			"x" : 5,
+			"y" : 1,
+			"width" : 2,
+			"height" : 2,
+			"shape" : [
+				"1" : [
+					1,
+					0
+				],
+				"2" : [
+					1,
+					1
+				]
+			]
+		}
+	],
+	"items" : [
+		"x" : 9,
+		"y" : 1,
+		"type" : "health",
+		"amount" : 1
+	],
+	"ai" : [
+		"x" : 7,
+		"y" : 1,
+		"character" : "slicer",
+		"health" : 3
+	]
+}

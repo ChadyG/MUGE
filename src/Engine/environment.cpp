@@ -7,9 +7,10 @@
  *
  */
 #include "Environment.h"
-#include "tinyjson/tinyjson.hpp"
+#include "JSONFile.hpp"
 #include "ContactListener.h"
 #include "Camera.h"
+#include <string>
 #include <iostream>
 #include <fstream>
 
@@ -20,93 +21,68 @@ Environment::Environment(std::wstring levelFile, Gosu::Graphics &graphics)
 	//
 	// Read in JSON encoded file
 	// TinyJSON library will perform lexing and parsing
-	// pull out data using std::map and casting from boost::any
+	// pull out data using JSONFile class
 	//
-/*
-	std::ifstream inputStream;
-	inputStream.open(levelFile.c_str());
-	if( !inputStream ) {
-		throw 2;
-	}
-
-	std::string strInput;
-	getline(inputStream, strInput, (char)EOF);
-
-	json::grammar<std::string>::variant v
-		= json::parse(strInput.begin(), strInput.end());
- 
-	if(v->type() != typeid(json::grammar<char>::object))
-	{
-		throw 3;
-	}
-
-	//
-	//	Begin data extraction
-	//
-
-	json::grammar<char>::object level = boost::any_cast< json::grammar<char>::object >(*v);
-	json::grammar<char>::array arr = boost::any_cast<json::grammar<char>::array>(*level["extents"]);
+	
+	JSONFile jFile(Gosu::narrow(levelFile));
 	json::grammar<char>::array::iterator it;
+	json::grammar<char>::array arr;
 	json::grammar<char>::object o;
-
-	m_aExtents[0] = boost::any_cast< int >(*arr[0]);
-	m_aExtents[1] = boost::any_cast< int >(*arr[1]);
-
-	m_iUnits =  boost::any_cast< int >(*level["unitpixel"]);
-
-	arr = boost::any_cast<json::grammar<char>::array>(*level["person"]);
-	m_Person = new Person(graphics, *m_Worldp, b2Vec2(boost::any_cast< double >(*arr[0]), boost::any_cast< double >(*arr[1])), 10.0);
-
-	//
-	//	Wall Definitions
-	//
-
-	arr = boost::any_cast<json::grammar<char>::array>(*level["walls"]);
-	b2Vec2 s, e;
-	json::grammar<char>::array arr2;
-	for (it = arr.begin(); it != arr.end(); ++it) {
+	
+	std::string tstring = jFile.get<std::string>("background");
+	std::wstring filename = Gosu::resourcePrefix() + Gosu::widen(tstring);
+	m_BackgroundImage.reset(new Gosu::Image(graphics, filename, false));
+	
+	tstring = jFile.get<std::string>("midground");
+	filename = Gosu::resourcePrefix() + Gosu::widen(tstring);
+	m_MidgroundImage.reset(new Gosu::Image(graphics, filename, false));
+	
+	tstring = jFile.get<std::string>("foreground");
+	filename = Gosu::resourcePrefix() + Gosu::widen(tstring);
+	m_ForegroundImage.reset(new Gosu::Image(graphics, filename, false));
+	
+	arr = jFile.get<json::grammar<char>::array>("ground");
+	for (int i = 0, it = arr.begin(); it != arr.end(); ++it, ++i) {
+		m_Ground[i] = boost::any_cast<int>(**it);
+	}
+	
+	arr = jFile.get<json::grammar<char>::array>("platforms");
+	for (int i = 0, it = arr.begin(); it != arr.end(); ++it, ++i) {
 		o = boost::any_cast< json::grammar<char>::object >(**it);
-
-		arr2 = boost::any_cast<json::grammar<char>::array>(*o["start"]);
-		s = b2Vec2(boost::any_cast< double >(*arr2[0]), boost::any_cast< double >(*arr2[1]));
-
-		arr2 = boost::any_cast<json::grammar<char>::array>(*o["end"]);
-		e = b2Vec2(boost::any_cast< double >(*arr2[0]), boost::any_cast< double >(*arr2[1]));
-
-		wallDef wDef = {&graphics, m_Worldp, s, e, m_iUnits};
-		m_vWalls.push_back( Wall(wDef) );
+		//jFile.get<int>("x",o);
+		//jFile.get<int>("y",o);
+		//jFile.get<std::string>("size",o);
 	}
-
-	//
-	//	Sensor Definitions (must be after walls)
-	//
-
-	arr = boost::any_cast<json::grammar<char>::array>(*level["sensors"]);
-	for (it = arr.begin(); it != arr.end(); ++it) {
+	
+	arr = jFile.get<json::grammar<char>::array>("blocks");
+	for (int i = 0, it = arr.begin(); it != arr.end(); ++it, ++i) {
 		o = boost::any_cast< json::grammar<char>::object >(**it);
-
-		arr2 = boost::any_cast<json::grammar<char>::array>(*o["position"]);
-		s = b2Vec2(boost::any_cast< double >(*arr2[0]), boost::any_cast< double >(*arr2[1]));
-
-		sensorDef sDef = {&graphics, m_Worldp, s,
-			boost::any_cast< double >(*o["cone"]),
-			boost::any_cast< double >(*o["direction"]),
-			boost::any_cast< double >(*o["falloff"]),
-			m_iUnits};
-		m_vSensors.push_back( Sensor(sDef) );
+		//jFile.get<int>("x",o);
+		//jFile.get<int>("y",o);
+		//jFile.get<int>("width",o);
+		//jFile.get<int>("height",o);
+		//jFile.get<json::grammar<char>::array>("shape.1",o);
+		//jFile.get<json::grammar<char>::array>("shape.2",o);
 	}
-
-	//
-	//	End JSON
-	//
-
-	std::vector<Sensor>::iterator is;
-	for (is = m_vSensors.begin(); is != m_vSensors.end(); ++is) {
-		is->updateBodyUD();
-		is->playerIn( false );
-		is->update();
+	
+	arr = jFile.get<json::grammar<char>::array>("items");
+	for (int i = 0, it = arr.begin(); it != arr.end(); ++it, ++i) {
+		o = boost::any_cast< json::grammar<char>::object >(**it);
+		//jFile.get<int>("x",o);
+		//jFile.get<int>("y",o);
+		//jFile.get<std::string>("type",o);
+		//jFile.get<int>("amount",o);
 	}
-*/
+	
+	arr = jFile.get<json::grammar<char>::array>("ai");
+	for (int i = 0, it = arr.begin(); it != arr.end(); ++it, ++i) {
+		o = boost::any_cast< json::grammar<char>::object >(**it);
+		//jFile.get<int>("x",o);
+		//jFile.get<int>("y",o);
+		//jFile.get<std::string>("character",o);
+		//jFile.get<int>("health",o);
+	}
+	
 }
 
 void Environment::update(const Gosu::Window &window, int offX, int offY)

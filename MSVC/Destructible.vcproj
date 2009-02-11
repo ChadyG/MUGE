@@ -187,6 +187,10 @@
 					RelativePath="..\src\Engine\InputFilter.cpp"
 					>
 				</File>
+				<File
+					RelativePath="..\src\Engine\JSONFile.cpp"
+					>
+				</File>
 				<Filter
 					Name="Core"
 					>
@@ -255,6 +259,10 @@
 				</File>
 				<File
 					RelativePath="..\src\Engine\InputFilter.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\JSONFile.hpp"
 					>
 				</File>
 				<Filter
@@ -332,6 +340,10 @@
 			>
 			<File
 				RelativePath=".\Destructible.rc"
+				>
+			</File>
+			<File
+				RelativePath="..\Data\test_level.json"
 				>
 			</File>
 		</Filter>
