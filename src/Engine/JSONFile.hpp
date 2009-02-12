@@ -1,7 +1,7 @@
 #ifndef JSONFILE_H
 #define JSONFILE_H
 
-#include "tinyjson.hpp"
+#include "tinyjson/tinyjson.hpp"
 #include <string>
 
 class JSONFile
@@ -125,7 +125,7 @@ T JSONFile::getArrayIndex(boost::shared_ptr<boost::any> var, unsigned int index)
 
      json::grammar<char>::array const & a = boost::any_cast< json::grammar<char>::array >(*var);
      
-     int i = 0;
+     unsigned int i = 0;
      for(json::grammar<char>::array::const_iterator it = a.begin(); it != a.end(); ++it, ++i)
      {
 	  
@@ -139,6 +139,7 @@ T JSONFile::getArrayIndex(boost::shared_ptr<boost::any> var, unsigned int index)
 		    return boost::any_cast<T>(**it);
 	  }
      }
+     return T();
 }
 
 #endif
