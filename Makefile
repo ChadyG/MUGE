@@ -1,7 +1,9 @@
-SOURCES = src/TitleState.cpp src/main.cpp src/Engine/animation.cpp	\
-src/Engine/camera.cpp src/Engine/contactListener.cpp			\
-src/Engine/environment.cpp src/Engine/InputFilter.cpp			\
-src/Engine/MUGE.cpp src/Engine/JSONFile.cpp
+#SOURCES = src/TitleState.cpp src/main.cpp src/Engine/animation.cpp	\
+#src/Engine/camera.cpp src/Engine/contactListener.cpp			\
+#src/Engine/environment.cpp src/Engine/InputFilter.cpp			\
+#src/Engine/MUGE.cpp src/Engine/JSONFile.cpp
+SOURCES = src/*.cpp     \
+src/Engine/*.cpp
 
 LINUX_CXXFLAGS += `gosu-config --cxxflags` -Iinclude/Box2D/Include -Iinclude -I/usr/local/include -I/opt/local/include
 LINUX_LIBS = -lgosu `gosu-config --libs`
