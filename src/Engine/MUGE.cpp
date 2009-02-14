@@ -9,7 +9,6 @@
 #include "MUGE.h"
 #include "GameState.h"
 #include <boost/bind.hpp>
-#include <iostream>
 
 /**
 * Entry point to the engine

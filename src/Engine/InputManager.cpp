@@ -10,7 +10,6 @@
 #include "InputManager.hpp"
 #include <boost/algorithm/string.hpp>
 #include <cassert>
-#include <iostream>
 
 InputManager::InputManager() : bindingFile(JSONFile("Data/commandBindings.json")), currentContext("Default")
 {
@@ -31,7 +30,6 @@ void InputManager::hookIntoCommand(const std::string& command, const CommandSign
      boost::split(tokens, command, boost::is_any_of(":"));
 
      std::string commandName = tokens.at(0);
-     std::cout << "Command Name: " << commandName << "\n";
      std::string key = bindingFile.get< std::string >(commandName);
 
      std::string direction = boost::to_lower_copy(tokens.at(1));
