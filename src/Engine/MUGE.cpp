@@ -8,6 +8,8 @@
  */
 #include "MUGE.h"
 #include "GameState.h"
+#include <boost/bind.hpp>
+#include <iostream>
 
 /**
 * Entry point to the engine
@@ -17,7 +19,18 @@
 MUGE::MUGE()
 	: Gosu::Window(768, 480, false, 20)
 {
-		
+     inputManager.hookIntoCommand("Menu.Quit:Down", boost::bind(&MUGE::quitHandler, this));
+     inputManager.setCurrentContext("Menu");
+}
+
+void MUGE::buttonDown(Gosu::Button button)
+{
+     inputManager.buttonDownHandler(button);
+}
+
+void MUGE::buttonUp(Gosu::Button button)
+{
+     inputManager.buttonUpHandler(button);
 }
 
 void MUGE::changeState( GameState *state )
@@ -54,4 +67,9 @@ void MUGE::draw()
 {
 	if (!m_States.empty())
 		m_States.top()->draw();
+}
+
+void MUGE::quitHandler()
+{
+     close();
 }

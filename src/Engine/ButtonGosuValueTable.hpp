@@ -1,0 +1,7 @@
+USE_INPUT_KEY(Gosu::kbEscape, "Escape")
+USE_INPUT_KEY(Gosu::kbReturn, "Return")
+USE_INPUT_KEY(Gosu::kbSpace, "Space")
+USE_INPUT_KEY(Gosu::kbLeft, "LeftArrow")
+USE_INPUT_KEY(Gosu::kbRight, "RightArrow")
+USE_INPUT_KEY(Gosu::kbDown, "DownArrow")
+USE_INPUT_KEY(Gosu::kbUp, "UpArrow")

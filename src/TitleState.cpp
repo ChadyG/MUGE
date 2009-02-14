@@ -42,7 +42,7 @@ void TitleState::resume()
 
 void TitleState::update(const Gosu::Input &input, MUGE* engine)
 {
-	if (input.down(Gosu::kbReturn) || input.down(Gosu::kbSpace) || counter <= 0) {
+	if (input.down(Gosu::kbReturn) || counter <= 0) {
 		engine->popState();//GameMenu.instance());
 	}
 	--counter;

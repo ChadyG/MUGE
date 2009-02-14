@@ -13,24 +13,31 @@
 #include <vector>
 #include <stack>
 #include <exception>
+#include "InputManager.hpp"
 
 class GameState;
 
 /**
-* Entry point to the engine
-* manages states, and sends Gosu callbacks
-* to the current state
-*/
+ * Entry point to the engine
+ * manages states, and sends Gosu callbacks
+ * to the current state
+ **/
 class MUGE : public Gosu::Window
 {
-	std::stack< GameState* > m_States;
+     InputManager inputManager;
+     std::stack< GameState* > m_States;
 
 public:
-	MUGE();
+     MUGE();
 
-	void changeState( GameState *state );
-	void pushState( GameState *state );
-	void popState();
-	void update();
-	void draw();
+     void changeState( GameState *state );
+     void pushState( GameState *state );
+     void popState();
+     void update();
+     void draw();
+
+     void buttonDown(Gosu::Button button);
+     void buttonUp(Gosu::Button button);
+
+     void quitHandler();
 };

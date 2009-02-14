@@ -10,6 +10,7 @@
 #include "JSONFile.hpp"
 #include "ContactListener.h"
 #include "Camera.h"
+#include "Gosu/Utility.hpp"
 #include <string>
 #include <iostream>
 #include <fstream>
