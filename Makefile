@@ -6,7 +6,7 @@ SOURCES = src/*.cpp     \
 src/Engine/*.cpp
 
 LINUX_CXXFLAGS += `gosu-config --cxxflags` -Iinclude/Box2D/Include -Iinclude -I/usr/local/include -I/opt/local/include
-LINUX_LIBS = -lgosu `gosu-config --libs`
+LINUX_LIBS = -lgosu `gosu-config --libs` -lboost_signals
 
 OSX_CXXFLAGS += -Iinclude/Box2D/Include -Iinclude -I/usr/local/include/boost-1_37	\
 -I/opt/local/include -Ilibs/Gosu.framework/Headers -framework Gosu -L/opt/local/lib/

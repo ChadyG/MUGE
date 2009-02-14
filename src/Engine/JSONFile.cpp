@@ -22,9 +22,8 @@ void JSONFile::parseContent()
      this->variant = json::parse(this->fileContent.begin(), this->fileContent.end());
 
      // If this.variant is not of the type
-     // json::grammar<char>::object, then there was an error.
-  
-   if(this->variant->type() != typeid(json::grammar<char>::object)) 
+     // json::grammar< char >::object, then there was an error.
+     if(this->variant->type() != typeid(json::grammar< char >::object)) 
      {
 	  // do something to handle the error
 	  std::cout << "\n\nEEEEERRRRRRRRRRROOOOOOOOOORRRRRRR!\n\n";

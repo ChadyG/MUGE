@@ -46,36 +46,36 @@ public:
       * type for the template should be the expected type of the
       * variable.
       **/
-     template <class T>
+     template < class T >
      T get(std::string name, 
-	   const boost::shared_ptr<boost::any> object = boost::shared_ptr<boost::any>());
+	   const boost::shared_ptr< boost::any > object = boost::shared_ptr< boost::any >());
 		
 		
 		
 private:
-     json::grammar<char>::variant variant;
-     json::grammar<char>::object config; 
+     json::grammar< char >::variant variant;
+     json::grammar< char >::object config; 
      std::string fileName;
      std::string fileContent;
 		
-     template <class T>
-     T getArrayIndex(boost::shared_ptr<boost::any> a, unsigned int index);
+     template < class T >
+     T getArrayIndex(boost::shared_ptr< boost::any > a, unsigned int index);
 };
 
 
 // ------------------------------------------------------------------
-template <class T>
+template < class T >
 T JSONFile::get(std::string name, 
-		const boost::shared_ptr<boost::any> object)
+		const boost::shared_ptr< boost::any > object)
 {
      unsigned int index = name.find(".", 0);
 	
-     json::grammar<char>::object o = object ? boost::any_cast<json::grammar<char>::object>(*object) : this->config;
+     json::grammar< char >::object o = object ? boost::any_cast< json::grammar< char >::object >(*object) : this->config;
 	
      // The variable "name" still contains an object
      if (index != std::string::npos)
      {				
-	  return get<T>(name.substr(index+1), get<boost::shared_ptr<boost::any> >(name.substr(0, index), object));
+	  return get< T >(name.substr(index+1), get< boost::shared_ptr< boost::any > >(name.substr(0, index), object));
      } 
      // "object" is now the direct parent of the variable "name"
      else 
@@ -84,7 +84,7 @@ T JSONFile::get(std::string name,
 	  // seeing if it has [] in the name	  
 	  unsigned int arrayOperatorIndex = name.find("[", 0);
 	  unsigned int arrayIndex = 0;
-	  boost::shared_ptr<boost::any> var = boost::shared_ptr<boost::any>();
+	  boost::shared_ptr< boost::any > var = boost::shared_ptr< boost::any >();
 		
 		
 	  if(arrayOperatorIndex != std::string::npos)
@@ -92,7 +92,7 @@ T JSONFile::get(std::string name,
 		
 	  while(arrayOperatorIndex != std::string::npos && var)
 	  {
-	       arrayIndex = boost::lexical_cast<int>(name.substr(arrayOperatorIndex + 1, 
+	       arrayIndex = boost::lexical_cast< int >(name.substr(arrayOperatorIndex + 1, 
 								 name.find("]", arrayOperatorIndex) - 
 								 arrayOperatorIndex - 1));
 			
@@ -102,16 +102,21 @@ T JSONFile::get(std::string name,
 	       // no more []
 	       if(var && arrayOperatorIndex == std::string::npos)
 	       {
-		    return getArrayIndex<T>(var, arrayIndex);
+		    return getArrayIndex< T >(var, arrayIndex);
 	       }
 	       // more []
 	       else
 	       {
-		    var = getArrayIndex< boost::shared_ptr<boost::any> >(var, arrayIndex);
+		    var = getArrayIndex< boost::shared_ptr< boost::any > >(var, arrayIndex);
 	       }	       
 	  }
 	  if(o[name])
-	       return boost::any_cast<T>(*o[name]);
+	  {
+	       if(typeid(T) == typeid(boost::shared_ptr< boost::any >))
+		    return boost::any_cast< T >(o[name]);
+	       else
+		    return boost::any_cast< T >(*o[name]);
+	  }
      }
 	
      return T();
@@ -120,23 +125,23 @@ T JSONFile::get(std::string name,
 
 // ------------------------------------------------------------------
 template <class T>
-T JSONFile::getArrayIndex(boost::shared_ptr<boost::any> var, unsigned int index)
+T JSONFile::getArrayIndex(boost::shared_ptr< boost::any > var, unsigned int index)
 {
 	
-     json::grammar<char>::array const & a = boost::any_cast< json::grammar<char>::array >(*var);
+     json::grammar< char >::array const & a = boost::any_cast< json::grammar<char>::array >(*var);
 	
      unsigned int i = 0;
-     for(json::grammar<char>::array::const_iterator it = a.begin(); it != a.end(); ++it, ++i)
+     for(json::grammar< char >::array::const_iterator it = a.begin(); it != a.end(); ++it, ++i)
      {
 		
 	  if(i == index)
 	  {
 	       // if we want to return a boost:shared_ptr, then
 	       // dereferencing it twice will screw up
-	       if(typeid(T) == typeid(boost::shared_ptr<boost::any>))
-		    return boost::any_cast<T>(*it);
+	       if(typeid(T) == typeid(boost::shared_ptr< boost::any >))
+		    return boost::any_cast< T >(*it);
 	       else
-		    return boost::any_cast<T>(**it);
+		    return boost::any_cast< T >(**it);
 	  }
      }
      return T();
