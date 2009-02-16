@@ -7,7 +7,7 @@
  *
  */
 #include <Gosu/Gosu.hpp>
-
+#include <Box2D.h>
 /**
 * Base classes for scene object
 * SceneObject describes all renderable entities
@@ -17,6 +17,7 @@
 */
 class SceneObject
 {
+protected:
 	//Basic physics data (body + position)
 	b2Body* m_Bodyp;
 	b2Vec2 m_Pos;

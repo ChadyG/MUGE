@@ -6,6 +6,8 @@
  *  Copyright 2009 Mizzou Game Design. All rights reserved.
  *
  */
+#ifndef GAMESTATE_H
+#define GAMESTATE_H
 
 class MUGE;
 
@@ -31,3 +33,5 @@ public:
 	virtual void draw() const = 0;
 	
 };
+
+#endif

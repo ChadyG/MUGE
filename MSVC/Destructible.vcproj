@@ -184,10 +184,6 @@
 				Name="Engine"
 				>
 				<File
-					RelativePath="..\src\Engine\InputFilter.cpp"
-					>
-				</File>
-				<File
 					RelativePath="..\src\Engine\JSONFile.cpp"
 					>
 				</File>
@@ -231,6 +227,10 @@
 			<Filter
 				Name="AI"
 				>
+				<File
+					RelativePath="..\src\Engine\InputFilter.cpp"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="GameObjects"
@@ -239,6 +239,10 @@
 			<Filter
 				Name="GameStates"
 				>
+				<File
+					RelativePath="..\src\MainMenuState.cpp"
+					>
+				</File>
 				<File
 					RelativePath="..\src\TitleState.cpp"
 					>
@@ -258,10 +262,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\src\Engine\InputFilter.h"
-					>
-				</File>
-				<File
 					RelativePath="..\src\Engine\JSONFile.hpp"
 					>
 				</File>
@@ -274,6 +274,10 @@
 					</File>
 					<File
 						RelativePath="..\src\Engine\AIManager.h"
+						>
+					</File>
+					<File
+						RelativePath="..\src\Engine\InputFilter.h"
 						>
 					</File>
 					<File
@@ -325,6 +329,10 @@
 			<Filter
 				Name="GameStates"
 				>
+				<File
+					RelativePath="..\src\MainMenuState.h"
+					>
+				</File>
 				<File
 					RelativePath="..\src\TitleState.h"
 					>

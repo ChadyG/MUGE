@@ -8,6 +8,7 @@
  */
  
 #include "TitleState.h"
+#include "MainMenuState.h"
 #include "Engine/MUGE.h"
 
 /**
@@ -43,7 +44,7 @@ void TitleState::resume()
 void TitleState::update(const Gosu::Input &input, MUGE* engine)
 {
 	if (input.down(Gosu::kbReturn) || counter <= 0) {
-		engine->popState();//GameMenu.instance());
+		engine->changeState(MainMenuState::instance());
 	}
 	--counter;
 }

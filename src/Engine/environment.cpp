@@ -39,6 +39,10 @@ Environment::Environment(std::wstring levelFile, Gosu::Graphics &graphics)
 	filename = Gosu::resourcePrefix() + Gosu::widen(tstring);
 	m_MidgroundImage.reset(new Gosu::Image(graphics, filename, false));
 	
+	tstring = jFile.get<std::string>("groundimage");
+	filename = Gosu::resourcePrefix() + Gosu::widen(tstring);
+	m_GroundImage.reset(new Gosu::Image(graphics, filename, false));
+	
 	tstring = jFile.get<std::string>("foreground");
 	filename = Gosu::resourcePrefix() + Gosu::widen(tstring);
 	m_ForegroundImage.reset(new Gosu::Image(graphics, filename, false));
@@ -64,8 +68,8 @@ Environment::Environment(std::wstring levelFile, Gosu::Graphics &graphics)
 		//jFile.get<int>("y",o);
 		//jFile.get<int>("width",o);
 		//jFile.get<int>("height",o);
-		//jFile.get<json::grammar<char>::array>("shape.1",o);
-		//jFile.get<json::grammar<char>::array>("shape.2",o);
+		//jFile.get<json::grammar<char>::array>("shape[1]",o);
+		//jFile.get<json::grammar<char>::array>("shape[2]",o);
 	}
 	
 	arr = jFile.get<json::grammar<char>::array>("items");
