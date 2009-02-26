@@ -1,9 +1,7 @@
-#SOURCES = src/TitleState.cpp src/main.cpp src/Engine/animation.cpp	\
-#src/Engine/camera.cpp src/Engine/contactListener.cpp			\
-#src/Engine/environment.cpp src/Engine/InputFilter.cpp			\
-#src/Engine/MUGE.cpp src/Engine/JSONFile.cpp
-SOURCES = src/*.cpp     \
-src/Engine/*.cpp
+NAME = destructible
+CC = g++
+SOURCES = $(wildcard src/*.cpp) $(wildcard src/Engine/*.cpp)
+OBJ := $(patsubst %.cpp, %.o, $(wildcard src/*.cpp)) $(patsubst %.cpp, %.o, $(wildcard src/Engine/*.cpp))
 
 LINUX_CXXFLAGS += `gosu-config --cxxflags` -Iinclude/Box2D/Include -Iinclude -I/usr/local/include -I/opt/local/include
 LINUX_LIBS = -lgosu `gosu-config --libs` -lboost_signals
@@ -12,20 +10,33 @@ OSX_CXXFLAGS += -Iinclude/Box2D/Include -Iinclude -I/usr/local/include/boost-1_3
 -I/opt/local/include -Ilibs/Gosu.framework/Headers -framework Gosu -L/opt/local/lib/
 OSX_LIBS = -lboost_signals-mt
 
+CXXFLAGS =
+LIBS = 
+
 default:
 	@echo "You must choose either target linux or osx: \`make linux\` or \`make osx\`"
 
-.PHONY: linux osx clean
+.PHONY: linux osx gosu clean
 
-linux:
-	g++ ${SOURCES} $(LINUX_LIBS) $(LINUX_CXXFLAGS) -o destructible
+# targets for Linux
+linux: CXXFLAGS = $(LINUX_CXXFLAGS) 
+linux: LIBS = $(LINUX_LIBS)
+linux: $(NAME) 
 
-
-osx:
+# targets for osx
+gosu: 
 	cp -rf libs/Gosu.framework /Library/Frameworks/
-	g++ ${SOURCES} $(OSX_LIBS) $(OSX_CXXFLAGS) -o destructible
+osx: CXXFLAGS = $(OSX_CXXFLAGS) 
+osx: LIBS = $(OSX_LIBS)
+osx: gosu $(NAME)
+
+# general targets
+$(NAME): $(OBJ)
+	$(CC) -o $(NAME) $(OBJ) $(LIBS)
+
+%.o: %.cpp	
+	$(CC) -c $< $(CXXFLAGS) -o $@
 
 clean:
-	@rm -f destructible
-
+	@rm -f destructible $(OBJ)
 
