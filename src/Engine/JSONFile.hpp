@@ -50,8 +50,6 @@ public:
      T get(std::string name, 
 	   const boost::shared_ptr< boost::any > object = boost::shared_ptr< boost::any >());
 		
-		
-		
 private:
      json::grammar< char >::variant variant;
      json::grammar< char >::object config; 
@@ -59,7 +57,7 @@ private:
      std::string fileContent;
 		
      template < class T >
-     T getArrayIndex(boost::shared_ptr< boost::any > a, unsigned int index);
+     T getIndex(boost::shared_ptr< boost::any > a, unsigned int index);
 };
 
 
@@ -68,7 +66,7 @@ template < class T >
 T JSONFile::get(std::string name, 
 		const boost::shared_ptr< boost::any > object)
 {
-     unsigned int index = name.find(".", 0);
+     unsigned int index = name.find(".", 0);     
 	
      json::grammar< char >::object o = object ? boost::any_cast< json::grammar< char >::object >(*object) : this->config;
 	
@@ -85,11 +83,22 @@ T JSONFile::get(std::string name,
 	  unsigned int arrayOperatorIndex = name.find("[", 0);
 	  unsigned int arrayIndex = 0;
 	  boost::shared_ptr< boost::any > var = boost::shared_ptr< boost::any >();
-		
-		
+			
 	  if(arrayOperatorIndex != std::string::npos)
+	  {
 	       var = o[name.substr(0, arrayOperatorIndex)];
-		
+	  }
+	  else
+	  {
+	       if(o[name])
+	       {
+		    if(typeid(T) == typeid(boost::shared_ptr< boost::any >))
+			 return boost::any_cast< T >(o[name]);
+		    else
+			 return boost::any_cast< T >(*o[name]);
+	       }
+	  }
+	  
 	  while(arrayOperatorIndex != std::string::npos && var)
 	  {
 	       arrayIndex = boost::lexical_cast< int >(name.substr(arrayOperatorIndex + 1, 
@@ -102,20 +111,13 @@ T JSONFile::get(std::string name,
 	       // no more []
 	       if(var && arrayOperatorIndex == std::string::npos)
 	       {
-		    return getArrayIndex< T >(var, arrayIndex);
+		    return getIndex< T >(var, arrayIndex);
 	       }
 	       // more []
 	       else
 	       {
-		    var = getArrayIndex< boost::shared_ptr< boost::any > >(var, arrayIndex);
+		    var = getIndex< boost::shared_ptr< boost::any > >(var, arrayIndex);
 	       }	       
-	  }
-	  if(o[name])
-	  {
-	       if(typeid(T) == typeid(boost::shared_ptr< boost::any >))
-		    return boost::any_cast< T >(o[name]);
-	       else
-		    return boost::any_cast< T >(*o[name]);
 	  }
      }
 	
@@ -125,7 +127,7 @@ T JSONFile::get(std::string name,
 
 // ------------------------------------------------------------------
 template <class T>
-T JSONFile::getArrayIndex(boost::shared_ptr< boost::any > var, unsigned int index)
+T JSONFile::getIndex(boost::shared_ptr< boost::any > var, unsigned int index)
 {
 	
      json::grammar< char >::array const & a = boost::any_cast< json::grammar<char>::array >(*var);

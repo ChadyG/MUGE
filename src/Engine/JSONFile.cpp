@@ -1,6 +1,5 @@
 #include "JSONFile.hpp"
 #include <fstream>
-#include <iostream>
 
 JSONFile::JSONFile(std::string fileName)
 {
@@ -26,9 +25,8 @@ void JSONFile::parseContent()
      if(this->variant->type() != typeid(json::grammar< char >::object)) 
      {
 	  // do something to handle the error
-	  std::cout << "\n\nEEEEERRRRRRRRRRROOOOOOOOOORRRRRRR!\n\n";
 	  return; 		
      }
 	
-     this->config = boost::any_cast<json::grammar<char>::object>(*this->variant);	
+     this->config = boost::any_cast< json::grammar< char >::object >(*this->variant);	
 }
