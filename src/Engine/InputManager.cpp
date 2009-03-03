@@ -26,7 +26,7 @@ void InputManager::hookIntoCommand(const std::string& command, const CommandSign
 {
      // -- Break "context.commandName:direction" into "context.commandName" and "direction"
 
-     std::vector<std::string> tokens;
+     std::vector< std::string > tokens;
      boost::split(tokens, command, boost::is_any_of(":"));
 
      std::string commandName = tokens.at(0);
@@ -53,12 +53,14 @@ void InputManager::hookIntoCommand(const std::string& command, const CommandSign
 
      // -- Create a new signal if necessary
 
-     if (table.find(buttonGosuValueAssociations[key]) == table.end())
+     Gosu::ButtonName buttonName = buttonGosuValueAssociations[key];
+
+     if (table.find(buttonName) == table.end())
      {
-	  table[buttonGosuValueAssociations[key]] = CommandSignalPtr(new CommandSignalType());
+	  table[buttonName] = CommandSignalPtr(new CommandSignalType());
      }
 
-     CommandSignalPtr sig = table[buttonGosuValueAssociations[key]];
+     CommandSignalPtr sig = table[buttonName];
 
      // -- Finally, connect the slot to the signal
 

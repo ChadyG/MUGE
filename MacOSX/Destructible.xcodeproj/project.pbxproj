@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 45;
+	objectVersion = 44;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -341,7 +341,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Destructible" */;
-			compatibilityVersion = "Xcode 3.1";
+			compatibilityVersion = "Xcode 3.0";
 			hasScannedForEncodings = 1;
 			mainGroup = 29B97314FDCFA39411CA2CEA /* Destructible */;
 			projectDirPath = "";
@@ -407,9 +407,9 @@
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../../../Downloads/gosu-mac-0.7.11\"",
-					"\"$(SRCROOT)/../../../Downloads/gosu-mac-0.7.11\"",
-					"\"$(SRCROOT)/../libs\"",
+					"\\\"$(SRCROOT)/../../../../Downloads/gosu-mac-0.7.11\\\"",
+					"\\\"$(SRCROOT)/../../../Downloads/gosu-mac-0.7.11\\\"",
+					"\\\"$(SRCROOT)/../libs\\\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -421,7 +421,7 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../libs\"",
+					"\\\"$(SRCROOT)/../libs\\\"",
 				);
 				PRODUCT_NAME = Destructible;
 			};
@@ -434,9 +434,9 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../../../Downloads/gosu-mac-0.7.11\"",
-					"\"$(SRCROOT)/../../../Downloads/gosu-mac-0.7.11\"",
-					"\"$(SRCROOT)/../libs\"",
+					"\\\"$(SRCROOT)/../../../../Downloads/gosu-mac-0.7.11\\\"",
+					"\\\"$(SRCROOT)/../../../Downloads/gosu-mac-0.7.11\\\"",
+					"\\\"$(SRCROOT)/../libs\\\"",
 				);
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -445,7 +445,7 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../libs\"",
+					"\\\"$(SRCROOT)/../libs\\\"",
 				);
 				PRODUCT_NAME = Destructible;
 			};
@@ -460,8 +460,8 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../include/Box2D/Include\"",
-					"\"$(SRCROOT)/../include\"",
+					"\\\"$(SRCROOT)/../include/Box2D/Include\\\"",
+					"\\\"$(SRCROOT)/../include\\\"",
 					/usr/local/include,
 				);
 				LIBRARY_SEARCH_PATHS = "/usr/local/lib/**";

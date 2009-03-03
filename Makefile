@@ -7,8 +7,8 @@ LINUX_CXXFLAGS += `gosu-config --cxxflags` -Iinclude/Box2D/Include -Iinclude -I/
 LINUX_LIBS = -lgosu `gosu-config --libs` -lboost_signals
 
 OSX_CXXFLAGS += -Iinclude/Box2D/Include -Iinclude -I/usr/local/include/boost-1_37	\
--I/opt/local/include -Ilibs/Gosu.framework/Headers -framework Gosu -L/opt/local/lib/
-OSX_LIBS = -lboost_signals-mt
+-I/opt/local/include -Ilibs/Gosu.framework
+OSX_LIBS = -lboost_signals-mt -L/opt/local/lib/ -framework Gosu
 
 CXXFLAGS =
 LIBS = 
