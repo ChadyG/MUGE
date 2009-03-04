@@ -27,6 +27,7 @@
 		E9E2E9C30F4A595100A89391 /* libboost_signals-xgcc40-mt-1_38.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E9E2E9BA0F4A590F00A89391 /* libboost_signals-xgcc40-mt-1_38.dylib */; };
 		E9E2EA120F4A5AC400A89391 /* Gosu.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9E2EA110F4A5AC400A89391 /* Gosu.framework */; };
 		E9E2EA150F4A5AC700A89391 /* Gosu.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = E9E2EA110F4A5AC400A89391 /* Gosu.framework */; };
+		E9E2EA7E0F4B4B8E00A89391 /* Inventory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9E2EA7D0F4B4B8E00A89391 /* Inventory.cpp */; };
 		E9F6EB000F2BA14100587E82 /* libBox2D.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E9F6EAFE0F2BA14100587E82 /* libBox2D.dylib */; };
 		E9F6EB010F2BA14100587E82 /* libBox2D.dylib.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = E9F6EAFF0F2BA14100587E82 /* libBox2D.dylib.dSYM */; };
 		E9F6EB020F2BA15900587E82 /* libBox2D.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E9F6EAFE0F2BA14100587E82 /* libBox2D.dylib */; };
@@ -97,6 +98,10 @@
 		E93830150F2170B70093F382 /* Images */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Images; path = ../Images; sourceTree = SOURCE_ROOT; };
 		E9E2E9BA0F4A590F00A89391 /* libboost_signals-xgcc40-mt-1_38.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libboost_signals-xgcc40-mt-1_38.dylib"; path = "../libs/libboost_signals-xgcc40-mt-1_38.dylib"; sourceTree = SOURCE_ROOT; };
 		E9E2EA110F4A5AC400A89391 /* Gosu.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Gosu.framework; path = ../libs/Gosu.framework; sourceTree = SOURCE_ROOT; };
+		E9E2EA460F4B3C8200A89391 /* Inventory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Inventory.h; path = ../src/Engine/Inventory.h; sourceTree = SOURCE_ROOT; };
+		E9E2EA7D0F4B4B8E00A89391 /* Inventory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Inventory.cpp; path = ../src/Engine/Inventory.cpp; sourceTree = SOURCE_ROOT; };
+		E9E2EA800F4B4D4900A89391 /* Weapons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Weapons.h; path = ../src/Engine/Weapons.h; sourceTree = SOURCE_ROOT; };
+		E9E2EA960F4FAE4500A89391 /* SceneGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SceneGraph.h; path = ../src/Engine/SceneGraph.h; sourceTree = SOURCE_ROOT; };
 		E9F6EAFE0F2BA14100587E82 /* libBox2D.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libBox2D.dylib; path = ../libs/libBox2D.dylib; sourceTree = SOURCE_ROOT; };
 		E9F6EAFF0F2BA14100587E82 /* libBox2D.dylib.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = libBox2D.dylib.dSYM; path = ../libs/libBox2D.dylib.dSYM; sourceTree = SOURCE_ROOT; };
 		E9FE1A490F3364DC004C97F6 /* AIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIManager.h; path = ../src/Engine/AIManager.h; sourceTree = "<group>"; };
@@ -205,6 +210,8 @@
 		E9382FC60F216A500093F382 /* Engine */ = {
 			isa = PBXGroup;
 			children = (
+				E9E2EA7F0F4B4CD800A89391 /* Inventory */,
+				E9E2EA470F4B3CED00A89391 /* Scene */,
 				E95F759C0F36786E00F6DAA0 /* Input */,
 				E95F759B0F36785300F6DAA0 /* Physics */,
 				E95F759A0F36781B00F6DAA0 /* AI */,
@@ -267,7 +274,6 @@
 				E9382FD20F216B2A0093F382 /* GameState.h */,
 				E9382FD50F216B2A0093F382 /* MUGE.cpp */,
 				E9382FD60F216B2A0093F382 /* MUGE.h */,
-				E9382FD80F216B2A0093F382 /* SceneObject.h */,
 			);
 			name = Core;
 			sourceTree = "<group>";
@@ -303,6 +309,25 @@
 				E9382FD40F216B2A0093F382 /* InputFilter.h */,
 			);
 			name = Input;
+			sourceTree = "<group>";
+		};
+		E9E2EA470F4B3CED00A89391 /* Scene */ = {
+			isa = PBXGroup;
+			children = (
+				E9382FD80F216B2A0093F382 /* SceneObject.h */,
+				E9E2EA800F4B4D4900A89391 /* Weapons.h */,
+				E9E2EA960F4FAE4500A89391 /* SceneGraph.h */,
+			);
+			name = Scene;
+			sourceTree = "<group>";
+		};
+		E9E2EA7F0F4B4CD800A89391 /* Inventory */ = {
+			isa = PBXGroup;
+			children = (
+				E9E2EA460F4B3C8200A89391 /* Inventory.h */,
+				E9E2EA7D0F4B4B8E00A89391 /* Inventory.cpp */,
+			);
+			name = Inventory;
 			sourceTree = "<group>";
 		};
 		E9F6EAFB0F2BA0EF00587E82 /* libs */ = {
@@ -383,6 +408,7 @@
 				E90E23340F411A00003FBC3E /* JSONFile.cpp in Sources */,
 				E90E25040F4A40F2003FBC3E /* InputManager.cpp in Sources */,
 				E90E25070F4A4104003FBC3E /* MainMenuState.cpp in Sources */,
+				E9E2EA7E0F4B4B8E00A89391 /* Inventory.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

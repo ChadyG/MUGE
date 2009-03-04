@@ -10,9 +10,7 @@
 #include <Box2D.h>
 
 class MyContactListener;
-class SceneObject;
-class SceneArea;
-class Camera;
+class SceneGraph;
 class InputFilter;
 
 /**
@@ -32,17 +30,18 @@ struct envData
 class Environment
 {
 	// Game Data
-	Camera* m_Camerap;
-	InputFilter* m_Input;
-	std::vector< SceneObject* > m_Objects;
-	std::vector< SceneArea* > m_Areas;
-	boost::scoped_ptr< Gosu::Image > m_BackgroundImage;
-	boost::scoped_ptr< Gosu::Image > m_MidgroundImage;
-	boost::scoped_ptr< Gosu::Image > m_GroundImage;
-	boost::scoped_ptr< Gosu::Image > m_ForegroundImage;
-	int m_Ground[128];
+	//boost::scoped_ptr< InputFilter > m_Inputp;
+	//boost::scoped_ptr< SceneGraph > m_SceneGraphp;
+	
+	boost::scoped_ptr< Gosu::Image > m_BackgroundImagep;
+	boost::scoped_ptr< Gosu::Image > m_MidgroundImagep;
+	boost::scoped_ptr< Gosu::Image > m_GroundImagep;
+	boost::scoped_ptr< Gosu::Image > m_ForegroundImagep;
 	
 	// Physics data
+	boost::scoped_ptr< b2World > m_Worldp;
+	float m_TimeStep;
+	float m_Iterations;
 	
 	//	Pixel transformation data
 	int m_aOrigin[2];

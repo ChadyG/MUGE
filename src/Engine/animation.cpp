@@ -16,6 +16,11 @@ Animation::Animation( Gosu::Graphics& graphics, std::wstring& fileName, int widt
 	m_Timer = m_Count;
 }
 
+Gosu::Image& Animation::getFrame(unsigned frame)
+{
+	return *(m_Sprites.at(frame).get());
+};
+
 // I think this works...
 Gosu::Image& Animation::operator->()
 {

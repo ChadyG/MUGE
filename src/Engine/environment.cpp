@@ -9,6 +9,7 @@
 #include "Environment.h"
 #include "JSONFile.hpp"
 #include "ContactListener.h"
+#include "SceneGraph.h"
 #include "Camera.h"
 #include "Gosu/Utility.hpp"
 #include <string>
@@ -18,7 +19,9 @@
 Environment::Environment(std::wstring levelFile, Gosu::Graphics &graphics)
 {
 
-
+	//m_SceneGraphp.reset(new SceneGraph());
+	m_TimeStep = 1.0f / 60.0f;
+	m_Iterations = 10.0f;
 	//
 	// Read in JSON encoded file
 	// TinyJSON library will perform lexing and parsing
@@ -33,24 +36,24 @@ Environment::Environment(std::wstring levelFile, Gosu::Graphics &graphics)
 	
 	std::string tstring = jFile.get<std::string>("background");
 	std::wstring filename = Gosu::resourcePrefix() + Gosu::widen(tstring);
-	m_BackgroundImage.reset(new Gosu::Image(graphics, filename, false));
+	m_BackgroundImagep.reset(new Gosu::Image(graphics, filename, false));
 	
 	tstring = jFile.get<std::string>("midground");
 	filename = Gosu::resourcePrefix() + Gosu::widen(tstring);
-	m_MidgroundImage.reset(new Gosu::Image(graphics, filename, false));
+	m_MidgroundImagep.reset(new Gosu::Image(graphics, filename, false));
 	
 	tstring = jFile.get<std::string>("groundimage");
 	filename = Gosu::resourcePrefix() + Gosu::widen(tstring);
-	m_GroundImage.reset(new Gosu::Image(graphics, filename, false));
+	m_GroundImagep.reset(new Gosu::Image(graphics, filename, false));
 	
 	tstring = jFile.get<std::string>("foreground");
 	filename = Gosu::resourcePrefix() + Gosu::widen(tstring);
-	m_ForegroundImage.reset(new Gosu::Image(graphics, filename, false));
+	m_ForegroundImagep.reset(new Gosu::Image(graphics, filename, false));
 	
 	arr = jFile.get<json::grammar<char>::array>("ground");
 	
 	for (i = 0, it = arr.begin(); it != arr.end(); ++it, ++i) {
-		m_Ground[i] = boost::any_cast<int>(**it);
+		//m_SceneGraphp->aGround[i] = boost::any_cast<int>(**it);
 	}
 	
 	arr = jFile.get<json::grammar<char>::array>("platforms");
@@ -95,7 +98,7 @@ Environment::Environment(std::wstring levelFile, Gosu::Graphics &graphics)
 void Environment::update(const Gosu::Window &window, int offX, int offY)
 {
 	// Step physics simulation
-	//m_Worldp->Step(m_TimeStep, m_Iterations);
+	m_Worldp->Step(m_TimeStep, m_Iterations);
 	
 	m_aOrigin[0] = offX + window.graphics().width()/2;
 	m_aOrigin[1] = offY + window.graphics().height()/2;

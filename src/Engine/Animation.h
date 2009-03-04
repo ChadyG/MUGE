@@ -6,8 +6,12 @@
  *  Copyright 2009 Mizzou Game Design. All rights reserved.
  *
  */
+#ifndef ANIMATION_H
+#define ANIMATION_H
+
 #include <Gosu/Gosu.hpp>
 
+typedef boost::shared_ptr<Gosu::Image> t_Image;
 /**
 * The camera takes care of following player,
 * identifying what needs to be drawn, and
@@ -17,7 +21,7 @@
 
 class Animation
 {
-	std::vector< boost::shared_ptr<Gosu::Image> > m_Sprites;
+	std::vector< t_Image > m_Sprites;
 	
 	unsigned int m_Frame;
 	int m_numFrames;
@@ -27,5 +31,8 @@ class Animation
 public:
 	Animation(Gosu::Graphics&, std::wstring&, int width, int height, int count=1);
 	
+	Gosu::Image& getFrame(unsigned frame);
 	Gosu::Image& operator->();
 };
+
+#endif
