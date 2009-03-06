@@ -66,6 +66,7 @@ public:
 	const Animation& getSprites() const;
 	
 	const unsigned getLevel() const;
+	const t_Image getIcon() const;
 
 protected:
 	unsigned m_Level;

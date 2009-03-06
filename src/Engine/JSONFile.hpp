@@ -25,7 +25,7 @@ public:
       *
       * This will store the file path in this->fileName and store its content in this->fileContent
       **/
-     void readFile(std::string fileName);
+     void readFile(const std::string& fileName);
 		
      /**
       * parseContent - parse the content of the file using tinyjson
@@ -47,8 +47,21 @@ public:
       * variable.
       **/
      template < class T >
-     T get(std::string name, 
+     T get(const std::string& name, 
 	   const boost::shared_ptr< boost::any > object = boost::shared_ptr< boost::any >());
+
+     /**
+      * checkType - checks whether the value of the specified object has the specified type
+      * @name: the name of the variable, including any object it belongs to (example: object1.variable)
+      **/
+     template < class T >
+     bool checkType(const std::string& name);
+
+     /**
+      * isAnArray - checks whether the value of the specified object is a JSON array
+      * @name: the name of the variable, including any object it belongs to (example: object1.variable)
+      **/
+     bool isAnArray(const std::string& name);
 		
 private:
      json::grammar< char >::variant variant;
@@ -62,8 +75,18 @@ private:
 
 
 // ------------------------------------------------------------------
+
 template < class T >
-T JSONFile::get(std::string name, 
+bool JSONFile::checkType(const std::string& name)
+{
+     json::grammar<char>::variant value = get< json::grammar<char>::variant >(name);
+
+     return (value->type() == typeid(T));
+}
+
+// ------------------------------------------------------------------
+template < class T >
+T JSONFile::get(const std::string& name, 
 		const boost::shared_ptr< boost::any > object)
 {
      unsigned int index = name.find(".", 0);     

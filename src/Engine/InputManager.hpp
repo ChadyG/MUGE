@@ -80,6 +80,11 @@ private:
       * and sends out appropriate signals if so. This assumes that the button was pressed/released.
       **/
      void checkCommandTableForUpdates(CommandTable& table, Gosu::Button button);
+
+     /**
+      * hookSignalToSlot - this is a helper method for hookIntoCommand
+      **/
+     void hookSignalToSlot(const std::string& key, CommandTable& table, const CommandSignalType::slot_type& slot);
 		
 private:
      ButtonGosuValueTable buttonGosuValueAssociations;

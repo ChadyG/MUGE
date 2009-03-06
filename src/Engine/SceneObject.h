@@ -48,7 +48,7 @@ public:
 	virtual void onHit(SceneObject &other, unsigned strength) = 0;
 	
 	virtual void onUse(Player &player) = 0;
-	virtual const t_Image getIcon() const;
+	virtual const t_Image getIcon() const = 0;
 	
 	const uint16 getCategory() const;
 };

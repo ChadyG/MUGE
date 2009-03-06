@@ -10,6 +10,7 @@
 #include "InputManager.hpp"
 #include <boost/algorithm/string.hpp>
 #include <cassert>
+#include <iostream>
 
 InputManager::InputManager() : bindingFile(JSONFile("Data/commandBindings.json")), currentContext("Default")
 {
@@ -24,13 +25,13 @@ InputManager::~InputManager()
 
 void InputManager::hookIntoCommand(const std::string& command, const CommandSignalType::slot_type& slot)
 {
-     // -- Break "context.commandName:direction" into "context.commandName" and "direction"
+     // -- Break "context.command:direction" into "context.command" and "direction"
 
      std::vector< std::string > tokens;
      boost::split(tokens, command, boost::is_any_of(":"));
 
      std::string commandName = tokens.at(0);
-     std::string key = bindingFile.get< std::string >(commandName);
+     //std::string key = bindingFile.get< std::string >(commandName);
 
      std::string direction = boost::to_lower_copy(tokens.at(1));
 
@@ -51,19 +52,42 @@ void InputManager::hookIntoCommand(const std::string& command, const CommandSign
 
      CommandTable& table = (direction == "down") ? contexts[contextName].first : contexts[contextName].second;
 
+     // -- We need to figure out if this is a single string or an array
+
+     if (bindingFile.isAnArray(commandName))
+     {
+	  // Loop through all the keys associated with this command and for each create a signal that hooks into the provided slot
+	  std::string key;
+	  int index = 0;
+
+	  while ((key = bindingFile.get< std::string >(commandName + "[" + boost::lexical_cast<std::string>(index) + "]")) != std::string())
+	  {
+	       hookSignalToSlot(key, table, slot);
+	       ++index;
+	  }
+     }
+     else
+     {
+	  std::string key = bindingFile.get< std::string >(commandName);
+	  hookSignalToSlot(key, table, slot);
+     }
+}
+
+void InputManager::hookSignalToSlot(const std::string& key, CommandTable& table, const CommandSignalType::slot_type& slot)
+{
      // -- Create a new signal if necessary
-
+     
      Gosu::ButtonName buttonName = buttonGosuValueAssociations[key];
-
+     
      if (table.find(buttonName) == table.end())
      {
 	  table[buttonName] = CommandSignalPtr(new CommandSignalType());
      }
-
+     
      CommandSignalPtr sig = table[buttonName];
-
+     
      // -- Finally, connect the slot to the signal
-
+     
      sig->connect(slot);
 }
 
