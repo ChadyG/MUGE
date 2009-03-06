@@ -21,6 +21,7 @@
 #include "../b2WorldCallbacks.h"
 #include "../../Common/b2BlockAllocator.h"
 
+#include <cstring>
 #include <new>
 
 b2Contact* b2CircleContact::Create(b2Shape* shape1, b2Shape* shape2, b2BlockAllocator* allocator)
