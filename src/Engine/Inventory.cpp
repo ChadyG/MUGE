@@ -10,11 +10,6 @@
 #include "Inventory.h"
 
 
-inline const t_Image InventoryWeapon::getIcon() const
-{
-	return m_Icon;
-}
-
 inline const Animation& InventoryWeapon::getSprites() const
 {
 	return *m_Animation;

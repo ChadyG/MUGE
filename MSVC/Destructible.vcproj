@@ -184,6 +184,10 @@
 				Name="Engine"
 				>
 				<File
+					RelativePath="..\src\Engine\InputManager.cpp"
+					>
+				</File>
+				<File
 					RelativePath="..\src\Engine\JSONFile.cpp"
 					>
 				</File>
@@ -235,6 +239,10 @@
 			<Filter
 				Name="GameObjects"
 				>
+				<File
+					RelativePath="..\src\Engine\Inventory.cpp"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="GameStates"
@@ -258,7 +266,15 @@
 				Name="Engine"
 				>
 				<File
+					RelativePath="..\src\Engine\ButtonGosuValueTable.hpp"
+					>
+				</File>
+				<File
 					RelativePath="..\src\Engine\Environment.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\InputManager.hpp"
 					>
 				</File>
 				<File
@@ -341,6 +357,18 @@
 			<Filter
 				Name="GameObjects"
 				>
+				<File
+					RelativePath="..\src\Engine\Inventory.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\SceneGraph.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Weapons.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
