@@ -52,7 +52,7 @@ class AIPlayer : public Player {
 	Animation m_Jump;
 	
 public:
-	Player(int,int,b2World*,Gosu::Graphics&);
+	AIPlayer(int,int,b2World*,Gosu::Graphics&);
 	
 	void update(Gosu::Input&);
 	void draw() const;

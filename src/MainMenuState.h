@@ -14,24 +14,19 @@
 class MUGE;
 
 /**
-* State for title screen and other middleware screens
-* goes into main menu
-*/
+ * State for main menu
+ * central hub to move into other major game states
+ *
+ * This is a good place to toy around with things, as it is the first
+ * piece of the game the player can interact with.
+ */
 class MainMenuState : public GameState
 {
 	boost::scoped_ptr<Gosu::Image> m_MenuScreen;
 	boost::scoped_ptr<Gosu::Image> m_Cursor;
 	boost::scoped_ptr<Gosu::Image> m_MouseCursor;
-	boost::scoped_ptr<Gosu::Image> m_Letter_D;
-	boost::scoped_ptr<Gosu::Image> m_Letter_E;
-	boost::scoped_ptr<Gosu::Image> m_Letter_S;
-	boost::scoped_ptr<Gosu::Image> m_Letter_T;
-	boost::scoped_ptr<Gosu::Image> m_Letter_R;
-	boost::scoped_ptr<Gosu::Image> m_Letter_U;
-	boost::scoped_ptr<Gosu::Image> m_Letter_C;
-	boost::scoped_ptr<Gosu::Image> m_Letter_I;
-	boost::scoped_ptr<Gosu::Image> m_Letter_B;
-	boost::scoped_ptr<Gosu::Image> m_Letter_L;
+	std::vector< Gosu::Image* > m_LettersV;
+	
 	int m_CursorPos;
 	b2Vec2 m_mousePos;
 	bool m_Held, m_msLeftHeld;

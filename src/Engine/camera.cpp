@@ -74,3 +74,8 @@ void Camera::update(std::vector< SceneObject* >& objList, std::vector< SceneArea
 		
 	}
 }
+
+b2Vec2 Camera::getCenter() const
+{
+	return m_Center;
+}

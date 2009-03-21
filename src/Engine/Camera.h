@@ -46,4 +46,6 @@ public:
 	Camera(camDef&);
 	
 	void update(std::vector< SceneObject* >&, std::vector< SceneArea* >&, b2Vec2&);
+	
+	b2Vec2 getCenter() const;
 };

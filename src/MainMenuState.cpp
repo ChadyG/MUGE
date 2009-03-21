@@ -25,26 +25,27 @@ void MainMenuState::init(Gosu::Graphics &graphics)
 	filename = Gosu::resourcePrefix() + L"Images/Menu/cursor.png";
 	m_MouseCursor.reset(new Gosu::Image(graphics, filename, false));
 	
+	// Letter nonsense
 	filename = Gosu::resourcePrefix() + L"Images/Menu/Letter_D.png";
-	m_Letter_D.reset(new Gosu::Image(graphics, filename, false));
+	m_LettersV.push_back(new Gosu::Image(graphics, filename, false));
 	filename = Gosu::resourcePrefix() + L"Images/Menu/Letter_E.png";
-	m_Letter_E.reset(new Gosu::Image(graphics, filename, false));
+	m_LettersV.push_back(new Gosu::Image(graphics, filename, false));
 	filename = Gosu::resourcePrefix() + L"Images/Menu/Letter_S.png";
-	m_Letter_S.reset(new Gosu::Image(graphics, filename, false));
+	m_LettersV.push_back(new Gosu::Image(graphics, filename, false));
 	filename = Gosu::resourcePrefix() + L"Images/Menu/Letter_T.png";
-	m_Letter_T.reset(new Gosu::Image(graphics, filename, false));
+	m_LettersV.push_back(new Gosu::Image(graphics, filename, false));
 	filename = Gosu::resourcePrefix() + L"Images/Menu/Letter_R.png";
-	m_Letter_R.reset(new Gosu::Image(graphics, filename, false));
+	m_LettersV.push_back(new Gosu::Image(graphics, filename, false));
 	filename = Gosu::resourcePrefix() + L"Images/Menu/Letter_U.png";
-	m_Letter_U.reset(new Gosu::Image(graphics, filename, false));
+	m_LettersV.push_back(new Gosu::Image(graphics, filename, false));
 	filename = Gosu::resourcePrefix() + L"Images/Menu/Letter_C.png";
-	m_Letter_C.reset(new Gosu::Image(graphics, filename, false));
+	m_LettersV.push_back(new Gosu::Image(graphics, filename, false));
 	filename = Gosu::resourcePrefix() + L"Images/Menu/Letter_I.png";
-	m_Letter_I.reset(new Gosu::Image(graphics, filename, false));
+	m_LettersV.push_back(new Gosu::Image(graphics, filename, false));
 	filename = Gosu::resourcePrefix() + L"Images/Menu/Letter_B.png";
-	m_Letter_B.reset(new Gosu::Image(graphics, filename, false));
+	m_LettersV.push_back(new Gosu::Image(graphics, filename, false));
 	filename = Gosu::resourcePrefix() + L"Images/Menu/Letter_L.png";
-	m_Letter_L.reset(new Gosu::Image(graphics, filename, false));
+	m_LettersV.push_back(new Gosu::Image(graphics, filename, false));
 	
 	m_Held = false;
 	m_msLeftHeld = false;
@@ -99,103 +100,29 @@ void MainMenuState::init(Gosu::Graphics &graphics)
 	body->SetMassFromShapes();
 	
 	// Create letterbox objects, specify half-widths for shape size
-	// This code brought to you by the Letter D
-	shape.SetAsBox( 1.5f, 1.6f);
+	const float32 widths[] = { 1.5f, 1.6f, 
+		1.2f, 1.6f,
+		1.25f, 1.6f,
+		1.5f, 1.6f,
+		1.45f, 1.6f,
+		1.4f, 1.6f,
+		1.35f, 1.6f,
+		1.5f, 1.6f,
+		0.55f, 1.6f,
+		1.35f, 1.6f,
+		1.2f, 1.6f,
+		1.2f, 1.6f};
+	
 	shape.density = 1.0f;
-	bodyDef.position.Set( m_width / (2.0f*m_units) - 6.0f, m_height / (4.0f*m_units) );
-	body = m_Worldp->CreateBody( &bodyDef );
-	body->CreateShape( &shape );
-	body->SetMassFromShapes();	
-	m_Bodies.push_back( body );
-	
-	// This code brought to you by the Letter E
-	shape.SetAsBox( 1.2f, 1.6f);
-	bodyDef.position.Set( m_width / (2.0f*m_units) - 6.0f + 2.0f, m_height / (4.0f*m_units) );
-	body = m_Worldp->CreateBody( &bodyDef );
-	body->CreateShape( &shape );
-	body->SetMassFromShapes();
-	m_Bodies.push_back( body );
-	
-	// This code brought to you by the Letter S
-	shape.SetAsBox( 1.25f, 1.6f);
-	bodyDef.position.Set( m_width / (2.0f*m_units) - 6.0f + 4.0f, m_height / (4.0f*m_units) );
-	body = m_Worldp->CreateBody( &bodyDef );
-	body->CreateShape( &shape );
-	body->SetMassFromShapes();
-	m_Bodies.push_back( body );
-	
-	// This code brought to you by the Letter T
-	shape.SetAsBox( 1.5f, 1.6f);
-	bodyDef.position.Set( m_width / (2.0f*m_units) - 6.0f + 6.0f, m_height / (4.0f*m_units) );
-	body = m_Worldp->CreateBody( &bodyDef );
-	body->CreateShape( &shape );
-	body->SetMassFromShapes();
-	m_Bodies.push_back( body );
-	
-	// This code brought to you by the Letter R
-	shape.SetAsBox( 1.45f, 1.6f);
-	bodyDef.position.Set( m_width / (2.0f*m_units) - 6.0f + 8.0f, m_height / (4.0f*m_units) );
-	body = m_Worldp->CreateBody( &bodyDef );
-	body->CreateShape( &shape );
-	body->SetMassFromShapes();
-	m_Bodies.push_back( body );
-	
-	// This code brought to you by the Letter U
-	shape.SetAsBox( 1.4f, 1.6f);
-	bodyDef.position.Set( m_width / (2.0f*m_units) - 6.0f + 10.0f, m_height / (4.0f*m_units) );
-	body = m_Worldp->CreateBody( &bodyDef );
-	body->CreateShape( &shape );
-	body->SetMassFromShapes();
-	m_Bodies.push_back( body );
-	
-	// This code brought to you by the Letter C
-	shape.SetAsBox( 1.35f, 1.6f);
-	bodyDef.position.Set( m_width / (2.0f*m_units) - 6.0f + 12.0f, m_height / (4.0f*m_units) );
-	body = m_Worldp->CreateBody( &bodyDef );
-	body->CreateShape( &shape );
-	body->SetMassFromShapes();
-	m_Bodies.push_back( body );
-	
-	// This code brought to you by the Letter T
-	shape.SetAsBox( 1.5f, 1.6f);
-	bodyDef.position.Set( m_width / (2.0f*m_units) - 6.0f + 14.0f, m_height / (4.0f*m_units) );
-	body = m_Worldp->CreateBody( &bodyDef );
-	body->CreateShape( &shape );
-	body->SetMassFromShapes();
-	m_Bodies.push_back( body );
-	
-	// This code brought to you by the Letter I
-	shape.SetAsBox( 0.55f, 1.6f);
-	bodyDef.position.Set( m_width / (2.0f*m_units) - 6.0f + 16.0f, m_height / (4.0f*m_units) );
-	body = m_Worldp->CreateBody( &bodyDef );
-	body->CreateShape( &shape );
-	body->SetMassFromShapes();
-	m_Bodies.push_back( body );
-	
-	// This code brought to you by the Letter B
-	shape.SetAsBox( 1.35f, 1.6f);
-	bodyDef.position.Set( m_width / (2.0f*m_units) - 6.0f + 18.0f, m_height / (4.0f*m_units) );
-	body = m_Worldp->CreateBody( &bodyDef );
-	body->CreateShape( &shape );
-	body->SetMassFromShapes();
-	m_Bodies.push_back( body );
-	
-	// This code brought to you by the Letter L
-	shape.SetAsBox( 1.2f, 1.6f);
-	bodyDef.position.Set( m_width / (2.0f*m_units) - 6.0f + 20.0f, m_height / (4.0f*m_units) );
-	body = m_Worldp->CreateBody( &bodyDef );
-	body->CreateShape( &shape );
-	body->SetMassFromShapes();
-	m_Bodies.push_back( body );
-	
-	// This code brought to you by the Letter E
-	shape.SetAsBox( 1.2f, 1.6f);
-	bodyDef.position.Set( m_width / (2.0f*m_units) - 6.0f + 22.0f, m_height / (4.0f*m_units) );
-	body = m_Worldp->CreateBody( &bodyDef );
-	body->CreateShape( &shape );
-	body->SetMassFromShapes();
-	m_Bodies.push_back( body );
-	
+	// This code brought to you by the Letter D
+	for (int i=0; i< 12; ++i) {
+		shape.SetAsBox( widths[i*2], widths[i*2 + 1]);//1.5f, 1.6f);
+		bodyDef.position.Set( m_width / (2.0f*m_units) - 6.0f + 2.0f*i, m_height / (4.0f*m_units) );
+		body = m_Worldp->CreateBody( &bodyDef );
+		body->CreateShape( &shape );
+		body->SetMassFromShapes();	
+		m_Bodies.push_back( body );
+	}
 }
 
 void MainMenuState::cleanup()
@@ -203,16 +130,7 @@ void MainMenuState::cleanup()
 	m_MenuScreen.reset(0);
 	m_Cursor.reset(0);
 	m_MouseCursor.reset(0);
-	m_Letter_D.reset(0);
-	m_Letter_E.reset(0);
-	m_Letter_S.reset(0);
-	m_Letter_T.reset(0);
-	m_Letter_R.reset(0);
-	m_Letter_U.reset(0);
-	m_Letter_C.reset(0);
-	m_Letter_I.reset(0);
-	m_Letter_B.reset(0);
-	m_Letter_L.reset(0);
+	m_LettersV.clear();
 	while (!m_Bodies.empty()) {
 		m_Bodies.pop_front();
 	}
@@ -233,7 +151,8 @@ void MainMenuState::update(const Gosu::Input &input, MUGE* engine)
 {
 	m_Worldp->Step( m_TimeStep, m_Iterations );
 	
-	
+	// Input stuff
+	// replace with Input Manager sometime
 	if (input.down(Gosu::kbDown)) {
 		if (!m_Held) {
 			++m_CursorPos;
@@ -265,10 +184,12 @@ void MainMenuState::update(const Gosu::Input &input, MUGE* engine)
 		m_CursorPos = (m_mousePos.y - 200)/45;
 	}
 	if (input.down(Gosu::msLeft)) {
+		// Is this a new click or hold?
 		if (!m_msLeftHeld) {
+			// Are we over the menu items?
 			if (m_mousePos.x > 200 && m_mousePos.x < 310 && m_mousePos.y > 200 && m_mousePos.y < 360) {
 				lClick = true;
-			}else
+			}else// No, try and drag an object
 			if (m_mouseJoint == NULL) {
 
 				// Make a small box.
@@ -353,53 +274,11 @@ void MainMenuState::draw() const
 	float angle;
 	std::list< b2Body* >::const_iterator BIter;
 	int i = 0;
-	BIter = m_Bodies.begin();
-	pos = (*BIter)->GetPosition();
-	angle = (*BIter)->GetAngle() * (180.0f/(float)Gosu::pi);
-	m_Letter_D->drawRot( pos.x * m_units, pos.y * m_units, 1, angle);
-	
-	pos = (*++BIter)->GetPosition();
-	angle = (*BIter)->GetAngle() * (180.0f/(float)Gosu::pi);
-	m_Letter_E->drawRot( pos.x * m_units, pos.y * m_units, 1, angle);
-	
-	pos = (*++BIter)->GetPosition();
-	angle = (*BIter)->GetAngle() * (180.0f/(float)Gosu::pi);
-	m_Letter_S->drawRot( pos.x * m_units, pos.y * m_units, 1, angle);
-	
-	pos = (*++BIter)->GetPosition();
-	angle = (*BIter)->GetAngle() * (180.0f/(float)Gosu::pi);
-	m_Letter_T->drawRot( pos.x * m_units, pos.y * m_units, 1, angle);
-	
-	pos = (*++BIter)->GetPosition();
-	angle = (*BIter)->GetAngle() * (180.0f/(float)Gosu::pi);
-	m_Letter_R->drawRot( pos.x * m_units, pos.y * m_units, 1, angle);
-	
-	pos = (*++BIter)->GetPosition();
-	angle = (*BIter)->GetAngle() * (180.0f/(float)Gosu::pi);
-	m_Letter_U->drawRot( pos.x * m_units, pos.y * m_units, 1, angle);
-	
-	pos = (*++BIter)->GetPosition();
-	angle = (*BIter)->GetAngle() * (180.0f/(float)Gosu::pi);
-	m_Letter_C->drawRot( pos.x * m_units, pos.y * m_units, 1, angle);
-	
-	pos = (*++BIter)->GetPosition();
-	angle = (*BIter)->GetAngle() * (180.0f/(float)Gosu::pi);
-	m_Letter_T->drawRot( pos.x * m_units, pos.y * m_units, 1, angle);
-	
-	pos = (*++BIter)->GetPosition();
-	angle = (*BIter)->GetAngle() * (180.0f/(float)Gosu::pi);
-	m_Letter_I->drawRot( pos.x * m_units, pos.y * m_units, 1, angle);
-	
-	pos = (*++BIter)->GetPosition();
-	angle = (*BIter)->GetAngle() * (180.0f/(float)Gosu::pi);
-	m_Letter_B->drawRot( pos.x * m_units, pos.y * m_units, 1, angle);
-	
-	pos = (*++BIter)->GetPosition();
-	angle = (*BIter)->GetAngle() * (180.0f/(float)Gosu::pi);
-	m_Letter_L->drawRot( pos.x * m_units, pos.y * m_units, 1, angle);
-	
-	pos = (*++BIter)->GetPosition();
-	angle = (*BIter)->GetAngle() * (180.0f/(float)Gosu::pi);
-	m_Letter_E->drawRot( pos.x * m_units, pos.y * m_units, 1, angle);
+	const int letterTable[] = {0,1,2,3,4,5,6,3,7,8,9,1};
+	for (BIter = m_Bodies.begin(); BIter != m_Bodies.end(); ++BIter, ++i) {
+		pos = (*BIter)->GetPosition();
+		angle = (*BIter)->GetAngle() * (180.0f/(float)Gosu::pi);
+		m_LettersV[letterTable[i]]->drawRot( pos.x * m_units, pos.y * m_units, 1, angle);
+	}
 	
 }

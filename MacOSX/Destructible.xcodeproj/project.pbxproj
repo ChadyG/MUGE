@@ -23,10 +23,14 @@
 		E9382FE60F216BFC0093F382 /* MUGDsm.ico in Resources */ = {isa = PBXBuildFile; fileRef = E9382FE40F216BFC0093F382 /* MUGDsm.ico */; };
 		E9382FE70F216BFC0093F382 /* MUGDTitle.png in Resources */ = {isa = PBXBuildFile; fileRef = E9382FE50F216BFC0093F382 /* MUGDTitle.png */; };
 		E93830190F2170B70093F382 /* Images in Resources */ = {isa = PBXBuildFile; fileRef = E93830150F2170B70093F382 /* Images */; };
+		E985A6400F61F1A40039010F /* Gosu.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E985A63F0F61F1A40039010F /* Gosu.framework */; };
+		E985A6440F61F1C60039010F /* Gosu.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = E985A63F0F61F1A40039010F /* Gosu.framework */; };
+		E985A6630F61F2330039010F /* box2d.lib in Frameworks */ = {isa = PBXBuildFile; fileRef = E985A6620F61F2330039010F /* box2d.lib */; };
+		E985A6930F64608D0039010F /* Data in Resources */ = {isa = PBXBuildFile; fileRef = E985A68F0F64608D0039010F /* Data */; };
+		E985A7320F65949B0039010F /* AdventureState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E985A7310F65949B0039010F /* AdventureState.cpp */; };
+		E985A7350F6597310039010F /* CutScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E985A7340F6597310039010F /* CutScene.cpp */; };
 		E9E2E9BC0F4A590F00A89391 /* libboost_signals-xgcc40-mt-1_38.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E9E2E9BA0F4A590F00A89391 /* libboost_signals-xgcc40-mt-1_38.dylib */; };
 		E9E2E9C30F4A595100A89391 /* libboost_signals-xgcc40-mt-1_38.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E9E2E9BA0F4A590F00A89391 /* libboost_signals-xgcc40-mt-1_38.dylib */; };
-		E9E2EA120F4A5AC400A89391 /* Gosu.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9E2EA110F4A5AC400A89391 /* Gosu.framework */; };
-		E9E2EA150F4A5AC700A89391 /* Gosu.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = E9E2EA110F4A5AC400A89391 /* Gosu.framework */; };
 		E9E2EA7E0F4B4B8E00A89391 /* Inventory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9E2EA7D0F4B4B8E00A89391 /* Inventory.cpp */; };
 		E9F6EB000F2BA14100587E82 /* libBox2D.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E9F6EAFE0F2BA14100587E82 /* libBox2D.dylib */; };
 		E9F6EB010F2BA14100587E82 /* libBox2D.dylib.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = E9F6EAFF0F2BA14100587E82 /* libBox2D.dylib.dSYM */; };
@@ -40,7 +44,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				E9E2EA150F4A5AC700A89391 /* Gosu.framework in Copy Frameworks */,
+				E985A6440F61F1C60039010F /* Gosu.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -96,8 +100,14 @@
 		E9382FE40F216BFC0093F382 /* MUGDsm.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; name = MUGDsm.ico; path = ../Images/MUGDsm.ico; sourceTree = SOURCE_ROOT; };
 		E9382FE50F216BFC0093F382 /* MUGDTitle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = MUGDTitle.png; path = ../Images/MUGDTitle.png; sourceTree = SOURCE_ROOT; };
 		E93830150F2170B70093F382 /* Images */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Images; path = ../Images; sourceTree = SOURCE_ROOT; };
+		E985A63F0F61F1A40039010F /* Gosu.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Gosu.framework; path = ../libs/Gosu.framework; sourceTree = SOURCE_ROOT; };
+		E985A6620F61F2330039010F /* box2d.lib */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = box2d.lib; path = ../libs/box2d.lib; sourceTree = SOURCE_ROOT; };
+		E985A68F0F64608D0039010F /* Data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Data; path = ../Data; sourceTree = SOURCE_ROOT; };
+		E985A7300F6592AD0039010F /* AdventureState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AdventureState.h; path = ../src/AdventureState.h; sourceTree = SOURCE_ROOT; };
+		E985A7310F65949B0039010F /* AdventureState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AdventureState.cpp; path = ../src/AdventureState.cpp; sourceTree = SOURCE_ROOT; };
+		E985A7330F6597310039010F /* CutScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CutScene.h; path = ../src/Engine/CutScene.h; sourceTree = SOURCE_ROOT; };
+		E985A7340F6597310039010F /* CutScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CutScene.cpp; path = ../src/Engine/CutScene.cpp; sourceTree = SOURCE_ROOT; };
 		E9E2E9BA0F4A590F00A89391 /* libboost_signals-xgcc40-mt-1_38.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libboost_signals-xgcc40-mt-1_38.dylib"; path = "../libs/libboost_signals-xgcc40-mt-1_38.dylib"; sourceTree = SOURCE_ROOT; };
-		E9E2EA110F4A5AC400A89391 /* Gosu.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Gosu.framework; path = ../libs/Gosu.framework; sourceTree = SOURCE_ROOT; };
 		E9E2EA460F4B3C8200A89391 /* Inventory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Inventory.h; path = ../src/Engine/Inventory.h; sourceTree = SOURCE_ROOT; };
 		E9E2EA7D0F4B4B8E00A89391 /* Inventory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Inventory.cpp; path = ../src/Engine/Inventory.cpp; sourceTree = SOURCE_ROOT; };
 		E9E2EA800F4B4D4900A89391 /* Weapons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Weapons.h; path = ../src/Engine/Weapons.h; sourceTree = SOURCE_ROOT; };
@@ -116,7 +126,8 @@
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				E9F6EB000F2BA14100587E82 /* libBox2D.dylib in Frameworks */,
 				E9E2E9BC0F4A590F00A89391 /* libboost_signals-xgcc40-mt-1_38.dylib in Frameworks */,
-				E9E2EA120F4A5AC400A89391 /* Gosu.framework in Frameworks */,
+				E985A6400F61F1A40039010F /* Gosu.framework in Frameworks */,
+				E985A6630F61F2330039010F /* box2d.lib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -146,7 +157,8 @@
 		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				E9E2EA110F4A5AC400A89391 /* Gosu.framework */,
+				E985A6620F61F2330039010F /* box2d.lib */,
+				E985A63F0F61F1A40039010F /* Gosu.framework */,
 				E9E2E9BA0F4A590F00A89391 /* libboost_signals-xgcc40-mt-1_38.dylib */,
 				E9F6EAFF0F2BA14100587E82 /* libBox2D.dylib.dSYM */,
 				E9F6EAFE0F2BA14100587E82 /* libBox2D.dylib */,
@@ -168,6 +180,7 @@
 		29B97314FDCFA39411CA2CEA /* Destructible */ = {
 			isa = PBXGroup;
 			children = (
+				E985A68F0F64608D0039010F /* Data */,
 				E9F6EAFB0F2BA0EF00587E82 /* libs */,
 				E93830150F2170B70093F382 /* Images */,
 				080E96DDFE201D6D7F000001 /* Classes */,
@@ -244,6 +257,8 @@
 				E90E25060F4A4104003FBC3E /* MainMenuState.h */,
 				E9382FDF0F216B490093F382 /* TitleState.cpp */,
 				E9382FE00F216B490093F382 /* TitleState.h */,
+				E985A7300F6592AD0039010F /* AdventureState.h */,
+				E985A7310F65949B0039010F /* AdventureState.cpp */,
 			);
 			name = GameStates;
 			sourceTree = "<group>";
@@ -264,6 +279,8 @@
 				E9382FCB0F216B2A0093F382 /* Animation.h */,
 				E9382FCC0F216B2A0093F382 /* camera.cpp */,
 				E9382FCD0F216B2A0093F382 /* Camera.h */,
+				E985A7330F6597310039010F /* CutScene.h */,
+				E985A7340F6597310039010F /* CutScene.cpp */,
 			);
 			name = Video;
 			sourceTree = "<group>";
@@ -387,6 +404,7 @@
 				E9382FE70F216BFC0093F382 /* MUGDTitle.png in Resources */,
 				E93830190F2170B70093F382 /* Images in Resources */,
 				E9F6EB010F2BA14100587E82 /* libBox2D.dylib.dSYM in Resources */,
+				E985A6930F64608D0039010F /* Data in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -409,6 +427,8 @@
 				E90E25040F4A40F2003FBC3E /* InputManager.cpp in Sources */,
 				E90E25070F4A4104003FBC3E /* MainMenuState.cpp in Sources */,
 				E9E2EA7E0F4B4B8E00A89391 /* Inventory.cpp in Sources */,
+				E985A7320F65949B0039010F /* AdventureState.cpp in Sources */,
+				E985A7350F6597310039010F /* CutScene.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -436,6 +456,7 @@
 					"\\\"$(SRCROOT)/../../../../Downloads/gosu-mac-0.7.11\\\"",
 					"\\\"$(SRCROOT)/../../../Downloads/gosu-mac-0.7.11\\\"",
 					"\\\"$(SRCROOT)/../libs\\\"",
+					"\"$(SRCROOT)/../libs\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -448,6 +469,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\\\"$(SRCROOT)/../libs\\\"",
+					"\"$(SRCROOT)/../libs\"",
 				);
 				PRODUCT_NAME = Destructible;
 			};
@@ -463,6 +485,7 @@
 					"\\\"$(SRCROOT)/../../../../Downloads/gosu-mac-0.7.11\\\"",
 					"\\\"$(SRCROOT)/../../../Downloads/gosu-mac-0.7.11\\\"",
 					"\\\"$(SRCROOT)/../libs\\\"",
+					"\"$(SRCROOT)/../libs\"",
 				);
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -472,6 +495,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\\\"$(SRCROOT)/../libs\\\"",
+					"\"$(SRCROOT)/../libs\"",
 				);
 				PRODUCT_NAME = Destructible;
 			};
@@ -480,38 +504,39 @@
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ONLY_ACTIVE_ARCH_PRE_XCODE_3_1)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					"\\\"$(SRCROOT)/../include/Box2D/Include\\\"",
-					"\\\"$(SRCROOT)/../include\\\"",
+					"\"$(SRCROOT)/../include/Box2D/Include\"",
 					/usr/local/include,
+					"\"$(SRCROOT)/../include\"",
 				);
 				LIBRARY_SEARCH_PATHS = "/usr/local/lib/**";
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH_PRE_XCODE_3_1 = "$(NATIVE_ARCH)";
 				PREBINDING = NO;
-				SDKROOT = macosx10.5;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 			};
 			name = Debug;
 		};
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					/usr/local/include/TinyJSON,
-					/usr/local/include/Box2D,
+					"\"$(SRCROOT)/../include/Box2D/Include\"",
+					"\"$(SRCROOT)/../include\"",
 					/usr/local/include,
 				);
-				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				LIBRARY_SEARCH_PATHS = "/usr/local/lib/**";
 				PREBINDING = NO;
-				SDKROOT = macosx10.5;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 			};
 			name = Release;
 		};

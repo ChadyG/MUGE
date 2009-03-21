@@ -24,9 +24,11 @@ public:
 	void addObject( SceneObject* object);
 	
 private:
-	std::vector< InventoryWeapon* > m_Weapons;
+	// What about slots?
+	boost::scoped_ptr< InventoryWeapon > m_Bludgeon;
+	boost::scoped_ptr< InventoryWeapon > m_Cutter;
+	boost::scoped_ptr< InventoryWeapon > m_Shot;
 	std::vector< InventoryItem* > m_Items;
-	unsigned m_WeaponSlots;
 	unsigned m_ItemSlots;
 };
 

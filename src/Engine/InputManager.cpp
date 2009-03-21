@@ -12,7 +12,7 @@
 #include <cassert>
 #include <iostream>
 
-InputManager::InputManager() : bindingFile(JSONFile("Data/commandBindings.json")), currentContext("Default")
+InputManager::InputManager() : bindingFile(JSONFile(Gosu::narrow(Gosu::resourcePrefix()) + "Data/commandBindings.json")), currentContext("Default")
 {
 	buildButtonGosuValueTable();
 }

@@ -8,9 +8,9 @@
  */
 #include <Gosu/Gosu.hpp>
 #include <Box2D.h>
+#include "SceneGraph.h"
 
 class MyContactListener;
-class SceneGraph;
 class InputFilter;
 
 /**
@@ -31,8 +31,11 @@ class Environment
 {
 	// Game Data
 	//boost::scoped_ptr< InputFilter > m_Inputp;
-	//boost::scoped_ptr< SceneGraph > m_SceneGraphp;
+	boost::scoped_ptr< SceneGraph > m_SceneGraphp;
 	
+	// Need to decide on a depth factor for front and back
+	// maybe 1/3 slow for back and 1/3 faster for front?
+	// This will decide the width of the images.
 	boost::scoped_ptr< Gosu::Image > m_BackgroundImagep;
 	boost::scoped_ptr< Gosu::Image > m_MidgroundImagep;
 	boost::scoped_ptr< Gosu::Image > m_GroundImagep;
@@ -47,9 +50,10 @@ class Environment
 	int m_aOrigin[2];
 	int m_aExtents[2];
 	int m_Units;
+	int m_Width, m_Height;
 
 public:
 	Environment(std::wstring, Gosu::Graphics &);
-	void update(const Gosu::Window &, int, int);
-	void draw(bool) const;
+	void update();
+	void draw() const;
 };

@@ -9,8 +9,6 @@
 #include "Environment.h"
 #include "JSONFile.hpp"
 #include "ContactListener.h"
-#include "SceneGraph.h"
-#include "Camera.h"
 #include "Gosu/Utility.hpp"
 #include <string>
 #include <iostream>
@@ -22,6 +20,9 @@ Environment::Environment(std::wstring levelFile, Gosu::Graphics &graphics)
 	//m_SceneGraphp.reset(new SceneGraph());
 	m_TimeStep = 1.0f / 60.0f;
 	m_Iterations = 10.0f;
+	
+	m_Width = graphics.width();
+	m_Height = graphics.height();
 	//
 	// Read in JSON encoded file
 	// TinyJSON library will perform lexing and parsing
@@ -95,17 +96,19 @@ Environment::Environment(std::wstring levelFile, Gosu::Graphics &graphics)
 	
 }
 
-void Environment::update(const Gosu::Window &window, int offX, int offY)
+void Environment::update()
 {
 	// Step physics simulation
 	m_Worldp->Step(m_TimeStep, m_Iterations);
 	
-	m_aOrigin[0] = offX + window.graphics().width()/2;
-	m_aOrigin[1] = offY + window.graphics().height()/2;
+	b2Vec2 camPos = m_SceneGraphp->Camerap->getCenter();
+	
+	m_aOrigin[0] = camPos.x + m_Width/2;
+	m_aOrigin[1] = camPos.y + m_Height/2;
 
 }
 
-void Environment::draw(bool lines) const
+void Environment::draw() const
 {
 
 }
