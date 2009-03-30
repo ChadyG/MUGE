@@ -8,6 +8,7 @@
  */
  
 #include "MainMenuState.h"
+#include "AdventureState.h"
 #include "Engine/MUGE.h"
 
 /**
@@ -247,6 +248,7 @@ void MainMenuState::update(const Gosu::Input &input, MUGE* engine)
 	if (input.down(Gosu::kbReturn) || lClick) {
 		switch (m_CursorPos) {
 			case 0:// New
+				engine->changeState( AdventureState::instance() );
 				break;
 			case 1:// Load
 				break;

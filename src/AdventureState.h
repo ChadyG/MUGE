@@ -24,28 +24,28 @@ class MUGE;
  * open up some options to control.
  */
 class AdventureState : public GameState
-	{
-		boost::scoped_ptr< Environment > m_Environment;
-		boost::scoped_ptr< CutScene > m_CutScene;
-		
-		static AdventureState m_StateInstance;
-		
-	protected:
-		AdventureState() { }
-		
-	public:
-		void init(Gosu::Graphics &graphics);
-		void cleanup();
-		
-		void pause();
-		void resume();
-		
-		void update(const Gosu::Input &, MUGE *);
-		void draw() const;
-		
-		static AdventureState* instance() {
-			return &m_StateInstance;
-		}
-		
-		void save();
-	};
+{
+	boost::scoped_ptr< Environment > m_Environment;
+	boost::scoped_ptr< CutScene > m_CutScene;
+	
+	static AdventureState m_StateInstance;
+	
+protected:
+	AdventureState() { }
+	
+public:
+	void init(Gosu::Graphics &graphics);
+	void cleanup();
+	
+	void pause();
+	void resume();
+	
+	void update(const Gosu::Input &, MUGE *);
+	void draw() const;
+	
+	static AdventureState* instance() {
+		return &m_StateInstance;
+	}
+	
+	void save();
+};

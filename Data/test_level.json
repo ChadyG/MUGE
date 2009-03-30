@@ -1,8 +1,8 @@
 {
-	"background" : "back.png",
-	"midground" : "mid.png",
-	"groundimage" : "ground.png",
-	"foreground" : "fore.png",
+	"background" : "Back_01.png",
+	"midground" : "Mid_01.png",
+	"groundimage" : "Ground_01.png",
+	"foreground" : "Fore_01.png",
 	"ground" : [
 		1,
 		1,
@@ -30,12 +30,12 @@
 			"height" : 2,
 			"shape" : [
 				{
-					1,
-					0
+					"x" : 1,
+					"y" : 0
 				},
 				{
-					1,
-					1
+					"x" : 1,
+					"y" : 1
 				}
 			]
 		}

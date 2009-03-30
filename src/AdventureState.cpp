@@ -29,7 +29,7 @@ void AdventureState::cleanup()
 
 void AdventureState::update(const Gosu::Input &input, MUGE *Engine)
 {
-	m_Environment->update();
+	m_Environment->update(input);
 }
 
 void AdventureState::draw() const

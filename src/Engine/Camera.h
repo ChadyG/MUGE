@@ -6,6 +6,7 @@
  *  Copyright 2009 Mizzou Game Design. All rights reserved.
  *
  */
+#include <Gosu/Gosu.hpp>
 #include <Box2D.h>
 #include <vector>
 /**
@@ -45,7 +46,7 @@ class Camera
 public:
 	Camera(camDef&);
 	
-	void update(std::vector< SceneObject* >&, std::vector< SceneArea* >&, b2Vec2&);
+	void update( std::vector< boost::scoped_ptr< SceneArea > >&, b2Vec2&);
 	
 	b2Vec2 getCenter() const;
 };

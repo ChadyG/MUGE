@@ -24,8 +24,11 @@ struct envData
 };
 
 /**
-* Gameplay class, loads a level and handles common
-* gameplay elements
+* Gameplay class
+* This class serves as a central hub for all gameplay objects.
+* This makes communication between classes easier and in some cases actions can 
+* defer up to this class.
+* Also handles level loading.
 */
 class Environment
 {
@@ -51,9 +54,13 @@ class Environment
 	int m_aExtents[2];
 	int m_Units;
 	int m_Width, m_Height;
+	
+	// Temporary stuff
+	b2Vec2 m_PlayerPos;
+	Gosu::Graphics* m_Graphicsp;
 
 public:
 	Environment(std::wstring, Gosu::Graphics &);
-	void update();
+	void update(const Gosu::Input &);
 	void draw() const;
 };

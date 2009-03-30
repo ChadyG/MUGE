@@ -22,7 +22,7 @@ public:
 	//Dynamic Objects
 	boost::scoped_ptr< Camera > Camerap;
 	boost::scoped_ptr< Player > Playerp;
-	std::vector< boost::scoped_ptr< SceneArea > > Areasp;
+	std::vector< boost::scoped_ptr< SceneArea > > Areasv;
 	std::vector< boost::scoped_ptr< SceneObject > > Enemiesv;
 	std::vector< boost::scoped_ptr< SceneObject > > Bodiesv;
 	std::vector< boost::scoped_ptr< SceneObject > > Weaponsv;

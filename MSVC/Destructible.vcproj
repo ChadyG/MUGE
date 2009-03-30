@@ -218,6 +218,10 @@
 						RelativePath="..\src\Engine\camera.cpp"
 						>
 					</File>
+					<File
+						RelativePath="..\src\Engine\CutScene.cpp"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="Physics"
@@ -247,6 +251,10 @@
 			<Filter
 				Name="GameStates"
 				>
+				<File
+					RelativePath="..\src\AdventureState.cpp"
+					>
+				</File>
 				<File
 					RelativePath="..\src\MainMenuState.cpp"
 					>
@@ -313,6 +321,10 @@
 						>
 					</File>
 					<File
+						RelativePath="..\src\Engine\CutScene.h"
+						>
+					</File>
+					<File
 						RelativePath="..\src\Engine\UIComponent.h"
 						>
 					</File>
@@ -345,6 +357,10 @@
 			<Filter
 				Name="GameStates"
 				>
+				<File
+					RelativePath="..\src\AdventureState.h"
+					>
+				</File>
 				<File
 					RelativePath="..\src\MainMenuState.h"
 					>

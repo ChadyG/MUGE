@@ -9,7 +9,6 @@
 #include "Environment.h"
 #include "JSONFile.hpp"
 #include "ContactListener.h"
-#include "Gosu/Utility.hpp"
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -23,6 +22,18 @@ Environment::Environment(std::wstring levelFile, Gosu::Graphics &graphics)
 	
 	m_Width = graphics.width();
 	m_Height = graphics.height();
+	
+	m_PlayerPos = b2Vec2( 384, 240);
+	m_Graphicsp = &graphics;
+
+	m_SceneGraphp.reset( new SceneGraph() );
+	camDef cDef;
+	cDef.origin = b2Vec2( 384, 240);
+	cDef.extents = b2Vec2( 768, 480);
+	cDef.safe = b2Vec2( 900, 500);
+	cDef.player = b2Vec2( 300, 200);
+	cDef.desire = b2Vec2( 100, 100);
+	m_SceneGraphp->Camerap.reset( new Camera(cDef) );
 	//
 	// Read in JSON encoded file
 	// TinyJSON library will perform lexing and parsing
@@ -36,19 +47,19 @@ Environment::Environment(std::wstring levelFile, Gosu::Graphics &graphics)
 	int i;
 	
 	std::string tstring = jFile.get<std::string>("background");
-	std::wstring filename = Gosu::resourcePrefix() + Gosu::widen(tstring);
+	std::wstring filename = Gosu::resourcePrefix() + L"Images/Levels/" + Gosu::widen(tstring);
 	m_BackgroundImagep.reset(new Gosu::Image(graphics, filename, false));
 	
 	tstring = jFile.get<std::string>("midground");
-	filename = Gosu::resourcePrefix() + Gosu::widen(tstring);
+	filename = Gosu::resourcePrefix() + L"Images/Levels/" + Gosu::widen(tstring);
 	m_MidgroundImagep.reset(new Gosu::Image(graphics, filename, false));
 	
 	tstring = jFile.get<std::string>("groundimage");
-	filename = Gosu::resourcePrefix() + Gosu::widen(tstring);
+	filename = Gosu::resourcePrefix() + L"Images/Levels/" + Gosu::widen(tstring);
 	m_GroundImagep.reset(new Gosu::Image(graphics, filename, false));
 	
 	tstring = jFile.get<std::string>("foreground");
-	filename = Gosu::resourcePrefix() + Gosu::widen(tstring);
+	filename = Gosu::resourcePrefix() + L"Images/Levels/" + Gosu::widen(tstring);
 	m_ForegroundImagep.reset(new Gosu::Image(graphics, filename, false));
 	
 	arr = jFile.get<json::grammar<char>::array>("ground");
@@ -96,10 +107,19 @@ Environment::Environment(std::wstring levelFile, Gosu::Graphics &graphics)
 	
 }
 
-void Environment::update()
+void Environment::update(const Gosu::Input &input)
 {
 	// Step physics simulation
-	m_Worldp->Step(m_TimeStep, m_Iterations);
+	//m_Worldp->Step(m_TimeStep, m_Iterations);
+	
+	if (input.down(Gosu::kbLeft)) {
+		m_PlayerPos.x -= 1.0;
+	}
+	if (input.down(Gosu::kbRight)) {
+		m_PlayerPos.x += 1.0;
+	}
+	
+	m_SceneGraphp->Camerap->update( m_SceneGraphp->Areasv, m_PlayerPos);
 	
 	b2Vec2 camPos = m_SceneGraphp->Camerap->getCenter();
 	
@@ -110,5 +130,11 @@ void Environment::update()
 
 void Environment::draw() const
 {
-
+	m_BackgroundImagep->draw(-0.7*m_PlayerPos.x,0,0);
+	m_MidgroundImagep->draw(-m_PlayerPos.x,0,1);
+	m_ForegroundImagep->draw(-1.3*m_PlayerPos.x,0,9);
+	
+	m_Graphicsp->drawTriangle( m_PlayerPos.x, m_PlayerPos.y, Gosu::Colors::blue, 
+		m_PlayerPos.x - 10, m_PlayerPos.y + 10, Gosu::Colors::blue,
+		m_PlayerPos.x + 10, m_PlayerPos.y + 10, Gosu::Colors::blue, 4);
 }

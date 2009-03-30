@@ -22,7 +22,7 @@ Camera::Camera(camDef& def)
 }
 
 
-void Camera::update(std::vector< SceneObject* >& objList, std::vector< SceneArea* >& areaList, b2Vec2& focus)
+void Camera::update( std::vector< boost::scoped_ptr< SceneArea > >& areaList, b2Vec2& focus)
 {
 	float32 xDist = focus.x - m_Center.x;
 	float32 yDist = focus.y - m_Center.y;
@@ -44,7 +44,7 @@ void Camera::update(std::vector< SceneObject* >& objList, std::vector< SceneArea
 	b2AABB space;
 	space.lowerBound = b2Vec2(m_Center.x - m_OuterRegion.x, m_Center.y - m_OuterRegion.y);
 	space.upperBound = b2Vec2(m_Center.x + m_OuterRegion.x, m_Center.y + m_OuterRegion.y);
-	std::vector< SceneArea* >::iterator it;
+	std::vector< boost::scoped_ptr< SceneArea > >::iterator it;
 	for (it = areaList.begin(); it != areaList.end(); it++) {
 		if ((*it)->overLap(space)) {
 			if (!(*it)->inCamera()) {
@@ -67,11 +67,6 @@ void Camera::update(std::vector< SceneObject* >& objList, std::vector< SceneArea
 				(*it)->onPlayerLeave();
 			}
 		}
-	}
-
-	std::vector< SceneObject* >::iterator itObj;
-	for (itObj = objList.begin(); itObj != objList.end(); itObj++) {
-		
 	}
 }
 
