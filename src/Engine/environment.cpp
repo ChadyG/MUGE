@@ -29,10 +29,10 @@ Environment::Environment(std::wstring levelFile, Gosu::Graphics &graphics)
 	m_SceneGraphp.reset( new SceneGraph() );
 	camDef cDef;
 	cDef.origin = b2Vec2( 384, 240);
-	cDef.extents = b2Vec2( 768, 480);
+	cDef.extents = b2Vec2( 384, 3456);
 	cDef.safe = b2Vec2( 900, 500);
-	cDef.player = b2Vec2( 300, 200);
-	cDef.desire = b2Vec2( 100, 100);
+	cDef.player = b2Vec2( 200, 100);
+	cDef.desire = b2Vec2( 50, 50);
 	m_SceneGraphp->Camerap.reset( new Camera(cDef) );
 	//
 	// Read in JSON encoded file
@@ -114,27 +114,31 @@ void Environment::update(const Gosu::Input &input)
 	
 	if (input.down(Gosu::kbLeft)) {
 		m_PlayerPos.x -= 1.0;
+		if (input.down(Gosu::kbLeftShift)) 
+			m_PlayerPos.x -= 1.0;
 	}
 	if (input.down(Gosu::kbRight)) {
 		m_PlayerPos.x += 1.0;
+		if (input.down(Gosu::kbLeftShift)) 
+			m_PlayerPos.x += 1.0;
 	}
 	
 	m_SceneGraphp->Camerap->update( m_SceneGraphp->Areasv, m_PlayerPos);
 	
 	b2Vec2 camPos = m_SceneGraphp->Camerap->getCenter();
 	
-	m_aOrigin[0] = camPos.x + m_Width/2;
-	m_aOrigin[1] = camPos.y + m_Height/2;
+	m_aOrigin[0] = camPos.x - m_Width/2;
+	m_aOrigin[1] = camPos.y - m_Height/2;
 
 }
 
 void Environment::draw() const
 {
-	m_BackgroundImagep->draw(-0.7*m_PlayerPos.x,0,0);
-	m_MidgroundImagep->draw(-m_PlayerPos.x,0,1);
-	m_ForegroundImagep->draw(-1.3*m_PlayerPos.x,0,9);
+	m_BackgroundImagep->draw(-0.625*m_aOrigin[0],0,0);
+	m_MidgroundImagep->draw(-m_aOrigin[0],0,1);
+	m_ForegroundImagep->draw(-1.375*m_aOrigin[0],0,9);
 	
-	m_Graphicsp->drawTriangle( m_PlayerPos.x, m_PlayerPos.y, Gosu::Colors::blue, 
-		m_PlayerPos.x - 10, m_PlayerPos.y + 10, Gosu::Colors::blue,
-		m_PlayerPos.x + 10, m_PlayerPos.y + 10, Gosu::Colors::blue, 4);
+	m_Graphicsp->drawTriangle( m_PlayerPos.x - m_aOrigin[0], m_PlayerPos.y, Gosu::Colors::blue, 
+		m_PlayerPos.x - m_aOrigin[0] - 10, m_PlayerPos.y + 10, Gosu::Colors::blue,
+		m_PlayerPos.x - m_aOrigin[0] + 10, m_PlayerPos.y + 10, Gosu::Colors::blue, 4);
 }

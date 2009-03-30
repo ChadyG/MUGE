@@ -9,7 +9,10 @@
 #include "Camera.h"
 #include "SceneObject.h"
 
-#define SCALEFACTOR 4.0
+// This needs to be close to the player's speed (pixels/second)
+// since it is a scaling factor, the player can have varying speed
+// and the camera will be able to adjust.
+#define SCALEFACTOR 50.0
 
 Camera::Camera(camDef& def)
 	: m_State(e_pan)
@@ -32,11 +35,11 @@ void Camera::update( std::vector< boost::scoped_ptr< SceneArea > >& areaList, b2
 		m_Center.y += yDist / SCALEFACTOR;
 		
 		// Change to rest when player is in desired area
-		if (fabs(xDist) < m_PlayerDesire.x && fabs(yDist) < m_PlayerDesire.y)
+		if ((fabs(xDist) < m_PlayerDesire.x && fabs(yDist) < m_PlayerDesire.y) || focus.x < m_ViewExtents.x || focus.x > m_ViewExtents.y)
 			m_State = e_rest;
 	}else{
 		// Change to pan when player leaves player area
-		if (fabs(xDist) >= m_PlayerZone.x && fabs(yDist) >= m_PlayerZone.y)
+		if (focus.x > m_ViewExtents.x && focus.x < m_ViewExtents.y && (fabs(xDist) >= m_PlayerZone.x || fabs(yDist) >= m_PlayerZone.y))
 			m_State = e_pan;
 	}
 	

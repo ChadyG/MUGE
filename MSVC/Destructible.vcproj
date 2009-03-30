@@ -184,11 +184,27 @@
 				Name="Engine"
 				>
 				<File
+					RelativePath="..\src\Engine\ButtonGosuValueTable.hpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Environment.h"
+					>
+				</File>
+				<File
 					RelativePath="..\src\Engine\InputManager.cpp"
 					>
 				</File>
 				<File
+					RelativePath="..\src\Engine\InputManager.hpp"
+					>
+				</File>
+				<File
 					RelativePath="..\src\Engine\JSONFile.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\JSONFile.hpp"
 					>
 				</File>
 				<Filter
@@ -199,96 +215,22 @@
 						>
 					</File>
 					<File
+						RelativePath="..\src\Engine\GameState.h"
+						>
+					</File>
+					<File
 						RelativePath="..\src\Engine\MUGE.cpp"
 						>
 					</File>
-				</Filter>
-				<Filter
-					Name="AI"
-					>
-				</Filter>
-				<Filter
-					Name="Video"
-					>
 					<File
-						RelativePath="..\src\Engine\animation.cpp"
+						RelativePath="..\src\Engine\MUGE.h"
 						>
 					</File>
 					<File
-						RelativePath="..\src\Engine\camera.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\src\Engine\CutScene.cpp"
+						RelativePath="..\src\Engine\SceneObject.h"
 						>
 					</File>
 				</Filter>
-				<Filter
-					Name="Physics"
-					>
-					<File
-						RelativePath="..\src\Engine\contactListener.cpp"
-						>
-					</File>
-				</Filter>
-			</Filter>
-			<Filter
-				Name="AI"
-				>
-				<File
-					RelativePath="..\src\Engine\InputFilter.cpp"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="GameObjects"
-				>
-				<File
-					RelativePath="..\src\Engine\Inventory.cpp"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="GameStates"
-				>
-				<File
-					RelativePath="..\src\AdventureState.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\src\MainMenuState.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\src\TitleState.cpp"
-					>
-				</File>
-			</Filter>
-		</Filter>
-		<Filter
-			Name="Header Files"
-			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
-			>
-			<Filter
-				Name="Engine"
-				>
-				<File
-					RelativePath="..\src\Engine\ButtonGosuValueTable.hpp"
-					>
-				</File>
-				<File
-					RelativePath="..\src\Engine\Environment.h"
-					>
-				</File>
-				<File
-					RelativePath="..\src\Engine\InputManager.hpp"
-					>
-				</File>
-				<File
-					RelativePath="..\src\Engine\JSONFile.hpp"
-					>
-				</File>
 				<Filter
 					Name="AI"
 					>
@@ -313,11 +255,23 @@
 					Name="Video"
 					>
 					<File
+						RelativePath="..\src\Engine\animation.cpp"
+						>
+					</File>
+					<File
 						RelativePath="..\src\Engine\Animation.h"
 						>
 					</File>
 					<File
+						RelativePath="..\src\Engine\camera.cpp"
+						>
+					</File>
+					<File
 						RelativePath="..\src\Engine\Camera.h"
+						>
+					</File>
+					<File
+						RelativePath="..\src\Engine\CutScene.cpp"
 						>
 					</File>
 					<File
@@ -330,24 +284,12 @@
 					</File>
 				</Filter>
 				<Filter
-					Name="Core"
-					>
-					<File
-						RelativePath="..\src\Engine\GameState.h"
-						>
-					</File>
-					<File
-						RelativePath="..\src\Engine\MUGE.h"
-						>
-					</File>
-					<File
-						RelativePath="..\src\Engine\SceneObject.h"
-						>
-					</File>
-				</Filter>
-				<Filter
 					Name="Physics"
 					>
+					<File
+						RelativePath="..\src\Engine\contactListener.cpp"
+						>
+					</File>
 					<File
 						RelativePath="..\src\Engine\ContactListener.h"
 						>
@@ -355,24 +297,20 @@
 				</Filter>
 			</Filter>
 			<Filter
-				Name="GameStates"
+				Name="AI"
 				>
 				<File
-					RelativePath="..\src\AdventureState.h"
-					>
-				</File>
-				<File
-					RelativePath="..\src\MainMenuState.h"
-					>
-				</File>
-				<File
-					RelativePath="..\src\TitleState.h"
+					RelativePath="..\src\Engine\InputFilter.cpp"
 					>
 				</File>
 			</Filter>
 			<Filter
 				Name="GameObjects"
 				>
+				<File
+					RelativePath="..\src\Engine\Inventory.cpp"
+					>
+				</File>
 				<File
 					RelativePath="..\src\Engine\Inventory.h"
 					>
@@ -385,6 +323,68 @@
 					RelativePath="..\src\Engine\Weapons.h"
 					>
 				</File>
+			</Filter>
+			<Filter
+				Name="GameStates"
+				>
+				<File
+					RelativePath="..\src\AdventureState.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\AdventureState.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\MainMenuState.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\MainMenuState.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\TitleState.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\TitleState.h"
+					>
+				</File>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="Header Files"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
+			>
+			<Filter
+				Name="Engine"
+				>
+				<Filter
+					Name="AI"
+					>
+				</Filter>
+				<Filter
+					Name="Video"
+					>
+				</Filter>
+				<Filter
+					Name="Core"
+					>
+				</Filter>
+				<Filter
+					Name="Physics"
+					>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="GameStates"
+				>
+			</Filter>
+			<Filter
+				Name="GameObjects"
+				>
 			</Filter>
 		</Filter>
 		<Filter
