@@ -16,10 +16,11 @@
 
 AdventureState AdventureState::m_StateInstance;
 
-void AdventureState::init(Gosu::Graphics &graphics)
+void AdventureState::init(Gosu::Graphics &graphics, Gosu::Audio &audio)
 {	
 	m_Environment.reset( new Environment(Gosu::resourcePrefix() + L"Data/test_level.json", graphics));
-	
+	m_Music.reset( new Gosu::Song( audio, Gosu::resourcePrefix() + L"Sound/Colugo-Fantastic_face.ogg"));
+	m_Music->play(true);
 }
 
 void AdventureState::cleanup()

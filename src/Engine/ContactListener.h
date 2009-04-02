@@ -16,7 +16,7 @@
 * as they may be called multiple times for a 
 * single collision
 */
-class MyContactListener : public b2ContactListener
+class MenuListener : public b2ContactListener
 {
 	std::vector< b2ContactPoint > m_Contacts;
 public:
@@ -24,5 +24,5 @@ public:
 	void Persist(const b2ContactPoint* point);
 	void Remove(const b2ContactPoint* point);
 	void Result(const b2ContactResult* point);
-	void UpdateCallbacks();
+	int Update();
 };

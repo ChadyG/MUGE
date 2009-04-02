@@ -28,13 +28,15 @@ class AdventureState : public GameState
 	boost::scoped_ptr< Environment > m_Environment;
 	boost::scoped_ptr< CutScene > m_CutScene;
 	
+	boost::scoped_ptr< Gosu::Song > m_Music;
+	
 	static AdventureState m_StateInstance;
 	
 protected:
 	AdventureState() { }
 	
 public:
-	void init(Gosu::Graphics &graphics);
+	void init(Gosu::Graphics &graphics, Gosu::Audio &audio);
 	void cleanup();
 	
 	void pause();

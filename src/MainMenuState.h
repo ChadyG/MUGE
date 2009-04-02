@@ -10,6 +10,7 @@
 #include <box2D.h>
 #include <list>
 #include "Engine/GameState.h"
+#include "Engine/ContactListener.h"
 
 class MUGE;
 
@@ -25,9 +26,13 @@ class MainMenuState : public GameState
 	boost::scoped_ptr<Gosu::Image> m_MenuScreen;
 	boost::scoped_ptr<Gosu::Image> m_Cursor;
 	boost::scoped_ptr<Gosu::Image> m_MouseCursor;
+	boost::scoped_ptr<Gosu::Sample> m_CursorMove;
+	boost::scoped_ptr<Gosu::Sample> m_CursorSelect;
+	boost::scoped_ptr<Gosu::Sample> m_PhysHit;
+	boost::scoped_ptr<Gosu::Sample> m_PhysBigHit;
 	std::vector< Gosu::Image* > m_LettersV;
 	
-	int m_CursorPos;
+	int m_CursorPos, m_lastCursorPos;
 	b2Vec2 m_mousePos;
 	bool m_Held, m_msLeftHeld;
 	
@@ -36,6 +41,7 @@ class MainMenuState : public GameState
 	float m_TimeStep;
 	
 	boost::scoped_ptr< b2World > m_Worldp;
+	MenuListener m_ContactListener;
 	std::list< b2Body* > m_Bodies;
 	b2MouseJoint* m_mouseJoint;
 	
@@ -45,7 +51,7 @@ protected:
 	MainMenuState() { }
 	
 public:
-	void init(Gosu::Graphics &graphics);
+	void init(Gosu::Graphics &graphics, Gosu::Audio &audio);
 	void cleanup();
 	
 	void pause();

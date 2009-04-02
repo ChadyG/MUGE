@@ -23,7 +23,7 @@ protected:
 	GameState() { }
 
 public:
-	virtual void init(Gosu::Graphics &) = 0;
+	virtual void init(Gosu::Graphics &, Gosu::Audio &) = 0;
 	virtual void cleanup() = 0;
 	
 	virtual void pause() = 0;

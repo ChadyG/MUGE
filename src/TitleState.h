@@ -27,7 +27,7 @@ protected:
 	TitleState() { }
 	
 public:
-	void init(Gosu::Graphics &graphics);
+	void init(Gosu::Graphics &graphics, Gosu::Audio &audio);
 	void cleanup();
 	
 	void pause();

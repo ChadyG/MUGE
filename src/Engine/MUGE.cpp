@@ -39,13 +39,13 @@ void MUGE::changeState( GameState *state )
 		m_States.pop();
 	}
 	m_States.push(state);
-	state->init(graphics());
+	state->init(graphics(), audio());
 }
 
 void MUGE::pushState( GameState *state )
 {
 	m_States.push(state);
-	state->init(graphics());
+	state->init(graphics(), audio());
 }
 
 void MUGE::popState()

@@ -17,7 +17,7 @@
 
 TitleState TitleState::m_StateInstance;
 
-void TitleState::init(Gosu::Graphics &graphics)
+void TitleState::init(Gosu::Graphics &graphics, Gosu::Audio &audio)
 {
 	std::wstring filename = Gosu::resourcePrefix() + L"Images/MUGD_Title_screen.png";
 	m_TitleScreen.reset(new Gosu::Image(graphics, filename, false));

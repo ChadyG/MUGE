@@ -17,7 +17,7 @@
 
 MainMenuState MainMenuState::m_StateInstance;
 
-void MainMenuState::init(Gosu::Graphics &graphics)
+void MainMenuState::init(Gosu::Graphics &graphics, Gosu::Audio &audio)
 {	
 	std::wstring filename = Gosu::resourcePrefix() + L"Images/Menu/Menu_screen.png";
 	m_MenuScreen.reset(new Gosu::Image(graphics, filename, false));
@@ -25,6 +25,16 @@ void MainMenuState::init(Gosu::Graphics &graphics)
 	m_Cursor.reset(new Gosu::Image(graphics, filename, false));
 	filename = Gosu::resourcePrefix() + L"Images/Menu/cursor.png";
 	m_MouseCursor.reset(new Gosu::Image(graphics, filename, false));
+	
+	//Sounds!
+	filename = Gosu::resourcePrefix() + L"Sound/cursor_move.wav";
+	m_CursorMove.reset(new Gosu::Sample(audio, filename));
+	filename = Gosu::resourcePrefix() + L"Sound/takin_drugz.wav";
+	m_CursorSelect.reset(new Gosu::Sample(audio, filename));
+	filename = Gosu::resourcePrefix() + L"Sound/hit.wav";
+	m_PhysHit.reset(new Gosu::Sample(audio, filename));
+	filename = Gosu::resourcePrefix() + L"Sound/bigger_hit.wav";
+	m_PhysBigHit.reset(new Gosu::Sample(audio, filename));
 	
 	// Letter nonsense
 	filename = Gosu::resourcePrefix() + L"Images/Menu/Letter_D.png";
@@ -51,6 +61,7 @@ void MainMenuState::init(Gosu::Graphics &graphics)
 	m_Held = false;
 	m_msLeftHeld = false;
 	m_CursorPos = 0;
+	m_lastCursorPos = 0;
 	m_units = 10.0;
 	m_width = graphics.width();
 	m_height = graphics.height();
@@ -62,6 +73,7 @@ void MainMenuState::init(Gosu::Graphics &graphics)
 	b2Vec2 gravity( 0.0f, 10.0f);
 	bool do_sleep = true;
 	m_Worldp.reset( new b2World( worldAABB, gravity, do_sleep) );
+	m_Worldp->SetContactListener( &m_ContactListener );
 	
 	// Physics calculation values
 	m_Iterations = 10;
@@ -115,7 +127,8 @@ void MainMenuState::init(Gosu::Graphics &graphics)
 		1.2f, 1.6f};
 	
 	shape.density = 1.0f;
-	// This code brought to you by the Letter D
+	bodyDef.linearDamping = 0.2f;
+	// This code brought to you by the Letter E
 	for (int i=0; i< 12; ++i) {
 		shape.SetAsBox( widths[i*2], widths[i*2 + 1]);//1.5f, 1.6f);
 		bodyDef.position.Set( m_width / (2.0f*m_units) - 6.0f + 2.0f*i, m_height / (4.0f*m_units) );
@@ -151,6 +164,13 @@ void MainMenuState::resume()
 void MainMenuState::update(const Gosu::Input &input, MUGE* engine)
 {
 	m_Worldp->Step( m_TimeStep, m_Iterations );
+	
+	// Contact Listener for physics sounds
+	int hits = m_ContactListener.Update();
+	if (hits % 2 == 1)
+		m_PhysHit->play();
+	if (hits > 1)
+		m_PhysBigHit->play();
 	
 	// Input stuff
 	// replace with Input Manager sometime
@@ -235,6 +255,7 @@ void MainMenuState::update(const Gosu::Input &input, MUGE* engine)
 	}else
 		m_msLeftHeld = false;
 	
+	// Mouse Physics
 	if (m_mouseJoint) {
 		m_mouseJoint->SetTarget(mouse2d);
 	}
@@ -244,8 +265,15 @@ void MainMenuState::update(const Gosu::Input &input, MUGE* engine)
 		m_mouseJoint = NULL;
 	}
 	
+	// Selection sounds
+	if (m_lastCursorPos != m_CursorPos) {
+		m_CursorMove->play();
+		m_lastCursorPos = m_CursorPos;
+	}
+	
 	// Selection
 	if (input.down(Gosu::kbReturn) || lClick) {
+		m_CursorSelect->play();
 		switch (m_CursorPos) {
 			case 0:// New
 				engine->changeState( AdventureState::instance() );
