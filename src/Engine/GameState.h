@@ -21,15 +21,17 @@ class GameState
 {
 protected:
 	GameState() { }
+	
+	MUGE* m_Engine;
 
 public:
-	virtual void init(Gosu::Graphics &, Gosu::Audio &) = 0;
+	virtual void init( MUGE* ) = 0;
 	virtual void cleanup() = 0;
 	
 	virtual void pause() = 0;
 	virtual void resume() = 0;
 	
-	virtual void update(const Gosu::Input &, MUGE*) = 0;
+	virtual void update() = 0;
 	virtual void draw() const = 0;
 	
 };

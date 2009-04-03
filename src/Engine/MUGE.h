@@ -38,6 +38,9 @@ public:
 
      void buttonDown(Gosu::Button button);
      void buttonUp(Gosu::Button button);
+     
+     void hookIntoCommand(const std::string& command, const InputManager::CommandSignalType::slot_type& slot);
+     void setCurrentContext(const std::string& newContext);
 
      void quitHandler();
 };

@@ -10,6 +10,7 @@
 #include "MainMenuState.h"
 #include "AdventureState.h"
 #include "Engine/MUGE.h"
+#include <boost/bind.hpp>
 
 /**
 *
@@ -17,54 +18,62 @@
 
 MainMenuState MainMenuState::m_StateInstance;
 
-void MainMenuState::init(Gosu::Graphics &graphics, Gosu::Audio &audio)
+void MainMenuState::init( MUGE* _engine)
 {	
+	m_Engine = _engine;
+
+	m_Engine->hookIntoCommand("Menu.CursorDown:Down", boost::bind(&MainMenuState::CursorDown, this));
+	m_Engine->hookIntoCommand("Menu.CursorUp:Down", boost::bind(&MainMenuState::CursorUp, this));
+	m_Engine->hookIntoCommand("Menu.Select:Down", boost::bind(&MainMenuState::CursorSelect, this));
+	m_Engine->setCurrentContext("Menu");
+
+
 	std::wstring filename = Gosu::resourcePrefix() + L"Images/Menu/Menu_screen.png";
-	m_MenuScreen.reset(new Gosu::Image(graphics, filename, false));
+	m_MenuScreen.reset(new Gosu::Image(m_Engine->graphics(), filename, false));
 	filename = Gosu::resourcePrefix() + L"Images/Menu/arrow.png";
-	m_Cursor.reset(new Gosu::Image(graphics, filename, false));
+	m_Cursor.reset(new Gosu::Image(m_Engine->graphics(), filename, false));
 	filename = Gosu::resourcePrefix() + L"Images/Menu/cursor.png";
-	m_MouseCursor.reset(new Gosu::Image(graphics, filename, false));
+	m_MouseCursor.reset(new Gosu::Image(m_Engine->graphics(), filename, false));
 	
 	//Sounds!
 	filename = Gosu::resourcePrefix() + L"Sound/cursor_move.wav";
-	m_CursorMove.reset(new Gosu::Sample(audio, filename));
+	m_CursorMove.reset(new Gosu::Sample(m_Engine->audio(), filename));
 	filename = Gosu::resourcePrefix() + L"Sound/takin_drugz.wav";
-	m_CursorSelect.reset(new Gosu::Sample(audio, filename));
+	m_CursorSelect.reset(new Gosu::Sample(m_Engine->audio(), filename));
 	filename = Gosu::resourcePrefix() + L"Sound/hit.wav";
-	m_PhysHit.reset(new Gosu::Sample(audio, filename));
+	m_PhysHit.reset(new Gosu::Sample(m_Engine->audio(), filename));
 	filename = Gosu::resourcePrefix() + L"Sound/bigger_hit.wav";
-	m_PhysBigHit.reset(new Gosu::Sample(audio, filename));
+	m_PhysBigHit.reset(new Gosu::Sample(m_Engine->audio(), filename));
 	
 	// Letter nonsense
 	filename = Gosu::resourcePrefix() + L"Images/Menu/Letter_D.png";
-	m_LettersV.push_back(new Gosu::Image(graphics, filename, false));
+	m_LettersV.push_back(new Gosu::Image(m_Engine->graphics(), filename, false));
 	filename = Gosu::resourcePrefix() + L"Images/Menu/Letter_E.png";
-	m_LettersV.push_back(new Gosu::Image(graphics, filename, false));
+	m_LettersV.push_back(new Gosu::Image(m_Engine->graphics(), filename, false));
 	filename = Gosu::resourcePrefix() + L"Images/Menu/Letter_S.png";
-	m_LettersV.push_back(new Gosu::Image(graphics, filename, false));
+	m_LettersV.push_back(new Gosu::Image(m_Engine->graphics(), filename, false));
 	filename = Gosu::resourcePrefix() + L"Images/Menu/Letter_T.png";
-	m_LettersV.push_back(new Gosu::Image(graphics, filename, false));
+	m_LettersV.push_back(new Gosu::Image(m_Engine->graphics(), filename, false));
 	filename = Gosu::resourcePrefix() + L"Images/Menu/Letter_R.png";
-	m_LettersV.push_back(new Gosu::Image(graphics, filename, false));
+	m_LettersV.push_back(new Gosu::Image(m_Engine->graphics(), filename, false));
 	filename = Gosu::resourcePrefix() + L"Images/Menu/Letter_U.png";
-	m_LettersV.push_back(new Gosu::Image(graphics, filename, false));
+	m_LettersV.push_back(new Gosu::Image(m_Engine->graphics(), filename, false));
 	filename = Gosu::resourcePrefix() + L"Images/Menu/Letter_C.png";
-	m_LettersV.push_back(new Gosu::Image(graphics, filename, false));
+	m_LettersV.push_back(new Gosu::Image(m_Engine->graphics(), filename, false));
 	filename = Gosu::resourcePrefix() + L"Images/Menu/Letter_I.png";
-	m_LettersV.push_back(new Gosu::Image(graphics, filename, false));
+	m_LettersV.push_back(new Gosu::Image(m_Engine->graphics(), filename, false));
 	filename = Gosu::resourcePrefix() + L"Images/Menu/Letter_B.png";
-	m_LettersV.push_back(new Gosu::Image(graphics, filename, false));
+	m_LettersV.push_back(new Gosu::Image(m_Engine->graphics(), filename, false));
 	filename = Gosu::resourcePrefix() + L"Images/Menu/Letter_L.png";
-	m_LettersV.push_back(new Gosu::Image(graphics, filename, false));
+	m_LettersV.push_back(new Gosu::Image(m_Engine->graphics(), filename, false));
 	
 	m_Held = false;
 	m_msLeftHeld = false;
 	m_CursorPos = 0;
 	m_lastCursorPos = 0;
 	m_units = 10.0;
-	m_width = graphics.width();
-	m_height = graphics.height();
+	m_width = m_Engine->graphics().width();
+	m_height = m_Engine->graphics().height();
 	
 	// Create a world that is the size of our screen/10 with borders of 2 units (20 pixels at 10 pixels per unit)
 	b2AABB worldAABB;
@@ -161,7 +170,39 @@ void MainMenuState::resume()
 
 }
 
-void MainMenuState::update(const Gosu::Input &input, MUGE* engine)
+void MainMenuState::CursorUp()
+{
+	--m_CursorPos;
+	if (m_CursorPos < 0)
+		m_CursorPos = 3;
+}
+
+void MainMenuState::CursorDown()
+{
+	++m_CursorPos;
+	if (m_CursorPos >= 4)
+		m_CursorPos = 0;
+}
+
+void MainMenuState::CursorSelect()
+{
+	// Selection
+	m_CursorSelect->play();
+	switch (m_CursorPos) {
+		case 0:// New
+			m_Engine->changeState( AdventureState::instance() );
+			break;
+		case 1:// Load
+			break;
+		case 2:// About
+			break;
+		case 3:// Exit
+			m_Engine->popState();
+			break;
+	}
+}
+
+void MainMenuState::update()
 {
 	m_Worldp->Step( m_TimeStep, m_Iterations );
 	
@@ -174,37 +215,19 @@ void MainMenuState::update(const Gosu::Input &input, MUGE* engine)
 	
 	// Input stuff
 	// replace with Input Manager sometime
-	if (input.down(Gosu::kbDown)) {
-		if (!m_Held) {
-			++m_CursorPos;
-			if (m_CursorPos >= 4)
-				m_CursorPos = 0;
-		
-			m_Held = true;
-		}
-	}else
-	if (input.down(Gosu::kbUp)) {
-		if (!m_Held) {
-			--m_CursorPos;
-			if (m_CursorPos < 0)
-				m_CursorPos = 3;
-		
-			m_Held = true;
-		}
-	}else
-		m_Held = false;
-	
+
 
 	// Mouse stuff
 	bool lClick = false;
-	m_mousePos.x = input.mouseX();
-	m_mousePos.y = input.mouseY();
+	m_mousePos.x = m_Engine->input().mouseX();
+	m_mousePos.y = m_Engine->input().mouseY();
 	b2Vec2 mouse2d = m_mousePos;
 	mouse2d *= (1.0f/m_units);
 	if (m_mousePos.x > 200 && m_mousePos.x < 310 && m_mousePos.y > 200 && m_mousePos.y < 360) {
 		m_CursorPos = (m_mousePos.y - 200)/45;
 	}
-	if (input.down(Gosu::msLeft)) {
+	
+	if (m_Engine->input().down(Gosu::msLeft)) {
 		// Is this a new click or hold?
 		if (!m_msLeftHeld) {
 			// Are we over the menu items?
@@ -255,12 +278,13 @@ void MainMenuState::update(const Gosu::Input &input, MUGE* engine)
 	}else
 		m_msLeftHeld = false;
 	
+	
 	// Mouse Physics
 	if (m_mouseJoint) {
 		m_mouseJoint->SetTarget(mouse2d);
 	}
 	
-	if (!input.down(Gosu::msLeft) && m_mouseJoint) {
+	if (!m_Engine->input().down(Gosu::msLeft) && m_mouseJoint) {
 		m_Worldp->DestroyJoint(m_mouseJoint);
 		m_mouseJoint = NULL;
 	}
@@ -272,26 +296,27 @@ void MainMenuState::update(const Gosu::Input &input, MUGE* engine)
 	}
 	
 	// Selection
-	if (input.down(Gosu::kbReturn) || lClick) {
+	if (/*m_Engine->input().down(Gosu::kbReturn) || */lClick) {
 		m_CursorSelect->play();
 		switch (m_CursorPos) {
 			case 0:// New
-				engine->changeState( AdventureState::instance() );
+				m_Engine->changeState( AdventureState::instance() );
 				break;
 			case 1:// Load
 				break;
 			case 2:// About
 				break;
 			case 3:// Exit
-				engine->popState();
+				m_Engine->popState();
 				break;
 		}
 	}
-	
+	/*
 	// Exit on escape
-	if (input.down(Gosu::kbEscape)) {
-		engine->popState();
+	if (m_Engine->input().down(Gosu::kbEscape)) {
+		m_Engine->popState();
 	}
+	*/
 }
 
 void MainMenuState::draw() const

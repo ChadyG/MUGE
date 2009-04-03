@@ -39,13 +39,13 @@ void MUGE::changeState( GameState *state )
 		m_States.pop();
 	}
 	m_States.push(state);
-	state->init(graphics(), audio());
+	state->init(this);
 }
 
 void MUGE::pushState( GameState *state )
 {
 	m_States.push(state);
-	state->init(graphics(), audio());
+	state->init(this);
 }
 
 void MUGE::popState()
@@ -59,13 +59,23 @@ void MUGE::popState()
 void MUGE::update()
 {
 	if (!m_States.empty())
-		m_States.top()->update(input(), this);
+		m_States.top()->update();
 }
 
 void MUGE::draw()
 {
 	if (!m_States.empty())
 		m_States.top()->draw();
+}
+
+void MUGE::hookIntoCommand(const std::string& command, const InputManager::CommandSignalType::slot_type& slot)
+{
+	inputManager.hookIntoCommand(command, slot);
+}
+
+void MUGE::setCurrentContext(const std::string& newContext)
+{
+	inputManager.setCurrentContext(newContext);
 }
 
 void MUGE::quitHandler()

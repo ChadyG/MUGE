@@ -16,21 +16,24 @@
 #include <boost/shared_ptr.hpp>
 #include "JSONFile.hpp"
 
+
 /**
  * InputManager - loads a table of command bindings from a JSON file and provides a signal/slot interface
  * so clients can hook into command events
  **/
 class InputManager 
 {
-     typedef std::map< std::string, Gosu::ButtonName > ButtonGosuValueTable;
-		
-     typedef boost::signal< void () > CommandSignalType;
-     typedef boost::shared_ptr< CommandSignalType > CommandSignalPtr;
-
-     typedef std::map< Gosu::ButtonName, CommandSignalPtr > CommandTable;
-     typedef std::map< std::string, std::pair< CommandTable, CommandTable > > ContextTable;
-		
+    	
 public:
+
+	typedef std::map< std::string, Gosu::ButtonName > ButtonGosuValueTable;
+
+	typedef boost::signal< void () > CommandSignalType;
+	typedef boost::shared_ptr< CommandSignalType > CommandSignalPtr;
+
+	typedef std::map< Gosu::ButtonName, CommandSignalPtr > CommandTable;
+	typedef std::map< std::string, std::pair< CommandTable, CommandTable > > ContextTable;
+
      InputManager();
      ~InputManager();
 		

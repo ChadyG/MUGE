@@ -16,10 +16,11 @@
 
 AdventureState AdventureState::m_StateInstance;
 
-void AdventureState::init(Gosu::Graphics &graphics, Gosu::Audio &audio)
+void AdventureState::init( MUGE* _engine)
 {	
-	m_Environment.reset( new Environment(Gosu::resourcePrefix() + L"Data/test_level.json", graphics));
-	m_Music.reset( new Gosu::Song( audio, Gosu::resourcePrefix() + L"Sound/Colugo-Fantastic_face.ogg"));
+	m_Engine = _engine;
+	m_Environment.reset( new Environment(Gosu::resourcePrefix() + L"Data/test_level.json", m_Engine->graphics()));
+	m_Music.reset( new Gosu::Song( m_Engine->audio(), Gosu::resourcePrefix() + L"Sound/Colugo-Fantastic_face.ogg"));
 	m_Music->play(true);
 }
 
@@ -28,9 +29,9 @@ void AdventureState::cleanup()
 	m_Environment.reset(0);
 }
 
-void AdventureState::update(const Gosu::Input &input, MUGE *Engine)
+void AdventureState::update()
 {
-	m_Environment->update(input);
+	m_Environment->update(m_Engine->input());
 }
 
 void AdventureState::draw() const

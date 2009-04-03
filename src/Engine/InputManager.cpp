@@ -106,7 +106,7 @@ InputManager::CommandTable& InputManager::getUpCommandTableForCurrentContext()
      return contexts[currentContext].second;
 }
 
-void InputManager::checkCommandTableForUpdates(InputManager::CommandTable& table, Gosu::Button button)
+void InputManager::checkCommandTableForUpdates(CommandTable& table, Gosu::Button button)
 {
      for (CommandTable::const_iterator it = table.begin(); it != table.end(); ++it)
      {

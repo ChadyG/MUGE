@@ -36,13 +36,13 @@ protected:
 	AdventureState() { }
 	
 public:
-	void init(Gosu::Graphics &graphics, Gosu::Audio &audio);
+	void init( MUGE* );
 	void cleanup();
 	
 	void pause();
 	void resume();
 	
-	void update(const Gosu::Input &, MUGE *);
+	void update();
 	void draw() const;
 	
 	static AdventureState* instance() {

@@ -2,6 +2,8 @@
         "Menu" : 
         {
                 "Quit" : "Escape",
-                "Select" : ["Return", "LeftMouse"]
+                "Select" : "Return",
+				"CursorUp" : "UpArrow",
+				"CursorDown" : "DownArrow"
         }
 }

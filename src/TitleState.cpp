@@ -17,10 +17,11 @@
 
 TitleState TitleState::m_StateInstance;
 
-void TitleState::init(Gosu::Graphics &graphics, Gosu::Audio &audio)
+void TitleState::init(MUGE* _engine)
 {
+	m_Engine = _engine;
 	std::wstring filename = Gosu::resourcePrefix() + L"Images/MUGD_Title_screen.png";
-	m_TitleScreen.reset(new Gosu::Image(graphics, filename, false));
+	m_TitleScreen.reset(new Gosu::Image(m_Engine->graphics(), filename, false));
 	
 	counter = 256;
 	step = 0;
@@ -41,10 +42,10 @@ void TitleState::resume()
 
 }
 
-void TitleState::update(const Gosu::Input &input, MUGE* engine)
+void TitleState::update()
 {
-	if (input.down(Gosu::kbReturn) || counter <= 0) {
-		engine->changeState(MainMenuState::instance());
+	if (m_Engine->input().down(Gosu::kbReturn) || counter <= 0) {
+		m_Engine->changeState(MainMenuState::instance());
 	}
 	--counter;
 }

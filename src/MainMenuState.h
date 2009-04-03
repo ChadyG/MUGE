@@ -23,6 +23,27 @@ class MUGE;
  */
 class MainMenuState : public GameState
 {
+public:
+	void init( MUGE* );
+	void cleanup();
+	
+	void pause();
+	void resume();
+	
+	void update();
+	void draw() const;
+	
+	void CursorUp();
+	void CursorDown();
+	void CursorSelect();
+	void LeftMouseDown();
+	void LeftMouseUp();
+	
+	static MainMenuState* instance() {
+		return &m_StateInstance;
+	}
+	
+private:
 	boost::scoped_ptr<Gosu::Image> m_MenuScreen;
 	boost::scoped_ptr<Gosu::Image> m_Cursor;
 	boost::scoped_ptr<Gosu::Image> m_MouseCursor;
@@ -50,17 +71,4 @@ class MainMenuState : public GameState
 protected:
 	MainMenuState() { }
 	
-public:
-	void init(Gosu::Graphics &graphics, Gosu::Audio &audio);
-	void cleanup();
-	
-	void pause();
-	void resume();
-	
-	void update(const Gosu::Input &, MUGE *);
-	void draw() const;
-	
-	static MainMenuState* instance() {
-		return &m_StateInstance;
-	}
 };
