@@ -188,6 +188,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\src\Engine\environment.cpp"
+					>
+				</File>
+				<File
 					RelativePath="..\src\Engine\Environment.h"
 					>
 				</File>
@@ -210,10 +214,6 @@
 				<Filter
 					Name="Core"
 					>
-					<File
-						RelativePath="..\src\Engine\environment.cpp"
-						>
-					</File>
 					<File
 						RelativePath="..\src\Engine\GameState.h"
 						>
