@@ -187,7 +187,7 @@ void MainMenuState::CursorDown()
 void MainMenuState::CursorSelect()
 {
 	// Selection
-	m_CursorSelect->play();
+	//m_CursorSelect->play();
 	switch (m_CursorPos) {
 		case 0:// New
 			m_Engine->changeState( AdventureState::instance() );

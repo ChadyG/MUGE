@@ -27,6 +27,10 @@ class Player;
 * i.e. player, enemies, items. etc.
 * SceneArea describes all logical nodes
 * i.e. spawn nodes, triggers
+*
+* Every object will have a physics body
+*  non-dynamic objects will be set as sensors
+*  this is to allow queries through box2D
 */
 class SceneObject
 {
@@ -50,6 +54,11 @@ public:
 	virtual void onUse(Player &player) = 0;
 	virtual const t_Image getIcon() const = 0;
 	
+	// Used for manipulation
+	void setPosition( double x, double y, Gosu::ZPos z);
+	void setRotation( double ang );
+	
+	// Used for run time type information during gameplay
 	const uint16 getCategory() const;
 };
 

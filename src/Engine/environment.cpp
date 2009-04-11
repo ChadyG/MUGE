@@ -6,6 +6,7 @@
  *  Copyright 2009 Mizzou Game Design. All rights reserved.
  *
  */
+#include "MUGE.h"
 #include "Environment.h"
 #include "JSONFile.hpp"
 #include "ContactListener.h"
@@ -13,18 +14,22 @@
 #include <iostream>
 #include <fstream>
 
-Environment::Environment(std::wstring levelFile, Gosu::Graphics &graphics)
+Environment::Environment(std::wstring levelFile, MUGE* _engine)
 {
-
-	//m_SceneGraphp.reset(new SceneGraph());
+	m_Engine = _engine;
+	
 	m_TimeStep = 1.0f / 60.0f;
 	m_Iterations = 10.0f;
 	
-	m_Width = graphics.width();
-	m_Height = graphics.height();
+	m_Width = m_Engine->graphics().width();
+	m_Height = m_Engine->graphics().height();
 	
-	m_PlayerPos = b2Vec2( 384, 240);
-	m_Graphicsp = &graphics;
+	m_backgroundScale = 4.0;
+	m_midgroundScale = 2.0;
+	m_groundScale = 1.0;
+	m_foregroundScale = 0.5;
+	
+	m_PlayerPos = b2Vec2( 384, 270);
 
 	m_SceneGraphp.reset( new SceneGraph() );
 	camDef cDef;
@@ -34,6 +39,7 @@ Environment::Environment(std::wstring levelFile, Gosu::Graphics &graphics)
 	cDef.player = b2Vec2( 200, 100);
 	cDef.desire = b2Vec2( 50, 50);
 	m_SceneGraphp->Camerap.reset( new Camera(cDef) );
+	
 	//
 	// Read in JSON encoded file
 	// TinyJSON library will perform lexing and parsing
@@ -41,51 +47,53 @@ Environment::Environment(std::wstring levelFile, Gosu::Graphics &graphics)
 	//
 	
 	JSONFile jFile(Gosu::narrow(levelFile));
-	json::grammar<char>::array::iterator it;
+	json::grammar<char>::array::const_iterator it;
 	json::grammar<char>::array arr;
 	json::grammar<char>::object o;
 	int i;
 	
-	std::string tstring = jFile.get<std::string>("background");
-	std::wstring filename = Gosu::resourcePrefix() + L"Images/Levels/" + Gosu::widen(tstring);
-	m_BackgroundImagep.reset(new Gosu::Image(graphics, filename, false));
+
+	m_canvasColor = Gosu::Colors::blue;
+	std::wstring filename = Gosu::resourcePrefix() + L"Images/Hero_Idle.png";
+	m_PlayerImagep.reset( new Gosu::Image(m_Engine->graphics(), filename, false));
 	
-	tstring = jFile.get<std::string>("midground");
-	filename = Gosu::resourcePrefix() + L"Images/Levels/" + Gosu::widen(tstring);
-	m_MidgroundImagep.reset(new Gosu::Image(graphics, filename, false));
+	m_Units[0] = jFile.get< int >("xunits");
+	m_Units[1] = jFile.get< int >("yunits");
 	
-	tstring = jFile.get<std::string>("groundimage");
-	filename = Gosu::resourcePrefix() + L"Images/Levels/" + Gosu::widen(tstring);
-	m_GroundImagep.reset(new Gosu::Image(graphics, filename, false));
 	
-	tstring = jFile.get<std::string>("foreground");
-	filename = Gosu::resourcePrefix() + L"Images/Levels/" + Gosu::widen(tstring);
-	m_ForegroundImagep.reset(new Gosu::Image(graphics, filename, false));
+	arr = jFile.get<json::grammar<char>::array>("background");
+	for (i = 0, it = arr.begin(); it != arr.end(); ++it, ++i) {
+		Sprite tSprite;
+		o = boost::any_cast< json::grammar<char>::object >(**it);		
+		tSprite.setImage( m_Engine->graphics(), Gosu::resourcePrefix() + L"Images/Levels/" + Gosu::widen(boost::any_cast< std::string >(*o["image"])) );
+		
+		arr = boost::any_cast<json::grammar<char>::array>(*o["position"]);
+		tSprite.setPosition( boost::any_cast< int >(*arr[0]) * m_Units[0], boost::any_cast< int >(*arr[1]) * m_Units[1], 1);
+		tSprite.setRotation( boost::any_cast< double >(*o["rotation"]) );
+		
+		arr = boost::any_cast<json::grammar<char>::array>(*o["colormod"]);
+		tSprite.setColorMod( Gosu::Color( boost::any_cast< int >(*arr[0]), boost::any_cast< int >(*arr[1]), boost::any_cast< int >(*arr[2]),  boost::any_cast< int >(*arr[3])) );
+		tSprite.setScaling( boost::any_cast< double >(*o["xScale"]), boost::any_cast< double >(*o["yScale"]) );
+		m_Background.push_back( tSprite );
+	}
 	
-	arr = jFile.get<json::grammar<char>::array>("ground");
-	
+	arr = jFile.get<json::grammar<char>::array>("midground");
 	for (i = 0, it = arr.begin(); it != arr.end(); ++it, ++i) {
 		//m_SceneGraphp->aGround[i] = boost::any_cast<int>(**it);
 	}
 	
-	arr = jFile.get<json::grammar<char>::array>("platforms");
+	arr = jFile.get<json::grammar<char>::array>("ground");
 	for (i = 0, it = arr.begin(); it != arr.end(); ++it, ++i) {
-		o = boost::any_cast< json::grammar<char>::object >(**it);
-		//jFile.get<int>("x",o);
-		//jFile.get<int>("y",o);
-		//jFile.get<std::string>("size",o);
+		//m_SceneGraphp->aGround[i] = boost::any_cast<int>(**it);
 	}
 	
-	arr = jFile.get<json::grammar<char>::array>("blocks");
+	arr = jFile.get<json::grammar<char>::array>("foreground");
 	for (i = 0, it = arr.begin(); it != arr.end(); ++it, ++i) {
-		o = boost::any_cast< json::grammar<char>::object >(**it);
-		//jFile.get<int>("x",o);
-		//jFile.get<int>("y",o);
-		//jFile.get<int>("width",o);
-		//jFile.get<int>("height",o);
-		//jFile.get<json::grammar<char>::array>("shape[1]",o);
-		//jFile.get<json::grammar<char>::array>("shape[2]",o);
+		//m_SceneGraphp->aGround[i] = boost::any_cast<int>(**it);
 	}
+	
+
+	
 	
 	arr = jFile.get<json::grammar<char>::array>("items");
 	for (i = 0, it = arr.begin(); it != arr.end(); ++it, ++i) {
@@ -105,21 +113,24 @@ Environment::Environment(std::wstring levelFile, Gosu::Graphics &graphics)
 		//jFile.get<int>("health",o);
 	}
 	
+	m_Music.reset( new Gosu::Song( m_Engine->audio(), Gosu::resourcePrefix() + L"Sound/Colugo-Fantastic_face.ogg"));
+	m_Music->play(true);
+	
 }
 
-void Environment::update(const Gosu::Input &input)
+void Environment::update()
 {
 	// Step physics simulation
 	//m_Worldp->Step(m_TimeStep, m_Iterations);
 	
-	if (input.down(Gosu::kbLeft)) {
+	if (m_Engine->input().down(Gosu::kbLeft)) {
 		m_PlayerPos.x -= 1.0;
-		if (input.down(Gosu::kbLeftShift)) 
+		if (m_Engine->input().down(Gosu::kbLeftShift)) 
 			m_PlayerPos.x -= 1.0;
 	}
-	if (input.down(Gosu::kbRight)) {
+	if (m_Engine->input().down(Gosu::kbRight)) {
 		m_PlayerPos.x += 1.0;
-		if (input.down(Gosu::kbLeftShift)) 
+		if (m_Engine->input().down(Gosu::kbLeftShift)) 
 			m_PlayerPos.x += 1.0;
 	}
 	
@@ -134,11 +145,18 @@ void Environment::update(const Gosu::Input &input)
 
 void Environment::draw() const
 {
-	m_BackgroundImagep->draw(-0.625*m_aOrigin[0],0,0);
-	m_MidgroundImagep->draw(-m_aOrigin[0],0,1);
-	m_ForegroundImagep->draw(-1.375*m_aOrigin[0],0,9);
+	m_Engine->graphics().drawQuad( 0, 0, m_canvasColor, 
+		m_Width, 0, m_canvasColor,
+		0, m_Height, m_canvasColor,
+		m_Width, m_Height, m_canvasColor, 0);
 	
-	m_Graphicsp->drawTriangle( m_PlayerPos.x - m_aOrigin[0], m_PlayerPos.y, Gosu::Colors::blue, 
-		m_PlayerPos.x - m_aOrigin[0] - 10, m_PlayerPos.y + 10, Gosu::Colors::blue,
-		m_PlayerPos.x - m_aOrigin[0] + 10, m_PlayerPos.y + 10, Gosu::Colors::blue, 4);
+	std::vector< Sprite >::const_iterator it;
+	for (it = m_Background.begin(); it != m_Background.end(); ++it) {
+		it->draw( -m_aOrigin[0]*(1.0f/m_backgroundScale), 200, 1);
+		//m_MidgroundImagep->draw( -m_aOrigin[0]*(1.0f/m_midgroundScale) + i*128, 250, 2);
+		//m_ForegroundImagep->draw( -m_aOrigin[0]*(1.0f/m_foregroundScale), 0, 9);
+		//m_GroundImagep->draw( -m_aOrigin[0]*(1.0f/m_groundScale) + i*101, 300, 3);
+	}
+	
+	m_PlayerImagep->draw( m_PlayerPos.x - m_aOrigin[0], m_PlayerPos.y, 4);
 }

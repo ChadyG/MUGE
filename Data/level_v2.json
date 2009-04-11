@@ -1,0 +1,129 @@
+{
+	"canvasColor" : [255, 10, 165, 255],
+	"xunits" : 32,
+	"yunits" : 32,
+	"backgroundScale" : 0.7,
+	"background" : [
+		{
+			"image" : "hill.png",
+			"position" : [ 0, 4],
+			"rotation" : 0.0,
+			"colormod" : [255, 153, 153, 153],
+			"xScale" : 1.0,
+			"yScale" : 1.0
+		},
+		{
+			"image" : "hill.png",
+			"position" : [ 2, 4],
+			"rotation" : 0.0,
+			"colormod" : [255, 153, 153, 153],
+			"xScale" : 1.0,
+			"yScale" : 1.0
+		},
+		{
+			"image" : "hill.png",
+			"position" : [ 8, 4],
+			"rotation" : 0.0,
+			"colormod" : [255, 153, 153, 153],
+			"xScale" : 1.0,
+			"yScale" : 1.0
+		},
+		{
+			"image" : "hill.png",
+			"position" : [ 16, 4],
+			"rotation" : 0.0,
+			"colormod" : [255, 153, 153, 153],
+			"xScale" : 1.0,
+			"yScale" : 1.0
+		},
+		{
+			"image" : "hill.png",
+			"position" : [ 20, 4],
+			"rotation" : 0.0,
+			"colormod" : [255, 153, 153, 153],
+			"xScale" : 1.0,
+			"yScale" : 1.0
+		},
+		{
+			"image" : "cloud1.png",
+			"position" : [ 2, 5],
+			"rotation" : 0.0,
+			"colormod" : [255, 153, 153, 153],
+			"xScale" : 1.0,
+			"yScale" : 1.0
+		}
+	],
+	"midgroundScale" : 0.5,
+	"midground" : [
+		{
+			"image" : "hill.png",
+			"position" : [ 0, 3],
+			"rotation" : 0.0,
+			"colormod" : [255, 170, 170, 170],
+			"xScale" : 1.0,
+			"yScale" : 1.0
+		}
+	],
+	"groundScale" : 0.2,
+	"ground" : [
+		{
+			"image" : "Ground_01.png",
+			"position" : [ 0, 2],
+			"rotation" : 0.0,
+			"colormod" : [255, 255, 255, 255],
+			"xScale" : 1.0,
+			"yScale" : 1.0
+		},
+		{
+			"image" : "Ground_01.png",
+			"position" : [ 4, 2],
+			"rotation" : 0.0,
+			"colormod" : [255, 255, 255, 255],
+			"xScale" : 1.0,
+			"yScale" : 1.0
+		},
+		{
+			"image" : "Ground_01.png",
+			"position" : [ 8, 2],
+			"rotation" : 0.0,
+			"colormod" : [255, 255, 255, 255],
+			"xScale" : 1.0,
+			"yScale" : 1.0
+		},
+		{
+			"image" : "Ground_01.png",
+			"position" : [ 12, 2],
+			"rotation" : 0.0,
+			"colormod" : [255, 255, 255, 255],
+			"xScale" : 1.0,
+			"yScale" : 1.0
+		}
+	],
+	"foregroundScale" : 0.1,
+	"foreground" : [
+		{
+			"image" : "hill.png",
+			"position" : [ 0, 1],
+			"rotation" : 0.0,
+			"colormod" : [255, 255, 255, 255],
+			"xScale" : 1.0,
+			"yScale" : 1.0
+		}
+	],
+	"items" : [
+		{
+			"x" : 9,
+			"y" : 1,
+			"type" : "health",
+			"amount" : 1
+		}
+	],
+	"ai" : [
+		{
+			"x" : 7,
+			"y" : 1,
+			"character" : "slicer",
+			"health" : 3
+		}
+	]
+}

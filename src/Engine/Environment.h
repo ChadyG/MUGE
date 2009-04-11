@@ -8,6 +8,7 @@
  */
 #include <Gosu/Gosu.hpp>
 #include <Box2D.h>
+#include "Sprite.h"
 #include "SceneGraph.h"
 
 class MyContactListener;
@@ -33,7 +34,7 @@ struct envData
 class Environment
 {
 	// Game Data
-	//boost::scoped_ptr< InputFilter > m_Inputp;
+	MUGE* m_Engine;
 	boost::scoped_ptr< SceneGraph > m_SceneGraphp;
 	
 	// Need to decide on a depth factor for front and back
@@ -44,6 +45,14 @@ class Environment
 	boost::scoped_ptr< Gosu::Image > m_GroundImagep;
 	boost::scoped_ptr< Gosu::Image > m_ForegroundImagep;
 	
+	Gosu::Color m_canvasColor;
+	std::vector< Sprite > m_Background;
+	std::vector< Sprite > m_Midground;
+	std::vector< Sprite > m_Ground;
+	std::vector< Sprite > m_Foreground;
+	
+	boost::scoped_ptr< Gosu::Song > m_Music;
+	
 	// Physics data
 	boost::scoped_ptr< b2World > m_Worldp;
 	float m_TimeStep;
@@ -52,15 +61,21 @@ class Environment
 	//	Pixel transformation data
 	int m_aOrigin[2];
 	int m_aExtents[2];
-	int m_Units;
+	int m_Units[2];
 	int m_Width, m_Height;
+	
+	// Parallax scrolling factors
+	float m_backgroundScale;
+	float m_midgroundScale;
+	float m_groundScale;
+	float m_foregroundScale;
 	
 	// Temporary stuff
 	b2Vec2 m_PlayerPos;
-	Gosu::Graphics* m_Graphicsp;
+	boost::scoped_ptr< Gosu::Image > m_PlayerImagep;
 
 public:
-	Environment(std::wstring, Gosu::Graphics &);
-	void update(const Gosu::Input &);
+	Environment(std::wstring, MUGE* _engine );
+	void update();
 	void draw() const;
 };

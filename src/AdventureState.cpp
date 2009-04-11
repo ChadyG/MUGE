@@ -19,9 +19,7 @@ AdventureState AdventureState::m_StateInstance;
 void AdventureState::init( MUGE* _engine)
 {	
 	m_Engine = _engine;
-	m_Environment.reset( new Environment(Gosu::resourcePrefix() + L"Data/test_level.json", m_Engine->graphics()));
-	m_Music.reset( new Gosu::Song( m_Engine->audio(), Gosu::resourcePrefix() + L"Sound/Colugo-Fantastic_face.ogg"));
-	m_Music->play(true);
+	m_Environment.reset( new Environment(Gosu::resourcePrefix() + L"Data/level_v2.json", m_Engine));
 }
 
 void AdventureState::cleanup()
@@ -31,7 +29,7 @@ void AdventureState::cleanup()
 
 void AdventureState::update()
 {
-	m_Environment->update(m_Engine->input());
+	m_Environment->update();
 }
 
 void AdventureState::draw() const
