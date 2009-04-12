@@ -30,16 +30,27 @@ void Camera::update( std::vector< boost::scoped_ptr< SceneArea > >& areaList, b2
 	float32 xDist = focus.x - m_Center.x;
 	float32 yDist = focus.y - m_Center.y;
 	if (m_State == e_pan) {
+		// Find new position of camera
+		b2Vec2 newCenter = b2Vec2(m_Center.x + xDist / SCALEFACTOR, m_Center.y + yDist / SCALEFACTOR);
+		// Prevent "locking" by handling special cases of map extents
+		if (newCenter.x < m_ViewExtents.x) {
+			newCenter.x = m_ViewExtents.x;
+			m_State = e_rest;
+		}
+		if (newCenter.x > m_ViewExtents.y) {
+			newCenter.x = m_ViewExtents.y;
+			m_State = e_rest;
+		}
 		// Move towards focus point by scaling factor
-		m_Center.x += xDist / SCALEFACTOR;
-		m_Center.y += yDist / SCALEFACTOR;
+		m_Center  = newCenter;
 		
 		// Change to rest when player is in desired area
-		if ((fabs(xDist) < m_PlayerDesire.x && fabs(yDist) < m_PlayerDesire.y) || focus.x < m_ViewExtents.x || focus.x > m_ViewExtents.y)
+		if (fabs(xDist) < m_PlayerDesire.x && fabs(yDist) < m_PlayerDesire.y) 
 			m_State = e_rest;
+			
 	}else{
 		// Change to pan when player leaves player area
-		if (focus.x > m_ViewExtents.x && focus.x < m_ViewExtents.y && (fabs(xDist) >= m_PlayerZone.x || fabs(yDist) >= m_PlayerZone.y))
+		if (m_Center.x >= m_ViewExtents.x && m_Center.x <= m_ViewExtents.y && (fabs(xDist) >= m_PlayerZone.x || fabs(yDist) >= m_PlayerZone.y))
 			m_State = e_pan;
 	}
 	

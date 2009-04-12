@@ -69,5 +69,5 @@ void Sprite::setColorMod(Gosu::Color colorMod)
 
 void Sprite::draw(double x, double y, double z) const
 {
-	m_Image->drawRot( x, y, z, m_rotation, m_centerX, m_centerY, m_factX, m_factY, m_ColorMod);
+	m_Image->drawRot( m_X + x, m_Y + y, m_Z + z, m_rotation, m_centerX, m_centerY, m_factX, m_factY, m_ColorMod);
 }

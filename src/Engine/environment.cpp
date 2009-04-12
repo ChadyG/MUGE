@@ -24,17 +24,12 @@ Environment::Environment(std::wstring levelFile, MUGE* _engine)
 	m_Width = m_Engine->graphics().width();
 	m_Height = m_Engine->graphics().height();
 	
-	m_backgroundScale = 4.0;
-	m_midgroundScale = 2.0;
-	m_groundScale = 1.0;
-	m_foregroundScale = 0.5;
-	
-	m_PlayerPos = b2Vec2( 384, 270);
+	m_PlayerPos = b2Vec2( 384, 300);
 
 	m_SceneGraphp.reset( new SceneGraph() );
 	camDef cDef;
 	cDef.origin = b2Vec2( 384, 240);
-	cDef.extents = b2Vec2( 384, 3456);
+	cDef.extents = b2Vec2( 384, 1024);
 	cDef.safe = b2Vec2( 900, 500);
 	cDef.player = b2Vec2( 200, 100);
 	cDef.desire = b2Vec2( 50, 50);
@@ -48,17 +43,24 @@ Environment::Environment(std::wstring levelFile, MUGE* _engine)
 	
 	JSONFile jFile(Gosu::narrow(levelFile));
 	json::grammar<char>::array::const_iterator it;
-	json::grammar<char>::array arr;
+	json::grammar<char>::array arr, arr2;
 	json::grammar<char>::object o;
 	int i;
 	
-
-	m_canvasColor = Gosu::Colors::blue;
+	arr = jFile.get<json::grammar<char>::array>("canvasColor");
+	m_canvasColor = Gosu::Color( boost::any_cast< int >(*arr[0]), boost::any_cast< int >(*arr[1]), boost::any_cast< int >(*arr[2]),  boost::any_cast< int >(*arr[3]) );
 	std::wstring filename = Gosu::resourcePrefix() + L"Images/Hero_Idle.png";
 	m_PlayerImagep.reset( new Gosu::Image(m_Engine->graphics(), filename, false));
 	
 	m_Units[0] = jFile.get< int >("xunits");
 	m_Units[1] = jFile.get< int >("yunits");
+	
+	
+	m_backgroundScale = jFile.get< double >("backgroundScale");
+	m_midgroundScale = jFile.get< double >("midgroundScale");
+	m_groundScale = jFile.get< double >("groundScale");
+	m_foregroundScale = jFile.get< double >("foregroundScale");
+	
 	
 	
 	arr = jFile.get<json::grammar<char>::array>("background");
@@ -67,29 +69,62 @@ Environment::Environment(std::wstring levelFile, MUGE* _engine)
 		o = boost::any_cast< json::grammar<char>::object >(**it);		
 		tSprite.setImage( m_Engine->graphics(), Gosu::resourcePrefix() + L"Images/Levels/" + Gosu::widen(boost::any_cast< std::string >(*o["image"])) );
 		
-		arr = boost::any_cast<json::grammar<char>::array>(*o["position"]);
-		tSprite.setPosition( boost::any_cast< int >(*arr[0]) * m_Units[0], boost::any_cast< int >(*arr[1]) * m_Units[1], 1);
+		arr2 = boost::any_cast<json::grammar<char>::array>(*o["position"]);
+		tSprite.setPosition( boost::any_cast< double >(*arr2[0]) * m_Units[0], m_Height - boost::any_cast< double >(*arr2[1]) * m_Units[1], 1);
 		tSprite.setRotation( boost::any_cast< double >(*o["rotation"]) );
 		
-		arr = boost::any_cast<json::grammar<char>::array>(*o["colormod"]);
-		tSprite.setColorMod( Gosu::Color( boost::any_cast< int >(*arr[0]), boost::any_cast< int >(*arr[1]), boost::any_cast< int >(*arr[2]),  boost::any_cast< int >(*arr[3])) );
+		arr2 = boost::any_cast<json::grammar<char>::array>(*o["colormod"]);
+		tSprite.setColorMod( Gosu::Color( boost::any_cast< int >(*arr2[0]), boost::any_cast< int >(*arr2[1]), boost::any_cast< int >(*arr2[2]),  boost::any_cast< int >(*arr2[3])) );
 		tSprite.setScaling( boost::any_cast< double >(*o["xScale"]), boost::any_cast< double >(*o["yScale"]) );
 		m_Background.push_back( tSprite );
 	}
 	
 	arr = jFile.get<json::grammar<char>::array>("midground");
 	for (i = 0, it = arr.begin(); it != arr.end(); ++it, ++i) {
-		//m_SceneGraphp->aGround[i] = boost::any_cast<int>(**it);
+		Sprite tSprite;
+		o = boost::any_cast< json::grammar<char>::object >(**it);		
+		tSprite.setImage( m_Engine->graphics(), Gosu::resourcePrefix() + L"Images/Levels/" + Gosu::widen(boost::any_cast< std::string >(*o["image"])) );
+		
+		arr2 = boost::any_cast<json::grammar<char>::array>(*o["position"]);
+		tSprite.setPosition( boost::any_cast< double >(*arr2[0]) * m_Units[0], m_Height - boost::any_cast< double >(*arr2[1]) * m_Units[1], 1);
+		tSprite.setRotation( boost::any_cast< double >(*o["rotation"]) );
+		
+		arr2 = boost::any_cast<json::grammar<char>::array>(*o["colormod"]);
+		tSprite.setColorMod( Gosu::Color( boost::any_cast< int >(*arr2[0]), boost::any_cast< int >(*arr2[1]), boost::any_cast< int >(*arr2[2]),  boost::any_cast< int >(*arr2[3])) );
+		tSprite.setScaling( boost::any_cast< double >(*o["xScale"]), boost::any_cast< double >(*o["yScale"]) );
+		m_Midground.push_back( tSprite );
 	}
 	
 	arr = jFile.get<json::grammar<char>::array>("ground");
 	for (i = 0, it = arr.begin(); it != arr.end(); ++it, ++i) {
-		//m_SceneGraphp->aGround[i] = boost::any_cast<int>(**it);
+		Sprite tSprite;
+		o = boost::any_cast< json::grammar<char>::object >(**it);		
+		tSprite.setImage( m_Engine->graphics(), Gosu::resourcePrefix() + L"Images/Levels/" + Gosu::widen(boost::any_cast< std::string >(*o["image"])) );
+		
+		arr2 = boost::any_cast<json::grammar<char>::array>(*o["position"]);
+		tSprite.setPosition( boost::any_cast< double >(*arr2[0]) * m_Units[0], m_Height - boost::any_cast< double >(*arr2[1]) * m_Units[1], 1);
+		tSprite.setRotation( boost::any_cast< double >(*o["rotation"]) );
+		
+		arr2 = boost::any_cast<json::grammar<char>::array>(*o["colormod"]);
+		tSprite.setColorMod( Gosu::Color( boost::any_cast< int >(*arr2[0]), boost::any_cast< int >(*arr2[1]), boost::any_cast< int >(*arr2[2]),  boost::any_cast< int >(*arr2[3])) );
+		tSprite.setScaling( boost::any_cast< double >(*o["xScale"]), boost::any_cast< double >(*o["yScale"]) );
+		m_Ground.push_back( tSprite );
 	}
 	
 	arr = jFile.get<json::grammar<char>::array>("foreground");
 	for (i = 0, it = arr.begin(); it != arr.end(); ++it, ++i) {
-		//m_SceneGraphp->aGround[i] = boost::any_cast<int>(**it);
+		Sprite tSprite;
+		o = boost::any_cast< json::grammar<char>::object >(**it);		
+		tSprite.setImage( m_Engine->graphics(), Gosu::resourcePrefix() + L"Images/Levels/" + Gosu::widen(boost::any_cast< std::string >(*o["image"])) );
+		
+		arr2 = boost::any_cast<json::grammar<char>::array>(*o["position"]);
+		tSprite.setPosition( boost::any_cast< double >(*arr2[0]) * m_Units[0], m_Height - boost::any_cast< double >(*arr2[1]) * m_Units[1], 1);
+		tSprite.setRotation( boost::any_cast< double >(*o["rotation"]) );
+		
+		arr2 = boost::any_cast<json::grammar<char>::array>(*o["colormod"]);
+		tSprite.setColorMod( Gosu::Color( boost::any_cast< int >(*arr2[0]), boost::any_cast< int >(*arr2[1]), boost::any_cast< int >(*arr2[2]),  boost::any_cast< int >(*arr2[3])) );
+		tSprite.setScaling( boost::any_cast< double >(*o["xScale"]), boost::any_cast< double >(*o["yScale"]) );
+		m_Foreground.push_back( tSprite );
 	}
 	
 
@@ -152,10 +187,16 @@ void Environment::draw() const
 	
 	std::vector< Sprite >::const_iterator it;
 	for (it = m_Background.begin(); it != m_Background.end(); ++it) {
-		it->draw( -m_aOrigin[0]*(1.0f/m_backgroundScale), 200, 1);
-		//m_MidgroundImagep->draw( -m_aOrigin[0]*(1.0f/m_midgroundScale) + i*128, 250, 2);
-		//m_ForegroundImagep->draw( -m_aOrigin[0]*(1.0f/m_foregroundScale), 0, 9);
-		//m_GroundImagep->draw( -m_aOrigin[0]*(1.0f/m_groundScale) + i*101, 300, 3);
+		it->draw( -m_aOrigin[0]*(1.0f/m_backgroundScale), 0, 1);
+	}
+	for (it = m_Midground.begin(); it != m_Midground.end(); ++it) {
+		it->draw( -m_aOrigin[0]*(1.0f/m_midgroundScale), 0, 2);
+	}
+	for (it = m_Ground.begin(); it != m_Ground.end(); ++it) {
+		it->draw( -m_aOrigin[0]*(1.0f/m_groundScale), 0, 3);
+	}
+	for (it = m_Foreground.begin(); it != m_Foreground.end(); ++it) {
+		it->draw( -m_aOrigin[0]*(1.0f/m_foregroundScale), 0, 10);
 	}
 	
 	m_PlayerImagep->draw( m_PlayerPos.x - m_aOrigin[0], m_PlayerPos.y, 4);
