@@ -29,10 +29,16 @@ class Animation
 	int m_Count;
 
 public:
-	Animation(Gosu::Graphics&, std::wstring&, int width, int height, int count=1);
+	Animation();
+	void init(Gosu::Graphics&, std::wstring&, int width, int height, int count=1);
 	
 	Gosu::Image& getFrame(unsigned frame);
-	Gosu::Image& operator->();
+	const Gosu::Image& getFrame(unsigned frame) const;
+	
+	Gosu::Image& getCurFrame();
+	const Gosu::Image& getCurFrame() const;
+	
+	void increment();
 };
 
 #endif

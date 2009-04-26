@@ -72,7 +72,8 @@ class Environment
 	
 	// Temporary stuff
 	b2Vec2 m_PlayerPos;
-	boost::scoped_ptr< Gosu::Image > m_PlayerImagep;
+	Animation m_PlayerImage;
+	//boost::scoped_ptr< Gosu::Image > m_PlayerImagep;
 
 public:
 	Environment(std::wstring, MUGE* _engine );

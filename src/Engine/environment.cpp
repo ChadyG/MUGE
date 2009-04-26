@@ -49,8 +49,11 @@ Environment::Environment(std::wstring levelFile, MUGE* _engine)
 	
 	arr = jFile.get<json::grammar<char>::array>("canvasColor");
 	m_canvasColor = Gosu::Color( boost::any_cast< int >(*arr[0]), boost::any_cast< int >(*arr[1]), boost::any_cast< int >(*arr[2]),  boost::any_cast< int >(*arr[3]) );
-	std::wstring filename = Gosu::resourcePrefix() + L"Images/Hero_Idle.png";
-	m_PlayerImagep.reset( new Gosu::Image(m_Engine->graphics(), filename, false));
+	
+	
+	std::wstring filename = Gosu::resourcePrefix() + L"Images/Hero_walking.png";
+	m_PlayerImage.init(m_Engine->graphics(), filename, 85, 128, 20);
+	//m_PlayerImagep.reset( new Gosu::Image(m_Engine->graphics(), filename, false));
 	
 	m_Units[0] = jFile.get< int >("xunits");
 	m_Units[1] = jFile.get< int >("yunits");
@@ -173,6 +176,8 @@ void Environment::update()
 	
 	b2Vec2 camPos = m_SceneGraphp->Camerap->getCenter();
 	
+	m_PlayerImage.increment();
+	
 	m_aOrigin[0] = camPos.x - m_Width/2;
 	m_aOrigin[1] = camPos.y - m_Height/2;
 
@@ -199,5 +204,6 @@ void Environment::draw() const
 		it->draw( -m_aOrigin[0]*(1.0f/m_foregroundScale), 0, 10);
 	}
 	
-	m_PlayerImagep->draw( m_PlayerPos.x - m_aOrigin[0], m_PlayerPos.y, 4);
+	//m_PlayerImagep->draw( m_PlayerPos.x - m_aOrigin[0], m_PlayerPos.y, 4);
+	m_PlayerImage.getCurFrame().draw( m_PlayerPos.x - m_aOrigin[0], m_PlayerPos.y, 4);
 }
