@@ -32,6 +32,8 @@ Sprite::Sprite(Gosu::Graphics &graphics, std::wstring filename)
 	m_Image = Sprite::GetImage(graphics, filename);
 }
 
+//----------Setters----------
+
 void Sprite::setImage(Gosu::Graphics &graphics, std::wstring filename)
 {
 	m_Image = Sprite::GetImage(graphics, filename);
@@ -66,6 +68,7 @@ void Sprite::setColorMod(Gosu::Color colorMod)
 	m_ColorMod = colorMod;
 }
 
+//----------Operations----------
 
 void Sprite::draw(double x, double y, double z) const
 {

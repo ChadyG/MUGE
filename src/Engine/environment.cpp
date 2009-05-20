@@ -24,9 +24,13 @@ Environment::Environment(std::wstring levelFile, MUGE* _engine)
 	m_Width = m_Engine->graphics().width();
 	m_Height = m_Engine->graphics().height();
 	
-	m_PlayerPos = b2Vec2( 384, 300);
+	// This will be pushed to level file later
+	m_PlayerPos = b2Vec2( 128, 320);
 
+	// Initialize scene graph 
 	m_SceneGraphp.reset( new SceneGraph() );
+	//Initialize Camera
+	//Maybe do this based on screen size in camera?
 	camDef cDef;
 	cDef.origin = b2Vec2( 384, 240);
 	cDef.extents = b2Vec2( 384, 1024);
@@ -161,6 +165,7 @@ void Environment::update()
 	// Step physics simulation
 	//m_Worldp->Step(m_TimeStep, m_Iterations);
 	
+	// Quick and dirty!
 	if (m_Engine->input().down(Gosu::kbLeft)) {
 		m_PlayerPos.x -= 1.0;
 		if (m_Engine->input().down(Gosu::kbLeftShift)) 
@@ -172,24 +177,29 @@ void Environment::update()
 			m_PlayerPos.x += 1.0;
 	}
 	
+	// Update scene objects (none yet!)
 	m_SceneGraphp->Camerap->update( m_SceneGraphp->Areasv, m_PlayerPos);
 	
+	// Tell camera where focus is
 	b2Vec2 camPos = m_SceneGraphp->Camerap->getCenter();
 	
-	m_PlayerImage.increment();
-	
+	// We need to know where to draw
 	m_aOrigin[0] = camPos.x - m_Width/2;
 	m_aOrigin[1] = camPos.y - m_Height/2;
 
+	// This will live in the player later
+	m_PlayerImage.update();
 }
 
 void Environment::draw() const
 {
+	// Canvas color
 	m_Engine->graphics().drawQuad( 0, 0, m_canvasColor, 
 		m_Width, 0, m_canvasColor,
 		0, m_Height, m_canvasColor,
 		m_Width, m_Height, m_canvasColor, 0);
 	
+	// Render all sprites
 	std::vector< Sprite >::const_iterator it;
 	for (it = m_Background.begin(); it != m_Background.end(); ++it) {
 		it->draw( -m_aOrigin[0]*(1.0f/m_backgroundScale), 0, 1);
@@ -204,6 +214,6 @@ void Environment::draw() const
 		it->draw( -m_aOrigin[0]*(1.0f/m_foregroundScale), 0, 10);
 	}
 	
-	//m_PlayerImagep->draw( m_PlayerPos.x - m_aOrigin[0], m_PlayerPos.y, 4);
+	// Render dynamic objects
 	m_PlayerImage.getCurFrame().draw( m_PlayerPos.x - m_aOrigin[0], m_PlayerPos.y, 4);
 }

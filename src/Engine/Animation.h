@@ -5,6 +5,12 @@
  *  Created by Chad on 11/12/08.
  *  Copyright 2009 Mizzou Game Design. All rights reserved.
  *
+ *	Animation encapsulates a set of images that are rotated through
+ *	to give the illusion of movement.
+ *	This can be used two ways;
+ *		as a table of images with arbitrary access
+ *		as an incrementing series of images with a time delay between frames
+ *
  */
 #ifndef ANIMATION_H
 #define ANIMATION_H
@@ -12,25 +18,12 @@
 #include <Gosu/Gosu.hpp>
 
 typedef boost::shared_ptr<Gosu::Image> t_Image;
-/**
-* The camera takes care of following player,
-* identifying what needs to be drawn, and
-* triggering level zones (onEnterCamera or so)
-* which we can use for spawn nodes
-*/
 
 class Animation
 {
-	std::vector< t_Image > m_Sprites;
-	
-	unsigned int m_Frame;
-	int m_numFrames;
-	int m_Timer;
-	int m_Count;
-
 public:
 	Animation();
-	void init(Gosu::Graphics&, std::wstring&, int width, int height, int count=1);
+	void init(Gosu::Graphics&, std::wstring&, int width, int height, int delay=1);
 	
 	Gosu::Image& getFrame(unsigned frame);
 	const Gosu::Image& getFrame(unsigned frame) const;
@@ -38,7 +31,16 @@ public:
 	Gosu::Image& getCurFrame();
 	const Gosu::Image& getCurFrame() const;
 	
-	void increment();
+	//Call this to increment frame based on time delay
+	void update();
+
+private:
+	std::vector< t_Image > m_Sprites;
+	
+	unsigned int m_Frame;
+	int m_numFrames;
+	int m_Timer;
+	int m_Delay;
 };
 
 #endif

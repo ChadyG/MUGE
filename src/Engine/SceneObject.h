@@ -34,14 +34,6 @@ class Player;
 */
 class SceneObject
 {
-protected:
-	//Basic physics data (body + position)
-	b2Body* m_Bodyp;
-	b2World* m_Worldp;
-	b2Vec2 m_Pos;
-	uint16 m_Category;
-	t_Image m_Icon;
-
 public:
 	SceneObject();
 	
@@ -60,6 +52,15 @@ public:
 	
 	// Used for run time type information during gameplay
 	const uint16 getCategory() const;
+	
+protected:
+	//Basic physics data (body + position)
+	b2Body* m_Bodyp;
+	b2World* m_Worldp;
+	b2Vec2 m_Pos;
+	uint16 m_Category;
+	t_Image m_Icon;
+
 };
 
 inline const uint16 SceneObject::getCategory() const
@@ -83,12 +84,6 @@ inline const uint16 SceneObject::getCategory() const
 */
 class SceneArea
 {
-	//structure holding extent information
-	b2AABB m_Box;
-	//booleans for current state of trigger
-	bool m_inCamera;
-	bool m_inPlayer;
-
 public:
 	SceneArea();
 	
@@ -101,6 +96,14 @@ public:
 	virtual bool playerIn() = 0;
 	virtual void onPlayerEnter() = 0;
 	virtual void onPlayerLeave() = 0;
+
+protected:
+	//structure holding extent information
+	b2AABB m_Box;
+	//booleans for current state of trigger
+	bool m_inCamera;
+	bool m_inPlayer;
+	
 };
 
 #endif

@@ -1,0 +1,86 @@
+{
+	"CanvasColor" : [255, 10, 165, 255],
+	"xUnits" : 32,
+	"yUnits" : 32,
+	"PlayerSpawn" : [ 4, 10],
+	"Layers" : [
+		{
+			"ID" : "background",
+			"Scale" : 4.0,
+			"Sprites" : [
+				{
+					"Image" : "hill.png",
+					"Position" : [ 0.0, 4.0],
+					"Rotation" : 0.0,
+					"ColorMod" : [255, 153, 153, 153],
+					"xScale" : 1.0,
+					"yScale" : 1.0
+				}
+			]
+		},
+		{
+			"ID" : "midground",
+			"Scale" : 2.0,
+			"Sprites" : [
+				{
+					"Image" : "hill.png",
+					"Position" : [ 0.0, 3.0],
+					"Rotation" : 0.0,
+					"ColorMod" : [255, 170, 170, 170],
+					"xScale" : 1.0,
+					"yScale" : 1.0
+				}
+			]
+		},
+		{
+			"ID" : "ground",
+			"Scale" : 1.0,
+			"Sprites" : [
+				{
+					"Image" : "Ground_01.png",
+					"Position" : [ 0.0, 2.0],
+					"Rotation" : 0.0,
+					"ColorMod" : [255, 255, 255, 255],
+					"xScale" : 1.0,
+					"yScale" : 1.0
+				}
+			]
+		},
+		{
+			"ID" : "foreground",
+			"Scale" : 0.5,
+			"Sprites" : [
+				{
+					"Image" : "hill.png",
+					"Position" : [ 0.0, 0.4],
+					"Rotation" : 0.0,
+					"ColorMod" : [255, 255, 255, 255],
+					"xScale" : 1.0,
+					"yScale" : 1.0
+				}
+			]
+		}
+	],
+	"GameObjects" : [
+		{
+			"Class" : "Health",
+			"ID" : "health_pickup1",
+			"Position" : [ 9.0, 1.0],
+			"param1" : 1,
+			"param2" : 0,
+			"param3" : 0,
+			"param4" : 0,
+			"param5" : 0
+		},
+		{
+			"Class" : "Slicer",
+			"ID" : "slicer_1",
+			"Position" : [ 7.0, 1.0],
+			"param1" : 3,
+			"param2" : 0,
+			"param3" : 0,
+			"param4" : 0,
+			"param5" : 0
+		}
+	]
+}

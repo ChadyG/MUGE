@@ -213,10 +213,7 @@ void MainMenuState::update()
 	if (hits > 1)
 		m_PhysBigHit->play();
 	
-	// Input stuff
-	// replace with Input Manager sometime
-
-
+	
 	// Mouse stuff
 	bool lClick = false;
 	m_mousePos.x = m_Engine->input().mouseX();

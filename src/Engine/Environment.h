@@ -33,13 +33,17 @@ struct envData
 */
 class Environment
 {
+public:
+	Environment(std::wstring, MUGE* _engine );
+	void update();
+	void draw() const;
+	
+protected:
 	// Game Data
 	MUGE* m_Engine;
 	boost::scoped_ptr< SceneGraph > m_SceneGraphp;
 	
-	// Need to decide on a depth factor for front and back
-	// maybe 1/3 slow for back and 1/3 faster for front?
-	// This will decide the width of the images.
+	// Temporary data for sprite layers
 	boost::scoped_ptr< Gosu::Image > m_BackgroundImagep;
 	boost::scoped_ptr< Gosu::Image > m_MidgroundImagep;
 	boost::scoped_ptr< Gosu::Image > m_GroundImagep;
@@ -50,6 +54,17 @@ class Environment
 	std::vector< Sprite > m_Midground;
 	std::vector< Sprite > m_Ground;
 	std::vector< Sprite > m_Foreground;
+	
+	// Parallax scrolling factors
+	float m_backgroundScale;
+	float m_midgroundScale;
+	float m_groundScale;
+	float m_foregroundScale;
+	
+	// Temporary stuff
+	b2Vec2 m_PlayerPos;
+	Animation m_PlayerImage;
+	// end temp sprite data
 	
 	boost::scoped_ptr< Gosu::Song > m_Music;
 	
@@ -64,19 +79,4 @@ class Environment
 	int m_Units[2];
 	int m_Width, m_Height;
 	
-	// Parallax scrolling factors
-	float m_backgroundScale;
-	float m_midgroundScale;
-	float m_groundScale;
-	float m_foregroundScale;
-	
-	// Temporary stuff
-	b2Vec2 m_PlayerPos;
-	Animation m_PlayerImage;
-	//boost::scoped_ptr< Gosu::Image > m_PlayerImagep;
-
-public:
-	Environment(std::wstring, MUGE* _engine );
-	void update();
-	void draw() const;
 };

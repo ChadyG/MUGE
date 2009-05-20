@@ -5,6 +5,9 @@
  *  Created by Chad on 4/9/09.
  *  Copyright 2009 Mizzou Game Design. All rights reserved.
  *
+ *	This class encapsulates drawing of a Gosu Image with an arbitrary 
+ *	position, rotation, scaling, and color modification
+ *
  */
 #ifndef SPRITE_H
 #define SPRITE_H
