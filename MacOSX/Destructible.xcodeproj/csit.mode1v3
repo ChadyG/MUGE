@@ -362,7 +362,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>E9FCFB5E0F916CAC00CF09BB</string>
+										<string>E9BF32E70FF1EE99000BC164</string>
 										<key>history</key>
 										<array>
 											<string>E938303B0F21965F0093F382</string>
@@ -414,7 +414,7 @@
 											<string>E92AE7FB0F8E61CC00E5222C</string>
 											<string>E9FCFB4B0F91427100CF09BB</string>
 											<string>E9FCFB5A0F916CAC00CF09BB</string>
-											<string>E9FCFB5B0F916CAC00CF09BB</string>
+											<string>E9FCFB5E0F916CAC00CF09BB</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -467,8 +467,6 @@
 											<string>E947C9360F893B7B0015A29A</string>
 											<string>E947C94C0F893C6A0015A29A</string>
 											<string>E92AE7E40F8E603F00E5222C</string>
-											<string>E9FCFB4D0F91427100CF09BB</string>
-											<string>E9FCFB5D0F916CAC00CF09BB</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -526,9 +524,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>E9FCFB440F91422300CF09BB</string>
+				<string>E9BF32E80FF1EE99000BC164</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>E9FCFB450F91422300CF09BB</string>
+				<string>E9BF32E90FF1EE99000BC164</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -647,7 +645,7 @@
 	<key>StatusbarIsVisible</key>
 	<true/>
 	<key>TimeStamp</key>
-	<real>261188780.425179</real>
+	<real>267513493.55070499</real>
 	<key>ToolbarDisplayMode</key>
 	<integer>1</integer>
 	<key>ToolbarIsVisible</key>
@@ -662,14 +660,8 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>E9FCFB600F916CAC00CF09BB</string>
-		<string>E9FCFB610F916CAC00CF09BB</string>
-		<string>E9FCFB460F91422300CF09BB</string>
-		<string>E9FCFB470F91422300CF09BB</string>
-		<string>E9382FED0F216CD00093F382</string>
-		<string>1C78EAAD065D492600B07095</string>
-		<string>/Users/csit/Projects/destructible/MacOSX/Destructible.xcodeproj</string>
 		<string>1CD10A99069EF8BA00B06720</string>
+		<string>/Users/csit/Projects/Mizzou Game Engine/MacOSX/Destructible.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
 	<string>484 116 934 733 0 0 1440 878 </string>
@@ -791,8 +783,8 @@
 										<string>yes</string>
 										<key>sizes</key>
 										<array>
-											<string>{{0, 0}, {395, 330}}</string>
-											<string>{{395, 0}, {510, 330}}</string>
+											<string>{{0, 0}, {395, 341}}</string>
+											<string>{{395, 0}, {510, 341}}</string>
 										</array>
 									</dict>
 									<key>VerticalSplitView</key>
@@ -807,8 +799,8 @@
 										<string>yes</string>
 										<key>sizes</key>
 										<array>
-											<string>{{0, 0}, {905, 330}}</string>
-											<string>{{0, 330}, {905, 330}}</string>
+											<string>{{0, 0}, {905, 341}}</string>
+											<string>{{0, 341}, {905, 319}}</string>
 										</array>
 									</dict>
 								</dict>
@@ -841,7 +833,7 @@
 										<real>811</real>
 									</array>
 									<key>Frame</key>
-									<string>{{395, 0}, {510, 330}}</string>
+									<string>{{395, 0}, {510, 341}}</string>
 									<key>RubberWindowFrame</key>
 									<string>72 177 905 701 0 0 1440 878 </string>
 								</dict>
@@ -869,13 +861,13 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1CD10A99069EF8BA00B06720</string>
-				<string>E9FCFB110F9140A200CF09BB</string>
+				<string>E9BF32EA0FF1EE99000BC164</string>
 				<string>1C162984064C10D400B95A72</string>
-				<string>E9FCFB120F9140A200CF09BB</string>
-				<string>E9FCFB130F9140A200CF09BB</string>
-				<string>E9FCFB140F9140A200CF09BB</string>
-				<string>E9FCFB150F9140A200CF09BB</string>
-				<string>E9FCFB160F9140A200CF09BB</string>
+				<string>E9BF32EB0FF1EE99000BC164</string>
+				<string>E9BF32EC0FF1EE99000BC164</string>
+				<string>E9BF32ED0FF1EE99000BC164</string>
+				<string>E9BF32EE0FF1EE99000BC164</string>
+				<string>E9BF32EF0FF1EE99000BC164</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debugV3</string>

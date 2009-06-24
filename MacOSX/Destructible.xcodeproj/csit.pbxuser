@@ -96,8 +96,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 261177438;
-			PBXWorkspaceStateSaveDate = 261177438;
+			PBXPerProjectTemplateStateSaveDate = 267513493;
+			PBXWorkspaceStateSaveDate = 267513493;
 		};
 		perUserProjectItems = {
 			E90E234D0F411AFC003FBC3E = E90E234D0F411AFC003FBC3E /* PBXTextBookmark */;
@@ -176,6 +176,7 @@
 			E985A9960F730C520039010F = E985A9960F730C520039010F /* PBXTextBookmark */;
 			E985A9980F730C520039010F = E985A9980F730C520039010F /* PBXTextBookmark */;
 			E989ECB50F3E4E6000ED9D11 = E989ECB50F3E4E6000ED9D11 /* PBXTextBookmark */;
+			E9BF32E70FF1EE99000BC164 /* PBXTextBookmark */ = E9BF32E70FF1EE99000BC164 /* PBXTextBookmark */;
 			E9D2A7810F61C1FB002BE5A3 = E9D2A7810F61C1FB002BE5A3 /* PBXTextBookmark */;
 			E9E2E9A40F4A57AD00A89391 = E9E2E9A40F4A57AD00A89391 /* PBXTextBookmark */;
 			E9E2E9AC0F4A57AD00A89391 = E9E2E9AC0F4A57AD00A89391 /* PBXTextBookmark */;
@@ -204,15 +205,15 @@
 			E9F6EB550F2BA34B00587E82 = E9F6EB550F2BA34B00587E82 /* PBXTextBookmark */;
 			E9F6EB650F2BA3A600587E82 = E9F6EB650F2BA3A600587E82 /* PBXTextBookmark */;
 			E9F6EB690F2BA3A600587E82 = E9F6EB690F2BA3A600587E82 /* PBXTextBookmark */;
-			E9FCFB430F91422300CF09BB /* PBXTextBookmark */ = E9FCFB430F91422300CF09BB /* PBXTextBookmark */;
-			E9FCFB4B0F91427100CF09BB /* PBXTextBookmark */ = E9FCFB4B0F91427100CF09BB /* PBXTextBookmark */;
-			E9FCFB4C0F91427100CF09BB /* PBXTextBookmark */ = E9FCFB4C0F91427100CF09BB /* PBXTextBookmark */;
-			E9FCFB4D0F91427100CF09BB /* PBXTextBookmark */ = E9FCFB4D0F91427100CF09BB /* PBXTextBookmark */;
-			E9FCFB4E0F91427100CF09BB /* PBXTextBookmark */ = E9FCFB4E0F91427100CF09BB /* PBXTextBookmark */;
-			E9FCFB5A0F916CAC00CF09BB /* PBXTextBookmark */ = E9FCFB5A0F916CAC00CF09BB /* PBXTextBookmark */;
-			E9FCFB5B0F916CAC00CF09BB /* PBXTextBookmark */ = E9FCFB5B0F916CAC00CF09BB /* PBXTextBookmark */;
-			E9FCFB5D0F916CAC00CF09BB /* PBXTextBookmark */ = E9FCFB5D0F916CAC00CF09BB /* PBXTextBookmark */;
-			E9FCFB5E0F916CAC00CF09BB /* PBXTextBookmark */ = E9FCFB5E0F916CAC00CF09BB /* PBXTextBookmark */;
+			E9FCFB430F91422300CF09BB = E9FCFB430F91422300CF09BB /* PBXTextBookmark */;
+			E9FCFB4B0F91427100CF09BB = E9FCFB4B0F91427100CF09BB /* PBXTextBookmark */;
+			E9FCFB4C0F91427100CF09BB = E9FCFB4C0F91427100CF09BB /* PBXTextBookmark */;
+			E9FCFB4D0F91427100CF09BB = E9FCFB4D0F91427100CF09BB /* PBXTextBookmark */;
+			E9FCFB4E0F91427100CF09BB = E9FCFB4E0F91427100CF09BB /* PBXTextBookmark */;
+			E9FCFB5A0F916CAC00CF09BB = E9FCFB5A0F916CAC00CF09BB /* PBXTextBookmark */;
+			E9FCFB5B0F916CAC00CF09BB = E9FCFB5B0F916CAC00CF09BB /* PBXTextBookmark */;
+			E9FCFB5D0F916CAC00CF09BB = E9FCFB5D0F916CAC00CF09BB /* PBXTextBookmark */;
+			E9FCFB5E0F916CAC00CF09BB = E9FCFB5E0F916CAC00CF09BB /* PBXTextBookmark */;
 			E9FE1A5D0F33B9F7004C97F6 = E9FE1A5D0F33B9F7004C97F6 /* PBXTextBookmark */;
 		};
 		sourceControlManager = E9382FBB0F2169400093F382 /* Source Control */;
@@ -463,11 +464,6 @@
 		name = test_level.json;
 		path = /Users/csit/Projects/destructible/Data/test_level.json;
 		sourceTree = "<absolute>";
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {665, 784}}";
-			sepNavSelRange = "{625, 0}";
-			sepNavVisRange = "{0, 325}";
-		};
 	};
 	E92AE8270F913A3900E5222C /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -1430,6 +1426,16 @@
 		vrLen = 796;
 		vrLoc = 184;
 	};
+	E9BF32E70FF1EE99000BC164 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E9FCFB5F0F916CAC00CF09BB /* level_v2.json */;
+		name = "level_v2.json: 4";
+		rLen = 0;
+		rLoc = 74;
+		rType = 0;
+		vrLen = 598;
+		vrLoc = 0;
+	};
 	E9D2A7810F61C1FB002BE5A3 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = E9E2EA800F4B4D4900A89391 /* Weapons.h */;
@@ -1838,9 +1844,15 @@
 	};
 	E9FCFB5F0F916CAC00CF09BB /* level_v2.json */ = {
 		isa = PBXFileReference;
+		lastKnownFileType = text;
 		name = level_v2.json;
 		path = /Users/csit/Projects/destructible/Data/level_v2.json;
 		sourceTree = "<absolute>";
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {665, 4004}}";
+			sepNavSelRange = "{74, 0}";
+			sepNavVisRange = "{0, 598}";
+		};
 	};
 	E9FE1A490F3364DC004C97F6 /* AIManager.h */ = {
 		uiCtxt = {

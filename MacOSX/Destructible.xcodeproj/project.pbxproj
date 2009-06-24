@@ -30,6 +30,9 @@
 		E985A6930F64608D0039010F /* Data in Resources */ = {isa = PBXBuildFile; fileRef = E985A68F0F64608D0039010F /* Data */; };
 		E985A7320F65949B0039010F /* AdventureState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E985A7310F65949B0039010F /* AdventureState.cpp */; };
 		E985A7350F6597310039010F /* CutScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E985A7340F6597310039010F /* CutScene.cpp */; };
+		E9BF32F90FF1EECE000BC164 /* UISheet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9BF32F60FF1EECE000BC164 /* UISheet.cpp */; };
+		E9BF32FA0FF1EECE000BC164 /* UISliderControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9BF32F70FF1EECE000BC164 /* UISliderControl.cpp */; };
+		E9BF32FB0FF1EECE000BC164 /* UITextBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9BF32F80FF1EECE000BC164 /* UITextBox.cpp */; };
 		E9E2EA7E0F4B4B8E00A89391 /* Inventory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9E2EA7D0F4B4B8E00A89391 /* Inventory.cpp */; };
 		E9F6EB000F2BA14100587E82 /* libBox2D.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E9F6EAFE0F2BA14100587E82 /* libBox2D.dylib */; };
 		E9F6EB010F2BA14100587E82 /* libBox2D.dylib.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = E9F6EAFF0F2BA14100587E82 /* libBox2D.dylib.dSYM */; };
@@ -107,6 +110,10 @@
 		E985A7310F65949B0039010F /* AdventureState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AdventureState.cpp; path = ../src/AdventureState.cpp; sourceTree = SOURCE_ROOT; };
 		E985A7330F6597310039010F /* CutScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CutScene.h; path = ../src/Engine/CutScene.h; sourceTree = SOURCE_ROOT; };
 		E985A7340F6597310039010F /* CutScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CutScene.cpp; path = ../src/Engine/CutScene.cpp; sourceTree = SOURCE_ROOT; };
+		E9BF32F50FF1EECE000BC164 /* GUIObjects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GUIObjects.h; path = ../src/Engine/GUIObjects.h; sourceTree = SOURCE_ROOT; };
+		E9BF32F60FF1EECE000BC164 /* UISheet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UISheet.cpp; path = ../src/Engine/UISheet.cpp; sourceTree = SOURCE_ROOT; };
+		E9BF32F70FF1EECE000BC164 /* UISliderControl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UISliderControl.cpp; path = ../src/Engine/UISliderControl.cpp; sourceTree = SOURCE_ROOT; };
+		E9BF32F80FF1EECE000BC164 /* UITextBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UITextBox.cpp; path = ../src/Engine/UITextBox.cpp; sourceTree = SOURCE_ROOT; };
 		E9E2EA460F4B3C8200A89391 /* Inventory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Inventory.h; path = ../src/Engine/Inventory.h; sourceTree = SOURCE_ROOT; };
 		E9E2EA7D0F4B4B8E00A89391 /* Inventory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Inventory.cpp; path = ../src/Engine/Inventory.cpp; sourceTree = SOURCE_ROOT; };
 		E9E2EA800F4B4D4900A89391 /* Weapons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Weapons.h; path = ../src/Engine/Weapons.h; sourceTree = SOURCE_ROOT; };
@@ -231,8 +238,6 @@
 				E95F759A0F36781B00F6DAA0 /* AI */,
 				E95F75990F3677B500F6DAA0 /* Core */,
 				E95F75980F36779E00F6DAA0 /* Video */,
-				E9382FD00F216B2A0093F382 /* environment.cpp */,
-				E9382FD10F216B2A0093F382 /* Environment.h */,
 			);
 			name = Engine;
 			sourceTree = "<group>";
@@ -267,6 +272,10 @@
 		E95F75980F36779E00F6DAA0 /* Video */ = {
 			isa = PBXGroup;
 			children = (
+				E9BF32F50FF1EECE000BC164 /* GUIObjects.h */,
+				E9BF32F60FF1EECE000BC164 /* UISheet.cpp */,
+				E9BF32F70FF1EECE000BC164 /* UISliderControl.cpp */,
+				E9BF32F80FF1EECE000BC164 /* UITextBox.cpp */,
 				E9FCFB0B0F91408B00CF09BB /* Sprite.cpp */,
 				E9FCFB0C0F91408B00CF09BB /* Sprite.h */,
 				E90E23350F411A11003FBC3E /* UIComponent.h */,
@@ -326,6 +335,8 @@
 		E9E2EA470F4B3CED00A89391 /* Scene */ = {
 			isa = PBXGroup;
 			children = (
+				E9382FD00F216B2A0093F382 /* environment.cpp */,
+				E9382FD10F216B2A0093F382 /* Environment.h */,
 				E9382FD80F216B2A0093F382 /* SceneObject.h */,
 				E9E2EA800F4B4D4900A89391 /* Weapons.h */,
 				E9E2EA960F4FAE4500A89391 /* SceneGraph.h */,
@@ -425,6 +436,9 @@
 				E985A7320F65949B0039010F /* AdventureState.cpp in Sources */,
 				E985A7350F6597310039010F /* CutScene.cpp in Sources */,
 				E9FCFB0D0F91408B00CF09BB /* Sprite.cpp in Sources */,
+				E9BF32F90FF1EECE000BC164 /* UISheet.cpp in Sources */,
+				E9BF32FA0FF1EECE000BC164 /* UISliderControl.cpp in Sources */,
+				E9BF32FB0FF1EECE000BC164 /* UITextBox.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

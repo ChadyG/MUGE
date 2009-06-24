@@ -7,12 +7,8 @@
  *
  */
 #include <Gosu/Gosu.hpp>
-#include <cmath>
-#include <cstdlib>
-#include <list>
-#include <vector>
 #include <stack>
-#include <exception>
+#include <queue>
 #include "InputManager.hpp"
 
 class GameState;
@@ -24,23 +20,32 @@ class GameState;
  **/
 class MUGE : public Gosu::Window
 {
-     InputManager inputManager;
-     std::stack< GameState* > m_States;
+	InputManager inputManager;
+	std::stack< GameState* > m_States;
+	std::queue< GameState* > m_NextStates;
+	
+	int m_curFPS;
+	int m_curTicks;
+	int m_lastSecond;
+	
+	bool m_stackDirty;
 
 public:
-     MUGE();
+	MUGE();
 
-     void changeState( GameState *state );
-     void pushState( GameState *state );
-     void popState();
-     void update();
-     void draw();
+	void changeState( GameState *state );
+	void pushState( GameState *state );
+	void popState();
+	void update();
+	void draw();
 
-     void buttonDown(Gosu::Button button);
-     void buttonUp(Gosu::Button button);
+	void buttonDown(Gosu::Button button);
+	void buttonUp(Gosu::Button button);
      
-     void hookIntoCommand(const std::string& command, const InputManager::CommandSignalType::slot_type& slot);
-     void setCurrentContext(const std::string& newContext);
+	void hookIntoCommand(const std::string& command, const InputManager::CommandSignalType::slot_type& slot);
+	void setCurrentContext(const std::string& newContext);
 
-     void quitHandler();
+	void quitHandler();
+	
+	int getFPS();
 };

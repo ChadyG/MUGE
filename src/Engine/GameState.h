@@ -19,11 +19,6 @@ class MUGE;
 */
 class GameState
 {
-protected:
-	GameState() { }
-	
-	MUGE* m_Engine;
-
 public:
 	virtual void init( MUGE* ) = 0;
 	virtual void cleanup() = 0;
@@ -33,6 +28,20 @@ public:
 	
 	virtual void update() = 0;
 	virtual void draw() const = 0;
+	
+	void setFocus(bool _focus) { m_hasFocus = _focus; };
+	bool inFocus() const { return m_hasFocus; };
+	void setDirty() { m_isDirty = true; };
+	bool dirty() const { return m_isDirty; };
+	
+protected:
+	GameState() : m_hasFocus(false), m_isDirty(false) { }
+	
+	MUGE* m_Engine;
+	
+private:
+	bool m_hasFocus;
+	bool m_isDirty;
 	
 };
 
