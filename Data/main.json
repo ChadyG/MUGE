@@ -1,0 +1,6 @@
+{
+	"WindowSize" : [768, 480],
+	"FullScreen" : false,
+	"UpdateInterval" : 20.0,
+	"StartState" : "mainmenu"
+}

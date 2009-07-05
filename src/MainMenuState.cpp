@@ -9,7 +9,7 @@
  
 #include "MainMenuState.h"
 #include "AdventureState.h"
-#include "Engine/MUGE.h"
+#include "Core/MUGE.h"
 #include <boost/bind.hpp>
 
 /**

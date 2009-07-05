@@ -1,0 +1,20 @@
+{
+	"PlayerDefinition" : "PlayerDef",
+	"Levels" : [
+		"level_v3"
+	],
+	"PlayerAnimations" : [
+		{
+			"Name" : "Walk",
+			"FileName" : "Hero_walking.png",
+			"Width" : 85,
+			"Height" : 128,
+			"Duration" : 20
+		}
+	],
+	"PlayerDataModel" : [
+		["String", "Name", "Player", 32],
+		["Double", "Health", 10.0, 0.0, 10.0],
+		["Boolean", "Has_Hammer", false]
+	]
+}

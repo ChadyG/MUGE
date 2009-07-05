@@ -9,7 +9,7 @@
  
 #include "TitleState.h"
 #include "MainMenuState.h"
-#include "Engine/MUGE.h"
+#include "Core/MUGE.h"
 
 /**
 *

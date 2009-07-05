@@ -8,7 +8,7 @@
  */
 
 #include "AdventureState.h"
-#include "Engine/MUGE.h"
+#include "Core/MUGE.h"
 
 /**
  *
@@ -19,7 +19,7 @@ AdventureState AdventureState::m_StateInstance;
 void AdventureState::init( MUGE* _engine)
 {	
 	m_Engine = _engine;
-	m_Environment.reset( new Environment(Gosu::resourcePrefix() + L"Data/level_v2.json", m_Engine));
+	m_Environment.reset( new Environment(L"level_v3", m_Engine));// later the name will be given via configuration
 }
 
 void AdventureState::cleanup()

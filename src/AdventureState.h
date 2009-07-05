@@ -8,9 +8,8 @@
  */
 
 #include <Gosu/Gosu.hpp>
-#include "Engine/GameState.h"
-#include "Engine/Environment.h"
-#include "Engine/CutScene.h"
+#include "Core/GameState.h"
+#include "Scene/Environment.h"
 
 class MUGE;
 
@@ -26,7 +25,6 @@ class MUGE;
 class AdventureState : public GameState
 {
 	boost::scoped_ptr< Environment > m_Environment;
-	boost::scoped_ptr< CutScene > m_CutScene;
 	
 	static AdventureState m_StateInstance;
 	

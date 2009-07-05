@@ -7,7 +7,7 @@
  *
  */
 #include <Gosu/Gosu.hpp>
-#include "Engine/GameState.h"
+#include "Core/GameState.h"
 
 class MUGE;
 

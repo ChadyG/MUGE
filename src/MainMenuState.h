@@ -9,8 +9,8 @@
 #include <Gosu/Gosu.hpp>
 #include <box2D.h>
 #include <list>
-#include "Engine/GameState.h"
-#include "Engine/ContactListener.h"
+#include "Core/GameState.h"
+#include "Physics/ContactListener.h"
 
 class MUGE;
 
