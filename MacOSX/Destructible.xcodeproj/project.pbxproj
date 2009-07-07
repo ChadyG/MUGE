@@ -11,10 +11,6 @@
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		E90B45970FFD16860099688F /* AdventureState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E90B45660FFD16860099688F /* AdventureState.cpp */; };
 		E90B45980FFD16860099688F /* MUGE.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E90B456A0FFD16860099688F /* MUGE.cpp */; };
-		E90B45990FFD16860099688F /* camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E90B456F0FFD16860099688F /* camera.cpp */; };
-		E90B459A0FFD16860099688F /* CutScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E90B45710FFD16860099688F /* CutScene.cpp */; };
-		E90B459B0FFD16860099688F /* InputFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E90B45730FFD16860099688F /* InputFilter.cpp */; };
-		E90B459C0FFD16860099688F /* Inventory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E90B45750FFD16860099688F /* Inventory.cpp */; };
 		E90B459D0FFD16860099688F /* InputManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E90B457B0FFD16860099688F /* InputManager.cpp */; };
 		E90B459E0FFD16860099688F /* JSONFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E90B457D0FFD16860099688F /* JSONFile.cpp */; };
 		E90B459F0FFD16860099688F /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E90B457F0FFD16860099688F /* main.cpp */; };
@@ -79,18 +75,6 @@
 		E90B45690FFD16860099688F /* GameState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameState.h; sourceTree = "<group>"; };
 		E90B456A0FFD16860099688F /* MUGE.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MUGE.cpp; sourceTree = "<group>"; };
 		E90B456B0FFD16860099688F /* MUGE.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MUGE.h; sourceTree = "<group>"; };
-		E90B456D0FFD16860099688F /* AIController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AIController.h; sourceTree = "<group>"; };
-		E90B456E0FFD16860099688F /* AIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AIManager.h; sourceTree = "<group>"; };
-		E90B456F0FFD16860099688F /* camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = camera.cpp; sourceTree = "<group>"; };
-		E90B45700FFD16860099688F /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
-		E90B45710FFD16860099688F /* CutScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CutScene.cpp; sourceTree = "<group>"; };
-		E90B45720FFD16860099688F /* CutScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CutScene.h; sourceTree = "<group>"; };
-		E90B45730FFD16860099688F /* InputFilter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputFilter.cpp; sourceTree = "<group>"; };
-		E90B45740FFD16860099688F /* InputFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputFilter.h; sourceTree = "<group>"; };
-		E90B45750FFD16860099688F /* Inventory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Inventory.cpp; sourceTree = "<group>"; };
-		E90B45760FFD16860099688F /* Inventory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Inventory.h; sourceTree = "<group>"; };
-		E90B45770FFD16860099688F /* SceneGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneGraph.h; sourceTree = "<group>"; };
-		E90B45780FFD16860099688F /* Weapons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Weapons.h; sourceTree = "<group>"; };
 		E90B457A0FFD16860099688F /* ButtonGosuValueTable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ButtonGosuValueTable.hpp; sourceTree = "<group>"; };
 		E90B457B0FFD16860099688F /* InputManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputManager.cpp; sourceTree = "<group>"; };
 		E90B457C0FFD16860099688F /* InputManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InputManager.hpp; sourceTree = "<group>"; };
@@ -223,7 +207,6 @@
 				E90B45660FFD16860099688F /* AdventureState.cpp */,
 				E90B45670FFD16860099688F /* AdventureState.h */,
 				E90B45680FFD16860099688F /* Core */,
-				E90B456C0FFD16860099688F /* Engine_old stuff */,
 				E90B45790FFD16860099688F /* Input */,
 				E90B457F0FFD16860099688F /* main.cpp */,
 				E90B45800FFD16860099688F /* MainMenuState.cpp */,
@@ -247,25 +230,6 @@
 				E90B456B0FFD16860099688F /* MUGE.h */,
 			);
 			path = Core;
-			sourceTree = "<group>";
-		};
-		E90B456C0FFD16860099688F /* Engine_old stuff */ = {
-			isa = PBXGroup;
-			children = (
-				E90B456D0FFD16860099688F /* AIController.h */,
-				E90B456E0FFD16860099688F /* AIManager.h */,
-				E90B456F0FFD16860099688F /* camera.cpp */,
-				E90B45700FFD16860099688F /* Camera.h */,
-				E90B45710FFD16860099688F /* CutScene.cpp */,
-				E90B45720FFD16860099688F /* CutScene.h */,
-				E90B45730FFD16860099688F /* InputFilter.cpp */,
-				E90B45740FFD16860099688F /* InputFilter.h */,
-				E90B45750FFD16860099688F /* Inventory.cpp */,
-				E90B45760FFD16860099688F /* Inventory.h */,
-				E90B45770FFD16860099688F /* SceneGraph.h */,
-				E90B45780FFD16860099688F /* Weapons.h */,
-			);
-			path = "Engine_old stuff";
 			sourceTree = "<group>";
 		};
 		E90B45790FFD16860099688F /* Input */ = {
@@ -393,10 +357,6 @@
 			files = (
 				E90B45970FFD16860099688F /* AdventureState.cpp in Sources */,
 				E90B45980FFD16860099688F /* MUGE.cpp in Sources */,
-				E90B45990FFD16860099688F /* camera.cpp in Sources */,
-				E90B459A0FFD16860099688F /* CutScene.cpp in Sources */,
-				E90B459B0FFD16860099688F /* InputFilter.cpp in Sources */,
-				E90B459C0FFD16860099688F /* Inventory.cpp in Sources */,
 				E90B459D0FFD16860099688F /* InputManager.cpp in Sources */,
 				E90B459E0FFD16860099688F /* JSONFile.cpp in Sources */,
 				E90B459F0FFD16860099688F /* main.cpp in Sources */,
