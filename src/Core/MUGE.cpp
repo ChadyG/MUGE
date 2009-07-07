@@ -93,12 +93,15 @@ void MUGE::update()
 			m_NextStates.front()->init(this);
 			m_NextStates.pop();
 		}
-		m_States.top()->setFocus(true);
+		if (!m_States.empty())
+			m_States.top()->setFocus(true);
 		m_stackDirty = false;
 	}
 	
-	if (!m_States.empty())
+	if (!m_States.empty()) {
 		m_States.top()->update();
+	}else
+		close();
 }
 
 void MUGE::draw()
