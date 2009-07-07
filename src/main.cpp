@@ -7,7 +7,7 @@
  *
  */
 #include <Gosu/Gosu.hpp>
-#include "JSONFile.hpp"
+#include "Input/JSONFile.hpp"
 #include "Core/MUGE.h"
 #include "TitleState.h"
 

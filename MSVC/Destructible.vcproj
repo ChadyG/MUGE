@@ -177,186 +177,146 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath="..\src\AdventureState.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\AdventureState.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\main.cpp"
 				>
 			</File>
+			<File
+				RelativePath="..\src\MainMenuState.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\MainMenuState.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\TitleState.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\TitleState.h"
+				>
+			</File>
 			<Filter
-				Name="Engine"
+				Name="Core"
 				>
 				<File
-					RelativePath="..\src\Engine\ButtonGosuValueTable.hpp"
+					RelativePath="..\src\Core\GameState.h"
 					>
 				</File>
 				<File
-					RelativePath="..\src\Engine\environment.cpp"
+					RelativePath="..\src\Core\MUGE.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\src\Engine\Environment.h"
-					>
-				</File>
-				<File
-					RelativePath="..\src\Engine\InputManager.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\src\Engine\InputManager.hpp"
-					>
-				</File>
-				<File
-					RelativePath="..\src\Engine\JSONFile.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\src\Engine\JSONFile.hpp"
-					>
-				</File>
-				<Filter
-					Name="Core"
-					>
-					<File
-						RelativePath="..\src\Engine\GameState.h"
-						>
-					</File>
-					<File
-						RelativePath="..\src\Engine\MUGE.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\src\Engine\MUGE.h"
-						>
-					</File>
-					<File
-						RelativePath="..\src\Engine\SceneObject.h"
-						>
-					</File>
-				</Filter>
-				<Filter
-					Name="AI"
-					>
-					<File
-						RelativePath="..\src\Engine\AIController.h"
-						>
-					</File>
-					<File
-						RelativePath="..\src\Engine\AIManager.h"
-						>
-					</File>
-					<File
-						RelativePath="..\src\Engine\InputFilter.h"
-						>
-					</File>
-					<File
-						RelativePath="..\src\Engine\Player.h"
-						>
-					</File>
-				</Filter>
-				<Filter
-					Name="Video"
-					>
-					<File
-						RelativePath="..\src\Engine\animation.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\src\Engine\Animation.h"
-						>
-					</File>
-					<File
-						RelativePath="..\src\Engine\camera.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\src\Engine\Camera.h"
-						>
-					</File>
-					<File
-						RelativePath="..\src\Engine\CutScene.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\src\Engine\CutScene.h"
-						>
-					</File>
-					<File
-						RelativePath="..\src\Engine\Sprite.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\src\Engine\Sprite.h"
-						>
-					</File>
-					<File
-						RelativePath="..\src\Engine\UIComponent.h"
-						>
-					</File>
-				</Filter>
-				<Filter
-					Name="Physics"
-					>
-					<File
-						RelativePath="..\src\Engine\contactListener.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\src\Engine\ContactListener.h"
-						>
-					</File>
-				</Filter>
-			</Filter>
-			<Filter
-				Name="AI"
-				>
-				<File
-					RelativePath="..\src\Engine\InputFilter.cpp"
+					RelativePath="..\src\Core\MUGE.h"
 					>
 				</File>
 			</Filter>
 			<Filter
-				Name="GameObjects"
+				Name="Input"
 				>
 				<File
-					RelativePath="..\src\Engine\Inventory.cpp"
+					RelativePath="..\src\Input\ButtonGosuValueTable.hpp"
 					>
 				</File>
 				<File
-					RelativePath="..\src\Engine\Inventory.h"
+					RelativePath="..\src\Input\InputManager.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\src\Engine\SceneGraph.h"
+					RelativePath="..\src\Input\InputManager.hpp"
 					>
 				</File>
 				<File
-					RelativePath="..\src\Engine\Weapons.h"
+					RelativePath="..\src\Input\JSONFile.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Input\JSONFile.hpp"
 					>
 				</File>
 			</Filter>
 			<Filter
-				Name="GameStates"
+				Name="UI"
 				>
 				<File
-					RelativePath="..\src\AdventureState.cpp"
+					RelativePath="..\src\UI\GUIObjects.h"
 					>
 				</File>
 				<File
-					RelativePath="..\src\AdventureState.h"
+					RelativePath="..\src\UI\UIButton.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\src\MainMenuState.cpp"
+					RelativePath="..\src\UI\UISheet.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\src\MainMenuState.h"
+					RelativePath="..\src\UI\UISliderControl.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\src\TitleState.cpp"
+					RelativePath="..\src\UI\UITextBox.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Sprite"
+				>
+				<File
+					RelativePath="..\src\Sprite\animation.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\src\TitleState.h"
+					RelativePath="..\src\Sprite\Animation.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Sprite\Sprite.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Sprite\Sprite.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Scene"
+				>
+				<File
+					RelativePath="..\src\Scene\environment.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Scene\Environment.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Scene\Player.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Scene\SceneObject.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Physics"
+				>
+				<File
+					RelativePath="..\src\Physics\contactListener.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Physics\ContactListener.h"
 					>
 				</File>
 			</Filter>
@@ -367,31 +327,27 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<Filter
-				Name="Engine"
-				>
-				<Filter
-					Name="AI"
-					>
-				</Filter>
-				<Filter
-					Name="Video"
-					>
-				</Filter>
-				<Filter
-					Name="Core"
-					>
-				</Filter>
-				<Filter
-					Name="Physics"
-					>
-				</Filter>
-			</Filter>
-			<Filter
-				Name="GameStates"
+				Name="Core"
 				>
 			</Filter>
 			<Filter
-				Name="GameObjects"
+				Name="Input"
+				>
+			</Filter>
+			<Filter
+				Name="Physics"
+				>
+			</Filter>
+			<Filter
+				Name="Scene"
+				>
+			</Filter>
+			<Filter
+				Name="Sprite"
+				>
+			</Filter>
+			<Filter
+				Name="UI"
 				>
 			</Filter>
 		</Filter>
