@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="Destructible"
+	Name="MUGE"
 	ProjectGUID="{618D5887-2C7F-41BC-B59F-83C826DA02AB}"
 	RootNamespace="Destructible"
 	Keyword="Win32Proj"
@@ -355,7 +355,7 @@
 			Name="Resources"
 			>
 			<File
-				RelativePath=".\Destructible.rc"
+				RelativePath=".\MUGE.rc"
 				>
 			</File>
 			<File

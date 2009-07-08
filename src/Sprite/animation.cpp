@@ -115,14 +115,14 @@ void Animation::drawFrameAt(int _frame, double _x, double _y) const
 
 void Animation::drawCurFrameZoom(double _x, double _y, double _scale, double _zoom, int _scrWidth, int _scrHeight) const
 {
-	(m_Sprites.at(m_Frame).get())->drawRot(((m_X - _x) * m_WinScale * (1.0/_scale)) * _zoom + _scrWidth, 
-										   ((m_Y - _y) * m_WinScale * (1.0/_scale)) * _zoom + _scrHeight, 
+	(m_Sprites.at(m_Frame).get())->drawRot(((m_X - _x) * m_WinScale * _scale) * _zoom + _scrWidth, 
+										   ((m_Y - _y) * m_WinScale * _scale) * _zoom + _scrHeight, 
 										   m_Z, m_rotation, m_centerX, m_centerY, m_factX*_zoom, m_factY*_zoom, m_ColorMod);
 }
 
 void Animation::drawFrameAtZoom(int _frame, double _x, double _y, double _scale, double _zoom, int _scrWidth, int _scrHeight) const
 {
-	(m_Sprites.at(_frame).get())->drawRot(((m_X - _x) * m_WinScale * (1.0/_scale)) * _zoom + _scrWidth, 
-										  ((m_Y - _y) * m_WinScale * (1.0/_scale)) * _zoom + _scrHeight, 
+	(m_Sprites.at(_frame).get())->drawRot(((m_X - _x) * m_WinScale * _scale) * _zoom + _scrWidth, 
+										  ((m_Y - _y) * m_WinScale * _scale) * _zoom + _scrHeight, 
 										  m_Z, m_rotation, m_centerX, m_centerY, m_factX*_zoom, m_factY*_zoom, m_ColorMod);
 }

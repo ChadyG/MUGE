@@ -119,10 +119,10 @@ void Environment::update()
 	
 	// Test Zoom
 	if (m_Engine->input().down(Gosu::kbUp)) {
-		m_Zoom += 0.001;
+		m_Zoom += 0.01;
 	}
 	if (m_Engine->input().down(Gosu::kbDown)) {
-		m_Zoom -= 0.001;
+		m_Zoom -= 0.01;
 	}
 	
 	// We need to know where to draw (temporary, this will be done via script)
@@ -182,11 +182,14 @@ void Environment::draw() const
 		m_Width, m_Height, m_canvasColor, 0);
 	
 	// Render all sprites
+	double scale, zoom;
 	std::map< std::string, SpriteLayer >::const_iterator itL;
 	std::list< Sprite >::const_iterator itS;
 	for (itL = m_Layers.begin(); itL != m_Layers.end(); ++itL) {
+		scale = 1.0/itL->second.scale;
+		zoom = 1.0 + scale * (m_Zoom - 1.0);
 		for (itS = itL->second.sprites.begin(); itS != itL->second.sprites.end(); ++itS) {
-			itS->drawZoom( m_Focus[0], m_Focus[1], itL->second.scale, m_Zoom, m_Width/2, m_Height/2);
+			itS->drawZoom( m_Focus[0], m_Focus[1], scale, zoom, m_Width/2, m_Height/2);
 		}
 	}
 	
