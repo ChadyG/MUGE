@@ -256,6 +256,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\src\UI\UIContainer.cpp"
+					>
+				</File>
+				<File
 					RelativePath="..\src\UI\UISheet.cpp"
 					>
 				</File>
@@ -265,6 +269,10 @@
 				</File>
 				<File
 					RelativePath="..\src\UI\UITextBox.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\UI\UIWindow.cpp"
 					>
 				</File>
 			</Filter>

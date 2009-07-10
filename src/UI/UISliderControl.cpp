@@ -13,6 +13,7 @@
 UISliderControl::UISliderControl(slideDef &_def, Gosu::Graphics &_graphics, Gosu::Input &_input)
 : m_Graphics(_graphics), m_Input(_input)
 {
+	m_visible = true;
 	m_Width = _def.width;
 	m_Height = 10;
 	m_Min = _def.min;
@@ -22,7 +23,7 @@ UISliderControl::UISliderControl(slideDef &_def, Gosu::Graphics &_graphics, Gosu
 	m_Y = _def.y;
 	m_Scale = m_Width / (m_Max - m_Min);
 
-	m_Text = new Gosu::Font(m_Graphics, Gosu::defaultFontName(), 10);
+	m_Text = new Gosu::Font(m_Graphics, Gosu::defaultFontName(), 10, 0);
 }
 
 void UISliderControl::onMouseIn()
@@ -36,7 +37,6 @@ void UISliderControl::onMouseOut()
 
 void UISliderControl::onMouseDown()
 {
-
 }
 
 void UISliderControl::onMouseUp()
@@ -49,26 +49,38 @@ void UISliderControl::onMouseHeld()
 	m_Input.setMousePosition( m_Input.mouseX(), m_Y + m_Height + 5);
 }
 
-void UISliderControl::draw(int _layer) const
+void UISliderControl::takeFocus()
 {
-	m_Graphics.drawQuad( m_X - 12, m_Y - 2, 0xFF0F276E, m_X + m_Width + 12, m_Y - 2, 0xFF0F276E, 
-		m_X + m_Width + 12, m_Y + m_Height + 2, 0xFF0F276E, m_X - 12, m_Y + m_Height + 2, 0xFF0F276E, _layer);
-	
-	m_Graphics.drawQuad( m_X - 10, m_Y, 0xFFD3DCF8, m_X + m_Width + 10, m_Y, 0xFFD3DCF8, 
-		m_X + m_Width + 10, m_Y + m_Height, 0xFFD3DCF8, m_X - 10, m_Y + m_Height, 0xFFD3DCF8, _layer);
+}
+
+void UISliderControl::update()
+{
+}
+
+void UISliderControl::draw(int _x, int _y, int _layer) const
+{
+	if (m_visible) {
+		int x = _x + m_X;
+		int y = _y + m_Y;
+		m_Graphics.drawQuad( x - 12, y - 2, 0xFF0F276E, x + m_Width + 12, y - 2, 0xFF0F276E, 
+			x + m_Width + 12, y + m_Height + 2, 0xFF0F276E, x - 12, y + m_Height + 2, 0xFF0F276E, _layer);
+		
+		m_Graphics.drawQuad( x - 10, y, 0xFFD3DCF8, x + m_Width + 10, y, 0xFFD3DCF8, 
+			x + m_Width + 10, y + m_Height, 0xFFD3DCF8, x - 10, y + m_Height, 0xFFD3DCF8, _layer);
 
 
-	m_Graphics.drawTriangle( m_X + m_Value * m_Scale - m_Min * m_Scale, m_Y + m_Height - 2, 0xFFD3DCF8,
-		m_X + m_Value * m_Scale - m_Min * m_Scale + 12, m_Y + m_Height + 16, 0xFF0F276E,
-		m_X + m_Value * m_Scale - m_Min * m_Scale - 12, m_Y + m_Height + 16, 0xFF0F276E, _layer);
+		m_Graphics.drawTriangle( x + m_Value * m_Scale - m_Min * m_Scale, y + m_Height - 2, 0xFFD3DCF8,
+			x + m_Value * m_Scale - m_Min * m_Scale + 12, y + m_Height + 16, 0xFF0F276E,
+			x + m_Value * m_Scale - m_Min * m_Scale - 12, y + m_Height + 16, 0xFF0F276E, _layer);
 
-	m_Graphics.drawTriangle( m_X + m_Value * m_Scale - m_Min * m_Scale, m_Y + m_Height, 0xFF0F276E,
-		m_X + m_Value * m_Scale - m_Min * m_Scale + 10, m_Y + m_Height + 15, 0xFFD3DCF8,
-		m_X + m_Value * m_Scale - m_Min * m_Scale - 10, m_Y + m_Height + 15, 0xFFD3DCF8, _layer);
+		m_Graphics.drawTriangle( x + m_Value * m_Scale - m_Min * m_Scale, y + m_Height, 0xFF0F276E,
+			x + m_Value * m_Scale - m_Min * m_Scale + 10, y + m_Height + 15, 0xFFD3DCF8,
+			x + m_Value * m_Scale - m_Min * m_Scale - 10, y + m_Height + 15, 0xFFD3DCF8, _layer);
 
-	m_Text->drawRel( L"0", m_X + m_Width/2, m_Y, _layer, 0.5, 0.0, 1.0, 1.0, Gosu::Colors::black);
-	m_Text->drawRel( boost::lexical_cast<std::wstring>(m_Min), m_X, m_Y, _layer, 0.5, 0.0, 1.0, 1.0, Gosu::Colors::black);
-	m_Text->drawRel( boost::lexical_cast<std::wstring>(m_Max), m_X + m_Width, m_Y, _layer, 0.5, 0.0, 1.0, 1.0, Gosu::Colors::black);
+		m_Text->drawRel( L"0", x + m_Width/2, y, _layer, 0.5, 0.0, 1.0, 1.0, Gosu::Colors::black);
+		m_Text->drawRel( boost::lexical_cast<std::wstring>(m_Min), x, y, _layer, 0.5, 0.0, 1.0, 1.0, Gosu::Colors::black);
+		m_Text->drawRel( boost::lexical_cast<std::wstring>(m_Max), x + m_Width, y, _layer, 0.5, 0.0, 1.0, 1.0, Gosu::Colors::black);
+	}
 }
 
 bool UISliderControl::pointIn(int _x, int _y)

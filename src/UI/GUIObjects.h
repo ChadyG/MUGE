@@ -16,6 +16,33 @@
 #include "../Sprite/Animation.h"
 
 /**
+* Abstract base class for all UI Objects
+**/
+
+class UIObject
+{
+public:
+	virtual void onMouseIn() = 0;
+	virtual void onMouseOut() = 0;
+	virtual void onMouseDown() = 0;
+	virtual void onMouseUp() = 0;
+	virtual void onMouseHeld() = 0;
+
+	void hide() { m_visible = false; }
+	void show() { m_visible = true; }
+	bool isVisible() { return m_visible; }
+	
+	virtual void takeFocus() = 0;
+
+	virtual void update() = 0;
+	virtual void draw(int _x, int _y,int _layer) const = 0;
+
+	virtual bool pointIn(int _x, int _y) = 0;
+protected:
+	bool m_visible;
+};
+
+/**
  * Text Box
  * builds from Gosu::TextInput
  * takes care of drawing and defining UI callbacks
@@ -28,7 +55,7 @@ struct texDef
 	int maxsize;
 };
 
-class UITextBox
+class UITextBox : public UIObject
 {
 public:
 	UITextBox(texDef&, Gosu::Graphics&, Gosu::Input&);
@@ -42,9 +69,9 @@ public:
 	void takeFocus();
 
 	void update();
-	void draw(int _layer) const;
+	void draw(int _x, int _y,int _layer) const;
 
-	bool pointIn(int, int);
+	bool pointIn(int _x, int _y);
 
 	std::wstring getText();
 	void setText(const std::wstring&);
@@ -75,7 +102,7 @@ struct slideDef
 	int defValue;
 };
 
-class UISliderControl 
+class UISliderControl : public UIObject
 {
 public:
 	UISliderControl(slideDef&, Gosu::Graphics&, Gosu::Input&);
@@ -85,8 +112,11 @@ public:
 	void onMouseDown();
 	void onMouseUp();
 	void onMouseHeld();
+	
+	void takeFocus();
 
-	void draw(int _layer) const;
+	void update();
+	void draw(int _x, int _y,int _layer) const;
 
 	bool pointIn(int _x, int _y);
 
@@ -112,11 +142,19 @@ struct buttonDef
 	int x;
 	int y;
 	int width;
+	int height;
 };
 
-class UIButton
+class UIButton : public UIObject
 {
 public:
+	
+	enum buttonState {
+		btnNormal = 0,
+		btnHover,
+		btnPress
+	};
+
 	UIButton(buttonDef&, Gosu::Graphics&, Gosu::Input&);
 	
 	void setImage(std::wstring &);
@@ -130,17 +168,13 @@ public:
 	void takeFocus();
 	
 	void update();
-	void draw(int _layer) const;
+	void draw(int _x, int _y, int _layer) const;
 	
 	bool pointIn(int _x, int _y);
+	buttonState getState() const;
 	
 private:
 	
-	enum buttonState {
-		btnNormal = 0,
-		btnHover,
-		btnPress
-	};
 	int m_X, m_Y, m_Height, m_Width;
 	bool m_hasImage;
 	buttonState m_State;
@@ -150,31 +184,35 @@ private:
 };
 
 /**
- * UI Sheet
- * First of two containers, this is the static container
- * it simply takes up the window and sends input events to the children
- **/
-class UISheet
+* Begin Containers
+*	Two types: Sheet and Window
+*		Sheet is top container for Gosu window, uiwindow is an inner window
+*		both manage inner objects, sending event info etc.
+*
+*	All UIObjects should be created using the provided createX methods on containers.
+**/
+
+
+class UIContainer
 {
 public:
-	UISheet(Gosu::Graphics&, Gosu::Input&);
-
-	void giveFocus();
-	void takeFocus();
+	UIContainer( Gosu::Graphics&, Gosu::Input& );
+	
+	void giveFocus() { m_hasFocus = true; }
+	void takeFocus() { m_hasFocus = false; }
 
 	UITextBox* createTextBox(texDef&);
 	UISliderControl* createSlider(slideDef&);
+	UIButton* createButton(buttonDef&);
 
 	void update();
 	void draw(int _layer) const;
+	
+protected:
+	std::list< UIObject* > m_Objects;
 
-private:
-	std::list< UITextBox > m_TextBoxes;
-	std::list< UISliderControl > m_SliderControls;
-
-	std::list< UITextBox >::iterator m_MouseInText;
-	std::list< UITextBox >::iterator m_TextFocus;
-	std::list< UISliderControl >::iterator m_MouseInSlide;
+	std::list< UIObject* >::iterator m_FocusObject;
+	std::list< UIObject* >::iterator m_MouseInObject;
 
 	bool m_hasFocus;
 	bool m_mouseHeld;
@@ -183,6 +221,71 @@ private:
 
 	Gosu::Graphics& m_Graphics;
 	Gosu::Input& m_Input;
+};
+
+/**
+* UIWindow - similar to Sheet, but only takes up part of the screen
+* implement to be movable, closable(optional), and minimizable
+* 
+* Use Gosu::quickLoadBitmap(const std::wstring& filename) and Bitmap
+* to dynamically create sized title bar (no resizing)
+* Three images, top left corner, top right corner, 1pixel wide fill
+*  - could use tiled bitmap
+*
+* Maybe have UISheet manage windows? (selective input with layers)
+*/
+struct windowDef
+{
+	int width;
+	int height;
+	int layer;
+};
+
+class UIWindow : public UIContainer, public UIObject
+{
+public:
+	UIWindow(windowDef& _def, Gosu::Graphics&, Gosu::Input&);
+
+	void onMouseIn() {}
+	void onMouseOut() {}
+	void onMouseDown() {}
+	void onMouseUp() {}
+	void onMouseHeld() {}
+
+	void giveFocus() { UIContainer::giveFocus(); m_closed = false; }
+	void takeFocus() { UIContainer::takeFocus(); m_dragging = false; }
+	
+	bool pointIn(int _x, int _y);
+	bool isClosed();
+
+	void update();
+	void draw(int _x, int _y, int _layer) const;
+
+private:
+
+	UIButton* m_CloseButton;
+	boost::scoped_ptr<Gosu::Image> m_TitleBar;
+
+	bool m_closed;
+	bool m_dragging;
+
+	int m_Width;
+	int m_Height;
+	int m_X;
+	int m_Y;
+	int m_mouseOffX, m_mouseOffY;
+
+};
+
+
+class UISheet : public UIContainer
+{
+public:
+	UISheet(Gosu::Graphics&, Gosu::Input&);
+
+	UIWindow* createWindow(windowDef&);
+
+private:
 
 };
 

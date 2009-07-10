@@ -12,6 +12,7 @@
 UITextBox::UITextBox(texDef &_def, Gosu::Graphics &_graphics, Gosu::Input &_input)
 : m_Graphics(_graphics), m_Input(_input), m_inFocus(false)
 {
+	m_visible = true;
 	m_maxSize = _def.maxsize;
 	m_X = _def.x;
 	m_Y = _def.y;
@@ -23,7 +24,7 @@ UITextBox::UITextBox(texDef &_def, Gosu::Graphics &_graphics, Gosu::Input &_inpu
 	m_Caret = 0;
 
 	m_TextInput = new Gosu::TextInput();
-	m_Text = new Gosu::Font(m_Graphics, Gosu::defaultFontName(), 20);
+	m_Text = new Gosu::Font(m_Graphics, Gosu::defaultFontName(), 20, 0);
 }
 
 void UITextBox::onMouseIn()
@@ -78,19 +79,23 @@ void UITextBox::update()
 }
 
 
-void UITextBox::draw(int _layer) const
+void UITextBox::draw(int _x, int _y, int _layer) const
 {
-	m_Graphics.drawQuad( m_X - 1, m_Y - 1, 0xFF0F276E, m_X + m_Width + 1, m_Y - 1, 0xFF0F276E,
-		m_X + m_Width + 1, m_Y + m_Height + 1, 0xFF0F276E, m_X - 1, m_Y + m_Height + 1, 0xFF0F276E, _layer);
+	if (m_visible) {
+		int x = _x + m_X;
+		int y = _y + m_Y;
+		m_Graphics.drawQuad( x - 1, y - 1, 0xFF0F276E, x + m_Width + 1, y - 1, 0xFF0F276E,
+			x + m_Width + 1, y + m_Height + 1, 0xFF0F276E, x - 1, y + m_Height + 1, 0xFF0F276E, _layer);
 
-	m_Graphics.drawQuad( m_X, m_Y, 0xFFD3DCF8, m_X + m_Width, m_Y, 0xFFD3DCF8,
-		m_X + m_Width, m_Y + m_Height, 0xFFD3DCF8, m_X, m_Y + m_Height, 0xFFD3DCF8, _layer);
+		m_Graphics.drawQuad( x, y, 0xFFD3DCF8, x + m_Width, y, 0xFFD3DCF8,
+			x + m_Width, y + m_Height, 0xFFD3DCF8, x, y + m_Height, 0xFFD3DCF8, _layer);
 
-	m_Text->draw( m_TextInput->text().substr(m_Offset, m_Length), m_X, m_Y, _layer, 1.0, 1.0, Gosu::Colors::black);
+		m_Text->draw( m_TextInput->text().substr(m_Offset, m_Length), x, y, _layer, 1.0, 1.0, Gosu::Colors::black);
 
-	if (m_inFocus && m_Timer > 25) {
-		double textWidth = m_Text->textWidth( m_TextInput->text().substr(m_Offset, m_Caret - m_Offset) );
-		m_Graphics.drawLine(m_X + textWidth, m_Y, Gosu::Colors::black, m_X + textWidth, m_Y + m_Height, Gosu::Colors::black, _layer);
+		if (m_inFocus && m_Timer > 25) {
+			double textWidth = m_Text->textWidth( m_TextInput->text().substr(m_Offset, m_Caret - m_Offset) );
+			m_Graphics.drawLine(x + textWidth, y, Gosu::Colors::black, x + textWidth, y + m_Height, Gosu::Colors::black, _layer);
+		}
 	}
 }
 

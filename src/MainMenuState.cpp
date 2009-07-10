@@ -10,6 +10,7 @@
 #include "MainMenuState.h"
 #include "AdventureState.h"
 #include "Core/MUGE.h"
+#include "UI/GUIObjects.h"
 #include <boost/bind.hpp>
 
 /**
@@ -146,6 +147,17 @@ void MainMenuState::init( MUGE* _engine)
 		body->SetMassFromShapes();	
 		m_Bodies.push_back( body );
 	}
+	
+	// UI Stuff (finally!)
+	m_UI = new UISheet(m_Engine->graphics(), m_Engine->input());
+	
+	windowDef wDef;
+	wDef.width = 200;
+	wDef.height = 200;
+	m_UIWin = m_UI->createWindow(wDef);
+	
+	m_UI->giveFocus();
+	m_UIWin->hide();
 }
 
 void MainMenuState::cleanup()
@@ -212,6 +224,13 @@ void MainMenuState::update()
 		m_PhysHit->play();
 	if (hits > 1)
 		m_PhysBigHit->play();
+	
+	m_UI->update();
+	
+	if (m_UIWin->isClosed() && m_UIWin->isVisible()) {
+		m_UIWin->takeFocus();
+		m_UIWin->hide();
+	}
 	
 	
 	// Mouse stuff
@@ -302,6 +321,8 @@ void MainMenuState::update()
 			case 1:// Load
 				break;
 			case 2:// About
+				m_UIWin->show();
+				m_UIWin->giveFocus();
 				break;
 			case 3:// Exit
 				m_Engine->popState();
@@ -320,7 +341,7 @@ void MainMenuState::draw() const
 {
 	m_MenuScreen->draw(0,0,0);
 	m_Cursor->draw(168, 200 + 45*m_CursorPos, 2);
-	m_MouseCursor->draw(m_mousePos.x - 7, m_mousePos.y, 2);
+	m_MouseCursor->draw(m_mousePos.x - 7, m_mousePos.y, 3);
 	
 	b2Vec2 pos;
 	float angle;
@@ -333,4 +354,5 @@ void MainMenuState::draw() const
 		m_LettersV[letterTable[i]]->drawRot( pos.x * m_units, pos.y * m_units, 1, angle);
 	}
 	
+	m_UI->draw(2);
 }

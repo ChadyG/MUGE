@@ -13,6 +13,9 @@
 #include "Physics/ContactListener.h"
 
 class MUGE;
+class UISheet;
+class UIWindow;
+//class UIText;
 
 /**
  * State for main menu
@@ -65,6 +68,10 @@ private:
 	MenuListener m_ContactListener;
 	std::list< b2Body* > m_Bodies;
 	b2MouseJoint* m_mouseJoint;
+	
+	
+	UISheet *m_UI;
+	UIWindow *m_UIWin;
 	
 	static MainMenuState m_StateInstance;
 
