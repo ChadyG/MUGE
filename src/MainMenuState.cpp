@@ -151,6 +151,14 @@ void MainMenuState::init( MUGE* _engine)
 	// UI Stuff (finally!)
 	m_UI = new UISheet(m_Engine->graphics(), m_Engine->input());
 	
+	buttonDef bDef;
+	bDef.height = 32;
+	bDef.width = 70;
+	bDef.x = 400;
+	bDef.y = 200;
+	m_Button = m_UI->createButton(bDef);
+	m_Button->setImage(Gosu::resourcePrefix() + L"Images/StartButton.png");
+	
 	windowDef wDef;
 	wDef.width = 200;
 	wDef.height = 200;

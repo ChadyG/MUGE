@@ -56,6 +56,7 @@ void UIContainer::update()
 		}
 
 		// Determine events for all objects
+		// FIXME: this probably has fighting in overlapped objects
 		bool hitObj = false;
 		for (itObj = m_Objects.begin(); itObj != m_Objects.end(); itObj++) {
 			(*itObj)->update();

@@ -15,6 +15,7 @@
 class MUGE;
 class UISheet;
 class UIWindow;
+class UIButton;
 //class UIText;
 
 /**
@@ -72,6 +73,7 @@ private:
 	
 	UISheet *m_UI;
 	UIWindow *m_UIWin;
+	UIButton *m_Button;
 	
 	static MainMenuState m_StateInstance;
 

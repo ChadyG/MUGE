@@ -69,7 +69,7 @@ public:
 	void takeFocus();
 
 	void update();
-	void draw(int _x, int _y,int _layer) const;
+	void draw(int _x, int _y, int _layer) const;
 
 	bool pointIn(int _x, int _y);
 
@@ -116,7 +116,7 @@ public:
 	void takeFocus();
 
 	void update();
-	void draw(int _x, int _y,int _layer) const;
+	void draw(int _x, int _y, int _layer) const;
 
 	bool pointIn(int _x, int _y);
 
@@ -252,8 +252,8 @@ public:
 	void onMouseUp() {}
 	void onMouseHeld() {}
 
-	void giveFocus() { UIContainer::giveFocus(); m_closed = false; }
-	void takeFocus() { UIContainer::takeFocus(); m_dragging = false; }
+	void giveFocus() { m_closed = false; }
+	void takeFocus() { m_dragging = false; }
 	
 	bool pointIn(int _x, int _y);
 	bool isClosed();

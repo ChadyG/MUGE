@@ -70,7 +70,7 @@ bool UIWindow::pointIn(int _x, int _y)
 
 void UIWindow::update()
 {
-	if (m_hasFocus) {
+	if (m_visible) {
 		std::list< UIObject* >::iterator itObj;
 		bool mouseIn = false;
 		int mouseX = m_Input.mouseX(), mouseY = m_Input.mouseY();
