@@ -157,7 +157,8 @@ void MainMenuState::init( MUGE* _engine)
 	bDef.x = 400;
 	bDef.y = 200;
 	m_Button = m_UI->createButton(bDef);
-	m_Button->setImage(Gosu::resourcePrefix() + L"Images/StartButton.png");
+	filename = Gosu::resourcePrefix() + L"Images/StartButton.png";
+	m_Button->setImage(filename);
 	
 	windowDef wDef;
 	wDef.width = 200;
