@@ -24,7 +24,7 @@ UITextBox::UITextBox(texDef &_def, Gosu::Graphics &_graphics, Gosu::Input &_inpu
 	m_Caret = 0;
 
 	m_TextInput = new Gosu::TextInput();
-	m_Text = new Gosu::Font(m_Graphics, Gosu::defaultFontName(), 20, 0);
+	m_Text = new Gosu::Font(m_Graphics, Gosu::defaultFontName(), 20);
 }
 
 void UITextBox::onMouseIn()

@@ -23,7 +23,7 @@ UISliderControl::UISliderControl(slideDef &_def, Gosu::Graphics &_graphics, Gosu
 	m_Y = _def.y;
 	m_Scale = m_Width / (m_Max - m_Min);
 
-	m_Text = new Gosu::Font(m_Graphics, Gosu::defaultFontName(), 10, 0);
+	m_Text = new Gosu::Font(m_Graphics, Gosu::defaultFontName(), 10);
 }
 
 void UISliderControl::onMouseIn()

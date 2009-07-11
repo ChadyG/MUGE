@@ -33,6 +33,7 @@ protected:
 	//Image Data
 	std::map<Animation*> m_Anims;
 	
+	// something about serialization into sqlite...
 	// something about lua bindings..
 };
 
