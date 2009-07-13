@@ -1,11 +1,34 @@
 /*
- *  Environment.cpp
- *  Destructible
- *
- *  Created by Chad on 11/12/08.
- *  Copyright 2009 Mizzou Game Design. All rights reserved.
- *
+   Environment.cpp
+   Mizzou Game Engine
+ 
+   Created by Chad Godsey on 11/12/08.
+  
+  
+ Copyright 2009 Mizzou Game Design.
+
+Permission is hereby granted, free of charge, to any person
+obtaining a copy of this software and associated documentation
+files (the "Software"), to deal in the Software without
+restriction, including without limitation the rights to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
  */
+ 
 #include "../Core/MUGE.h"
 #include "Environment.h"
 #include "../Input/JSONFile.hpp"
@@ -85,7 +108,7 @@ Environment::Environment(std::wstring levelFile, MUGE* _engine)
 	}
 	
 	
-	
+	/*
 	arr = jFile.get<json::grammar<char>::array>("GameObjects");
 	for (i = 0, it = arr.begin(); it != arr.end(); ++it, ++i) {
 		//jFile.get<int>("x", *it);
@@ -93,7 +116,7 @@ Environment::Environment(std::wstring levelFile, MUGE* _engine)
 		//jFile.get<std::string>("type", *it);
 		//jFile.get<int>("amount", *it);
 	}
-	
+	*/
 	m_Music.reset( new Gosu::Song( m_Engine->audio(), Gosu::resourcePrefix() + L"Sound/Colugo-Fantastic_face.ogg"));
 	m_Music->play(true);
 	
