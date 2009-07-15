@@ -45,9 +45,8 @@ int main(int argc, char* argv[])
 	double updateInterval = jFile.get< double >("UpdateInterval");
 	bool fullscreen = jFile.get< bool >("FullScreen");
 	
-    MUGE win(width, height, fullscreen, updateInterval);
-    TitleState *state = new TitleState( Gosu::widen(jFile.get< std::string >("StartState")) );
-    win.pushState( state );
-    win.show();
-    return 0;
+	MUGE win(width, height, fullscreen, updateInterval);
+	win.pushState( TitleState::instance() );
+	win.show();
+	return 0;
 }

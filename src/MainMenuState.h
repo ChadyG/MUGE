@@ -92,7 +92,6 @@ private:
 	std::list< b2Body* > m_Bodies;
 	b2MouseJoint* m_mouseJoint;
 	
-	
 	UISheet *m_UI;
 	UIWindow *m_UIWin;
 	UIButton *m_Button;

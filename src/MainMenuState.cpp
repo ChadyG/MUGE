@@ -188,6 +188,7 @@ void MainMenuState::init( MUGE* _engine)
 	
 	m_UI->giveFocus();
 	m_UIWin->hide();
+	
 }
 
 void MainMenuState::cleanup()
@@ -255,8 +256,8 @@ void MainMenuState::update()
 	if (hits > 1)
 		m_PhysBigHit->play();
 	
-	m_UI->update();
 	
+	m_UI->update();
 	if (m_UIWin->isClosed() && m_UIWin->isVisible()) {
 		m_UIWin->takeFocus();
 		m_UIWin->hide();
