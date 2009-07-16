@@ -32,6 +32,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include <Box2D.h>
 #include <vector>
 
+#ifndef CONTACTLISTENER_H
+#define CONTACTLISTENER_H
+
 /**
 * Used by Box2D to provide physics callbacks
 * derived functions are called during CCD and 
@@ -49,3 +52,17 @@ public:
 	void Result(const b2ContactResult* point);
 	int Update();
 };
+
+
+class AdventureListener : public b2ContactListener
+{
+	std::vector< b2ContactPoint > m_Contacts;
+public:
+	void Add(const b2ContactPoint* point);
+	void Persist(const b2ContactPoint* point);
+	void Remove(const b2ContactPoint* point);
+	void Result(const b2ContactResult* point);
+	int Update();
+};
+
+#endif

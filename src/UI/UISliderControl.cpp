@@ -42,7 +42,7 @@ UISliderControl::UISliderControl(slideDef &_def, Gosu::Graphics &_graphics, Gosu
 	m_Value = _def.defValue;
 	m_X = _def.x;
 	m_Y = _def.y;
-	m_Scale = m_Width / (m_Max - m_Min);
+	m_Scale = m_Width / (double)(m_Max - m_Min);
 
 	m_Text = new Gosu::Font(m_Graphics, Gosu::defaultFontName(), 10);
 }

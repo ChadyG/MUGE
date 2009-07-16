@@ -35,12 +35,34 @@ OTHER DEALINGS IN THE SOFTWARE.
  *
  */
 
-AdventureState AdventureState::m_StateInstance;
+AdventureState::AdventureState( std::wstring _config )
+{
+	m_ConfigFile = _config;
+}
 
 void AdventureState::init( MUGE* _engine)
 {	
 	m_Engine = _engine;
-	m_Environment.reset( new Environment(L"level_v3", m_Engine));// later the name will be given via configuration
+	JSONFile jFile(Gosu::narrow(Gosu::resourcePrefix() + L"Data/" + m_ConfigFile + L".json"));
+	json::grammar<char>::array::const_iterator it, it2;
+	json::grammar<char>::array arr, arr2;
+	json::grammar<char>::object o;
+	int i, j;
+	std::string tString;
+	
+	arr = jFile.get<json::grammar<char>::array>("PlayerAnimations");
+	for (i = 0, it = arr.begin(); it != arr.end(); ++it, ++i) {
+		Animation *anim = new Animation();
+		anim->setImage( m_Engine->graphics(), 
+			Gosu::resourcePrefix() + L"Images/" + Gosu::widen(jFile.get< std::string >("FileName", *it)), 
+			jFile.get< int >("Width", *it),
+			jFile.get< int >("Height", *it),
+			jFile.get< int >("Duration", *it));
+		m_Player.addAnimation( jFile.get< std::string >("Name", *it), anim );
+	}
+	
+	m_Environment.reset( new Environment(m_Engine, Gosu::widen( jFile.get< std::string >("Levels[0]") )));
+	m_Environment->tellPlayer( &m_Player );
 }
 
 void AdventureState::cleanup()

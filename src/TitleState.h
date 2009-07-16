@@ -39,17 +39,10 @@ class MUGE;
 */
 class TitleState : public GameState
 {
-	boost::scoped_ptr<Gosu::Image> m_TitleScreen;
-	int counter;
-	int step;
-	
-	static TitleState m_StateInstance;
-
-protected:
-	TitleState() { }
-	
 public:
-	void init( MUGE* );
+	TitleState( std::wstring _config );
+	
+	void init( MUGE* _engine );
 	void cleanup();
 	
 	void pause();
@@ -58,7 +51,9 @@ public:
 	void update();
 	void draw() const;
 	
-	static TitleState* instance() {
-		return &m_StateInstance;
-	}
+private:
+	boost::scoped_ptr<Gosu::Image> m_TitleScreen;
+	int counter;
+	int step;
+
 };

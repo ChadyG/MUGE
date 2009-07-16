@@ -36,7 +36,10 @@ OTHER DEALINGS IN THE SOFTWARE.
 *
 */
 
-TitleState TitleState::m_StateInstance;
+TitleState::TitleState( std::wstring _config )
+{
+
+}
 
 void TitleState::init(MUGE* _engine)
 {
@@ -66,7 +69,8 @@ void TitleState::resume()
 void TitleState::update()
 {
 	if (m_Engine->input().down(Gosu::kbReturn) || counter <= 0) {
-		m_Engine->changeState(MainMenuState::instance());
+		MainMenuState *state = new MainMenuState( std::wstring(L"MainMenuState") );
+		m_Engine->changeState( state );
 	}
 	--counter;
 }

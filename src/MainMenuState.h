@@ -50,7 +50,9 @@ class UIButton;
 class MainMenuState : public GameState
 {
 public:
-	void init( MUGE* );
+	MainMenuState( std::wstring _config );
+	
+	void init( MUGE* _engine );
 	void cleanup();
 	
 	void pause();
@@ -61,13 +63,6 @@ public:
 	
 	void CursorUp();
 	void CursorDown();
-	void CursorSelect();
-	void LeftMouseDown();
-	void LeftMouseUp();
-	
-	static MainMenuState* instance() {
-		return &m_StateInstance;
-	}
 	
 private:
 	boost::scoped_ptr<Gosu::Image> m_MenuScreen;
@@ -92,13 +87,9 @@ private:
 	std::list< b2Body* > m_Bodies;
 	b2MouseJoint* m_mouseJoint;
 	
+	
 	UISheet *m_UI;
 	UIWindow *m_UIWin;
 	UIButton *m_Button;
-	
-	static MainMenuState m_StateInstance;
-
-protected:
-	MainMenuState() { }
 	
 };

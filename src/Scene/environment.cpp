@@ -33,36 +33,50 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include "Environment.h"
 #include "../Input/JSONFile.hpp"
 #include "../Physics/ContactListener.h"
+#include "../Scene/Player.h"
 #include <string>
 #include <iostream>
 #include <fstream>
 
-Environment::Environment(std::wstring levelFile, MUGE* _engine)
+Environment::Environment(MUGE* _engine, std::wstring _config)
 {
 	m_Engine = _engine;
 	
-	m_TimeStep = 1.0f / 60.0f;
+	m_TimeStep = 1.0f / 50.0f;
 	m_Iterations = 10.0f;
 	
 	m_Width = m_Engine->graphics().width();
 	m_Height = m_Engine->graphics().height();
 	m_Zoom = 1.0;
 	
+	// box2D stuff
+	/*
+	b2AABB worldAABB;
+	worldAABB.lowerBound.Set( -500.0f, -500.0f);
+	worldAABB.upperBound.Set( 500.0f, 500.0f);
+	b2Vec2 gravity( 0.0f, 0.0f);
+	bool do_sleep = true;
+
+	m_World = new b2World(worldAABB, gravity, do_sleep);
+	m_World->SetContactListener( &m_ContactListener );
+
+	m_Iterations = 10;
+	*/
 	//
 	// Read in JSON encoded file
 	// TinyJSON library will perform lexing and parsing
 	// pull out data using JSONFile class
 	//
 	
-	JSONFile jFile(Gosu::narrow(Gosu::resourcePrefix() + L"Data/" + levelFile + L".json"));
+	JSONFile jFile(Gosu::narrow(Gosu::resourcePrefix() + L"Data/" + _config + L".json"));
 	json::grammar<char>::array::const_iterator it, it2;
 	json::grammar<char>::array arr, arr2;
 	json::grammar<char>::object o;
 	int i, j;
+	std::string tString;
 	
 	
-	// This will be pushed to level file later
-	m_PlayerPos = b2Vec2( jFile.get< double >("PlayerSpawn[0]"), jFile.get< double >("PlayerSpawn[1]"));
+	m_PlayerPos.Set(jFile.get< double >("PlayerSpawn[0]"), jFile.get< double >("PlayerSpawn[1]"));
 	
 	arr = jFile.get<json::grammar<char>::array>("CanvasColor");
 	m_canvasColor = Gosu::Color( 
@@ -72,12 +86,43 @@ Environment::Environment(std::wstring levelFile, MUGE* _engine)
 							jFile.get< int >("CanvasColor[3]"));
 	
 	
-	std::wstring filename = Gosu::resourcePrefix() + L"Images/Hero_walking.png";
-	m_PlayerImage.setImage(m_Engine->graphics(), filename, 85, 128, 20);
-	//m_PlayerImagep.reset( new Gosu::Image(m_Engine->graphics(), filename, false));
-	
 	m_Scale = jFile.get< int >("Scale");
-	m_PlayerImage.setWindowScale( m_Scale );
+	
+	// Physics shape cache here
+	std::map< std::string, b2ShapeDef* > tShapes;
+	arr = jFile.get<json::grammar<char>::array>("PhysicsShapes");
+	for (i = 0, it = arr.begin(); it != arr.end(); ++it, ++i) {
+		tString = jFile.get< std::string >("Type", *it);
+		if (tString == "Rectangle") {
+			b2PolygonDef *pDef = new b2PolygonDef();
+			// width
+			// height
+			pDef->density = jFile.get< double >("Density", *it);
+			pDef->friction = jFile.get< double >("Friction", *it);
+			pDef->restitution = jFile.get< double >("Restitution", *it);
+			// LinearDamping if exists
+			
+			tShapes[jFile.get<std::string>("ID", *it)] = pDef;
+		}
+		if (tString == "Circle") {
+			b2CircleDef *cDef = new b2CircleDef();
+			cDef->radius = jFile.get< double >("Radius", *it);
+			cDef->density = jFile.get< double >("Density", *it);
+			cDef->friction = jFile.get< double >("Friction", *it);
+			cDef->restitution = jFile.get< double >("Restitution", *it);
+			
+			tShapes[jFile.get<std::string>("ID", *it)] = cDef;
+		}
+		if (tString == "Polygon") {
+			b2PolygonDef *pDef = new b2PolygonDef();
+			// Verts
+			pDef->density = jFile.get< double >("Density", *it);
+			pDef->friction = jFile.get< double >("Friction", *it);
+			pDef->restitution = jFile.get< double >("Restitution", *it);
+			
+			tShapes[jFile.get<std::string>("ID", *it)] = pDef;
+		}
+	}
 	
 	
 	arr = jFile.get<json::grammar<char>::array>("Layers");
@@ -104,6 +149,27 @@ Environment::Environment(std::wstring levelFile, MUGE* _engine)
 			tSprite.setWindowScale( m_Scale );
 			tLayer.sprites.push_back( tSprite );
 		}
+		// Dynamic Sprites
+		// Same as above, but then tie into some logic
+		arr2 = jFile.get<json::grammar<char>::array>("DynamicSprites", *it);
+		for (j = 0, it2 = arr2.begin(); it2 != arr2.end(); ++it2, ++j) {
+			Sprite tSprite;	
+			tSprite.setImage( m_Engine->graphics(), Gosu::resourcePrefix() + L"Images/" + Gosu::widen( jFile.get<std::string>("Image", *it2) ) );
+			
+			tSprite.setPosition( jFile.get< double >("Position[0]", *it2) * tLayer.scale, jFile.get< double >("Position[1]", *it2) * tLayer.scale, tLayer.layer);
+			tSprite.setRotation( jFile.get< double >("Rotation", *it2) );
+			
+			tSprite.setColorMod( 
+					Gosu::Color( jFile.get< int >("ColorMod[0]", *it2), 
+								 jFile.get< int >("ColorMod[1]", *it2), 
+								 jFile.get< int >("ColorMod[2]", *it2), 
+								 jFile.get< int >("ColorMod[3]", *it2) ) );
+			tSprite.setScaling( jFile.get< double >("xScale", *it2), jFile.get< double >("yScale", *it2) );
+			tSprite.setWindowScale( m_Scale );
+			tLayer.sprites.push_back( tSprite );
+			
+			// Physics!
+		}
 		m_Layers[jFile.get<std::string>("ID", *it)] = tLayer;
 	}
 	
@@ -122,23 +188,21 @@ Environment::Environment(std::wstring levelFile, MUGE* _engine)
 	
 }
 
+void Environment::tellPlayer( Player *_player )
+{
+	m_Player = _player;
+	m_Player->setWindowScale( m_Scale );
+	m_Player->setPhysics( m_PlayerPos.x, m_PlayerPos.y, m_World);
+	m_Player->setLayer( 4 );
+}
+
 void Environment::update()
 {
 	// Step physics simulation
 	//m_Worldp->Step(m_TimeStep, m_Iterations);
 	
-	// Quick and dirty!
-	if (m_Engine->input().down(Gosu::kbLeft)) {
-		m_PlayerPos.x -= 0.1;
-		if (m_Engine->input().down(Gosu::kbLeftShift)) 
-			m_PlayerPos.x -= 0.1;
-	}
-	if (m_Engine->input().down(Gosu::kbRight)) {
-		m_PlayerPos.x += 0.1;
-		if (m_Engine->input().down(Gosu::kbLeftShift)) 
-			m_PlayerPos.x += 0.1;
-	}
-	m_PlayerImage.setPosition( m_PlayerPos.x, m_PlayerPos.y, 4);
+	m_Player->update(m_Engine->input());
+	b2Vec2 m_PlayerPos = m_Player->getPosition();
 	
 	// Test Zoom
 	if (m_Engine->input().down(Gosu::kbUp)) {
@@ -191,9 +255,6 @@ void Environment::update()
 		// re-order by Y value if desired
 	}
 */	
-
-	// This will be handled in player later
-	m_PlayerImage.update();
 }
 
 void Environment::draw() const
@@ -217,5 +278,5 @@ void Environment::draw() const
 	}
 	
 	// Render dynamic objects
-	m_PlayerImage.drawCurFrameZoom( m_Focus[0], m_Focus[1], 1.0, m_Zoom, m_Width/2, m_Height/2);
+	m_Player->drawZoom( m_Focus[0], m_Focus[1], 1.0, m_Zoom, m_Width/2, m_Height/2);
 }

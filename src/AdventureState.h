@@ -31,6 +31,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include <Gosu/Gosu.hpp>
 #include "Core/GameState.h"
 #include "Scene/Environment.h"
+#include "Scene/Player.h"
 
 class MUGE;
 
@@ -45,15 +46,10 @@ class MUGE;
  */
 class AdventureState : public GameState
 {
-	boost::scoped_ptr< Environment > m_Environment;
-	
-	static AdventureState m_StateInstance;
-	
-protected:
-	AdventureState() { }
-	
 public:
-	void init( MUGE* );
+	AdventureState( std::wstring _config );
+	
+	void init( MUGE* _engine );
 	void cleanup();
 	
 	void pause();
@@ -62,9 +58,11 @@ public:
 	void update();
 	void draw() const;
 	
-	static AdventureState* instance() {
-		return &m_StateInstance;
-	}
-	
 	void save();
+	
+private:
+	std::wstring m_ConfigFile;
+	Player m_Player;
+	boost::scoped_ptr< Environment > m_Environment;
+
 };

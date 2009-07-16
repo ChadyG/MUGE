@@ -31,28 +31,86 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include "GUIObjects.h"
 
 UIContainer::UIContainer(Gosu::Graphics &_graphics, Gosu::Input &_input)
-: m_hasFocus(false), m_Graphics(_graphics), m_Input(_input), m_mouseDown(false), m_mouseHeld(false), m_mouseUp(true)
+: m_hasFocus(false), m_Graphics(_graphics), m_Input(_input), 
+m_mouseDown(false), m_mouseHeld(false), m_mouseUp(true), m_hitObj(false)
 {
-	m_FocusObject = m_Objects.end();
-	m_MouseInObject = m_Objects.end();
+	std::string page = "default";
+	m_currentPage = &(m_Pages[page]);
+	m_FocusObject = m_currentPage->end();
+	m_MouseInObject = m_currentPage->end();
 }
+
+/* Text Box */
 
 UITextBox* UIContainer::createTextBox(texDef &_def)
 {
-	m_Objects.push_back( new UITextBox(_def, m_Graphics, m_Input) );
-	return reinterpret_cast<UITextBox*>(m_Objects.back());
+	//m_Objects
+	m_currentPage->push_back( new UITextBox(_def, m_Graphics, m_Input) );
+	return reinterpret_cast<UITextBox*>(m_currentPage->back());
 }
+
+UITextBox* UIContainer::createTextBox(texDef &_def, std::string &_page)
+{
+	//m_Objects
+	m_Pages[ _page ].push_back( new UITextBox(_def, m_Graphics, m_Input) );
+	return reinterpret_cast<UITextBox*>(m_Pages[ _page ].back());
+}
+
+/* Text Area */
+
+UITextArea* UIContainer::createTextArea(texAreaDef &_def)
+{
+	//m_Objects
+	m_currentPage->push_back( new UITextArea(_def, m_Graphics, m_Input) );
+	return reinterpret_cast<UITextArea*>(m_currentPage->back());
+}
+
+UITextArea* UIContainer::createTextArea(texAreaDef &_def, std::string &_page)
+{
+	//m_Objects
+	m_Pages[ _page ].push_back( new UITextArea(_def, m_Graphics, m_Input) );
+	return reinterpret_cast<UITextArea*>(m_Pages[ _page ].back());
+}
+
+/* Slider Control */
 
 UISliderControl* UIContainer::createSlider(slideDef &_def)
 {
-	m_Objects.push_back( new UISliderControl(_def, m_Graphics, m_Input) );
-	return reinterpret_cast<UISliderControl*>(m_Objects.back());
+	//m_Objects
+	m_currentPage->push_back( new UISliderControl(_def, m_Graphics, m_Input) );
+	return reinterpret_cast<UISliderControl*>(m_currentPage->back());
 }
+
+UISliderControl* UIContainer::createSlider(slideDef &_def, std::string &_page)
+{
+	//m_Objects
+	m_Pages[ _page ].push_back( new UISliderControl(_def, m_Graphics, m_Input) );
+	return reinterpret_cast<UISliderControl*>(m_Pages[ _page ].back());
+}
+
+/* Button */
 
 UIButton* UIContainer::createButton(buttonDef &_def)
 {
-	m_Objects.push_back( new UIButton(_def, m_Graphics, m_Input) );
-	return reinterpret_cast<UIButton*>(m_Objects.back());
+	//m_Objects
+	m_currentPage->push_back( new UIButton(_def, m_Graphics, m_Input) );
+	return reinterpret_cast<UIButton*>(m_currentPage->back());
+}
+
+UIButton* UIContainer::createButton(buttonDef &_def, std::string &_page)
+{
+	//m_Objects
+	m_Pages[ _page ].push_back( new UIButton(_def, m_Graphics, m_Input) );
+	return reinterpret_cast<UIButton*>(m_Pages[ _page ].back());
+}
+
+
+
+void UIContainer::setContext( std::string &_page )
+{
+	m_currentPage = &(m_Pages[ _page ]);
+	m_FocusObject = m_currentPage->end();
+	m_MouseInObject = m_currentPage->end();
 }
 
 void UIContainer::update()
@@ -78,13 +136,13 @@ void UIContainer::update()
 
 		// Determine events for all objects
 		// FIXME: this probably has fighting in overlapped objects
-		bool hitObj = false;
-		for (itObj = m_Objects.begin(); itObj != m_Objects.end(); itObj++) {
+		m_hitObj = false;
+		for (itObj = m_currentPage->begin(); itObj != m_currentPage->end(); itObj++) {
 			(*itObj)->update();
 			mouseIn = (*itObj)->pointIn( mouseX, mouseY);
 
-			if (mouseIn & m_mouseDown)
-				hitObj = true;
+			if (mouseIn && (m_mouseDown || m_mouseHeld))
+				m_hitObj = true;
 
 			if (m_MouseInObject == itObj) {
 				if (mouseIn) {
@@ -92,14 +150,14 @@ void UIContainer::update()
 						(*itObj)->onMouseHeld();
 					
 					if (m_mouseDown) {
-						if (m_FocusObject != m_Objects.end() && m_FocusObject != itObj)
+						if (m_FocusObject != m_currentPage->end() && m_FocusObject != itObj)
 							(*m_FocusObject)->takeFocus();
 						m_FocusObject = itObj;
 						(*itObj)->onMouseDown();
 					}
 				}else{
 					(*itObj)->onMouseOut();
-					m_MouseInObject = m_Objects.end();
+					m_MouseInObject = m_currentPage->end();
 				}
 			}else{
 				if (mouseIn) {
@@ -110,18 +168,18 @@ void UIContainer::update()
 		}
 
 		// Remove focus if clicked outside of boxes
-		if (m_mouseDown && m_FocusObject != m_Objects.end() && !hitObj) {
+		if (m_mouseDown && m_FocusObject != m_currentPage->end() && !m_hitObj) {
 			(*m_FocusObject)->takeFocus();
-			m_FocusObject = m_Objects.end();
+			m_FocusObject = m_currentPage->end();
 		}
 
 
 
 		// Mouse up events for any object (only sent when released over object)
 		if (!m_mouseHeld && !m_mouseUp) {
-			if (m_MouseInObject != m_Objects.end()) {
+			if (m_MouseInObject != m_currentPage->end()) {
 				(*m_MouseInObject)->onMouseUp();
-				m_MouseInObject = m_Objects.end();
+				m_MouseInObject = m_currentPage->end();
 			}
 			m_mouseUp = true;
 		}
@@ -129,10 +187,15 @@ void UIContainer::update()
 	}
 }
 
+bool UIContainer::didClick() const
+{
+	return m_hitObj;
+}
+
 void UIContainer::draw(int _layer) const
 {
 	std::list< UIObject* >::const_iterator itObj;
-	for (itObj = m_Objects.begin(); itObj != m_Objects.end(); itObj++) {
+	for (itObj = m_currentPage->begin(); itObj != m_currentPage->end(); itObj++) {
 		(*itObj)->draw(0, 0, _layer);
 	}
 }

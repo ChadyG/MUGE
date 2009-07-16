@@ -1,32 +1,14 @@
 /*
-   Player.h
-   Mizzou Game Engine
- 
-   Created by Chad Godsey on 11/12/08.
-  
- Copyright 2009 Mizzou Game Design.
-
-Permission is hereby granted, free of charge, to any person
-obtaining a copy of this software and associated documentation
-files (the "Software"), to deal in the Software without
-restriction, including without limitation the rights to use,
-copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the
-Software is furnished to do so, subject to the following
-conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-OTHER DEALINGS IN THE SOFTWARE.
+ *  Player.h
+ *  Destructible
+ *
+ *  Created by Chad on 11/12/08.
+ *  Copyright 2009 Mizzou Game Design. All rights reserved.
+ *
  */
+#include <Gosu/Gosu.hpp>
+#include <Box2D.h>
+#include <map>
  
 class Animation;
 class SceneObject;
@@ -41,19 +23,36 @@ class SceneObject;
 * collision normal.
 * 
 */
-class Player : public SceneObject {
+class Player {
 public:
-	Player(int _x, int _y, b2World* _world, Gosu::Graphics& _graphics);
+	Player();
+	Player(int _x, int _y, b2World* _world);
 	
-	void addAnimation(std::string _name, Animation &_anim);
+	void addAnimation(std::string _name, Animation* _anim);
+	
+	void setWindowScale(double _scale);
+	void setLayer( Gosu::ZPos _z );
+	
+	void setPhysics( double _x, double _y, b2World* _world);
+	b2Vec2 getPosition();
+	
+	void setGravity( b2Vec2 _gravity );
 	
 	void onHit(SceneObject &other, b2ContactPoint &point);
 	
 	void update(Gosu::Input& _input);
-	void draw() const;
+	void draw(double _x, double _y) const;
+	void drawZoom(double _x, double _y, double _scale, double _zoom, int _scrWidth, int _scrHeight) const;
+	
 protected:
 	//Image Data
-	std::map<Animation*> m_Anims;
+	std::map< std::string, Animation*> m_Anims;
+	Animation* m_AnimState;
+	
+	b2Body *m_Body;
+	b2World *m_World;
+	b2Vec2 m_Pos;
+	b2Vec2 m_Gravity;
 	
 	// something about serialization into sqlite...
 	// something about lua bindings..

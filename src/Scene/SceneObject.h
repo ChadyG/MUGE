@@ -51,8 +51,7 @@ class SceneObject
 public:
 	SceneObject();
 	
-	virtual void update();
-	virtual void draw();
+	virtual void update() = 0;
 
 	virtual void onHit(SceneObject &other, b2ContactPoint &point);
 	
@@ -61,11 +60,7 @@ public:
 	void setRotation( double ang );
 	
 protected:
-	//Basic physics data (body + position)
-	Sprite m_Sprite;
-	b2Body* m_Bodyp;
-	b2World* m_Worldp;
-	b2Vec2 m_Pos;
+
 };
 
 /**

@@ -35,9 +35,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include <list>
 #include "../Sprite/Sprite.h"
 #include "../Sprite/Animation.h"
+#include "../Physics/ContactListener.h"
 
-class MyContactListener;
-class InputFilter;
+class Player;
 
 struct SpriteLayer
 {
@@ -58,7 +58,10 @@ struct SpriteLayer
 class Environment
 {
 public:
-	Environment(std::wstring, MUGE* _engine );
+	Environment(MUGE* _engine, std::wstring _config );
+	
+	void tellPlayer( Player *_player );
+	
 	void update();
 	void draw() const;
 	
@@ -69,15 +72,15 @@ protected:
 	Gosu::Color m_canvasColor;
 	std::map< std::string, SpriteLayer > m_Layers;
 	
-	// Temporary stuff
-	b2Vec2 m_PlayerPos;
-	Animation m_PlayerImage;
+	// Scene stuff
 	boost::scoped_ptr< Gosu::Song > m_Music;
-	// end temp sprite data
+	Player *m_Player;
+	b2Vec2 m_PlayerPos;
 	
 	
 	// Physics data
-	boost::scoped_ptr< b2World > m_Worldp;
+	AdventureListener m_ContactListener;
+	b2World *m_World;
 	float m_TimeStep;
 	float m_Iterations;
 	

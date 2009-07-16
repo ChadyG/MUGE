@@ -41,7 +41,9 @@ class MUGE;
 class GameState
 {
 public:
-	virtual void init( MUGE* ) = 0;
+	GameState() : m_hasFocus(false), m_isDirty(false) { }
+	
+	virtual void init( MUGE* _engine ) = 0;
 	virtual void cleanup() = 0;
 	
 	virtual void pause() = 0;
@@ -56,7 +58,6 @@ public:
 	bool dirty() const { return m_isDirty; };
 	
 protected:
-	GameState() : m_hasFocus(false), m_isDirty(false) { }
 	
 	MUGE* m_Engine;
 	

@@ -42,16 +42,6 @@ class GameState;
  **/
 class MUGE : public Gosu::Window
 {
-	InputManager inputManager;
-	std::stack< GameState* > m_States;
-	std::queue< GameState* > m_NextStates;
-	
-	int m_curFPS;
-	int m_curTicks;
-	int m_lastSecond;
-	
-	bool m_stackDirty;
-
 public:
 	MUGE(int _width=640, int _height=480, bool _fullscreen=false, double _updateInterval=20);
 
@@ -70,4 +60,16 @@ public:
 	void quitHandler();
 	
 	int getFPS();
+	
+private:
+	InputManager inputManager;
+	std::stack< GameState* > m_States;
+	std::queue< GameState* > m_NextStates;
+	
+	int m_curFPS;
+	int m_curTicks;
+	int m_lastSecond;
+	
+	bool m_stackDirty;
+
 };

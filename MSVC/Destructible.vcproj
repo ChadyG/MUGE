@@ -252,6 +252,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\src\UI\TextArea.cpp"
+					>
+				</File>
+				<File
 					RelativePath="..\src\UI\UIButton.cpp"
 					>
 				</File>
@@ -305,6 +309,10 @@
 				</File>
 				<File
 					RelativePath="..\src\Scene\Environment.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Scene\Player.cpp"
 					>
 				</File>
 				<File

@@ -33,14 +33,18 @@ OTHER DEALINGS IN THE SOFTWARE.
 UISheet::UISheet(Gosu::Graphics &_graphics, Gosu::Input &_input)
 : UIContainer(_graphics, _input)
 {
-	//m_TextFocus = m_TextBoxes.end();
-	//m_MouseInText = m_TextBoxes.end();
-	//m_MouseInSlide = m_SliderControls.end();
-	//m_MouseInButton = m_Buttons.end();
 }
 
 UIWindow* UISheet::createWindow(windowDef &_def)
 {
-	m_Objects.push_back( new UIWindow(_def, m_Graphics, m_Input) );
-	return reinterpret_cast<UIWindow*>(m_Objects.back());
+	//m_Objects
+	m_currentPage->push_back( new UIWindow(_def, m_Graphics, m_Input) );
+	return reinterpret_cast<UIWindow*>(m_currentPage->back());
+}
+
+UIWindow* UISheet::createWindow(windowDef &_def, std::string &_page)
+{
+	//m_Objects
+	m_Pages[ _page ].push_back( new UIWindow(_def, m_Graphics, m_Input) );
+	return reinterpret_cast<UIWindow*>(m_Pages[ _page ].back());
 }

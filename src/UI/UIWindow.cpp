@@ -76,6 +76,12 @@ UIWindow::UIWindow(windowDef& _def, Gosu::Graphics &_graphics, Gosu::Input &_inp
 	m_CloseButton = createButton( def );
 	std::wstring tString = Gosu::resourcePrefix() + L"Images/closebutton.png";
 	m_CloseButton->setImage( tString );
+	
+}
+
+void UIWindow::addCloseToPage()
+{
+	m_currentPage->push_back( m_CloseButton );
 }
 
 bool UIWindow::isClosed()
@@ -83,8 +89,19 @@ bool UIWindow::isClosed()
 	return m_closed;
 }
 
+void UIWindow::hide()
+{
+	m_visible = false;
+	if (m_MouseInObject != m_currentPage->end()) {
+		(*m_MouseInObject)->onMouseUp();
+		m_MouseInObject = m_currentPage->end();
+	}
+}
+
 bool UIWindow::pointIn(int _x, int _y)
 {
+	if (!m_visible || !m_hasFocus)
+		return false;
 	if (_x > m_X && _x < (m_X + m_Width) &&
 		_y > m_Y && _y < (m_Y + m_Height)) 
 		return true;
@@ -93,7 +110,7 @@ bool UIWindow::pointIn(int _x, int _y)
 
 void UIWindow::update()
 {
-	if (m_hasFocus) {
+	if (m_hasFocus && m_visible) {
 		std::list< UIObject* >::iterator itObj;
 		bool mouseIn = false;
 		int mouseX = m_Input.mouseX(), mouseY = m_Input.mouseY();
@@ -129,14 +146,14 @@ void UIWindow::update()
 			}
 		}
 
-		// Determine events for text boxes
-		bool hitObj = false;
-		for (itObj = m_Objects.begin(); itObj != m_Objects.end(); itObj++) {
+		// Determine events for UI objects
+		m_hitObj = false;
+		for (itObj = m_currentPage->begin(); itObj != m_currentPage->end(); itObj++) {
 			(*itObj)->update();
 			mouseIn = (*itObj)->pointIn( mouseX - m_X, mouseY - m_Y);
 
 			if (mouseIn & m_mouseDown)
-				hitObj = true;
+				m_hitObj = true;
 
 			if (m_MouseInObject == itObj) {
 				if (mouseIn) {
@@ -144,14 +161,14 @@ void UIWindow::update()
 						(*itObj)->onMouseHeld();
 					
 					if (m_mouseDown) {
-						if (m_FocusObject != m_Objects.end() && m_FocusObject != itObj)
+						if (m_FocusObject != m_currentPage->end() && m_FocusObject != itObj)
 							(*m_FocusObject)->takeFocus();
 						m_FocusObject = itObj;
 						(*itObj)->onMouseDown();
 					}
 				}else{
 					(*itObj)->onMouseOut();
-					m_MouseInObject = m_Objects.end();
+					m_MouseInObject = m_currentPage->end();
 				}
 			}else{
 				if (mouseIn) {
@@ -162,18 +179,18 @@ void UIWindow::update()
 		}
 
 		// Remove focus if clicked outside of boxes
-		if (m_mouseDown && m_FocusObject != m_Objects.end() && !hitObj) {
+		if (m_mouseDown && m_FocusObject != m_currentPage->end() && !m_hitObj) {
 			(*m_FocusObject)->takeFocus();
-			m_FocusObject = m_Objects.end();
+			m_FocusObject = m_currentPage->end();
 		}
 
 
 
 		// Mouse up events for any object (only sent when released over object)
 		if (!m_mouseHeld && !m_mouseUp) {
-			if (m_MouseInObject != m_Objects.end()) {
+			if (m_MouseInObject != m_currentPage->end()) {
 				(*m_MouseInObject)->onMouseUp();
-				m_MouseInObject = m_Objects.end();
+				m_MouseInObject = m_currentPage->end();
 			}
 			m_mouseUp = true;
 		}
@@ -199,7 +216,7 @@ void UIWindow::draw(int _x, int _y, int _layer) const
 		m_Graphics.drawLine( m_X-1 + m_Width, m_Y + m_Height, Gosu::Colors::black, m_X-1 + m_Width, m_Y + 25, Gosu::Colors::black, _layer);
 
 		std::list< UIObject* >::const_iterator itObj;
-		for (itObj = m_Objects.begin(); itObj != m_Objects.end(); itObj++) {
+		for (itObj = m_currentPage->begin(); itObj != m_currentPage->end(); itObj++) {
 			(*itObj)->draw(m_X, m_Y, _layer);
 		}
 	}

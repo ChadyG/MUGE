@@ -84,6 +84,8 @@ void UITextBox::update()
 
 	m_Caret = m_TextInput->caretPos();
 	int chars = m_TextInput->text().length();
+	if (m_Offset > chars)
+		m_Offset = 0;
 	m_Length = chars - m_Offset;
 	while ( m_Text->textWidth( m_TextInput->text().substr(m_Offset, m_Length) ) >= m_Width ) {
 		--m_Length;
@@ -136,4 +138,6 @@ std::wstring UITextBox::getText()
 void UITextBox::setText(const std::wstring &_text)
 {
 	m_TextInput->setText(_text);
+	m_Offset = 0;
+	m_Length = 0;
 }

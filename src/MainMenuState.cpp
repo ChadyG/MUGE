@@ -38,7 +38,10 @@ OTHER DEALINGS IN THE SOFTWARE.
 *
 */
 
-MainMenuState MainMenuState::m_StateInstance;
+MainMenuState::MainMenuState( std::wstring _config )
+{
+
+}
 
 void MainMenuState::init( MUGE* _engine)
 {	
@@ -46,7 +49,6 @@ void MainMenuState::init( MUGE* _engine)
 
 	m_Engine->hookIntoCommand("Menu.CursorDown:Down", boost::bind(&MainMenuState::CursorDown, this));
 	m_Engine->hookIntoCommand("Menu.CursorUp:Down", boost::bind(&MainMenuState::CursorUp, this));
-	m_Engine->hookIntoCommand("Menu.Select:Down", boost::bind(&MainMenuState::CursorSelect, this));
 	m_Engine->setCurrentContext("Menu");
 
 
@@ -96,6 +98,7 @@ void MainMenuState::init( MUGE* _engine)
 	m_units = 10.0;
 	m_width = m_Engine->graphics().width();
 	m_height = m_Engine->graphics().height();
+	m_mouseJoint = NULL;
 	
 	// Create a world that is the size of our screen/10 with borders of 2 units (20 pixels at 10 pixels per unit)
 	b2AABB worldAABB;
@@ -227,24 +230,6 @@ void MainMenuState::CursorDown()
 		m_CursorPos = 0;
 }
 
-void MainMenuState::CursorSelect()
-{
-	// Selection
-	m_CursorSelect->play();
-	switch (m_CursorPos) {
-		case 0:// New
-			m_Engine->changeState( AdventureState::instance() );
-			break;
-		case 1:// Load
-			break;
-		case 2:// About
-			break;
-		case 3:// Exit
-			m_Engine->popState();
-			break;
-	}
-}
-
 void MainMenuState::update()
 {
 	m_Worldp->Step( m_TimeStep, m_Iterations );
@@ -342,12 +327,14 @@ void MainMenuState::update()
 		m_lastCursorPos = m_CursorPos;
 	}
 	
+	AdventureState *state;
 	// Selection
 	if (/*m_Engine->input().down(Gosu::kbReturn) || */lClick) {
 		m_CursorSelect->play();
 		switch (m_CursorPos) {
 			case 0:// New
-				m_Engine->changeState( AdventureState::instance() );
+				state = new AdventureState( std::wstring(L"AdventureState") );
+				m_Engine->changeState( state );
 				break;
 			case 1:// Load
 				break;
