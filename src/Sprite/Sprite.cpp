@@ -108,3 +108,15 @@ void Sprite::drawZoom(double _x, double _y, double _scale, double _zoom, int _sc
 					 ((m_Y - _y) * m_WinScale * _scale) * _zoom + _scrHeight, 
 					 m_Z, m_rotation, m_centerX, m_centerY, m_factX*_zoom, m_factY*_zoom, m_ColorMod);
 }
+
+void Sprite::drawRot(double _x, double _y, double _scale, double _zoom, double _angle, int _scrWidth, int _scrHeight) const
+{
+	double nX = ((m_X - _x) * m_WinScale * _scale) * _zoom, nY = ((m_Y - _y) * m_WinScale * _scale) * _zoom;
+	double dist = Gosu::distance( 0.0, 0.0, nX, nY );
+	double ang = Gosu::angle( 0.0, 0.0, nX, nY );
+	double rotX = Gosu::offsetX( ang + _angle, dist );
+	double rotY = Gosu::offsetY( ang + _angle, dist );
+	m_Image->drawRot( rotX + _scrWidth, 
+					 rotY + _scrHeight, 
+					 m_Z, m_rotation + _angle, m_centerX, m_centerY, m_factX*_zoom, m_factY*_zoom, m_ColorMod);
+}

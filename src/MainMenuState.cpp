@@ -47,9 +47,9 @@ void MainMenuState::init( MUGE* _engine)
 {	
 	m_Engine = _engine;
 
-	m_Engine->hookIntoCommand("Menu.CursorDown:Down", boost::bind(&MainMenuState::CursorDown, this));
-	m_Engine->hookIntoCommand("Menu.CursorUp:Down", boost::bind(&MainMenuState::CursorUp, this));
-	m_Engine->setCurrentContext("Menu");
+	//m_Engine->hookIntoCommand("Menu.CursorDown:Down", boost::bind(&MainMenuState::CursorDown, this));
+	//m_Engine->hookIntoCommand("Menu.CursorUp:Down", boost::bind(&MainMenuState::CursorUp, this));
+	//m_Engine->setCurrentContext("Menu");
 
 
 	std::wstring filename = Gosu::resourcePrefix() + L"Images/Menu/Menu_screen.png";

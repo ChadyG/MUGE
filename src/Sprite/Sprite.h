@@ -69,6 +69,7 @@ public:
 	*/
 	void draw(double _x, double _y) const;
 	void drawZoom(double _x, double _y, double _scale, double _zoom, int _scrWidth, int _scrHeight) const;
+	void drawRot(double _x, double _y, double _scale, double _zoom, double _angle, int _scrWidth, int _scrHeight) const;
 	
 private:
 	boost::shared_ptr<Gosu::Image> m_Image;

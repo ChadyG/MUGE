@@ -35,22 +35,42 @@ class MUGE;
 /**
 * Abstract class to describe a game state
 * all logic will go into these classes
-* they use the singleton paradigm so simplify
-* use
+*
+*	Three types:
+*		Menu
+*		Play
+*		Choreograph
 */
 class GameState
 {
 public:
+	/// Base class handles focus and dirty flags (used in engine for delayed state switching)
 	GameState() : m_hasFocus(false), m_isDirty(false) { }
 	
+	/// Called when added to state stack in Engine
+	/// Try to do most initialization here instead of constructor
 	virtual void init( MUGE* _engine ) = 0;
+	
+	/// Called when being removed from state stack.
+	/// Good place to cleanup all data and write to disk.
 	virtual void cleanup() = 0;
 	
+	
+	/// Called when being pushed down the stack (loss of focus).
+	/// Try to minimize memory footprint here.
 	virtual void pause() = 0;
+	
+	/// Called when reclaiming focus in state stack.
+	/// If minimizing memory footprint, reclaim here.
 	virtual void resume() = 0;
 	
+	
+	/// Game tick update callback
 	virtual void update() = 0;
+	
+	/// Game render callback
 	virtual void draw() const = 0;
+	
 	
 	void setFocus(bool _focus) { m_hasFocus = _focus; };
 	bool inFocus() const { return m_hasFocus; };

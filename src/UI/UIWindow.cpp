@@ -42,11 +42,6 @@ UIWindow::UIWindow(windowDef& _def, Gosu::Graphics &_graphics, Gosu::Input &_inp
 	m_X = 50;
 	m_Y = 50;
 
-	//m_TextFocus = m_TextBoxes.end();
-	//m_MouseInText = m_TextBoxes.end();
-	//m_MouseInSlide = m_SliderControls.end();
-	//m_MouseInButton = m_Buttons.end();
-
 	Gosu::Bitmap map = Gosu::quickLoadBitmap(Gosu::resourcePrefix() + L"Images/titlebar.png");
 	Gosu::Bitmap titleBar;
 

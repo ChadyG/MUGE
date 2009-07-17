@@ -224,18 +224,6 @@
 				Name="Input"
 				>
 				<File
-					RelativePath="..\src\Input\ButtonGosuValueTable.hpp"
-					>
-				</File>
-				<File
-					RelativePath="..\src\Input\InputManager.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\src\Input\InputManager.hpp"
-					>
-				</File>
-				<File
 					RelativePath="..\src\Input\JSONFile.cpp"
 					>
 				</File>

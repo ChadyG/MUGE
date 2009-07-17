@@ -40,8 +40,8 @@ OTHER DEALINGS IN THE SOFTWARE.
 MUGE::MUGE(int _width, int _height, bool _fullscreen, double _updateInterval)
 : Gosu::Window(_width, _height, _fullscreen, _updateInterval)
 {
-	inputManager.hookIntoCommand("Menu.Quit:Down", boost::bind(&MUGE::quitHandler, this));
-	inputManager.setCurrentContext("Menu");
+	//inputManager.hookIntoCommand("Menu.Quit:Down", boost::bind(&MUGE::quitHandler, this));
+	//inputManager.setCurrentContext("Menu");
 	
 	m_curFPS = 1;
 	m_curTicks = 0;
@@ -51,12 +51,12 @@ MUGE::MUGE(int _width, int _height, bool _fullscreen, double _updateInterval)
 
 void MUGE::buttonDown(Gosu::Button button)
 {
-	inputManager.buttonDownHandler(button);
+	//inputManager.buttonDownHandler(button);
 }
 
 void MUGE::buttonUp(Gosu::Button button)
 {
-	inputManager.buttonUpHandler(button);
+	//inputManager.buttonUpHandler(button);
 }
 
 void MUGE::changeState( GameState *state )
@@ -124,6 +124,9 @@ void MUGE::update()
 		m_States.top()->update();
 	}else
 		close();
+		
+	if (input().down(Gosu::kbEscape))
+		close();
 }
 
 void MUGE::draw()
@@ -131,7 +134,7 @@ void MUGE::draw()
 	if (!m_States.empty())
 		m_States.top()->draw();
 }
-
+/*
 void MUGE::hookIntoCommand(const std::string& command, const InputManager::CommandSignalType::slot_type& slot)
 {
 	inputManager.hookIntoCommand(command, slot);
@@ -144,9 +147,9 @@ void MUGE::setCurrentContext(const std::string& newContext)
 
 void MUGE::quitHandler()
 {
-     close();
+	close();
 }
-
+*/
 int MUGE::getFPS()
 {
 	return m_curFPS;

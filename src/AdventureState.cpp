@@ -30,6 +30,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 #include "AdventureState.h"
 #include "Core/MUGE.h"
+#include "Input/JSONFile.hpp"
 
 /**
  *

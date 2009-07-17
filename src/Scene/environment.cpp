@@ -48,6 +48,7 @@ Environment::Environment(MUGE* _engine, std::wstring _config)
 	m_Width = m_Engine->graphics().width();
 	m_Height = m_Engine->graphics().height();
 	m_Zoom = 1.0;
+	m_Rot = 0.0;
 	
 	// box2D stuff
 	/*
@@ -212,6 +213,14 @@ void Environment::update()
 		m_Zoom -= 0.01;
 	}
 	
+	// Test Rotation
+	if (m_Engine->input().down(Gosu::kbQ)) {
+		m_Rot += 0.1;
+	}
+	if (m_Engine->input().down(Gosu::kbE)) {
+		m_Rot -= 0.1;
+	}
+	
 	// We need to know where to draw (temporary, this will be done via script)
 	m_Focus[0] = m_PlayerPos.x;
 	m_Focus[1] = m_PlayerPos.y - 4.0;
@@ -273,7 +282,7 @@ void Environment::draw() const
 		scale = 1.0/itL->second.scale;
 		zoom = 1.0 + scale * (m_Zoom - 1.0);
 		for (itS = itL->second.sprites.begin(); itS != itL->second.sprites.end(); ++itS) {
-			itS->drawZoom( m_Focus[0], m_Focus[1], scale, zoom, m_Width/2, m_Height/2);
+			itS->drawRot( m_Focus[0], m_Focus[1], scale, zoom, m_Rot, m_Width/2, m_Height/2);
 		}
 	}
 	

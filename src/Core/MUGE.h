@@ -31,7 +31,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include <Gosu/Gosu.hpp>
 #include <stack>
 #include <queue>
-#include "../Input/InputManager.hpp"
+//#include "../Input/InputManager.hpp"
 
 class GameState;
 
@@ -43,26 +43,44 @@ class GameState;
 class MUGE : public Gosu::Window
 {
 public:
+	/// This constructor is wrapped in main, parameters are given by main.json
+	/// this provides us with a configurable window and clock
 	MUGE(int _width=640, int _height=480, bool _fullscreen=false, double _updateInterval=20);
 
+	/// Standard state switching, given state will replace current 
+	/// state on top of stack
 	void changeState( GameState *state );
+	
+	/// Switch to this state, but do not replace current state.
+	/// Calls pause on topmost state.
 	void pushState( GameState *state );
+	
+	/// Cleans up current state and removes it.
+	/// Be sure to have states beneath or the game will exit!
 	void popState();
+	
+	/// Game tick, called from Gosu and sends to current state.
 	void update();
+	
+	/// Render callback from Gosu, sends to current state.
 	void draw();
 
+	/// Input event callback from Gosu, sent to current state.
 	void buttonDown(Gosu::Button button);
-	void buttonUp(Gosu::Button button);
-     
-	void hookIntoCommand(const std::string& command, const InputManager::CommandSignalType::slot_type& slot);
-	void setCurrentContext(const std::string& newContext);
-
-	void quitHandler();
 	
+	/// Input event callback from Gosu, sent to current state.
+	void buttonUp(Gosu::Button button);
+	
+	//void hookIntoCommand(const std::string& command, const InputManager::CommandSignalType::slot_type& slot);
+	//void setCurrentContext(const std::string& newContext);
+	
+	//void quitHandler();
+	
+	/// Returns dynamic FPS calculation
 	int getFPS();
 	
 private:
-	InputManager inputManager;
+	//InputManager inputManager;
 	std::stack< GameState* > m_States;
 	std::queue< GameState* > m_NextStates;
 	

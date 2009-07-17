@@ -94,6 +94,7 @@ protected:
 	double m_Offset[2];
 	double m_Extents[2];
 	double m_Zoom;
+	double m_Rot;
 	int m_Scale;
 	int m_Width, m_Height;
 	
