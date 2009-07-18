@@ -44,12 +44,12 @@ boost::shared_ptr<Gosu::Image> Sprite::GetImage(Gosu::Graphics &graphics, std::w
 }
 
 Sprite::Sprite()
-	: m_X(0.0), m_Y(0.0), m_Z(0.0), m_rotation(0.0), m_centerX(0.5), m_centerY(0.5), m_factX(1.0), m_factY(1.0), m_ColorMod(Gosu::Colors::white)
+	: m_X(0.0), m_Y(0.0), m_rotation(0.0), m_centerX(0.5), m_centerY(0.5), m_factX(1.0), m_factY(1.0), m_ColorMod(Gosu::Colors::white)
 {
 }
 
 Sprite::Sprite(Gosu::Graphics &_graphics, std::wstring _filename)
-	: m_X(0.0), m_Y(0.0), m_Z(0.0), m_rotation(0.0), m_centerX(0.5), m_centerY(0.5), m_factX(1.0), m_factY(1.0), m_ColorMod(Gosu::Colors::white)
+	: m_X(0.0), m_Y(0.0), m_rotation(0.0), m_centerX(0.5), m_centerY(0.5), m_factX(1.0), m_factY(1.0), m_ColorMod(Gosu::Colors::white)
 {
 	m_Image = Sprite::GetImage(_graphics, _filename);
 }
@@ -61,11 +61,10 @@ void Sprite::setImage(Gosu::Graphics &_graphics, std::wstring _filename)
 	m_Image = Sprite::GetImage(_graphics, _filename);
 }
 
-void Sprite::setPosition( double _x, double _y, Gosu::ZPos _z)
+void Sprite::setPosition( double _x, double _y)
 {
 	m_X = _x;
 	m_Y = _y;
-	m_Z = _z;
 }
 
 void Sprite::setScaling(double _factorX, double _factorY)
@@ -97,19 +96,19 @@ void Sprite::setWindowScale(double _scale)
 
 //----------Operations----------
 
-void Sprite::draw(double _x, double _y) const
+void Sprite::draw(double _x, double _y, Gosu::ZPos _layer) const
 {
-	m_Image->drawRot( m_X * m_WinScale + _x, m_Y * m_WinScale + _y, m_Z, m_rotation, m_centerX, m_centerY, m_factX, m_factY, m_ColorMod);
+	m_Image->drawRot( m_X * m_WinScale + _x, m_Y * m_WinScale + _y, _layer, m_rotation, m_centerX, m_centerY, m_factX, m_factY, m_ColorMod);
 }
 
-void Sprite::drawZoom(double _x, double _y, double _scale, double _zoom, int _scrWidth, int _scrHeight) const
+void Sprite::drawZoom(double _x, double _y, Gosu::ZPos _layer, double _scale, double _zoom, int _scrWidth, int _scrHeight) const
 {
 	m_Image->drawRot( ((m_X - _x) * m_WinScale * _scale) * _zoom + _scrWidth, 
 					 ((m_Y - _y) * m_WinScale * _scale) * _zoom + _scrHeight, 
-					 m_Z, m_rotation, m_centerX, m_centerY, m_factX*_zoom, m_factY*_zoom, m_ColorMod);
+					 _layer, m_rotation, m_centerX, m_centerY, m_factX*_zoom, m_factY*_zoom, m_ColorMod);
 }
 
-void Sprite::drawRot(double _x, double _y, double _scale, double _zoom, double _angle, int _scrWidth, int _scrHeight) const
+void Sprite::drawRot(double _x, double _y, Gosu::ZPos _layer, double _scale, double _zoom, double _angle, int _scrWidth, int _scrHeight) const
 {
 	double nX = ((m_X - _x) * m_WinScale * _scale) * _zoom, nY = ((m_Y - _y) * m_WinScale * _scale) * _zoom;
 	double dist = Gosu::distance( 0.0, 0.0, nX, nY );
@@ -118,5 +117,5 @@ void Sprite::drawRot(double _x, double _y, double _scale, double _zoom, double _
 	double rotY = Gosu::offsetY( ang + _angle, dist );
 	m_Image->drawRot( rotX + _scrWidth, 
 					 rotY + _scrHeight, 
-					 m_Z, m_rotation + _angle, m_centerX, m_centerY, m_factX*_zoom, m_factY*_zoom, m_ColorMod);
+					 _layer, m_rotation + _angle, m_centerX, m_centerY, m_factX*_zoom, m_factY*_zoom, m_ColorMod);
 }

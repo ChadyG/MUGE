@@ -52,7 +52,7 @@ public:
 	Sprite(Gosu::Graphics &_graphics, std::wstring _filename);
 	
 	void setImage(Gosu::Graphics &_graphics, std::wstring _filename);
-	void setPosition( double _x, double _y, Gosu::ZPos _z);
+	void setPosition( double _x, double _y);
 	void setScaling(double _factorX, double _factorY);
 	void setCenter(double _centerX, double _centerY);
 	void setRotation(double _angle);
@@ -67,9 +67,9 @@ public:
 	*	Zoom requires telling the half width and height of the 
 	*	screen in order to zoom from the center.
 	*/
-	void draw(double _x, double _y) const;
-	void drawZoom(double _x, double _y, double _scale, double _zoom, int _scrWidth, int _scrHeight) const;
-	void drawRot(double _x, double _y, double _scale, double _zoom, double _angle, int _scrWidth, int _scrHeight) const;
+	void draw(double _x, double _y, Gosu::ZPos _layer) const;
+	void drawZoom(double _x, double _y, Gosu::ZPos _layer, double _scale, double _zoom, int _scrWidth, int _scrHeight) const;
+	void drawRot(double _x, double _y, Gosu::ZPos _layer, double _scale, double _zoom, double _angle, int _scrWidth, int _scrHeight) const;
 	
 private:
 	boost::shared_ptr<Gosu::Image> m_Image;
@@ -77,7 +77,6 @@ private:
 	// Local transformation
 	double m_X;
 	double m_Y;
-	Gosu::ZPos m_Z;
 	
 	double m_WinScale;
 	double m_factX;

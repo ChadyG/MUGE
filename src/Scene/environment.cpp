@@ -138,7 +138,7 @@ Environment::Environment(MUGE* _engine, std::wstring _config)
 			Sprite tSprite;	
 			tSprite.setImage( m_Engine->graphics(), Gosu::resourcePrefix() + L"Images/" + Gosu::widen( jFile.get<std::string>("Image", *it2) ) );
 			
-			tSprite.setPosition( jFile.get< double >("Position[0]", *it2) * tLayer.scale, jFile.get< double >("Position[1]", *it2) * tLayer.scale, tLayer.layer);
+			tSprite.setPosition( jFile.get< double >("Position[0]", *it2) * tLayer.scale, jFile.get< double >("Position[1]", *it2) * tLayer.scale);
 			tSprite.setRotation( jFile.get< double >("Rotation", *it2) );
 			
 			tSprite.setColorMod( 
@@ -157,7 +157,7 @@ Environment::Environment(MUGE* _engine, std::wstring _config)
 			Sprite tSprite;	
 			tSprite.setImage( m_Engine->graphics(), Gosu::resourcePrefix() + L"Images/" + Gosu::widen( jFile.get<std::string>("Image", *it2) ) );
 			
-			tSprite.setPosition( jFile.get< double >("Position[0]", *it2) * tLayer.scale, jFile.get< double >("Position[1]", *it2) * tLayer.scale, tLayer.layer);
+			tSprite.setPosition( jFile.get< double >("Position[0]", *it2) * tLayer.scale, jFile.get< double >("Position[1]", *it2) * tLayer.scale);
 			tSprite.setRotation( jFile.get< double >("Rotation", *it2) );
 			
 			tSprite.setColorMod( 
@@ -215,10 +215,10 @@ void Environment::update()
 	
 	// Test Rotation
 	if (m_Engine->input().down(Gosu::kbQ)) {
-		m_Rot += 0.1;
+		m_Rot += 0.5;
 	}
 	if (m_Engine->input().down(Gosu::kbE)) {
-		m_Rot -= 0.1;
+		m_Rot -= 0.5;
 	}
 	
 	// We need to know where to draw (temporary, this will be done via script)
@@ -282,10 +282,10 @@ void Environment::draw() const
 		scale = 1.0/itL->second.scale;
 		zoom = 1.0 + scale * (m_Zoom - 1.0);
 		for (itS = itL->second.sprites.begin(); itS != itL->second.sprites.end(); ++itS) {
-			itS->drawRot( m_Focus[0], m_Focus[1], scale, zoom, m_Rot, m_Width/2, m_Height/2);
+			itS->drawRot( m_Focus[0], m_Focus[1], itL->second.layer, scale, zoom, m_Rot, m_Width/2, m_Height/2);
 		}
 	}
 	
 	// Render dynamic objects
-	m_Player->drawZoom( m_Focus[0], m_Focus[1], 1.0, m_Zoom, m_Width/2, m_Height/2);
+	m_Player->drawRot( m_Focus[0], m_Focus[1], 1.0, m_Zoom, m_Rot, m_Width/2, m_Height/2);
 }

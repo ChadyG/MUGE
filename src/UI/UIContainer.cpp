@@ -45,15 +45,15 @@ m_mouseDown(false), m_mouseHeld(false), m_mouseUp(true), m_hitObj(false)
 UITextBox* UIContainer::createTextBox(texDef &_def)
 {
 	//m_Objects
-	m_currentPage->push_back( new UITextBox(_def, m_Graphics, m_Input) );
-	return reinterpret_cast<UITextBox*>(m_currentPage->back());
+	m_currentPage->push_back(  boost::shared_ptr<UIObject>( new UITextBox(_def, m_Graphics, m_Input) ) );
+	return reinterpret_cast<UITextBox*>(m_currentPage->back().get());
 }
 
 UITextBox* UIContainer::createTextBox(texDef &_def, std::string &_page)
 {
 	//m_Objects
-	m_Pages[ _page ].push_back( new UITextBox(_def, m_Graphics, m_Input) );
-	return reinterpret_cast<UITextBox*>(m_Pages[ _page ].back());
+	m_Pages[ _page ].push_back(  boost::shared_ptr<UIObject>( new UITextBox(_def, m_Graphics, m_Input) ) );
+	return reinterpret_cast<UITextBox*>(m_Pages[ _page ].back().get());
 }
 
 /* Text Area */
@@ -61,15 +61,15 @@ UITextBox* UIContainer::createTextBox(texDef &_def, std::string &_page)
 UITextArea* UIContainer::createTextArea(texAreaDef &_def)
 {
 	//m_Objects
-	m_currentPage->push_back( new UITextArea(_def, m_Graphics, m_Input) );
-	return reinterpret_cast<UITextArea*>(m_currentPage->back());
+	m_currentPage->push_back(  boost::shared_ptr<UIObject>( new UITextArea(_def, m_Graphics, m_Input) ) );
+	return reinterpret_cast<UITextArea*>(m_currentPage->back().get());
 }
 
 UITextArea* UIContainer::createTextArea(texAreaDef &_def, std::string &_page)
 {
 	//m_Objects
-	m_Pages[ _page ].push_back( new UITextArea(_def, m_Graphics, m_Input) );
-	return reinterpret_cast<UITextArea*>(m_Pages[ _page ].back());
+	m_Pages[ _page ].push_back(  boost::shared_ptr<UIObject>( new UITextArea(_def, m_Graphics, m_Input) ) );
+	return reinterpret_cast<UITextArea*>(m_Pages[ _page ].back().get());
 }
 
 /* Slider Control */
@@ -77,15 +77,15 @@ UITextArea* UIContainer::createTextArea(texAreaDef &_def, std::string &_page)
 UISliderControl* UIContainer::createSlider(slideDef &_def)
 {
 	//m_Objects
-	m_currentPage->push_back( new UISliderControl(_def, m_Graphics, m_Input) );
-	return reinterpret_cast<UISliderControl*>(m_currentPage->back());
+	m_currentPage->push_back(  boost::shared_ptr<UIObject>( new UISliderControl(_def, m_Graphics, m_Input) ) );
+	return reinterpret_cast<UISliderControl*>(m_currentPage->back().get());
 }
 
 UISliderControl* UIContainer::createSlider(slideDef &_def, std::string &_page)
 {
 	//m_Objects
-	m_Pages[ _page ].push_back( new UISliderControl(_def, m_Graphics, m_Input) );
-	return reinterpret_cast<UISliderControl*>(m_Pages[ _page ].back());
+	m_Pages[ _page ].push_back(  boost::shared_ptr<UIObject>( new UISliderControl(_def, m_Graphics, m_Input) ) );
+	return reinterpret_cast<UISliderControl*>(m_Pages[ _page ].back().get());
 }
 
 /* Button */
@@ -93,15 +93,15 @@ UISliderControl* UIContainer::createSlider(slideDef &_def, std::string &_page)
 UIButton* UIContainer::createButton(buttonDef &_def)
 {
 	//m_Objects
-	m_currentPage->push_back( new UIButton(_def, m_Graphics, m_Input) );
-	return reinterpret_cast<UIButton*>(m_currentPage->back());
+	m_currentPage->push_back(  boost::shared_ptr<UIObject>( new UIButton(_def, m_Graphics, m_Input) ) );
+	return reinterpret_cast<UIButton*>(m_currentPage->back().get());
 }
 
 UIButton* UIContainer::createButton(buttonDef &_def, std::string &_page)
 {
 	//m_Objects
-	m_Pages[ _page ].push_back( new UIButton(_def, m_Graphics, m_Input) );
-	return reinterpret_cast<UIButton*>(m_Pages[ _page ].back());
+	m_Pages[ _page ].push_back(  boost::shared_ptr<UIObject>( new UIButton(_def, m_Graphics, m_Input) ) );
+	return reinterpret_cast<UIButton*>(m_Pages[ _page ].back().get());
 }
 
 
@@ -116,7 +116,7 @@ void UIContainer::setContext( std::string &_page )
 void UIContainer::update()
 {
 	if (m_hasFocus) {
-		std::list< UIObject* >::iterator itObj;
+		std::list< boost::shared_ptr<UIObject> >::iterator itObj;
 		bool mouseIn = false;
 		int mouseX = m_Input.mouseX(), mouseY = m_Input.mouseY();
 
@@ -194,7 +194,7 @@ bool UIContainer::didClick() const
 
 void UIContainer::draw(int _layer) const
 {
-	std::list< UIObject* >::const_iterator itObj;
+	std::list< boost::shared_ptr<UIObject> >::const_iterator itObj;
 	for (itObj = m_currentPage->begin(); itObj != m_currentPage->end(); itObj++) {
 		(*itObj)->draw(0, 0, _layer);
 	}

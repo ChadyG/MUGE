@@ -326,13 +326,12 @@ public:
 	void draw(int _layer) const;
 	
 protected:
-	std::list< UIObject* > m_Objects;
-	typedef std::list< UIObject* > ObjectList;
+	typedef std::list< boost::shared_ptr<UIObject> > ObjectList;
 	std::map< std::string, ObjectList > m_Pages;
 	ObjectList *m_currentPage;
 
-	std::list< UIObject* >::iterator m_FocusObject;
-	std::list< UIObject* >::iterator m_MouseInObject;
+	std::list< boost::shared_ptr<UIObject> >::iterator m_FocusObject;
+	std::list< boost::shared_ptr<UIObject> >::iterator m_MouseInObject;
 
 	bool m_hasFocus;
 	bool m_mouseHeld;
@@ -391,8 +390,9 @@ public:
 
 private:
 
-	UIButton* m_CloseButton;
-	boost::scoped_ptr<Gosu::Image> m_TitleBar;
+	boost::shared_ptr<UIButton> m_CloseButton;
+	//boost::scoped_ptr<Gosu::Image> m_TitleBar;
+	Animation m_TitleBar;
 
 	bool m_closed;
 	bool m_dragging;

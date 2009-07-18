@@ -324,6 +324,14 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="Particles"
+				>
+				<File
+					RelativePath="..\src\Particles\Emitter.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"

@@ -96,9 +96,7 @@ void Player::setWindowScale(double _scale)
 
 void Player::setLayer(Gosu::ZPos _z)
 {
-	std::map< std::string, Animation*>::iterator tAnim;
-	for (tAnim = m_Anims.begin(); tAnim != m_Anims.end(); ++tAnim) 
-		tAnim->second->setPosition( 0, 0, _z);
+	m_Layer = _z;
 }
 
 void Player::setGravity( b2Vec2 _gravity )
@@ -126,16 +124,21 @@ void Player::update(Gosu::Input& _input)
 			m_Pos.x += 0.1;
 	}
 
-	m_AnimState->setPosition( m_Pos.x, m_Pos.y, 4);
+	m_AnimState->setPosition( m_Pos.x, m_Pos.y);
 	m_AnimState->update();
 }
 
 void Player::draw(double _x, double _y) const
 {
-	m_AnimState->draw( _x, _y );
+	m_AnimState->draw( _x, _y, m_Layer );
 }
 
 void Player::drawZoom(double _x, double _y, double _scale, double _zoom, int _scrWidth, int _scrHeight) const
 {
-	m_AnimState->drawZoom(  _x, _y, _scale, _zoom, _scrWidth, _scrHeight);
+	m_AnimState->drawZoom(  _x, _y, m_Layer, _scale, _zoom, _scrWidth, _scrHeight);
+}
+
+void Player::drawRot(double _x, double _y, double _scale, double _zoom, double _angle, int _scrWidth, int _scrHeight) const
+{
+	m_AnimState->drawRot(  _x, _y, m_Layer, _scale, _zoom, _angle, _scrWidth, _scrHeight);
 }

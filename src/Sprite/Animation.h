@@ -27,7 +27,7 @@ public:
 	
 	void setImage(Gosu::Graphics &_graphics, std::wstring _filename, int width, int height, int delay=1);
 	
-	void setPosition( double _x, double _y, Gosu::ZPos _z);
+	void setPosition( double _x, double _y);
 	void setScaling(double _factorX, double _factorY);
 	void setCenter(double _centerX, double _centerY);
 	void setRotation(double _angle);
@@ -43,11 +43,14 @@ public:
 	//Call this to increment frame based on time delay
 	void update();
 	
-	void draw(double _x, double _y) const;
-	void drawFrameAt(int _frame, double _x, double _y) const;
+	void draw(double _x, double _y, Gosu::ZPos _layer) const;
+	void drawFrameAt(int _frame, double _x, double _y, Gosu::ZPos _layer) const;
 	
-	void drawZoom(double _x, double _y, double _scale, double _zoom, int _scrWidth, int _scrHeight) const;
-	void drawFrameAtZoom(int _frame, double _x, double _y, double _scale, double _zoom, int _scrWidth, int _scrHeight) const;
+	void drawZoom(double _x, double _y, Gosu::ZPos _layer, double _scale, double _zoom, int _scrWidth, int _scrHeight) const;
+	void drawFrameAtZoom(int _frame, double _x, double _y, Gosu::ZPos _layer, double _scale, double _zoom, int _scrWidth, int _scrHeight) const;
+	
+	void drawRot(double _x, double _y, Gosu::ZPos _layer, double _scale, double _zoom, double _angle, int _scrWidth, int _scrHeight) const;
+	void drawFrameAtRot(int _frame, double _x, double _y, Gosu::ZPos _layer, double _scale, double _zoom, double _angle, int _scrWidth, int _scrHeight) const;
 
 private:
 	std::vector< t_Image > m_Sprites;
@@ -61,7 +64,6 @@ private:
 	double m_rotation;
 	double m_X;
 	double m_Y;
-	Gosu::ZPos m_Z;
 	
 	double m_WinScale;
 	double m_factX;

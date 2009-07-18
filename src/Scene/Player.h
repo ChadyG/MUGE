@@ -43,11 +43,13 @@ public:
 	void update(Gosu::Input& _input);
 	void draw(double _x, double _y) const;
 	void drawZoom(double _x, double _y, double _scale, double _zoom, int _scrWidth, int _scrHeight) const;
+	void drawRot(double _x, double _y, double _scale, double _zoom, double _angle, int _scrWidth, int _scrHeight) const;
 	
 protected:
 	//Image Data
 	std::map< std::string, Animation*> m_Anims;
 	Animation* m_AnimState;
+	Gosu::ZPos m_Layer;
 	
 	b2Body *m_Body;
 	b2World *m_World;

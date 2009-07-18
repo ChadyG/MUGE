@@ -46,6 +46,7 @@ void UIButton::setImage(std::wstring &_file)
 {
 	m_hasImage = true;
 	m_Image.setImage(m_Graphics, _file, m_Width, m_Height);
+	m_Image.setCenter(0.0, 0.0);
 }
 
 void UIButton::onMouseIn()
@@ -87,7 +88,7 @@ void UIButton::draw(int _x, int _y, int _layer) const
 		int x = _x + m_X;
 		int y = _y + m_Y;
 		if (m_hasImage) {
-			m_Image.getFrame(m_State).draw( x, y, _layer);	
+			m_Image.drawFrameAt( m_State, x, y, _layer);	
 		}else{
 			m_Graphics.drawQuad( x - 1, m_Y - 1, 0xFF0F276E, x + m_Width + 1, y - 1, 0xFF0F276E,
 								x + m_Width + 1, y + m_Height + 1, 0xFF0F276E, x - 1, y + m_Height + 1, 0xFF0F276E, _layer);

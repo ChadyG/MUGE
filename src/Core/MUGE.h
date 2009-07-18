@@ -81,8 +81,8 @@ public:
 	
 private:
 	//InputManager inputManager;
-	std::stack< GameState* > m_States;
-	std::queue< GameState* > m_NextStates;
+	std::stack< boost::shared_ptr<GameState> > m_States;
+	std::queue< boost::shared_ptr<GameState> > m_NextStates;
 	
 	int m_curFPS;
 	int m_curTicks;

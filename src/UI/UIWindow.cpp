@@ -41,7 +41,7 @@ UIWindow::UIWindow(windowDef& _def, Gosu::Graphics &_graphics, Gosu::Input &_inp
 
 	m_X = 50;
 	m_Y = 50;
-
+/*
 	Gosu::Bitmap map = Gosu::quickLoadBitmap(Gosu::resourcePrefix() + L"Images/titlebar.png");
 	Gosu::Bitmap titleBar;
 
@@ -53,22 +53,30 @@ UIWindow::UIWindow(windowDef& _def, Gosu::Graphics &_graphics, Gosu::Input &_inp
 			titleBar.setPixel( x + m_Width - 25, y, map.getPixel( x + 50, y) );
 		}
 	}
+
 	Gosu::Color c;
 	for (int y=0; y < 25; ++y) {
-		c = map.getPixel( 26, y);
-		for (int x=0; x < m_Width - 50; ++x) {
-			titleBar.setPixel( x + 25, y, c );
+		c = map.getPixel( 25, y);
+		for (int x=25; x < m_Width - 25; ++x) {
+			titleBar.setPixel( x, y, c );
 		}
 	}
+	*/
 
-	m_TitleBar.reset( new Gosu::Image(_graphics, titleBar) );
+	//m_TitleBar.reset( new Gosu::Image(_graphics, titleBar) );
+	m_TitleBar.setImage( _graphics, Gosu::resourcePrefix() + L"Images/titlebar.png", 25, 25);
+	m_TitleBar.setCenter( 0.0, 0.0);
+	
 
 	buttonDef def;
 	def.x = m_Width - 25;
 	def.y = 5;
 	def.width = 20;
 	def.height = 20;
-	m_CloseButton = createButton( def );
+	
+	m_CloseButton.reset( new UIButton(def, m_Graphics, m_Input) );
+	m_currentPage->push_back( m_CloseButton );
+	
 	std::wstring tString = Gosu::resourcePrefix() + L"Images/closebutton.png";
 	m_CloseButton->setImage( tString );
 	
@@ -106,7 +114,7 @@ bool UIWindow::pointIn(int _x, int _y)
 void UIWindow::update()
 {
 	if (m_hasFocus && m_visible) {
-		std::list< UIObject* >::iterator itObj;
+		std::list< boost::shared_ptr<UIObject> >::iterator itObj;
 		bool mouseIn = false;
 		int mouseX = m_Input.mouseX(), mouseY = m_Input.mouseY();
 
@@ -202,7 +210,12 @@ void UIWindow::update()
 void UIWindow::draw(int _x, int _y, int _layer) const
 {
 	if (m_visible) {
-		m_TitleBar->draw(m_X, m_Y, _layer);
+		//m_TitleBar->draw(m_X, m_Y, _layer);
+		m_TitleBar.drawFrameAt( 0, m_X, m_Y, _layer);
+		for (int i=25; i<(m_Width-25); i += 25) {
+			m_TitleBar.drawFrameAt( 1, m_X + i, m_Y, _layer);
+		} 
+		m_TitleBar.drawFrameAt( 2, m_X + m_Width - 25, m_Y, _layer);
 		m_Graphics.drawQuad( m_X, m_Y + 25, Gosu::Colors::white, m_X, m_Y + m_Height, Gosu::Colors::white,
 			m_X-1 + m_Width, m_Y + m_Height, Gosu::Colors::white, m_X-1 + m_Width, m_Y + 25, Gosu::Colors::white, _layer);
 
@@ -210,7 +223,7 @@ void UIWindow::draw(int _x, int _y, int _layer) const
 		m_Graphics.drawLine( m_X, m_Y + m_Height, Gosu::Colors::black, m_X-1 + m_Width, m_Y + m_Height, Gosu::Colors::black, _layer);
 		m_Graphics.drawLine( m_X-1 + m_Width, m_Y + m_Height, Gosu::Colors::black, m_X-1 + m_Width, m_Y + 25, Gosu::Colors::black, _layer);
 
-		std::list< UIObject* >::const_iterator itObj;
+		std::list< boost::shared_ptr<UIObject> >::const_iterator itObj;
 		for (itObj = m_currentPage->begin(); itObj != m_currentPage->end(); itObj++) {
 			(*itObj)->draw(m_X, m_Y, _layer);
 		}

@@ -68,7 +68,7 @@ void MUGE::changeState( GameState *state )
 		//m_States.top()->cleanup();
 		//m_States.pop();
 	}
-	m_NextStates.push(state);
+	m_NextStates.push( boost::shared_ptr<GameState>(state) );
 	//m_States.push(state);
 	//state->init(this);
 }
@@ -78,7 +78,7 @@ void MUGE::pushState( GameState *state )
 	m_stackDirty = true;
 	if (!m_States.empty())
 		m_States.top()->setFocus(false);
-	m_NextStates.push(state);
+	m_NextStates.push( boost::shared_ptr<GameState>(state) );
 	//m_States.push(state);
 	//state->init(this);
 }
