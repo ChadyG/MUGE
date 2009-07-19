@@ -1,5 +1,5 @@
 /*
-   Environment.cpp
+   Scene.cpp
    Mizzou Game Engine
  
    Created by Chad Godsey on 11/12/08.
@@ -30,7 +30,7 @@ OTHER DEALINGS IN THE SOFTWARE.
  */
  
 #include "../Core/MUGE.h"
-#include "Environment.h"
+#include "Scene.h"
 #include "../Input/JSONFile.hpp"
 #include "../Physics/ContactListener.h"
 #include "../Scene/Player.h"
@@ -38,7 +38,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include <iostream>
 #include <fstream>
 
-Environment::Environment(MUGE* _engine, std::wstring _config)
+Scene::Scene(MUGE* _engine, std::wstring _config)
 {
 	m_Engine = _engine;
 	
@@ -171,7 +171,8 @@ Environment::Environment(MUGE* _engine, std::wstring _config)
 			
 			// Physics!
 		}
-		m_Layers[jFile.get<std::string>("ID", *it)] = tLayer;
+		m_Layers[tLayer.layer] = tLayer;
+		m_LayerNames[tLayer.ID] = tLayer.layer;
 	}
 	
 	
@@ -189,7 +190,7 @@ Environment::Environment(MUGE* _engine, std::wstring _config)
 	
 }
 
-void Environment::tellPlayer( Player *_player )
+void Scene::tellPlayer( Player *_player )
 {
 	m_Player = _player;
 	m_Player->setWindowScale( m_Scale );
@@ -197,7 +198,7 @@ void Environment::tellPlayer( Player *_player )
 	m_Player->setLayer( 4 );
 }
 
-void Environment::update()
+void Scene::update()
 {
 	// Step physics simulation
 	//m_Worldp->Step(m_TimeStep, m_Iterations);
@@ -266,7 +267,7 @@ void Environment::update()
 */	
 }
 
-void Environment::draw() const
+void Scene::draw() const
 {
 	// Canvas color
 	m_Engine->graphics().drawQuad( 0, 0, m_canvasColor, 
@@ -276,7 +277,7 @@ void Environment::draw() const
 	
 	// Render all sprites
 	double scale, zoom;
-	std::map< std::string, SpriteLayer >::const_iterator itL;
+	std::map< Gosu::ZPos, SpriteLayer >::const_iterator itL;
 	std::list< Sprite >::const_iterator itS;
 	for (itL = m_Layers.begin(); itL != m_Layers.end(); ++itL) {
 		scale = 1.0/itL->second.scale;

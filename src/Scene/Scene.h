@@ -1,5 +1,5 @@
 /*
-   Environment.h
+   Scene.h
    Mizzou Game Engine
  
    Created by Chad Godsey on 11/12/08.
@@ -37,6 +37,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include "../Sprite/Animation.h"
 #include "../Physics/ContactListener.h"
 
+class MUGE;
 class Player;
 
 struct SpriteLayer
@@ -49,16 +50,16 @@ struct SpriteLayer
 };
 
 /**
-* Gameplay class
+* Scene class
 * This class serves as a central hub for all gameplay objects.
 * This makes communication between classes easier and in some cases actions can 
 * defer up to this class.
 * Also handles level loading.
 */
-class Environment
+class Scene
 {
 public:
-	Environment(MUGE* _engine, std::wstring _config );
+	Scene(MUGE* _engine, std::wstring _config );
 	
 	void tellPlayer( Player *_player );
 	
@@ -70,7 +71,8 @@ protected:
 	MUGE* m_Engine;
 	
 	Gosu::Color m_canvasColor;
-	std::map< std::string, SpriteLayer > m_Layers;
+	std::map< Gosu::ZPos, SpriteLayer > m_Layers;
+	std::map< std::string, Gosu::ZPos > m_LayerNames;
 	
 	// Scene stuff
 	boost::scoped_ptr< Gosu::Song > m_Music;

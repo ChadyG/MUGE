@@ -62,23 +62,23 @@ void AdventureState::init( MUGE* _engine)
 		m_Player.addAnimation( jFile.get< std::string >("Name", *it), anim );
 	}
 	
-	m_Environment.reset( new Environment(m_Engine, Gosu::widen( jFile.get< std::string >("Levels[0]") )));
-	m_Environment->tellPlayer( &m_Player );
+	m_Scene.reset( new Scene(m_Engine, Gosu::widen( jFile.get< std::string >("Levels[0]") )));
+	m_Scene->tellPlayer( &m_Player );
 }
 
 void AdventureState::cleanup()
 {
-	m_Environment.reset(0);
+	m_Scene.reset(0);
 }
 
 void AdventureState::update()
 {
-	m_Environment->update();
+	m_Scene->update();
 }
 
 void AdventureState::draw() const
 {
-	m_Environment->draw();
+	m_Scene->draw();
 }
 
 void AdventureState::resume()

@@ -72,14 +72,14 @@ void UITextArea::takeFocus()
 
 void UITextArea::update()
 {
-	if (m_Justify == Justify::Left) {
+	if (m_Justify == Left) {
 		m_Offset = 0;
 	}
-	if (m_Justify == Justify::Center) {
+	if (m_Justify == Center) {
 		int width = m_Font->textWidth( m_Text );
 		m_Offset = m_Width/2 - width/2;
 	}
-	if (m_Justify == Justify::Right) {
+	if (m_Justify == Right) {
 		int width = m_Font->textWidth( m_Text );
 		m_Offset = m_Width - width;
 	}

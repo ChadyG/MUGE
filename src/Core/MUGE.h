@@ -91,3 +91,11 @@ private:
 	bool m_stackDirty;
 
 };
+/*
+namespace MUGE
+{
+	typedef b2Vec2 Point2D;
+	
+	
+}
+*/

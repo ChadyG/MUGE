@@ -38,6 +38,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include <Gosu/Gosu.hpp>
 #include <map>
 
+
 class Sprite
 {
 public:

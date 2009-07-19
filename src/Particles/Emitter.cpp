@@ -1,10 +1,10 @@
 /*
-   AdventureState.h
-   Mizzou Game Engine
- 
-   Created by Chad Godsey on 3/9/09.
-  
- Copyright 2009 Mizzou Game Design.
+	Emitter.cpp
+	Mizzou Game Engine
+
+	Created by Chad Godsey on 7/18/09.
+
+	Copyright 2009 Mizzou Game Design.
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
@@ -26,43 +26,7 @@ HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
- */
+*/
 
-#include <Gosu/Gosu.hpp>
-#include "Core/GameState.h"
-#include "Scene/Scene.h"
-#include "Scene/Player.h"
+#include "Emitter.h"
 
-class MUGE;
-
-/**
- * State for Adventure gameplay
- * 
- * Must be able to load from a save, store to a save, and start from scratch.
- * If just starting, show opening sequence then load first level.
- * While playing, is able to swap out levels as player progresses.
- * Pause menu control can go here as well.  Allow player to save, quit and likely
- * open up some options to control.
- */
-class AdventureState : public GameState
-{
-public:
-	AdventureState( std::wstring _config );
-	
-	void init( MUGE* _engine );
-	void cleanup();
-	
-	void pause();
-	void resume();
-	
-	void update();
-	void draw() const;
-	
-	void save();
-	
-private:
-	std::wstring m_ConfigFile;
-	Player m_Player;
-	boost::scoped_ptr< Scene > m_Scene;
-
-};
