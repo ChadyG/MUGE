@@ -58,6 +58,7 @@ void Player::setPhysics( double _x, double _y, b2World* _world)
 {
 	m_Pos.x = _x;
 	m_Pos.y = _y;
+	setPosition( m_Pos );
 /*
 	m_World = _world;
 	b2CircleDef cDef;
@@ -76,22 +77,11 @@ void Player::setPhysics( double _x, double _y, b2World* _world)
 	*/
 }
 
-b2Vec2 Player::getPosition()
-{
-	return m_Pos;
-}
-
 void Player::addAnimation(std::string _name, Animation* _anim)
 {
 	m_Anims[_name] = _anim;
 	m_AnimState = m_Anims[_name];
-}
-
-void Player::setWindowScale(double _scale)
-{
-	std::map< std::string, Animation*>::iterator tAnim;
-	for (tAnim = m_Anims.begin(); tAnim != m_Anims.end(); ++tAnim) 
-		tAnim->second->setWindowScale(_scale);
+	addChild( (SceneObject*)(m_Anims[_name]) );
 }
 
 void Player::setLayer(Gosu::ZPos _z)
@@ -111,7 +101,7 @@ void Player::onHit(SceneObject &other, b2ContactPoint &point)
 
 void Player::update(Gosu::Input& _input)
 {
-	//m_Pos = m_Body->GetPosition();
+	m_Pos = m_Position;//m_Body->GetPosition();
 	
 	if (_input.down(Gosu::kbLeft)) {
 		m_Pos.x -= 0.1;
@@ -124,21 +114,12 @@ void Player::update(Gosu::Input& _input)
 			m_Pos.x += 0.1;
 	}
 
-	m_AnimState->setPosition( m_Pos.x, m_Pos.y);
+	setPosition( m_Pos );
+	//m_AnimState->setPosition( m_Pos );
 	m_AnimState->update();
 }
 
-void Player::draw(double _x, double _y) const
+void Player::draw(double _x, double _y, double _zoom, double _angle) const
 {
-	m_AnimState->draw( _x, _y, m_Layer );
-}
-
-void Player::drawZoom(double _x, double _y, double _scale, double _zoom, int _scrWidth, int _scrHeight) const
-{
-	m_AnimState->drawZoom(  _x, _y, m_Layer, _scale, _zoom, _scrWidth, _scrHeight);
-}
-
-void Player::drawRot(double _x, double _y, double _scale, double _zoom, double _angle, int _scrWidth, int _scrHeight) const
-{
-	m_AnimState->drawRot(  _x, _y, m_Layer, _scale, _zoom, _angle, _scrWidth, _scrHeight);
+	m_AnimState->draw(  _x, _y, m_Layer, _zoom, _angle);
 }

@@ -31,12 +31,8 @@ OTHER DEALINGS IN THE SOFTWARE.
  
 #include "../Core/MUGE.h"
 #include "Scene.h"
-#include "../Input/JSONFile.hpp"
 #include "../Physics/ContactListener.h"
 #include "../Scene/Player.h"
-#include <string>
-#include <iostream>
-#include <fstream>
 
 Scene::Scene(MUGE* _engine, std::wstring _config)
 {
@@ -49,6 +45,7 @@ Scene::Scene(MUGE* _engine, std::wstring _config)
 	m_Height = m_Engine->graphics().height();
 	m_Zoom = 1.0;
 	m_Rot = 0.0;
+	m_Orientation = 0.0;
 	
 	// box2D stuff
 	/*
@@ -69,139 +66,171 @@ Scene::Scene(MUGE* _engine, std::wstring _config)
 	// pull out data using JSONFile class
 	//
 	
-	JSONFile jFile(Gosu::narrow(Gosu::resourcePrefix() + L"Data/" + _config + L".json"));
+	m_jFile.reset( new JSONFile(Gosu::narrow(Gosu::resourcePrefix() + L"Data/" + _config + L".json")) );
 	json::grammar<char>::array::const_iterator it, it2;
 	json::grammar<char>::array arr, arr2;
 	json::grammar<char>::object o;
-	int i, j;
+	int i, layer;
 	std::string tString;
 	
 	
-	m_PlayerPos.Set(jFile.get< double >("PlayerSpawn[0]"), jFile.get< double >("PlayerSpawn[1]"));
+	m_PlayerPos.Set(m_jFile->get< double >("PlayerSpawn[0]"), m_jFile->get< double >("PlayerSpawn[1]"));
 	
-	arr = jFile.get<json::grammar<char>::array>("CanvasColor");
+	arr = m_jFile->get<json::grammar<char>::array>("CanvasColor");
 	m_canvasColor = Gosu::Color( 
-							jFile.get< int >("CanvasColor[0]"), 
-							jFile.get< int >("CanvasColor[1]"),
-							jFile.get< int >("CanvasColor[2]"),
-							jFile.get< int >("CanvasColor[3]"));
+							m_jFile->get< int >("CanvasColor[0]"), 
+							m_jFile->get< int >("CanvasColor[1]"),
+							m_jFile->get< int >("CanvasColor[2]"),
+							m_jFile->get< int >("CanvasColor[3]"));
 	
 	
-	m_Scale = jFile.get< int >("Scale");
+	m_Scale = m_jFile->get< int >("Scale");
 	
 	// Physics shape cache here
 	std::map< std::string, b2ShapeDef* > tShapes;
-	arr = jFile.get<json::grammar<char>::array>("PhysicsShapes");
+	arr = m_jFile->get<json::grammar<char>::array>("PhysicsShapes");
 	for (i = 0, it = arr.begin(); it != arr.end(); ++it, ++i) {
-		tString = jFile.get< std::string >("Type", *it);
+		tString = m_jFile->get< std::string >("Type", *it);
 		if (tString == "Rectangle") {
 			b2PolygonDef *pDef = new b2PolygonDef();
 			// width
 			// height
-			pDef->density = jFile.get< double >("Density", *it);
-			pDef->friction = jFile.get< double >("Friction", *it);
-			pDef->restitution = jFile.get< double >("Restitution", *it);
+			pDef->density = m_jFile->get< double >("Density", *it);
+			pDef->friction = m_jFile->get< double >("Friction", *it);
+			pDef->restitution = m_jFile->get< double >("Restitution", *it);
 			// LinearDamping if exists
 			
-			tShapes[jFile.get<std::string>("ID", *it)] = pDef;
+			tShapes[m_jFile->get<std::string>("ID", *it)] = pDef;
 		}
 		if (tString == "Circle") {
 			b2CircleDef *cDef = new b2CircleDef();
-			cDef->radius = jFile.get< double >("Radius", *it);
-			cDef->density = jFile.get< double >("Density", *it);
-			cDef->friction = jFile.get< double >("Friction", *it);
-			cDef->restitution = jFile.get< double >("Restitution", *it);
+			cDef->radius = m_jFile->get< double >("Radius", *it);
+			cDef->density = m_jFile->get< double >("Density", *it);
+			cDef->friction = m_jFile->get< double >("Friction", *it);
+			cDef->restitution = m_jFile->get< double >("Restitution", *it);
 			
-			tShapes[jFile.get<std::string>("ID", *it)] = cDef;
+			tShapes[m_jFile->get<std::string>("ID", *it)] = cDef;
 		}
 		if (tString == "Polygon") {
 			b2PolygonDef *pDef = new b2PolygonDef();
 			// Verts
-			pDef->density = jFile.get< double >("Density", *it);
-			pDef->friction = jFile.get< double >("Friction", *it);
-			pDef->restitution = jFile.get< double >("Restitution", *it);
+			pDef->density = m_jFile->get< double >("Density", *it);
+			pDef->friction = m_jFile->get< double >("Friction", *it);
+			pDef->restitution = m_jFile->get< double >("Restitution", *it);
 			
-			tShapes[jFile.get<std::string>("ID", *it)] = pDef;
+			tShapes[m_jFile->get<std::string>("ID", *it)] = pDef;
 		}
 	}
 	
 	
-	arr = jFile.get<json::grammar<char>::array>("Layers");
+	arr = m_jFile->get<json::grammar<char>::array>("Layers");
 	for (i = 0, it = arr.begin(); it != arr.end(); ++it, ++i) {
-		SpriteLayer tLayer;
-		tLayer.scale = jFile.get< double >("Scale", *it);
-		tLayer.layer = jFile.get< int >("Layer", *it);
-		tLayer.ID = jFile.get<std::string>("ID", *it);
+		layer = m_jFile->get< int >("Layer", *it);
+		m_Layers[layer].scale = m_jFile->get< double >("Scale", *it);
+		m_Layers[layer].layer = m_jFile->get< int >("Layer", *it);
+		m_Layers[layer].ID = m_jFile->get<std::string>("ID", *it);
 		
-		arr2 = jFile.get<json::grammar<char>::array>("StaticSprites", *it);
-		for (j = 0, it2 = arr2.begin(); it2 != arr2.end(); ++it2, ++j) {
-			Sprite tSprite;	
-			tSprite.setImage( m_Engine->graphics(), Gosu::resourcePrefix() + L"Images/" + Gosu::widen( jFile.get<std::string>("Image", *it2) ) );
-			
-			tSprite.setPosition( jFile.get< double >("Position[0]", *it2) * tLayer.scale, jFile.get< double >("Position[1]", *it2) * tLayer.scale);
-			tSprite.setRotation( jFile.get< double >("Rotation", *it2) );
-			
-			tSprite.setColorMod( 
-					Gosu::Color( jFile.get< int >("ColorMod[0]", *it2), 
-								 jFile.get< int >("ColorMod[1]", *it2), 
-								 jFile.get< int >("ColorMod[2]", *it2), 
-								 jFile.get< int >("ColorMod[3]", *it2) ) );
-			tSprite.setScaling( jFile.get< double >("xScale", *it2), jFile.get< double >("yScale", *it2) );
-			tSprite.setWindowScale( m_Scale );
-			tLayer.sprites.push_back( tSprite );
-		}
-		// Dynamic Sprites
-		// Same as above, but then tie into some logic
-		arr2 = jFile.get<json::grammar<char>::array>("DynamicSprites", *it);
-		for (j = 0, it2 = arr2.begin(); it2 != arr2.end(); ++it2, ++j) {
-			Sprite tSprite;	
-			tSprite.setImage( m_Engine->graphics(), Gosu::resourcePrefix() + L"Images/" + Gosu::widen( jFile.get<std::string>("Image", *it2) ) );
-			
-			tSprite.setPosition( jFile.get< double >("Position[0]", *it2) * tLayer.scale, jFile.get< double >("Position[1]", *it2) * tLayer.scale);
-			tSprite.setRotation( jFile.get< double >("Rotation", *it2) );
-			
-			tSprite.setColorMod( 
-					Gosu::Color( jFile.get< int >("ColorMod[0]", *it2), 
-								 jFile.get< int >("ColorMod[1]", *it2), 
-								 jFile.get< int >("ColorMod[2]", *it2), 
-								 jFile.get< int >("ColorMod[3]", *it2) ) );
-			tSprite.setScaling( jFile.get< double >("xScale", *it2), jFile.get< double >("yScale", *it2) );
-			tSprite.setWindowScale( m_Scale );
-			tLayer.sprites.push_back( tSprite );
-			
-			// Physics!
-		}
-		m_Layers[tLayer.layer] = tLayer;
-		m_LayerNames[tLayer.ID] = tLayer.layer;
+		// String access map
+		m_LayerNames[m_Layers[layer].ID] = layer;
+		
+		// Recursive evaluation of layer hierarchy
+		arr2 = m_jFile->get<json::grammar<char>::array>("Objects", *it);
+		evalJSON(arr2, layer, &m_SceneRoot);
 	}
 	
 	
-	/*
-	arr = jFile.get<json::grammar<char>::array>("GameObjects");
-	for (i = 0, it = arr.begin(); it != arr.end(); ++it, ++i) {
-		//jFile.get<int>("x", *it);
-		//jFile.get<int>("y", *it);
-		//jFile.get<std::string>("type", *it);
-		//jFile.get<int>("amount", *it);
-	}
-	*/
 	m_Music.reset( new Gosu::Song( m_Engine->audio(), Gosu::resourcePrefix() + L"Sound/Colugo-Fantastic_face.ogg"));
 	m_Music->play(true);
 	
 }
 
+void Scene::evalJSON( json::grammar<char>::array _array, int _layer, SceneObject *_parent )
+{
+	std::string type;
+	json::grammar<char>::array::const_iterator it;
+	for (it = _array.begin(); it != _array.end(); ++it) {
+		type = m_jFile->get<std::string>("Type", *it);
+		if (type == "Sprite") {
+			evalSprite( it, _layer, _parent );
+			
+			json::grammar<char>::array childrenArray = m_jFile->get<json::grammar<char>::array>("Children", *it);
+			if (!childrenArray.empty())
+				evalJSON(childrenArray, _layer, (SceneObject*)(&(m_Layers[_layer].sprites.back())));
+		}
+		if (type == "Trigger" ) {
+			evalTrigger( it, _layer, _parent );
+			
+			json::grammar<char>::array childrenArray = m_jFile->get<json::grammar<char>::array>("Children", *it);
+			if (!childrenArray.empty())
+				evalJSON(childrenArray, _layer, (SceneObject*)(&(m_Layers[_layer].triggers.back())));
+		}
+	}
+}
+
+void Scene::evalSprite( json::grammar<char>::array::const_iterator _it, int _layer, SceneObject *_parent )
+{
+	Sprite tSprite;	
+	tSprite.setImage( 
+		m_Engine->graphics(), 
+		Gosu::resourcePrefix() + L"Images/" + Gosu::widen( m_jFile->get<std::string>("Image", *_it) ) );
+	
+	tSprite.setPosition( 
+		b2Vec2(m_jFile->get< double >("Position[0]", *_it) * m_Layers[_layer].scale, 
+		m_jFile->get< double >("Position[1]", *_it) * m_Layers[_layer].scale));
+	tSprite.setRotation( m_jFile->get< double >("Rotation", *_it) );
+	
+	tSprite.setColorMod(
+		Gosu::Color( m_jFile->get< int >("ColorMod[0]", *_it), 
+					m_jFile->get< int >("ColorMod[1]", *_it), 
+					m_jFile->get< int >("ColorMod[2]", *_it), 
+					m_jFile->get< int >("ColorMod[3]", *_it) ) );
+	tSprite.setScaling( 
+		m_jFile->get< double >("xScale", *_it), 
+		m_jFile->get< double >("yScale", *_it) );
+	tSprite.registerScene( this );
+	m_Layers[_layer].sprites.push_back( tSprite );
+	_parent->addChild( (SceneObject*)(&(m_Layers[_layer].sprites.back())) );
+}
+
+void Scene::evalTrigger( json::grammar<char>::array::const_iterator _it, int _layer, SceneObject *_parent )
+{
+	Trigger tTrigger;	
+	
+	tTrigger.setExtents( m_jFile->get<double>("Top", *_it),
+						m_jFile->get<double>("Left", *_it),
+						m_jFile->get<double>("Bottom", *_it),
+						m_jFile->get<double>("Right", *_it));
+	
+	m_Layers[_layer].triggers.push_back( tTrigger );
+}
+
 void Scene::tellPlayer( Player *_player )
 {
 	m_Player = _player;
-	m_Player->setWindowScale( m_Scale );
+	m_SceneRoot.addChild( (SceneObject*)(_player) );
+	m_Player->registerScene( this );
 	m_Player->setPhysics( m_PlayerPos.x, m_PlayerPos.y, m_World);
-	m_Player->setLayer( 4 );
+	m_Player->setLayer( 3 );
+}
+
+b2Vec2 Scene::worldToScreen( b2Vec2 _world, Gosu::ZPos _layer )
+{
+	double scale = 1.0/m_Layers[_layer].scale;
+	double zoom = 1.0 + scale * (m_Zoom - 1.0);
+	b2Vec2 newPos((_world.x * m_Scale * scale) * zoom, 
+				  (_world.y * m_Scale * scale) * zoom);
+	b2Mat22 rotate( m_Rot*(Gosu::pi/180.0) );
+	b2Vec2 rotPos = b2Mul( rotate, newPos);
+	rotPos.Set( rotPos.x + m_Width/2, rotPos.y + m_Height/2);
+	return rotPos;
 }
 
 void Scene::update()
 {
 	// Step physics simulation
 	//m_Worldp->Step(m_TimeStep, m_Iterations);
+	m_SceneRoot.update(m_Orientation, b2Vec2(0.0, 0.0));
+	//m_Orientation += 0.01;
 	
 	m_Player->update(m_Engine->input());
 	b2Vec2 m_PlayerPos = m_Player->getPosition();
@@ -225,46 +254,45 @@ void Scene::update()
 	// We need to know where to draw (temporary, this will be done via script)
 	m_Focus[0] = m_PlayerPos.x;
 	m_Focus[1] = m_PlayerPos.y - 4.0;
+	
+	// Set screen offset from world focus point
 	m_Offset[0] = m_Focus[0]*m_Scale*m_Zoom - m_Width/2;
 	m_Offset[1] = m_Height - m_Focus[1]*m_Scale*m_Zoom - m_Height/2;
 	
 	// Update scene objects
 	// Do callbacks for areas
-	/*
-	b2AABB space;
-	space.lowerBound = b2Vec2(m_Center.x - m_OuterRegion.x, m_Center.y - m_OuterRegion.y);
-	space.upperBound = b2Vec2(m_Center.x + m_OuterRegion.x, m_Center.y + m_OuterRegion.y);
 	
-	std::map< std::string, SpriteLayer >::iterator itL;
+	b2AABB space;
+	space.lowerBound = b2Vec2(m_Focus[0] - m_Width/2, m_Focus[1] - m_Height/2);
+	space.upperBound = b2Vec2(m_Focus[0] + m_Width/2, m_Focus[1] + m_Height/2);
+	
+	std::map< Gosu::ZPos, SpriteLayer >::iterator itL;
 	for (itL = m_Layers.begin(); itL != m_Layers.end(); ++itL) {
-		std::vector< SceneArea >::iterator it;
-		for (it = itL->second.areas.begin(); it != itL->second.areas.end(); it++) {
-			if ((*it)->overLap(space)) {
-				if (!(*it)->inCamera()) {
-					(*it)->onEnterCamera();
+		std::list< Trigger >::iterator it;
+		for (it = itL->second.triggers.begin(); it != itL->second.triggers.end(); it++) {
+			if (it->overlap(space)) {
+				if (!it->inCamera()) {
+					it->onEnterCamera();
 				}
 			}else{
-				if ((*it)->inCamera()) {
-					(*it)->onLeaveCamera();
+				if (it->inCamera()) {
+					it->onLeaveCamera();
 				}
 			}
 			
-			// This ties the camera focus to the player
-			// defeating any choreography systems
-			if ((*it)->pointIn(focus)) {
-				if (!(*it)->playerIn()) {
-					(*it)->onPlayerEnter();
+			if (it->pointIn(m_PlayerPos)) {
+				if (!it->playerIn()) {
+					it->onPlayerEnter();
 				}
 			}else{
-				if ((*it)->playerIn()) {
-					(*it)->onPlayerLeave();
+				if (it->playerIn()) {
+					it->onPlayerLeave();
 				}
 			}
 		}
 		// update sceneobjects
 		// re-order by Y value if desired
 	}
-*/	
 }
 
 void Scene::draw() const
@@ -283,10 +311,10 @@ void Scene::draw() const
 		scale = 1.0/itL->second.scale;
 		zoom = 1.0 + scale * (m_Zoom - 1.0);
 		for (itS = itL->second.sprites.begin(); itS != itL->second.sprites.end(); ++itS) {
-			itS->drawRot( m_Focus[0], m_Focus[1], itL->second.layer, scale, zoom, m_Rot, m_Width/2, m_Height/2);
+			itS->draw( m_Focus[0], m_Focus[1], itL->second.layer, zoom, m_Rot);
 		}
 	}
 	
 	// Render dynamic objects
-	m_Player->drawRot( m_Focus[0], m_Focus[1], 1.0, m_Zoom, m_Rot, m_Width/2, m_Height/2);
+	m_Player->draw( m_Focus[0], m_Focus[1], m_Zoom, m_Rot);
 }

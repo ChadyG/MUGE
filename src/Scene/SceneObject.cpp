@@ -1,0 +1,100 @@
+/*
+ SceneObject.cpp
+ Mizzou Game Engine
+ 
+ Created by Chad Godsey on 1/9/08.
+ 
+ Copyright 2009 Mizzou Game Design.
+ 
+ Permission is hereby granted, free of charge, to any person
+ obtaining a copy of this software and associated documentation
+ files (the "Software"), to deal in the Software without
+ restriction, including without limitation the rights to use,
+ copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the
+ Software is furnished to do so, subject to the following
+ conditions:
+ 
+ The above copyright notice and this permission notice shall be
+ included in all copies or substantial portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ OTHER DEALINGS IN THE SOFTWARE.
+ */
+
+#include "SceneObject.h"
+
+SceneObject::SceneObject()
+: m_Orientation(0.0), m_Rotation(0.0), m_Translation(0.0, 0.0), m_Position(0.0, 0.0)
+{
+
+}
+
+void SceneObject::registerScene( Scene *_scene )
+{
+	m_Scene = _scene;
+	std::list< SceneObject* >::iterator tChild;
+	for (tChild = m_Children.begin(); tChild != m_Children.end(); ++tChild) {
+		(*tChild)->registerScene( _scene );
+	}
+}
+
+void SceneObject::update( double _rotate, b2Vec2 _translate)
+{
+	b2Mat22 rotate( _rotate );
+	m_Position = b2Mul(rotate, m_Translation) + _translate;
+	m_Rotation = m_Orientation + _rotate;
+	std::list< SceneObject* >::iterator tChild;
+	for (tChild = m_Children.begin(); tChild != m_Children.end(); ++tChild) {
+		(*tChild)->update( m_Rotation, m_Position);
+	}
+}
+
+void SceneObject::onHit( SceneObject &other, b2ContactPoint &point) 
+{
+	
+}
+	
+
+
+Trigger::Trigger()
+{
+}
+
+void Trigger::setExtents( double _top, double _left, double _bottom, double _right)
+{
+	m_Box.upperBound.Set( _left, _top );
+	m_Box.lowerBound.Set( _right, _bottom );
+}
+
+bool Trigger::pointIn(b2Vec2 &_point)
+{
+	return ( _point.x > m_Box.upperBound.x && _point.x < m_Box.lowerBound.x) &&
+		(_point.y > m_Box.lowerBound.y && _point.y < m_Box.upperBound.y);
+}
+
+void Trigger::onEnterCamera()
+{
+	m_inCamera = true;
+}
+
+void Trigger::onLeaveCamera()
+{
+	m_inCamera = false;
+}
+
+void Trigger::onPlayerEnter()
+{
+	m_inPlayer = true;
+}
+
+void Trigger::onPlayerLeave()
+{
+	m_inPlayer = false;
+}

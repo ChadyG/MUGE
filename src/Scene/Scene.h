@@ -33,6 +33,8 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include <Box2D.h>
 #include <map>
 #include <list>
+#include "SceneObject.h"
+#include "../Input/JSONFile.hpp"
 #include "../Sprite/Sprite.h"
 #include "../Sprite/Animation.h"
 #include "../Physics/ContactListener.h"
@@ -43,7 +45,7 @@ class Player;
 struct SpriteLayer
 {
 	std::list< Sprite > sprites;
-	//std::list< SceneArea > areas;
+	std::list< Trigger > triggers;
 	float scale;
 	int layer;
 	std::string ID;
@@ -63,14 +65,28 @@ public:
 	
 	void tellPlayer( Player *_player );
 	
+	b2Vec2 worldToScreen( b2Vec2 _world, Gosu::ZPos _layer );
+	
 	void update();
 	void draw() const;
 	
 protected:
+	
+	void evalJSON( json::grammar<char>::array _array, int _layer, SceneObject *_parent );
+	void evalSprite( json::grammar<char>::array::const_iterator _it, int _layer, SceneObject *_parent );
+	void evalTrigger( json::grammar<char>::array::const_iterator _it, int _layer, SceneObject *_parent );
+	
 	// Game Data
 	MUGE* m_Engine;
 	
 	Gosu::Color m_canvasColor;
+	
+	boost::scoped_ptr<JSONFile> m_jFile;
+	
+	// TODO: add a hierarchy via SceneObject
+	// Keep these layer containers, but build transform
+	// hierarchy through base class SceneObject
+	SceneObject m_SceneRoot;
 	std::map< Gosu::ZPos, SpriteLayer > m_Layers;
 	std::map< std::string, Gosu::ZPos > m_LayerNames;
 	
@@ -96,7 +112,7 @@ protected:
 	double m_Offset[2];
 	double m_Extents[2];
 	double m_Zoom;
-	double m_Rot;
+	double m_Rot, m_Orientation;
 	int m_Scale;
 	int m_Width, m_Height;
 	

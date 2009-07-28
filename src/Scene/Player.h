@@ -9,9 +9,9 @@
 #include <Gosu/Gosu.hpp>
 #include <Box2D.h>
 #include <map>
+#include "SceneObject.h"
  
 class Animation;
-class SceneObject;
 
 /**
 * Our Player class
@@ -23,27 +23,25 @@ class SceneObject;
 * collision normal.
 * 
 */
-class Player {
+class Player : public SceneObject
+{
 public:
 	Player();
 	Player(int _x, int _y, b2World* _world);
 	
 	void addAnimation(std::string _name, Animation* _anim);
 	
-	void setWindowScale(double _scale);
 	void setLayer( Gosu::ZPos _z );
 	
 	void setPhysics( double _x, double _y, b2World* _world);
-	b2Vec2 getPosition();
+	//b2Vec2 getPosition();
 	
 	void setGravity( b2Vec2 _gravity );
 	
 	void onHit(SceneObject &other, b2ContactPoint &point);
 	
 	void update(Gosu::Input& _input);
-	void draw(double _x, double _y) const;
-	void drawZoom(double _x, double _y, double _scale, double _zoom, int _scrWidth, int _scrHeight) const;
-	void drawRot(double _x, double _y, double _scale, double _zoom, double _angle, int _scrWidth, int _scrHeight) const;
+	void draw(double _x, double _y, double _zoom = 1.0, double _angle = 0.0) const;
 	
 protected:
 	//Image Data

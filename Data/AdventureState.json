@@ -1,7 +1,7 @@
 {
 	"PlayerDefinition" : "PlayerDef",
 	"Levels" : [
-		"level_v3"
+		"level_v4"
 	],
 	"PlayerAnimations" : [
 		{

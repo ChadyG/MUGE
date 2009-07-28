@@ -37,14 +37,18 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 #include <Gosu/Gosu.hpp>
 #include <map>
+#include "../Scene/SceneObject.h"
 
+class Scene;
 
-class Sprite
+class Sprite : public SceneObject
 {
 public:
 	/**
 	*	Image management functions
 	*	used by Sprite to keep from duplicating Images
+	*
+	*	TODO: move these into some sort of image manager? (owned by engine)
 	*/
 	static std::map< std::wstring, boost::shared_ptr<Gosu::Image> > theImageCache;
 	static boost::shared_ptr<Gosu::Image> GetImage(Gosu::Graphics &graphics, std::wstring filename);
@@ -52,13 +56,15 @@ public:
 	Sprite();
 	Sprite(Gosu::Graphics &_graphics, std::wstring _filename);
 	
+	unsigned getID() { return m_ID; }
+	void setID( unsigned _id) { m_ID = _id; }
+	
 	void setImage(Gosu::Graphics &_graphics, std::wstring _filename);
-	void setPosition( double _x, double _y);
+	//void setPosition( double _x, double _y);
 	void setScaling(double _factorX, double _factorY);
 	void setCenter(double _centerX, double _centerY);
-	void setRotation(double _angle);
+	//void setRotation(double _angle);
 	void setColorMod(Gosu::Color _colorMod);
-	void setWindowScale(double _scale);
 	
 	/**
 	*	These values are offsets from position member data 
@@ -68,18 +74,12 @@ public:
 	*	Zoom requires telling the half width and height of the 
 	*	screen in order to zoom from the center.
 	*/
-	void draw(double _x, double _y, Gosu::ZPos _layer) const;
-	void drawZoom(double _x, double _y, Gosu::ZPos _layer, double _scale, double _zoom, int _scrWidth, int _scrHeight) const;
-	void drawRot(double _x, double _y, Gosu::ZPos _layer, double _scale, double _zoom, double _angle, int _scrWidth, int _scrHeight) const;
+	void draw(double _x, double _y, Gosu::ZPos _layer, double _zoom = 1.0, double _angle = 0.0) const;
 	
 private:
 	boost::shared_ptr<Gosu::Image> m_Image;
-	double m_rotation;
-	// Local transformation
-	double m_X;
-	double m_Y;
 	
-	double m_WinScale;
+	unsigned int m_ID;
 	double m_factX;
 	double m_factY;
 	double m_centerX;

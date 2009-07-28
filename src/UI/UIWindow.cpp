@@ -211,11 +211,11 @@ void UIWindow::draw(int _x, int _y, int _layer) const
 {
 	if (m_visible) {
 		//m_TitleBar->draw(m_X, m_Y, _layer);
-		m_TitleBar.drawFrameAt( 0, m_X, m_Y, _layer);
+		m_TitleBar.drawFrameToScreen( 0, m_X, m_Y, _layer);
 		for (int i=25; i<(m_Width-25); i += 25) {
-			m_TitleBar.drawFrameAt( 1, m_X + i, m_Y, _layer);
+			m_TitleBar.drawFrameToScreen( 1, m_X + i, m_Y, _layer);
 		} 
-		m_TitleBar.drawFrameAt( 2, m_X + m_Width - 25, m_Y, _layer);
+		m_TitleBar.drawFrameToScreen( 2, m_X + m_Width - 25, m_Y, _layer);
 		m_Graphics.drawQuad( m_X, m_Y + 25, Gosu::Colors::white, m_X, m_Y + m_Height, Gosu::Colors::white,
 			m_X-1 + m_Width, m_Y + m_Height, Gosu::Colors::white, m_X-1 + m_Width, m_Y + 25, Gosu::Colors::white, _layer);
 

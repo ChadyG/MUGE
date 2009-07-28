@@ -33,38 +33,73 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 #include <Gosu/Gosu.hpp>
 #include <Box2D.h>
+#include <list>
 
-#include "../Sprite/Sprite.h"
-#include "../Sprite/Animation.h"
-
-class Player;
+class Scene;
 
 /**
-* Base classes for scene object
-* SceneObject describes all renderable entities
-* i.e. player, enemies, items. etc.
-* SceneArea describes all logical nodes
-* i.e. spawn nodes, triggers
+ Base classes for scene object
+ 
+ Performs hierarchical transform
+	all scene classes must inherit to be placed
+	in scene hierarchy and be included in transform updates.
+ 
+ SceneObject describes all renderable entities
+ i.e. player, enemies, items. etc.
+ SceneArea describes all logical nodes
+ i.e. spawn nodes, triggers
 */
 class SceneObject
 {
 public:
 	SceneObject();
 	
-	virtual void update() = 0;
+	/// Register this object in a scene, used for world to screen transformations
+	void registerScene( Scene *_scene );
+	
+	/// setOrientation - sets local rotation (relative to parent)
+	void setOrientation( double _angle ) { m_Orientation = _angle; }
+	/// setTranslation - sets local translation (relative to parent)
+	void setTranslation( b2Vec2 _trans ) { m_Translation = _trans; }
+	
+	/// setRotation - sets world Rotation
+	void setRotation( double _angle ) { m_Orientation += _angle - m_Rotation; m_Rotation = _angle; }
+	/// setPosition - sets world position
+	void setPosition( b2Vec2 _pos ) { m_Translation += _pos - m_Position; m_Position = _pos; }
+	
+	
+	/// getOrientation - returns local rotation
+	double getOrientation() { return m_Orientation; }
+	/// getTranslation - returns local translation
+	b2Vec2 getTranslation() { return m_Translation; }
+	
+	/// getRotation - returns world rotation
+	double getRotation() { return m_Rotation; }
+	/// getPosition - returns world position
+	b2Vec2 getPosition() { return m_Position; }
+	
+	void update( double _rotate, b2Vec2 _translate);
 
+	/// Physics callback
 	virtual void onHit(SceneObject &other, b2ContactPoint &point);
 	
-	// Used for manipulation
-	void setPosition( double x, double y, Gosu::ZPos z);
-	void setRotation( double ang );
+	void addChild( SceneObject* _child) { m_Children.push_back( _child ); }
 	
 protected:
 
+	double m_Orientation;
+	b2Vec2 m_Translation;
+	
+	b2Vec2 m_Position;
+	double m_Rotation;
+		
+	std::list< SceneObject*> m_Children;
+	Scene *m_Scene;
+	
 };
 
 /**
-* SceneArea descendants must implement the accessors and mutators below
+* Trigger descendants must implement the accessors and mutators below
 *	Tests
 *		overLap	-	given a b2AABB test to see if there is a collision with own AABB
 *		pointIn	-	given a b2Vec2 test to see if the point lies within own AABB
@@ -77,20 +112,37 @@ protected:
 *		inCamera	-	are we in the camera? 
 *		playerIn	-	is the player inside?
 */
-class SceneArea
+class Trigger : public SceneObject
 {
 public:
-	SceneArea();
+	Trigger();
 	
-	//called by camera
-	virtual bool overLap(b2AABB&);
-	virtual bool pointIn(b2Vec2&);
-	virtual bool inCamera();
-	virtual void onEnterCamera();
-	virtual void onLeaveCamera();
-	virtual bool playerIn();
-	virtual void onPlayerEnter();
-	virtual void onPlayerLeave();
+	/// setExtents - sets the dimensions for rectangular trigger areas
+	void setExtents( double _top, double _left, double _bottom, double _right);
+	
+	/// overlap - test if bounding box overlaps this
+	bool overlap(b2AABB &_other) { b2TestOverlap( m_Box, _other ); }
+	
+	/// pointIn - test if point is within this rectangular box
+	bool pointIn(b2Vec2 &_point);
+	
+	/// inCamera - returns the state of camera focus
+	bool inCamera() { return m_inCamera; }
+	
+	/// onEnterCamera - callback for entering focus
+	void onEnterCamera();
+	
+	/// onLeaveCamera - callback for leaving focus
+	void onLeaveCamera();
+	
+	/// playerIn - returns the state of the player with regard to this area
+	bool playerIn() { return m_inPlayer; }
+	
+	/// onPlayerEnter - callback for player entering this area
+	void onPlayerEnter();
+	
+	/// onPlayerLeave - callback for player leaving this area
+	void onPlayerLeave();
 
 protected:
 	//structure holding extent information

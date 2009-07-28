@@ -44,6 +44,8 @@ AdventureState::AdventureState( std::wstring _config )
 void AdventureState::init( MUGE* _engine)
 {	
 	m_Engine = _engine;
+	
+	//Let's set up the player!
 	JSONFile jFile(Gosu::narrow(Gosu::resourcePrefix() + L"Data/" + m_ConfigFile + L".json"));
 	json::grammar<char>::array::const_iterator it, it2;
 	json::grammar<char>::array arr, arr2;
@@ -68,11 +70,13 @@ void AdventureState::init( MUGE* _engine)
 
 void AdventureState::cleanup()
 {
+	// here is where level progress saving would occur
 	m_Scene.reset(0);
 }
 
 void AdventureState::update()
 {
+	// will be more complicated later (level switching, maybe just have a callback to switch levels)
 	m_Scene->update();
 }
 
