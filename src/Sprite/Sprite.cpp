@@ -29,7 +29,7 @@ OTHER DEALINGS IN THE SOFTWARE.
  */
  
 #include "Sprite.h"
-#include "Scene.h"
+#include "../Scene/Scene.h"
 
 std::map< std::wstring, boost::shared_ptr<Gosu::Image> > Sprite::theImageCache;
 

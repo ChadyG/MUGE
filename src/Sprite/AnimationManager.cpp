@@ -1,10 +1,11 @@
 /*
-	Emitter.h
-	Mizzou Game Engine
+ AnimationManager.cpp
+ Mizzou Game Engine
  
-	Created by Chad Godsey on 7/18/09.
+ Created by Chad Godsey on 11/12/08.
  
-	Copyright 2009 Mizzou Game Design.
+ 
+ Copyright 2009 Mizzou Game Design.
  
  Permission is hereby granted, free of charge, to any person
  obtaining a copy of this software and associated documentation
@@ -26,58 +27,30 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  OTHER DEALINGS IN THE SOFTWARE.
-*/
-#include <Gosu/Gosu.hpp>
-#include <list>
-
-struct Particle
-{
-	// Position
-	double x, y, z, r, theta;
-	// Orientation
-	double rotation;
-	// Size
-	double scale, xscale, yscale;
-	// Color
-	double red, green, blue, alpha;
-	
-};
-
-/**
- modifiers
- momentum, accelleration, rate
- function types
-	addition, negate, multiply, piecewise defined
- connectable
-*/
-
-/**
-  Emitter Types
- 	Point
-		Emits from a point, movement based on angle (min, max)
- 	Shape
-		Emits particles within some shape
-			Rectangle
-			Circle
- 
  */
 
-class Emitter
+#include "AnimationManager.h"
+
+AnimationManager::AnimationManager()
+: m_curID(0)
 {
-public:
-	Emitter();
-	
-	void emit() { m_Emit = true; }
-	void stop() { m_Emit = false; }
-	
-	virtual void update() = 0;
-	virtual void draw(int _x, int _y, Gosu::ZPos _layer) const = 0;
-	
-private:
-	std::list<Particle> m_Particles;
-	
-	bool m_Emit;
-	double m_Frequency;
-	int m_Min, m_Max;
-	
-};
+}
+
+boost::shared_ptr<Animation> AnimationManager::createAnimation(Gosu::Graphics &_graphics, std::wstring _filename, int _width, int _height, int _delay)
+{
+	//if (m_AnimationMap[_filename])
+	//	return m_Animations[ m_AnimationMap[ _filename ] ];
+	m_Animations[m_curID].reset( new Animation( _graphics, _filename, _width, _height, _delay) );
+	m_AnimationMap[ _filename ] = m_curID;
+	return m_Animations[ m_curID++ ];
+}
+
+boost::shared_ptr<Animation> AnimationManager::getAnimationByID( int _id )
+{
+	return m_Animations[_id];
+}
+
+boost::shared_ptr<Animation> AnimationManager::getAnimationByName( std::wstring _filename )
+{
+	return m_Animations[ m_AnimationMap[ _filename ] ];
+}
