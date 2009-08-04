@@ -1,5 +1,5 @@
 /*
- SpriteManager.cpp
+ SpriteManager.h
  Mizzou Game Engine
  
  Created by Chad Godsey on 11/12/08.
@@ -40,7 +40,7 @@ public:
 	SpriteManager();
 	
 	/// Wrapper for Sprite constructor
-	boost::shared_ptr<Sprite> createSprite(Gosu::Graphics &graphics, std::wstring filename);
+	boost::shared_ptr<Sprite> createSprite(Gosu::Graphics &_graphics, std::wstring _filename);
 	
 	/// Get a sprite by the manager's ID
 	boost::shared_ptr<Sprite> getSpriteByID( int _id );
@@ -50,7 +50,8 @@ public:
 	
 	
 private:
-	std::map< int, boost::shared_ptr<Gosu::Image> > m_Sprites;
+	std::map< int, boost::shared_ptr<Sprite> > m_Sprites;
 	std::map< std::wstring, int > m_SpriteMap;
 	
+	int m_curID;
 };

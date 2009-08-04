@@ -10,15 +10,17 @@
 #include "../Scene/Scene.h"
 
 Animation::Animation( )
-: m_Delay(0), m_Frame(0), m_Timer(0), m_centerX(0.5), 
+: m_Delay(0), m_Frame(0), m_Timer(0), m_centerX(0.5), m_Rotation(0.0),
 m_centerY(0.5), m_factX(1.0), m_factY(1.0), m_ColorMod(Gosu::Colors::white)
 {
+	m_Position.Set( 0.0, 0.0);
 }
 
 Animation::Animation( Gosu::Graphics& _graphics, std::wstring _fileName, int _width, int _height, int _delay)
-: m_centerX(0.5), m_centerY(0.5), m_factX(1.0), m_factY(1.0), 
+: m_centerX(0.5), m_centerY(0.5), m_factX(1.0), m_factY(1.0), m_Rotation(0.0),
 m_ColorMod(Gosu::Colors::white), m_Delay(_delay), m_Frame(0)
 {
+	m_Position.Set( 0.0, 0.0);
 	Gosu::imagesFromTiledBitmap(_graphics, _fileName, _width, _height, false, m_Sprites);
 	m_Timer = m_Delay;
 }

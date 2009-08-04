@@ -115,11 +115,10 @@ void Player::update(Gosu::Input& _input)
 	}
 
 	setPosition( m_Pos );
-	//m_AnimState->setPosition( m_Pos );
 	m_AnimState->update();
 }
 
 void Player::draw(double _x, double _y, double _zoom, double _angle) const
 {
-	m_AnimState->draw(  _x, _y, m_Layer, _zoom, _angle);
+	m_AnimState->draw(  _x - m_Pos.x, _y - m_Pos.y, m_Layer, _zoom, _angle);
 }

@@ -16,6 +16,7 @@
 #define ANIMATION_H
 
 #include <Gosu/Gosu.hpp>
+#include <Box2D.h>
 #include "../Scene/SceneObject.h"
 
 typedef boost::shared_ptr<Gosu::Image> t_Image;
@@ -30,6 +31,11 @@ public:
 	void setID( unsigned _id) { m_ID = _id; }
 	
 	void setImage(Gosu::Graphics &_graphics, std::wstring _filename, int width, int height, int delay=1);
+	
+	/// setRotation - sets world Rotation
+	void setRotation( double _angle ) { m_Rotation = _angle; }
+	/// setPosition - sets world position
+	void setPosition( b2Vec2 _pos ) { m_Position = _pos; }
 	
 	void setScaling(double _factorX, double _factorY);
 	void setCenter(double _centerX, double _centerY);
@@ -63,6 +69,8 @@ private:
 	double m_factY;
 	double m_centerX;
 	double m_centerY;
+	b2Vec2 m_Position;
+	double m_Rotation;
 	Gosu::Color m_ColorMod;
 };
 

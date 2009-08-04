@@ -5,6 +5,7 @@
 		activeExecutable = E9382FB80F2169230093F382 /* MUGE */;
 		activeTarget = 8D1107260486CEB800E47090 /* MUGE */;
 		addToTargets = (
+			8D1107260486CEB800E47090 /* MUGE */,
 		);
 		breakpoints = (
 		);
@@ -56,7 +57,7 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					315,
+					10,
 					20,
 					48,
 					43,
@@ -119,16 +120,16 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 270100143;
-			PBXWorkspaceStateSaveDate = 270100143;
+			PBXPerProjectTemplateStateSaveDate = 271041643;
+			PBXWorkspaceStateSaveDate = 271041643;
 		};
 		perUserProjectItems = {
-			E98E5D06101B40AF00C2627D /* PBXTextBookmark */ = E98E5D06101B40AF00C2627D /* PBXTextBookmark */;
-			E98E5D07101B40AF00C2627D /* PBXTextBookmark */ = E98E5D07101B40AF00C2627D /* PBXTextBookmark */;
-			E98E5D09101B40AF00C2627D /* PBXTextBookmark */ = E98E5D09101B40AF00C2627D /* PBXTextBookmark */;
-			E98EB0B91018CE5900B1CF17 /* PBXTextBookmark */ = E98EB0B91018CE5900B1CF17 /* PBXTextBookmark */;
-			E98EB0BF1018CE5900B1CF17 /* PBXTextBookmark */ = E98EB0BF1018CE5900B1CF17 /* PBXTextBookmark */;
-			E98EB0C21018CE5900B1CF17 /* PBXTextBookmark */ = E98EB0C21018CE5900B1CF17 /* PBXTextBookmark */;
+			E962E3E11021E492001B8BAA = E962E3E11021E492001B8BAA /* PBXTextBookmark */;
+			E962E5101023BCAB001B8BAA = E962E5101023BCAB001B8BAA /* PBXTextBookmark */;
+			E962E5111023BCAB001B8BAA = E962E5111023BCAB001B8BAA /* PBXTextBookmark */;
+			E96B75361027C4810000DECC /* PBXTextBookmark */ = E96B75361027C4810000DECC /* PBXTextBookmark */;
+			E96B75371027C4810000DECC /* PBXTextBookmark */ = E96B75371027C4810000DECC /* PBXTextBookmark */;
+			E98E5D07101B40AF00C2627D = E98E5D07101B40AF00C2627D /* PBXTextBookmark */;
 		};
 		sourceControlManager = E9382FBB0F2169400093F382 /* Source Control */;
 		userBuildSettings = {
@@ -162,9 +163,9 @@
 	};
 	E90B456A0FFD16860099688F /* MUGE.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {672, 2030}}";
-			sepNavSelRange = "{3421, 0}";
-			sepNavVisRange = "{3363, 250}";
+			sepNavIntBoundsRect = "{{0, 0}, {644, 2198}}";
+			sepNavSelRange = "{1933, 0}";
+			sepNavVisRange = "{1801, 296}";
 		};
 	};
 	E90B457D0FFD16860099688F /* JSONFile.cpp */ = {
@@ -192,9 +193,9 @@
 	};
 	E90B45800FFD16860099688F /* MainMenuState.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1116, 5586}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1116, 5278}}";
 			sepNavSelRange = "{10012, 0}";
-			sepNavVisRange = "{9846, 1132}";
+			sepNavVisRange = "{9722, 1090}";
 			sepNavWindowFrame = "{{869, 48}, {719, 787}}";
 		};
 	};
@@ -207,63 +208,64 @@
 	};
 	E90B45860FFD16860099688F /* scene.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {708, 4578}}";
-			sepNavSelRange = "{7309, 0}";
-			sepNavVisRange = "{7022, 1256}";
+			sepNavIntBoundsRect = "{{0, 0}, {708, 4368}}";
+			sepNavSelRange = "{6719, 0}";
+			sepNavVisRange = "{5326, 1838}";
 		};
 	};
 	E90B45870FFD16860099688F /* Scene.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {660, 1526}}";
-			sepNavSelRange = "{2072, 0}";
-			sepNavVisRange = "{1721, 1125}";
+			sepNavIntBoundsRect = "{{0, 0}, {659, 1680}}";
+			sepNavSelRange = "{1399, 0}";
+			sepNavVisRange = "{1835, 1409}";
+			sepNavWindowFrame = "{{870, 52}, {718, 788}}";
 		};
 	};
 	E90B45880FFD16860099688F /* Player.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {660, 1050}}";
-			sepNavSelRange = "{725, 0}";
+			sepNavSelRange = "{977, 81}";
 			sepNavVisRange = "{542, 1024}";
-			sepNavWindowFrame = "{{630, 60}, {719, 787}}";
+			sepNavWindowFrame = "{{866, 52}, {719, 787}}";
 		};
 	};
 	E90B45890FFD16860099688F /* SceneObject.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {660, 2198}}";
-			sepNavSelRange = "{2725, 0}";
-			sepNavVisRange = "{0, 1527}";
+			sepNavIntBoundsRect = "{{0, 0}, {660, 2408}}";
+			sepNavSelRange = "{2165, 0}";
+			sepNavVisRange = "{1523, 1669}";
 			sepNavWindowFrame = "{{869, 51}, {719, 787}}";
 		};
 	};
 	E90B458B0FFD16860099688F /* animation.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {738, 2086}}";
-			sepNavSelRange = "{2947, 0}";
-			sepNavVisRange = "{2289, 1515}";
-			sepNavWindowFrame = "{{708, 49}, {719, 787}}";
+			sepNavIntBoundsRect = "{{0, 0}, {684, 2086}}";
+			sepNavSelRange = "{568, 0}";
+			sepNavVisRange = "{0, 1294}";
+			sepNavWindowFrame = "{{868, 51}, {719, 787}}";
 		};
 	};
 	E90B458C0FFD16860099688F /* Animation.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {774, 980}}";
-			sepNavSelRange = "{784, 0}";
-			sepNavVisRange = "{461, 1501}";
+			sepNavIntBoundsRect = "{{0, 0}, {774, 1022}}";
+			sepNavSelRange = "{910, 0}";
+			sepNavVisRange = "{395, 1614}";
 			sepNavWindowFrame = "{{868, 51}, {719, 787}}";
 		};
 	};
 	E90B458D0FFD16860099688F /* Sprite.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {660, 1400}}";
-			sepNavSelRange = "{1704, 0}";
-			sepNavVisRange = "{1803, 1146}";
-			sepNavWindowFrame = "{{709, 50}, {719, 787}}";
+			sepNavIntBoundsRect = "{{0, 0}, {660, 1498}}";
+			sepNavSelRange = "{2055, 0}";
+			sepNavVisRange = "{2107, 998}";
+			sepNavWindowFrame = "{{866, 50}, {719, 787}}";
 		};
 	};
 	E90B458E0FFD16860099688F /* Sprite.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {660, 1274}}";
-			sepNavSelRange = "{1855, 76}";
-			sepNavVisRange = "{1345, 1430}";
+			sepNavIntBoundsRect = "{{0, 0}, {660, 1414}}";
+			sepNavSelRange = "{2905, 0}";
+			sepNavVisRange = "{1599, 1477}";
 			sepNavWindowFrame = "{{866, 50}, {719, 787}}";
 		};
 	};
@@ -369,12 +371,84 @@
 		isa = PBXCodeSenseManager;
 		indexTemplatePath = "";
 	};
+	E962E10310210B88001B8BAA /* SpriteManager.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {644, 784}}";
+			sepNavSelRange = "{1355, 0}";
+			sepNavVisRange = "{1230, 342}";
+			sepNavWindowFrame = "{{404, 55}, {718, 788}}";
+		};
+	};
+	E962E10610210D35001B8BAA /* AnimationManager.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {912, 770}}";
+			sepNavSelRange = "{1450, 0}";
+			sepNavVisRange = "{1169, 582}";
+		};
+	};
+	E962E3E11021E492001B8BAA /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E984F61F100EC2AD00638023 /* Player.cpp */;
+		name = "Player.cpp: 121";
+		rLen = 152;
+		rLoc = 2796;
+		rType = 0;
+		vrLen = 892;
+		vrLoc = 2056;
+	};
+	E962E5101023BCAB001B8BAA /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E984F61F100EC2AD00638023 /* Player.cpp */;
+		name = "Player.cpp: 111";
+		rLen = 0;
+		rLoc = 2665;
+		rType = 0;
+		vrLen = 1034;
+		vrLoc = 862;
+	};
+	E962E5111023BCAB001B8BAA /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E962E5121023BCAB001B8BAA /* level_v4.json */;
+		name = "level_v4.json: 368";
+		rLen = 0;
+		rLoc = 8054;
+		rType = 0;
+		vrLen = 947;
+		vrLoc = 7127;
+	};
+	E962E5121023BCAB001B8BAA /* level_v4.json */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = text;
+		name = level_v4.json;
+		path = "/Users/csit/Projects/Mizzou Game Engine/Data/level_v4.json";
+		sourceTree = "<absolute>";
+	};
+	E96B75361027C4810000DECC /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E984F61F100EC2AD00638023 /* Player.cpp */;
+		name = "Player.cpp: 111";
+		rLen = 0;
+		rLoc = 2665;
+		rType = 0;
+		vrLen = 1034;
+		vrLoc = 862;
+	};
+	E96B75371027C4810000DECC /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = E98E5D08101B40AF00C2627D /* level_v4.json */;
+		name = "level_v4.json: 368";
+		rLen = 0;
+		rLoc = 8054;
+		rType = 0;
+		vrLen = 947;
+		vrLoc = 7127;
+	};
 	E984F61F100EC2AD00638023 /* Player.cpp */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {660, 1736}}";
-			sepNavSelRange = "{2959, 0}";
-			sepNavVisRange = "{2060, 906}";
-			sepNavWindowFrame = "{{870, 49}, {719, 787}}";
+			sepNavSelRange = "{2665, 0}";
+			sepNavVisRange = "{862, 1034}";
+			sepNavWindowFrame = "{{712, 49}, {719, 787}}";
 		};
 	};
 	E984F621100EC2B700638023 /* TextArea.cpp */ = {
@@ -386,37 +460,27 @@
 	};
 	E98B73661015120800625C0C /* SceneObject.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {660, 1414}}";
-			sepNavSelRange = "{1534, 0}";
-			sepNavVisRange = "{1775, 808}";
-			sepNavWindowFrame = "{{700, 38}, {719, 787}}";
+			sepNavIntBoundsRect = "{{0, 0}, {660, 1764}}";
+			sepNavSelRange = "{1431, 0}";
+			sepNavVisRange = "{624, 1303}";
+			sepNavWindowFrame = "{{869, 51}, {719, 787}}";
 		};
 	};
 	E98E5D03101A101900C2627D /* SpriteManager.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {659, 784}}";
-			sepNavSelRange = "{1556, 0}";
-			sepNavVisRange = "{121, 1627}";
-			sepNavWindowFrame = "{{869, 51}, {718, 788}}";
+			sepNavIntBoundsRect = "{{0, 0}, {659, 798}}";
+			sepNavSelRange = "{1680, 0}";
+			sepNavVisRange = "{121, 1636}";
+			sepNavWindowFrame = "{{866, 47}, {718, 788}}";
 		};
 	};
 	E98E5D04101A114000C2627D /* AnimationManager.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {870, 784}}";
-			sepNavSelRange = "{1635, 0}";
-			sepNavVisRange = "{124, 1702}";
-			sepNavWindowFrame = "{{869, 49}, {718, 788}}";
+			sepNavIntBoundsRect = "{{0, 0}, {858, 798}}";
+			sepNavSelRange = "{1760, 0}";
+			sepNavVisRange = "{126, 1716}";
+			sepNavWindowFrame = "{{865, 50}, {718, 788}}";
 		};
-	};
-	E98E5D06101B40AF00C2627D /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = E90B45660FFD16860099688F /* AdventureState.cpp */;
-		name = "AdventureState.cpp: 48";
-		rLen = 0;
-		rLoc = 1428;
-		rType = 0;
-		vrLen = 1348;
-		vrLoc = 1248;
 	};
 	E98E5D07101B40AF00C2627D /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -430,62 +494,15 @@
 	};
 	E98E5D08101B40AF00C2627D /* level_v4.json */ = {
 		isa = PBXFileReference;
-		name = level_v4.json;
-		path = "/Users/csit/Projects/Mizzou Game Engine/Data/level_v4.json";
-		sourceTree = "<absolute>";
-	};
-	E98E5D09101B40AF00C2627D /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = E90B45800FFD16860099688F /* MainMenuState.cpp */;
-		name = "MainMenuState.cpp: 335";
-		rLen = 0;
-		rLoc = 10012;
-		rType = 0;
-		vrLen = 1132;
-		vrLoc = 9846;
-	};
-	E98EB0B91018CE5900B1CF17 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = E90B45660FFD16860099688F /* AdventureState.cpp */;
-		name = "AdventureState.cpp: 77";
-		rLen = 0;
-		rLoc = 2535;
-		rType = 0;
-		vrLen = 1290;
-		vrLoc = 1333;
-	};
-	E98EB0BF1018CE5900B1CF17 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = E98EB0C01018CE5900B1CF17 /* level_v4.json */;
-		name = "level_v4.json: 368";
-		rLen = 0;
-		rLoc = 8054;
-		rType = 0;
-		vrLen = 1010;
-		vrLoc = 7051;
-	};
-	E98EB0C01018CE5900B1CF17 /* level_v4.json */ = {
-		isa = PBXFileReference;
 		lastKnownFileType = text;
 		name = level_v4.json;
 		path = "/Users/csit/Projects/Mizzou Game Engine/Data/level_v4.json";
 		sourceTree = "<absolute>";
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {660, 5180}}";
+			sepNavIntBoundsRect = "{{0, 0}, {660, 5236}}";
 			sepNavSelRange = "{8054, 0}";
-			sepNavVisRange = "{7051, 1010}";
-			sepNavWindowFrame = "{{872, 48}, {719, 787}}";
+			sepNavVisRange = "{7127, 947}";
 		};
-	};
-	E98EB0C21018CE5900B1CF17 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = E90B45800FFD16860099688F /* MainMenuState.cpp */;
-		name = "MainMenuState.cpp: 335";
-		rLen = 0;
-		rLoc = 10012;
-		rType = 0;
-		vrLen = 1132;
-		vrLoc = 9846;
 	};
 	E9EA39531008208500D37BA7 /* UIContainer.cpp */ = {
 		uiCtxt = {

@@ -35,8 +35,8 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include <list>
 #include "SceneObject.h"
 #include "../Input/JSONFile.hpp"
-#include "../Sprite/Sprite.h"
-#include "../Sprite/Animation.h"
+#include "../Sprite/SpriteManager.h"
+#include "../Sprite/AnimationManager.h"
 #include "../Physics/ContactListener.h"
 
 class MUGE;
@@ -45,6 +45,7 @@ class Player;
 struct SpriteLayer
 {
 	std::list< Sprite > sprites;
+	std::list< SceneObject > objects;
 	std::list< Trigger > triggers;
 	float scale;
 	int layer;
@@ -91,6 +92,8 @@ protected:
 	std::map< std::string, Gosu::ZPos > m_LayerNames;
 	
 	// Scene stuff
+	SpriteManager m_SpriteMan;
+	AnimationManager m_AnimMan;
 	boost::scoped_ptr< Gosu::Song > m_Music;
 	Player *m_Player;
 	b2Vec2 m_PlayerPos;

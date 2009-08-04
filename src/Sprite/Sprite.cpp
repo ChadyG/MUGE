@@ -45,19 +45,26 @@ boost::shared_ptr<Gosu::Image> Sprite::GetImage(Gosu::Graphics &graphics, std::w
 }
 
 Sprite::Sprite()
-	: m_centerX(0.5), m_centerY(0.5), 
+	: m_centerX(0.5), m_centerY(0.5), m_Rotation(0.0),
 	m_factX(1.0), m_factY(1.0), m_ColorMod(Gosu::Colors::white)
 {
+	m_Position.Set( 0.0, 0.0);
 }
 
 Sprite::Sprite(Gosu::Graphics &_graphics, std::wstring _filename)
-	: m_centerX(0.5), m_centerY(0.5), 
+	: m_centerX(0.5), m_centerY(0.5), m_Rotation(0.0),
 	m_factX(1.0), m_factY(1.0), m_ColorMod(Gosu::Colors::white)
 {
+	m_Position.Set( 0.0, 0.0);
 	m_Image = Sprite::GetImage(_graphics, _filename);
 }
 
 //----------Setters----------
+
+void Sprite::registerScene( Scene *_scene )
+{
+	m_Scene = _scene;
+}
 
 void Sprite::setImage(Gosu::Graphics &_graphics, std::wstring _filename)
 {

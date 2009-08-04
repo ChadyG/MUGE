@@ -35,6 +35,8 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include <Box2D.h>
 #include <list>
 
+class Animation;
+class Sprite;
 class Scene;
 
 /**
@@ -56,6 +58,20 @@ public:
 	
 	/// Register this object in a scene, used for world to screen transformations
 	void registerScene( Scene *_scene );
+	
+	/// Set this object to render as the given sprite
+	void setSprite( Sprite *_sprite );
+	/// Set this object to render as the given animation
+	void setAnimation( Animation *_anim);
+	/// Disable rendering for this object (sets sprie and animation to NULL)
+	void hide();
+	
+	void setPhysics( b2Body *_body );
+	
+	/// Inhibit physics response
+	void Freeze() { m_Frozen = true; }
+	/// Resume physics operations
+	void Thaw() { m_Frozen = false; }
 	
 	/// setOrientation - sets local rotation (relative to parent)
 	void setOrientation( double _angle ) { m_Orientation = _angle; }
@@ -79,6 +95,8 @@ public:
 	b2Vec2 getPosition() { return m_Position; }
 	
 	void update( double _rotate, b2Vec2 _translate);
+	
+	void draw(double _x, double _y, Gosu::ZPos _layer, double _zoom = 1.0, double _angle = 0.0) const;
 
 	/// Physics callback
 	virtual void onHit(SceneObject &other, b2ContactPoint &point);
@@ -95,6 +113,12 @@ protected:
 		
 	std::list< SceneObject*> m_Children;
 	Scene *m_Scene;
+	
+	Sprite *m_Sprite;
+	Animation *m_Animation;
+	
+	b2Body *m_Body;
+	bool m_Frozen;
 	
 };
 
@@ -121,7 +145,7 @@ public:
 	void setExtents( double _top, double _left, double _bottom, double _right);
 	
 	/// overlap - test if bounding box overlaps this
-	bool overlap(b2AABB &_other) { b2TestOverlap( m_Box, _other ); }
+	bool overlap(b2AABB &_other) { return b2TestOverlap( m_Box, _other ); }
 	
 	/// pointIn - test if point is within this rectangular box
 	bool pointIn(b2Vec2 &_point);

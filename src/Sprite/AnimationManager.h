@@ -35,22 +35,23 @@
 #include "Animation.h"
 
 class AnimationManager
-	{
-	public:
-		AnimationManager();
-		
-		/// Wrapper for Animation constructor
-		boost::shared_ptr<Animation> createAnimation(Gosu::Graphics &graphics, std::wstring filename, int _width, int _height, int _delay = 1);
-		
-		/// Get an Animation by manager's ID
-		boost::shared_ptr<Animation> getAnimationByID( int _id );
-		
-		/// Get an Animation by filename (project relative)
-		boost::shared_ptr<Animation> getAnimationByName( std::wstring _filename );
-		
-		
-	private:
-		std::map< int, Animation > m_Animations;
-		std::map< std::wstring, int > m_AnimationMap;
-		
-	};
+{
+public:
+	AnimationManager();
+	
+	/// Wrapper for Animation constructor
+	boost::shared_ptr<Animation> createAnimation(Gosu::Graphics &_graphics, std::wstring _filename, int _width, int _height, int _delay = 1);
+	
+	/// Get an Animation by manager's ID
+	boost::shared_ptr<Animation> getAnimationByID( int _id );
+	
+	/// Get an Animation by filename (project relative)
+	boost::shared_ptr<Animation> getAnimationByName( std::wstring _filename );
+	
+	
+private:
+	std::map< int, boost::shared_ptr<Animation> > m_Animations;
+	std::map< std::wstring, int > m_AnimationMap;
+	
+	int m_curID;
+};

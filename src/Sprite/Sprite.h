@@ -36,12 +36,13 @@ OTHER DEALINGS IN THE SOFTWARE.
 #define SPRITE_H
 
 #include <Gosu/Gosu.hpp>
+#include <Box2D.h>
 #include <map>
 #include "../Scene/SceneObject.h"
 
 class Scene;
 
-class Sprite : public SceneObject
+class Sprite
 {
 public:
 	/**
@@ -59,11 +60,16 @@ public:
 	unsigned getID() { return m_ID; }
 	void setID( unsigned _id) { m_ID = _id; }
 	
+	/// Register this object in a scene, used for world to screen transformations
+	void registerScene( Scene *_scene );
+	
 	void setImage(Gosu::Graphics &_graphics, std::wstring _filename);
-	//void setPosition( double _x, double _y);
+	/// setRotation - sets world Rotation
+	void setRotation( double _angle ) { m_Rotation = _angle; }
+	/// setPosition - sets world position
+	void setPosition( b2Vec2 _pos ) { m_Position = _pos; }
 	void setScaling(double _factorX, double _factorY);
 	void setCenter(double _centerX, double _centerY);
-	//void setRotation(double _angle);
 	void setColorMod(Gosu::Color _colorMod);
 	
 	/**
@@ -79,11 +85,15 @@ public:
 private:
 	boost::shared_ptr<Gosu::Image> m_Image;
 	
+	Scene *m_Scene;
+	
 	unsigned int m_ID;
 	double m_factX;
 	double m_factY;
 	double m_centerX;
 	double m_centerY;
+	b2Vec2 m_Position;
+	double m_Rotation;
 	Gosu::Color m_ColorMod;
 };
 

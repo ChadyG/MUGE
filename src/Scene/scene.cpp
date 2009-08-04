@@ -169,27 +169,35 @@ void Scene::evalJSON( json::grammar<char>::array _array, int _layer, SceneObject
 
 void Scene::evalSprite( json::grammar<char>::array::const_iterator _it, int _layer, SceneObject *_parent )
 {
-	Sprite tSprite;	
-	tSprite.setImage( 
+	//Sprite tSprite;
+	SceneObject tObject;
+	boost::shared_ptr<Sprite> tSprite = m_SpriteMan.createSprite(
 		m_Engine->graphics(), 
 		Gosu::resourcePrefix() + L"Images/" + Gosu::widen( m_jFile->get<std::string>("Image", *_it) ) );
+	//tSprite.setImage( 
+	//	m_Engine->graphics(), 
+	//	Gosu::resourcePrefix() + L"Images/" + Gosu::widen( m_jFile->get<std::string>("Image", *_it) ) );
 	
-	tSprite.setPosition( 
+	tObject.setPosition( 
 		b2Vec2(m_jFile->get< double >("Position[0]", *_it) * m_Layers[_layer].scale, 
 		m_jFile->get< double >("Position[1]", *_it) * m_Layers[_layer].scale));
-	tSprite.setRotation( m_jFile->get< double >("Rotation", *_it) );
+	tObject.setRotation( m_jFile->get< double >("Rotation", *_it) );
 	
-	tSprite.setColorMod(
+	tSprite->setColorMod(
 		Gosu::Color( m_jFile->get< int >("ColorMod[0]", *_it), 
 					m_jFile->get< int >("ColorMod[1]", *_it), 
 					m_jFile->get< int >("ColorMod[2]", *_it), 
 					m_jFile->get< int >("ColorMod[3]", *_it) ) );
-	tSprite.setScaling( 
+	tSprite->setScaling( 
 		m_jFile->get< double >("xScale", *_it), 
 		m_jFile->get< double >("yScale", *_it) );
-	tSprite.registerScene( this );
-	m_Layers[_layer].sprites.push_back( tSprite );
-	_parent->addChild( (SceneObject*)(&(m_Layers[_layer].sprites.back())) );
+	
+	
+	tSprite->registerScene( this );
+	tObject.registerScene( this );
+	tObject.setSprite( tSprite.get() );
+	m_Layers[_layer].objects.push_back( tObject );
+	_parent->addChild( &(m_Layers[_layer].objects.back()) );//(SceneObject*)(&(m_Layers[_layer].sprites.back())) );
 }
 
 void Scene::evalTrigger( json::grammar<char>::array::const_iterator _it, int _layer, SceneObject *_parent )
@@ -306,11 +314,11 @@ void Scene::draw() const
 	// Render all sprites
 	double scale, zoom;
 	std::map< Gosu::ZPos, SpriteLayer >::const_iterator itL;
-	std::list< Sprite >::const_iterator itS;
+	std::list< SceneObject >::const_iterator itS;
 	for (itL = m_Layers.begin(); itL != m_Layers.end(); ++itL) {
 		scale = 1.0/itL->second.scale;
 		zoom = 1.0 + scale * (m_Zoom - 1.0);
-		for (itS = itL->second.sprites.begin(); itS != itL->second.sprites.end(); ++itS) {
+		for (itS = itL->second.objects.begin(); itS != itL->second.objects.end(); ++itS) {
 			itS->draw( m_Focus[0], m_Focus[1], itL->second.layer, zoom, m_Rot);
 		}
 	}

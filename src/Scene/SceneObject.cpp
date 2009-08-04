@@ -29,9 +29,12 @@
  */
 
 #include "SceneObject.h"
+#include "../Sprite/Sprite.h"
+#include "../Sprite/Animation.h"
 
 SceneObject::SceneObject()
-: m_Orientation(0.0), m_Rotation(0.0), m_Translation(0.0, 0.0), m_Position(0.0, 0.0)
+: m_Orientation(0.0), m_Rotation(0.0), m_Translation(0.0, 0.0), m_Position(0.0, 0.0),
+m_Sprite(NULL), m_Animation(NULL), m_Body(NULL), m_Frozen(false)
 {
 
 }
@@ -45,15 +48,46 @@ void SceneObject::registerScene( Scene *_scene )
 	}
 }
 
+void SceneObject::setSprite( Sprite *_sprite )
+{
+	m_Sprite = _sprite;
+	m_Animation = NULL;
+}
+
+void SceneObject::setAnimation( Animation *_anim)
+{
+	m_Animation = _anim;
+	m_Sprite = NULL;
+}
+
+void SceneObject::hide()
+{
+	m_Sprite = NULL;
+	m_Animation = NULL;
+}
+
+
 void SceneObject::update( double _rotate, b2Vec2 _translate)
 {
+	// if we have physics, set local transform to body
 	b2Mat22 rotate( _rotate );
 	m_Position = b2Mul(rotate, m_Translation) + _translate;
 	m_Rotation = m_Orientation + _rotate;
+	
+	// update children in hierarchy
 	std::list< SceneObject* >::iterator tChild;
 	for (tChild = m_Children.begin(); tChild != m_Children.end(); ++tChild) {
 		(*tChild)->update( m_Rotation, m_Position);
 	}
+}
+
+void SceneObject::draw(double _x, double _y, Gosu::ZPos _layer, double _zoom, double _angle) const
+{
+	if (m_Sprite)
+		m_Sprite->draw( _x - m_Position.x, _y - m_Position.y, _layer, _zoom, _angle);
+	
+	if (m_Animation)
+		m_Animation->draw( _x - m_Position.x, _y - m_Position.y, _layer, _zoom, _angle);
 }
 
 void SceneObject::onHit( SceneObject &other, b2ContactPoint &point) 
