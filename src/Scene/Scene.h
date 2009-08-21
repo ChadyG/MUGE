@@ -29,12 +29,11 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
  */
  
-#include <Gosu/Gosu.hpp>
-#include <Box2D.h>
+#include "../Global.h"
+
 #include <map>
 #include <list>
 #include "SceneObject.h"
-#include "../Input/JSONFile.hpp"
 #include "../Sprite/SpriteManager.h"
 #include "../Sprite/AnimationManager.h"
 #include "../Physics/ContactListener.h"
@@ -82,6 +81,7 @@ protected:
 	
 	Gosu::Color m_canvasColor;
 	
+	std::wstring m_Config;
 	boost::scoped_ptr<JSONFile> m_jFile;
 	
 	// TODO: add a hierarchy via SceneObject
@@ -109,6 +109,7 @@ protected:
 	// Focus is the level coordinates of the center of the screen
 	// Extents are the rectangular width and height of the level
 	// Zoom is a zooming factor for all layers
+	// Rot is the camera rotation, orientation is scene rotation (temporary)
 	// Scale is the x/y scale to transform from level coordinates to screen
 	// Width and Height are screen size
 	double m_Focus[2];

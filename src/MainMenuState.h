@@ -28,17 +28,20 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
  */
  
-#include <Gosu/Gosu.hpp>
-#include <box2D.h>
+#include "Global.h"
+
 #include <list>
 #include "Core/GameState.h"
 #include "Physics/ContactListener.h"
 
 class MUGE;
-class UISheet;
+class UIContainer;
+class UIObject;
+class UIScreen;
 class UIWindow;
 class UIButton;
-//class UIText;
+class UITextArea;
+class UITextBox;
 
 /**
  * State for main menu
@@ -60,11 +63,25 @@ public:
 	
 	void update();
 	void draw() const;
+
+	/// Screen to World coordinate transform
+	/// wrapper function
+	b2Vec2 worldToScreen( b2Vec2 _world, Gosu::ZPos _layer );
 	
 	void CursorUp();
 	void CursorDown();
 	
 private:
+	
+	void evalJSON(json::grammar<char>::array _array, UIScreen *_container);
+	void evalButton(json::grammar<char>::array::const_iterator _it, UIContainer *_container);
+	void evalTextBox(json::grammar<char>::array::const_iterator _it, UIContainer *_container);
+	void evalTextArea(json::grammar<char>::array::const_iterator _it, UIContainer *_container);
+	void evalWindow(json::grammar<char>::array::const_iterator _it, UIScreen *_container);
+
+	std::wstring m_ConfigFile;
+	boost::scoped_ptr<JSONFile> m_jFile;
+
 	boost::scoped_ptr<Gosu::Image> m_MenuScreen;
 	boost::scoped_ptr<Gosu::Image> m_Cursor;
 	boost::scoped_ptr<Gosu::Image> m_MouseCursor;
@@ -88,8 +105,8 @@ private:
 	b2MouseJoint* m_mouseJoint;
 	
 	
-	UISheet *m_UI;
-	UIWindow *m_UIWin;
-	UIButton *m_Button;
+	UIScreen *m_UI;
+	std::list< UIObject* > m_UIObjects;
+	std::map< std::string, UIObject* > m_UINames;
 	
 };

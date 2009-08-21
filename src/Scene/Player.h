@@ -6,8 +6,9 @@
  *  Copyright 2009 Mizzou Game Design. All rights reserved.
  *
  */
-#include <Gosu/Gosu.hpp>
-#include <Box2D.h>
+
+#include "../Global.h"
+
 #include <map>
 #include "SceneObject.h"
  

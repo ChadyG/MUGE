@@ -37,6 +37,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 Scene::Scene(MUGE* _engine, std::wstring _config)
 {
 	m_Engine = _engine;
+	m_Config = _config;
 	
 	m_TimeStep = 1.0f / 50.0f;
 	m_Iterations = 10.0f;
@@ -66,7 +67,7 @@ Scene::Scene(MUGE* _engine, std::wstring _config)
 	// pull out data using JSONFile class
 	//
 	
-	m_jFile.reset( new JSONFile(Gosu::narrow(Gosu::resourcePrefix() + L"Data/" + _config + L".json")) );
+	m_jFile.reset( new JSONFile(Gosu::narrow(Gosu::resourcePrefix() + L"Data/" + m_Config + L".json")) );
 	json::grammar<char>::array::const_iterator it, it2;
 	json::grammar<char>::array arr, arr2;
 	json::grammar<char>::object o;
@@ -171,9 +172,12 @@ void Scene::evalSprite( json::grammar<char>::array::const_iterator _it, int _lay
 {
 	//Sprite tSprite;
 	SceneObject tObject;
-	boost::shared_ptr<Sprite> tSprite = m_SpriteMan.createSprite(
-		m_Engine->graphics(), 
-		Gosu::resourcePrefix() + L"Images/" + Gosu::widen( m_jFile->get<std::string>("Image", *_it) ) );
+	std::string tString = m_jFile->get<std::string>("Name", *_it);
+	boost::shared_ptr<Sprite> tSprite = m_Engine->createSprite(
+		m_Engine, 
+		Gosu::resourcePrefix() + L"Images/" + Gosu::widen( m_jFile->get<std::string>("Image", *_it) ),
+		Gosu::narrow(m_Config),
+		tString);
 	//tSprite.setImage( 
 	//	m_Engine->graphics(), 
 	//	Gosu::resourcePrefix() + L"Images/" + Gosu::widen( m_jFile->get<std::string>("Image", *_it) ) );
@@ -193,7 +197,6 @@ void Scene::evalSprite( json::grammar<char>::array::const_iterator _it, int _lay
 		m_jFile->get< double >("yScale", *_it) );
 	
 	
-	tSprite->registerScene( this );
 	tObject.registerScene( this );
 	tObject.setSprite( tSprite.get() );
 	m_Layers[_layer].objects.push_back( tObject );
@@ -212,6 +215,7 @@ void Scene::evalTrigger( json::grammar<char>::array::const_iterator _it, int _la
 	m_Layers[_layer].triggers.push_back( tTrigger );
 }
 
+
 void Scene::tellPlayer( Player *_player )
 {
 	m_Player = _player;
@@ -220,6 +224,7 @@ void Scene::tellPlayer( Player *_player )
 	m_Player->setPhysics( m_PlayerPos.x, m_PlayerPos.y, m_World);
 	m_Player->setLayer( 3 );
 }
+
 
 b2Vec2 Scene::worldToScreen( b2Vec2 _world, Gosu::ZPos _layer )
 {
@@ -232,6 +237,7 @@ b2Vec2 Scene::worldToScreen( b2Vec2 _world, Gosu::ZPos _layer )
 	rotPos.Set( rotPos.x + m_Width/2, rotPos.y + m_Height/2);
 	return rotPos;
 }
+
 
 void Scene::update()
 {

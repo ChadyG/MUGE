@@ -29,10 +29,14 @@
  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <Gosu/Gosu.hpp>
-#include <map>
+#ifndef SPRITEMANAGER_H
+#define SPRITEMANAGER_H
 
+#include "../Global.h"
+#include <map>
 #include "Sprite.h"
+
+class MUGE;
 
 class SpriteManager
 {
@@ -40,18 +44,22 @@ public:
 	SpriteManager();
 	
 	/// Wrapper for Sprite constructor
-	boost::shared_ptr<Sprite> createSprite(Gosu::Graphics &_graphics, std::wstring _filename);
+	boost::shared_ptr<Sprite> createSprite(MUGE *_engine, std::wstring _filename, std::string _name);
 	
 	/// Get a sprite by the manager's ID
 	boost::shared_ptr<Sprite> getSpriteByID( int _id );
 	
 	/// Get a Sprite by the filename (project relative)
-	boost::shared_ptr<Sprite> getSpriteByName( std::wstring _filename );
-	
+	boost::shared_ptr<Sprite> getSpriteByName( std::string _name );
 	
 private:
+	
+	MUGE *m_Engine;
+
 	std::map< int, boost::shared_ptr<Sprite> > m_Sprites;
-	std::map< std::wstring, int > m_SpriteMap;
+	std::map< std::string, int > m_SpriteMap;
 	
 	int m_curID;
 };
+
+#endif

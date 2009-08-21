@@ -1,8 +1,8 @@
 /*
-   TitleState.h
+   UIScreen.cpp
    Mizzou Game Engine
  
-   Created by Chad Godsey on 11/12/08.
+   Created by Chad on 6/09/09.
   
  Copyright 2009 Mizzou Game Design.
 
@@ -27,49 +27,24 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
  */
-#include "Global.h"
 
-#include <list>
-#include "Core/GameState.h"
+#include "GUIObjects.h"
 
-class MUGE;
-
-struct TitleScreen
+UIScreen::UIScreen(MUGE *_engine)
+: UIContainer(_engine)
 {
-	boost::shared_ptr<Gosu::Image> Image;
-	int Duration;
-	int Decay;
-	Gosu::Color FadeTo;
-};
+}
 
-/**
-* State for title screen and other middleware screens
-* goes into main menu
-*/
-class TitleState : public GameState
+UIWindow* UIScreen::createWindow(windowDef &_def)
 {
-public:
-	TitleState( std::wstring _config );
-	
-	void init( MUGE* _engine );
-	void cleanup();
-	
-	void pause();
-	void resume();
-	
-	void update();
-	void draw() const;
+	//m_Objects
+	m_currentPage->push_back( boost::shared_ptr<UIObject>( new UIWindow(_def, m_Engine) ) );
+	return reinterpret_cast<UIWindow*>(m_currentPage->back().get());
+}
 
-	/// Screen to World coordinate transform
-	/// wrapper function
-	b2Vec2 worldToScreen( b2Vec2 _world, Gosu::ZPos _layer );
-	
-private:
-	std::wstring m_ConfigFile;
-
-	std::list< TitleScreen > m_Titles;
-
-	bool m_fading;
-	int m_counter;
-
-};
+UIWindow* UIScreen::createWindow(windowDef &_def, std::string &_page)
+{
+	//m_Objects
+	m_Pages[ _page ].push_back( boost::shared_ptr<UIObject>( new UIWindow(_def, m_Engine) ) );
+	return reinterpret_cast<UIWindow*>(m_Pages[ _page ].back().get());
+}

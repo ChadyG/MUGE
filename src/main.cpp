@@ -28,8 +28,8 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
  */
  
-#include <Gosu/Gosu.hpp>
-#include "Input/JSONFile.hpp"
+#include "Global.h"
+
 #include "Core/MUGE.h"
 #include "TitleState.h"
 
@@ -46,6 +46,7 @@ int main(int argc, char* argv[])
 	bool fullscreen = jFile.get< bool >("FullScreen");
 	
     MUGE win(width, height, fullscreen, updateInterval);
+	win.setCaption( Gosu::widen( jFile.get< std::string >("WindowTitle") ) );
     TitleState *state = new TitleState( Gosu::widen(jFile.get< std::string >("StartState")) );
     win.pushState( state );
     win.show();

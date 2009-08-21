@@ -36,13 +36,19 @@ AnimationManager::AnimationManager()
 {
 }
 
-boost::shared_ptr<Animation> AnimationManager::createAnimation(Gosu::Graphics &_graphics, std::wstring _filename, int _width, int _height, int _delay)
+boost::shared_ptr<Animation> AnimationManager::createAnimation(MUGE *_engine, std::wstring _filename, std::string _name, int _width, int _height, int _delay)
 {
-	//if (m_AnimationMap[_filename])
-	//	return m_Animations[ m_AnimationMap[ _filename ] ];
-	m_Animations[m_curID].reset( new Animation( _graphics, _filename, _width, _height, _delay) );
-	m_AnimationMap[ _filename ] = m_curID;
-	return m_Animations[ m_curID++ ];
+	++m_curID;
+	if (!_name.empty() && m_AnimationMap[_name])
+		return m_Animations[ m_AnimationMap[ _name ] ];
+
+	m_Animations[m_curID].reset( new Animation( _engine, _filename, _width, _height, _delay) );
+
+	if (!_name.empty())
+		m_AnimationMap[ _name ] = m_curID;
+
+	return m_Animations[ m_curID];
+
 }
 
 boost::shared_ptr<Animation> AnimationManager::getAnimationByID( int _id )
@@ -50,7 +56,7 @@ boost::shared_ptr<Animation> AnimationManager::getAnimationByID( int _id )
 	return m_Animations[_id];
 }
 
-boost::shared_ptr<Animation> AnimationManager::getAnimationByName( std::wstring _filename )
+boost::shared_ptr<Animation> AnimationManager::getAnimationByName( std::string _filename )
 {
 	return m_Animations[ m_AnimationMap[ _filename ] ];
 }

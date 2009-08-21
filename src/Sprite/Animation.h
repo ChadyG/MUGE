@@ -15,22 +15,23 @@
 #ifndef ANIMATION_H
 #define ANIMATION_H
 
-#include <Gosu/Gosu.hpp>
-#include <Box2D.h>
+#include "../Global.h"
+
 #include "../Scene/SceneObject.h"
 
+class MUGE;
 typedef boost::shared_ptr<Gosu::Image> t_Image;
 
-class Animation : public SceneObject
+class Animation
 {
 public:
 	Animation();
-	Animation(Gosu::Graphics &_graphics, std::wstring _filename, int width, int height, int delay=1);
+	Animation(MUGE *_engine, std::wstring _filename, int width, int height, int delay=1);
 	
 	unsigned getID() { return m_ID; }
 	void setID( unsigned _id) { m_ID = _id; }
 	
-	void setImage(Gosu::Graphics &_graphics, std::wstring _filename, int width, int height, int delay=1);
+	void setImage(MUGE *_engine, std::wstring _filename, int width, int height, int delay=1);
 	
 	/// setRotation - sets world Rotation
 	void setRotation( double _angle ) { m_Rotation = _angle; }
@@ -58,6 +59,8 @@ public:
 
 private:
 	std::vector< t_Image > m_Sprites;
+
+	MUGE *m_Engine;
 	
 	unsigned int m_ID;
 	unsigned int m_Frame;

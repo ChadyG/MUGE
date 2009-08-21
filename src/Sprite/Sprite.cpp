@@ -28,6 +28,7 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
  */
  
+#include "../Core/MUGE.h"
 #include "Sprite.h"
 #include "../Scene/Scene.h"
 
@@ -51,24 +52,20 @@ Sprite::Sprite()
 	m_Position.Set( 0.0, 0.0);
 }
 
-Sprite::Sprite(Gosu::Graphics &_graphics, std::wstring _filename)
+Sprite::Sprite(MUGE *_engine, std::wstring _filename)
 	: m_centerX(0.5), m_centerY(0.5), m_Rotation(0.0),
-	m_factX(1.0), m_factY(1.0), m_ColorMod(Gosu::Colors::white)
+	m_factX(1.0), m_factY(1.0), m_ColorMod(Gosu::Colors::white), m_Engine(_engine)
 {
 	m_Position.Set( 0.0, 0.0);
-	m_Image = Sprite::GetImage(_graphics, _filename);
+	m_Image = Sprite::GetImage(m_Engine->graphics(), _filename);
 }
 
 //----------Setters----------
 
-void Sprite::registerScene( Scene *_scene )
+void Sprite::setImage(MUGE *_engine, std::wstring _filename)
 {
-	m_Scene = _scene;
-}
-
-void Sprite::setImage(Gosu::Graphics &_graphics, std::wstring _filename)
-{
-	m_Image = Sprite::GetImage(_graphics, _filename);
+	m_Engine = _engine;
+	m_Image = Sprite::GetImage(m_Engine->graphics(), _filename);
 }
 
 void Sprite::setScaling(double _factorX, double _factorY)
@@ -93,7 +90,7 @@ void Sprite::setColorMod(Gosu::Color _colorMod)
 void Sprite::draw(double _x, double _y, Gosu::ZPos _layer, 
 					 double _zoom, double _angle) const
 {
-	b2Vec2 screenPos = m_Scene->worldToScreen( b2Vec2( m_Position.x - _x, m_Position.y - _y), _layer );
+	b2Vec2 screenPos = m_Engine->worldToScreen( b2Vec2( m_Position.x - _x, m_Position.y - _y), _layer );
 	double angle = m_Rotation * (180.0/Gosu::pi);
 	m_Image->drawRot( screenPos.x, 
 					 screenPos.y, 

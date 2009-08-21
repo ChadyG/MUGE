@@ -1,11 +1,33 @@
 /*
- *  Animation.cpp
- *  Destructible
- *
- *  Created by Chad on 11/12/08.
- *  Copyright 2009 Mizzou Game Design. All rights reserved.
- *
+   Animation.cpp
+   Mizzou Game Engine
+ 
+   Created by Chad Godsey on 4/9/09.
+  
+ Copyright 2009 Mizzou Game Design.
+
+Permission is hereby granted, free of charge, to any person
+obtaining a copy of this software and associated documentation
+files (the "Software"), to deal in the Software without
+restriction, including without limitation the rights to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
  */
+#include "../Core/MUGE.h"
 #include "Animation.h"
 #include "../Scene/Scene.h"
 
@@ -16,21 +38,22 @@ m_centerY(0.5), m_factX(1.0), m_factY(1.0), m_ColorMod(Gosu::Colors::white)
 	m_Position.Set( 0.0, 0.0);
 }
 
-Animation::Animation( Gosu::Graphics& _graphics, std::wstring _fileName, int _width, int _height, int _delay)
+Animation::Animation( MUGE *_engine, std::wstring _fileName, int _width, int _height, int _delay)
 : m_centerX(0.5), m_centerY(0.5), m_factX(1.0), m_factY(1.0), m_Rotation(0.0),
-m_ColorMod(Gosu::Colors::white), m_Delay(_delay), m_Frame(0)
+m_ColorMod(Gosu::Colors::white), m_Delay(_delay), m_Frame(0), m_Engine(_engine)
 {
 	m_Position.Set( 0.0, 0.0);
-	Gosu::imagesFromTiledBitmap(_graphics, _fileName, _width, _height, false, m_Sprites);
+	Gosu::imagesFromTiledBitmap(m_Engine->graphics(), _fileName, _width, _height, false, m_Sprites);
 	m_Timer = m_Delay;
 }
 
 //----------Setters----------
 
-void Animation::setImage(Gosu::Graphics &_graphics, std::wstring _fileName, int _width, int _height, int _delay)
+void Animation::setImage(MUGE *_engine, std::wstring _fileName, int _width, int _height, int _delay)
 {
+	m_Engine = _engine;
 	m_Delay = _delay;
-	Gosu::imagesFromTiledBitmap(_graphics, _fileName, _width, _height, false, m_Sprites);
+	Gosu::imagesFromTiledBitmap(m_Engine->graphics(), _fileName, _width, _height, false, m_Sprites);
 	m_Frame = 0;
 	m_Timer = m_Delay;
 }
@@ -118,7 +141,7 @@ void Animation::drawFrameToScreen(int _frame, double _x, double _y, Gosu::ZPos _
 
 void Animation::draw(double _x, double _y, Gosu::ZPos _layer, double _zoom, double _angle) const
 {
-	b2Vec2 screenPos = m_Scene->worldToScreen( b2Vec2( m_Position.x - _x, m_Position.y - _y), _layer );
+	b2Vec2 screenPos = m_Engine->worldToScreen( b2Vec2( m_Position.x - _x, m_Position.y - _y), _layer );
 	double angle = m_Rotation * (180.0/Gosu::pi);
 	(m_Sprites.at(m_Frame).get())->drawRot(screenPos.x, 
 										   screenPos.y, 
@@ -134,7 +157,7 @@ void Animation::draw(double _x, double _y, Gosu::ZPos _layer, double _zoom, doub
 void Animation::drawFrame(int _frame, double _x, double _y, Gosu::ZPos _layer, double _zoom, double _angle) const
 {
 	
-	b2Vec2 screenPos = m_Scene->worldToScreen( b2Vec2( m_Position.x - _x, m_Position.y - _y), _layer );
+	b2Vec2 screenPos = m_Engine->worldToScreen( b2Vec2( m_Position.x - _x, m_Position.y - _y), _layer );
 	double angle = m_Rotation * (180.0/Gosu::pi);
 	(m_Sprites.at(_frame).get())->drawRot(screenPos.x, 
 										  screenPos.y, 

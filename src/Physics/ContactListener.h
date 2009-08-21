@@ -29,7 +29,8 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
  */
  
-#include <Box2D.h>
+#include "../Global.h"
+
 #include <vector>
 
 #ifndef CONTACTLISTENER_H

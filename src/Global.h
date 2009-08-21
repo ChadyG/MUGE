@@ -1,8 +1,9 @@
 /*
-   UISheet.cpp
+   Global.h
    Mizzou Game Engine
  
-   Created by Chad on 6/09/09.
+   Created by Chad Godsey on 12/12/08.
+  
   
  Copyright 2009 Mizzou Game Design.
 
@@ -27,24 +28,13 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
  */
+#include <Gosu/Gosu.hpp>
+#include <Box2D.h>
+#include "Input/JSONFile.hpp"
 
-#include "GUIObjects.h"
+#ifndef MUGEGLOBALS
+#define MUGEGLOBALS
 
-UISheet::UISheet(Gosu::Graphics &_graphics, Gosu::Input &_input)
-: UIContainer(_graphics, _input)
-{
-}
+typedef b2Vec2 Point2D;
 
-UIWindow* UISheet::createWindow(windowDef &_def)
-{
-	//m_Objects
-	m_currentPage->push_back( boost::shared_ptr<UIObject>( new UIWindow(_def, m_Graphics, m_Input) ) );
-	return reinterpret_cast<UIWindow*>(m_currentPage->back().get());
-}
-
-UIWindow* UISheet::createWindow(windowDef &_def, std::string &_page)
-{
-	//m_Objects
-	m_Pages[ _page ].push_back( boost::shared_ptr<UIObject>( new UIWindow(_def, m_Graphics, m_Input) ) );
-	return reinterpret_cast<UIWindow*>(m_Pages[ _page ].back().get());
-}
+#endif

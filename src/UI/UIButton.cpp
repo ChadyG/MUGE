@@ -30,9 +30,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 #include "GUIObjects.h"
 
-UIButton::UIButton(buttonDef &_def, Gosu::Graphics &_graphics, Gosu::Input &_input)
-: m_Graphics(_graphics), m_Input(_input)
+UIButton::UIButton(buttonDef &_def, MUGE *_engine)
 {
+	m_Engine = _engine;
 	m_visible = true;
 	m_X = _def.x;
 	m_Y = _def.y;
@@ -45,7 +45,7 @@ UIButton::UIButton(buttonDef &_def, Gosu::Graphics &_graphics, Gosu::Input &_inp
 void UIButton::setImage(std::wstring &_file)
 {
 	m_hasImage = true;
-	m_Image.setImage(m_Graphics, _file, m_Width, m_Height);
+	m_Image.setImage(m_Engine, _file, m_Width, m_Height);
 	m_Image.setCenter(0.0, 0.0);
 }
 
@@ -90,10 +90,10 @@ void UIButton::draw(int _x, int _y, int _layer) const
 		if (m_hasImage) {
 			m_Image.drawFrameToScreen( m_State, x, y, _layer);	
 		}else{
-			m_Graphics.drawQuad( x - 1, m_Y - 1, 0xFF0F276E, x + m_Width + 1, y - 1, 0xFF0F276E,
+			m_Engine->graphics().drawQuad( x - 1, m_Y - 1, 0xFF0F276E, x + m_Width + 1, y - 1, 0xFF0F276E,
 								x + m_Width + 1, y + m_Height + 1, 0xFF0F276E, x - 1, y + m_Height + 1, 0xFF0F276E, _layer);
 			
-			m_Graphics.drawQuad( x, y, 0xFFD3DCF8, y + m_Width, y, 0xFFD3DCF8,
+			m_Engine->graphics().drawQuad( x, y, 0xFFD3DCF8, y + m_Width, y, 0xFFD3DCF8,
 								x + m_Width, y + m_Height, 0xFFD3DCF8, x, y + m_Height, 0xFFD3DCF8, _layer);
 		}
 	}

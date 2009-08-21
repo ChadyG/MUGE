@@ -252,7 +252,7 @@
 					>
 				</File>
 				<File
-					RelativePath="..\src\UI\UISheet.cpp"
+					RelativePath="..\src\UI\UIScreen.cpp"
 					>
 				</File>
 				<File
@@ -280,6 +280,14 @@
 					>
 				</File>
 				<File
+					RelativePath="..\src\Sprite\AnimationManager.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Sprite\AnimationManager.h"
+					>
+				</File>
+				<File
 					RelativePath="..\src\Sprite\Sprite.cpp"
 					>
 				</File>
@@ -287,24 +295,36 @@
 					RelativePath="..\src\Sprite\Sprite.h"
 					>
 				</File>
+				<File
+					RelativePath="..\src\Sprite\SpriteManager.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Sprite\SpriteManager.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Scene"
 				>
-				<File
-					RelativePath="..\src\Scene\environment.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\src\Scene\Environment.h"
-					>
-				</File>
 				<File
 					RelativePath="..\src\Scene\Player.cpp"
 					>
 				</File>
 				<File
 					RelativePath="..\src\Scene\Player.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Scene\scene.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Scene\Scene.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Scene\SceneObject.cpp"
 					>
 				</File>
 				<File
@@ -328,6 +348,10 @@
 				Name="Particles"
 				>
 				<File
+					RelativePath="..\src\Particles\Emitter.cpp"
+					>
+				</File>
+				<File
 					RelativePath="..\src\Particles\Emitter.h"
 					>
 				</File>
@@ -338,6 +362,10 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath="..\src\Global.h"
+				>
+			</File>
 			<Filter
 				Name="Core"
 				>

@@ -31,10 +31,11 @@ OTHER DEALINGS IN THE SOFTWARE.
 #ifndef GUIOBJECTS_H
 #define GUIOBJECTS_H
 
-#include <Gosu/Gosu.hpp>
+#include "../Global.h"
+
 #include <list>
 #include <map>
-
+#include "../Core/MUGE.h"
 #include "../Sprite/Animation.h"
 
 /**
@@ -101,7 +102,7 @@ struct texDef
 class UITextBox : public UIObject
 {
 public:
-	UITextBox(texDef&, Gosu::Graphics&, Gosu::Input&);
+	UITextBox(texDef&, MUGE *_engine);
 
 	void onMouseIn();
 	void onMouseOut();
@@ -124,8 +125,7 @@ private:
 	int m_X, m_Y, m_Length, m_maxSize, m_Height, m_Width;
 	int m_Caret, m_Offset, m_Timer;
 	bool m_inFocus;
-	Gosu::Graphics& m_Graphics;
-	Gosu::Input& m_Input;
+	MUGE *m_Engine;
 	Gosu::TextInput* m_TextInput;
 	Gosu::Font* m_Text;
 };
@@ -151,7 +151,7 @@ public:
 		Right
 	};
 
-	UITextArea(texAreaDef&, Gosu::Graphics&, Gosu::Input& );
+	UITextArea(texAreaDef&, MUGE *_engine );
 
 	void onMouseIn();
 	void onMouseOut();
@@ -174,9 +174,9 @@ private:
 	int m_X, m_Y, m_Length, m_maxSize, m_Height, m_Width, m_Offset;
 	bool m_inFocus;
 	Justify m_Justify;
-	Gosu::Graphics& m_Graphics;
-	Gosu::Font* m_Font;
 	std::wstring m_Text;
+	Gosu::Font* m_Font;
+	MUGE *m_Engine;
 };
 
 /**
@@ -197,7 +197,7 @@ struct slideDef
 class UISliderControl : public UIObject
 {
 public:
-	UISliderControl(slideDef&, Gosu::Graphics&, Gosu::Input&);
+	UISliderControl(slideDef&, MUGE *_engine);
 
 	void onMouseIn();
 	void onMouseOut();
@@ -219,9 +219,8 @@ private:
 	int m_X, m_Y, m_Min, m_Max, m_Height, m_Width;
 	double m_Scale;
 	double m_Value;
-	Gosu::Graphics& m_Graphics;
-	Gosu::Input& m_Input;
 	Gosu::Font* m_Text;
+	MUGE *m_Engine;
 };
 
 /**
@@ -248,7 +247,7 @@ public:
 		btnPress
 	};
 
-	UIButton(buttonDef&, Gosu::Graphics&, Gosu::Input&);
+	UIButton(buttonDef&, MUGE *_engine);
 	
 	void setImage(std::wstring &);
 	
@@ -271,9 +270,8 @@ private:
 	int m_X, m_Y, m_Height, m_Width;
 	bool m_hasImage;
 	buttonState m_State;
-	Gosu::Graphics& m_Graphics;
-	Gosu::Input& m_Input;
 	Animation m_Image;
+	MUGE *m_Engine;
 };
 
 /**
@@ -289,7 +287,7 @@ private:
 class UIContainer
 {
 public:
-	UIContainer( Gosu::Graphics&, Gosu::Input& );
+	UIContainer( MUGE *_engine );
 	
 	void giveFocus() { m_hasFocus = true; }
 	void takeFocus() { m_hasFocus = false; }
@@ -339,8 +337,7 @@ protected:
 	bool m_mouseUp;
 	bool m_hitObj;
 
-	Gosu::Graphics& m_Graphics;
-	Gosu::Input& m_Input;
+	MUGE *m_Engine;
 };
 
 /**
@@ -364,7 +361,7 @@ struct windowDef
 class UIWindow : public UIContainer, public UIObject
 {
 public:
-	UIWindow(windowDef& _def, Gosu::Graphics&, Gosu::Input&);
+	UIWindow(windowDef& _def, MUGE *_engine);
 
 	void onMouseIn() {}
 	void onMouseOut() {}
@@ -406,10 +403,10 @@ private:
 };
 
 
-class UISheet : public UIContainer
+class UIScreen : public UIContainer
 {
 public:
-	UISheet(Gosu::Graphics &_graphics, Gosu::Input &_input);
+	UIScreen(MUGE *_engine);
 
 	/// Creates a window using the provided definition and puts 
 	/// it into the page designated by string

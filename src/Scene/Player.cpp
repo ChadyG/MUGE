@@ -81,7 +81,7 @@ void Player::addAnimation(std::string _name, Animation* _anim)
 {
 	m_Anims[_name] = _anim;
 	m_AnimState = m_Anims[_name];
-	addChild( (SceneObject*)(m_Anims[_name]) );
+	//addChild( (SceneObject*)(m_Anims[_name]) );
 }
 
 void Player::setLayer(Gosu::ZPos _z)
@@ -101,8 +101,10 @@ void Player::onHit(SceneObject &other, b2ContactPoint &point)
 
 void Player::update(Gosu::Input& _input)
 {
+	// Either use physics or scene stuff
 	m_Pos = m_Position;//m_Body->GetPosition();
 	
+	// Temporary shit
 	if (_input.down(Gosu::kbLeft)) {
 		m_Pos.x -= 0.1;
 		if (_input.down(Gosu::kbLeftShift)) 
@@ -113,8 +115,9 @@ void Player::update(Gosu::Input& _input)
 		if (_input.down(Gosu::kbLeftShift)) 
 			m_Pos.x += 0.1;
 	}
-
 	setPosition( m_Pos );
+	// end temporary movement of the bowel
+
 	m_AnimState->update();
 }
 

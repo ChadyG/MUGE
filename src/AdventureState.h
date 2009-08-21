@@ -28,7 +28,8 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <Gosu/Gosu.hpp>
+#include "Global.h"
+
 #include "Core/GameState.h"
 #include "Scene/Scene.h"
 #include "Scene/Player.h"
@@ -57,6 +58,10 @@ public:
 	
 	void update();
 	void draw() const;
+
+	/// Screen to World coordinate transform
+	/// wrapper function
+	b2Vec2 worldToScreen( b2Vec2 _world, Gosu::ZPos _layer );
 	
 	void save();
 	

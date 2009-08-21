@@ -43,7 +43,7 @@ MUGE::MUGE(int _width, int _height, bool _fullscreen, double _updateInterval)
 	//inputManager.hookIntoCommand("Menu.Quit:Down", boost::bind(&MUGE::quitHandler, this));
 	//inputManager.setCurrentContext("Menu");
 	
-	m_curFPS = 1;
+	m_curFPS = 1000 / _updateInterval;
 	m_curTicks = 0;
 	m_lastSecond = Gosu::milliseconds()/1000;
 	m_stackDirty = false;
@@ -153,4 +153,52 @@ void MUGE::quitHandler()
 int MUGE::getFPS()
 {
 	return m_curFPS;
+}
+
+
+b2Vec2 MUGE::worldToScreen( b2Vec2 _world, Gosu::ZPos _layer )
+{
+	return m_States.top()->worldToScreen( _world, _layer );
+}
+
+
+boost::shared_ptr<Sprite> MUGE::createSprite(MUGE *_engine, std::wstring _filename, std::string _group, std::string _name)
+{
+	return m_SpriteGroups[_group].createSprite( _engine, _filename, _name);
+}
+
+boost::shared_ptr<Sprite> MUGE::getSpriteByID( std::string _group, int _id )
+{
+	return m_SpriteGroups[_group].getSpriteByID( _id );
+}
+
+boost::shared_ptr<Sprite> MUGE::getSpriteByName( std::string _group, std::string _name )
+{
+	return m_SpriteGroups[_group].getSpriteByName( _name );
+}
+
+void MUGE::deleteSpritesByGroup( std::string _group )
+{
+	m_SpriteGroups.erase( _group );
+}
+
+
+boost::shared_ptr<Animation> MUGE::createAnimation(MUGE *_engine, std::wstring _filename, std::string _group, std::string _name, int _width, int _height, int _delay)
+{
+	return m_AnimGroups[_group].createAnimation( _engine, _filename, _name, _width, _height, _delay);
+}
+
+boost::shared_ptr<Animation> MUGE::getAnimationByID( std::string _group, int _id )
+{
+	return m_AnimGroups[_group].getAnimationByID( _id );
+}
+
+boost::shared_ptr<Animation> MUGE::getAnimationByName( std::string _group, std::string _name )
+{
+	return m_AnimGroups[_group].getAnimationByName( _name );
+}
+
+void MUGE::deleteAnimationsByGroup( std::string _group )
+{
+	m_AnimGroups.erase( _group );
 }

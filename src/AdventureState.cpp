@@ -56,7 +56,7 @@ void AdventureState::init( MUGE* _engine)
 	arr = jFile.get<json::grammar<char>::array>("PlayerAnimations");
 	for (i = 0, it = arr.begin(); it != arr.end(); ++it, ++i) {
 		Animation *anim = new Animation();
-		anim->setImage( m_Engine->graphics(), 
+		anim->setImage( m_Engine, 
 			Gosu::resourcePrefix() + L"Images/" + Gosu::widen(jFile.get< std::string >("FileName", *it)), 
 			jFile.get< int >("Width", *it),
 			jFile.get< int >("Height", *it),
@@ -93,4 +93,9 @@ void AdventureState::resume()
 void AdventureState::pause()
 {
 	
+}
+
+b2Vec2 AdventureState::worldToScreen( b2Vec2 _world, Gosu::ZPos _layer )
+{
+	return m_Scene->worldToScreen( _world, _layer );
 }

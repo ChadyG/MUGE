@@ -36,13 +36,18 @@ SpriteManager::SpriteManager()
 {
 }
 
-boost::shared_ptr<Sprite> SpriteManager::createSprite(Gosu::Graphics &_graphics, std::wstring _filename)
+boost::shared_ptr<Sprite> SpriteManager::createSprite(MUGE *_engine, std::wstring _filename, std::string _name)
 {
-	//if (m_SpriteMap[_filename])
-	//	return m_Sprites[ m_SpriteMap[ _filename ] ];
-	m_Sprites[m_curID].reset( new Sprite( _graphics, _filename) );
-	m_SpriteMap[ _filename ] = m_curID;
-	return m_Sprites[ m_curID++ ];
+	++m_curID;
+	if (!_name.empty() && m_SpriteMap[_name])
+		return m_Sprites[ m_SpriteMap[ _name ] ];
+
+	m_Sprites[m_curID].reset( new Sprite( _engine, _filename) );
+
+	if (!_name.empty())
+		m_SpriteMap[ _name ] = m_curID;
+
+	return m_Sprites[ m_curID];
 }
 
 boost::shared_ptr<Sprite> SpriteManager::getSpriteByID( int _id )
@@ -50,7 +55,7 @@ boost::shared_ptr<Sprite> SpriteManager::getSpriteByID( int _id )
 	return m_Sprites[_id];
 }
 
-boost::shared_ptr<Sprite> SpriteManager::getSpriteByName( std::wstring _filename )
+boost::shared_ptr<Sprite> SpriteManager::getSpriteByName( std::string _filename )
 {
 	return m_Sprites[ m_SpriteMap[ _filename ] ];
 }

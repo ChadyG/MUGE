@@ -31,9 +31,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include "boost/lexical_cast.hpp"
 #include "GUIObjects.h"
 
-UISliderControl::UISliderControl(slideDef &_def, Gosu::Graphics &_graphics, Gosu::Input &_input)
-: m_Graphics(_graphics), m_Input(_input)
+UISliderControl::UISliderControl(slideDef &_def, MUGE *_engine)
 {
+	m_Engine = _engine;
 	m_visible = true;
 	m_Width = _def.width;
 	m_Height = 10;
@@ -44,7 +44,7 @@ UISliderControl::UISliderControl(slideDef &_def, Gosu::Graphics &_graphics, Gosu
 	m_Y = _def.y;
 	m_Scale = m_Width / (double)(m_Max - m_Min);
 
-	m_Text = new Gosu::Font(m_Graphics, Gosu::defaultFontName(), 10);
+	m_Text = new Gosu::Font(m_Engine->graphics(), Gosu::defaultFontName(), 10);
 }
 
 void UISliderControl::onMouseIn()
@@ -66,8 +66,8 @@ void UISliderControl::onMouseUp()
 
 void UISliderControl::onMouseHeld()
 {
-	m_Value = Gosu::clamp<double>((m_Input.mouseX() - m_X) / m_Scale + m_Min, m_Min, m_Max);
-	m_Input.setMousePosition( m_Input.mouseX(), m_Y + m_Height + 5);
+	m_Value = Gosu::clamp<double>((m_Engine->input().mouseX() - m_X) / m_Scale + m_Min, m_Min, m_Max);
+	m_Engine->input().setMousePosition( m_Engine->input().mouseX(), m_Y + m_Height + 5);
 }
 
 void UISliderControl::takeFocus()
@@ -83,18 +83,18 @@ void UISliderControl::draw(int _x, int _y, int _layer) const
 	if (m_visible) {
 		int x = _x + m_X;
 		int y = _y + m_Y;
-		m_Graphics.drawQuad( x - 12, y - 2, 0xFF0F276E, x + m_Width + 12, y - 2, 0xFF0F276E, 
+		m_Engine->graphics().drawQuad( x - 12, y - 2, 0xFF0F276E, x + m_Width + 12, y - 2, 0xFF0F276E, 
 			x + m_Width + 12, y + m_Height + 2, 0xFF0F276E, x - 12, y + m_Height + 2, 0xFF0F276E, _layer);
 		
-		m_Graphics.drawQuad( x - 10, y, 0xFFD3DCF8, x + m_Width + 10, y, 0xFFD3DCF8, 
+		m_Engine->graphics().drawQuad( x - 10, y, 0xFFD3DCF8, x + m_Width + 10, y, 0xFFD3DCF8, 
 			x + m_Width + 10, y + m_Height, 0xFFD3DCF8, x - 10, y + m_Height, 0xFFD3DCF8, _layer);
 
 
-		m_Graphics.drawTriangle( x + m_Value * m_Scale - m_Min * m_Scale, y + m_Height - 2, 0xFFD3DCF8,
+		m_Engine->graphics().drawTriangle( x + m_Value * m_Scale - m_Min * m_Scale, y + m_Height - 2, 0xFFD3DCF8,
 			x + m_Value * m_Scale - m_Min * m_Scale + 12, y + m_Height + 16, 0xFF0F276E,
 			x + m_Value * m_Scale - m_Min * m_Scale - 12, y + m_Height + 16, 0xFF0F276E, _layer);
 
-		m_Graphics.drawTriangle( x + m_Value * m_Scale - m_Min * m_Scale, y + m_Height, 0xFF0F276E,
+		m_Engine->graphics().drawTriangle( x + m_Value * m_Scale - m_Min * m_Scale, y + m_Height, 0xFF0F276E,
 			x + m_Value * m_Scale - m_Min * m_Scale + 10, y + m_Height + 15, 0xFFD3DCF8,
 			x + m_Value * m_Scale - m_Min * m_Scale - 10, y + m_Height + 15, 0xFFD3DCF8, _layer);
 

@@ -31,9 +31,10 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 #include "GUIObjects.h"
 
-UITextArea::UITextArea(texAreaDef &_def, Gosu::Graphics &_graphics, Gosu::Input &_input )
-: m_Graphics(_graphics), m_inFocus(false), m_Offset(0)
+UITextArea::UITextArea(texAreaDef &_def, MUGE *_engine )
+: m_inFocus(false), m_Offset(0)
 {
+	m_Engine = _engine;
 	m_visible = true;
 	m_X = _def.x;
 	m_Y = _def.y;
@@ -41,7 +42,7 @@ UITextArea::UITextArea(texAreaDef &_def, Gosu::Graphics &_graphics, Gosu::Input 
 	m_Width = _def.width;
 	m_Justify = (UITextArea::Justify)(_def.justify);
 
-	m_Font = new Gosu::Font(m_Graphics, Gosu::defaultFontName(), 20);
+	m_Font = new Gosu::Font(m_Engine->graphics(), Gosu::defaultFontName(), 20);
 }
 
 void UITextArea::onMouseIn()
@@ -91,10 +92,10 @@ void UITextArea::draw(int _x, int _y, int _layer) const
 	if (m_visible) {
 		int x = _x + m_X;
 		int y = _y + m_Y;
-		m_Graphics.drawQuad( x - 1, y - 1, 0xFFbfd4f9, x + m_Width + 1, y - 1, 0xFFbfd4f9,
+		m_Engine->graphics().drawQuad( x - 1, y - 1, 0xFFbfd4f9, x + m_Width + 1, y - 1, 0xFFbfd4f9,
 			x + m_Width + 1, y + m_Height + 1, 0xFFbfd4f9, x - 1, y + m_Height + 1, 0xFFbfd4f9, _layer);
 
-		m_Graphics.drawQuad( x, y, 0xFFe6eefd, x + m_Width, y, 0xFFe6eefd,
+		m_Engine->graphics().drawQuad( x, y, 0xFFe6eefd, x + m_Width, y, 0xFFe6eefd,
 			x + m_Width, y + m_Height, 0xFFe6eefd, x, y + m_Height, 0xFFe6eefd, _layer);
 
 		m_Font->draw( m_Text, x + m_Offset, y, _layer, 1.0, 1.0, Gosu::Colors::black);

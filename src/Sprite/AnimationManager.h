@@ -29,10 +29,14 @@
  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <Gosu/Gosu.hpp>
-#include <map>
+#ifndef ANIMMANAGER_H
+#define ANIMMANAGER_H
 
+#include "../Global.h"
+#include <map>
 #include "Animation.h"
+
+class MUGE;
 
 class AnimationManager
 {
@@ -40,18 +44,23 @@ public:
 	AnimationManager();
 	
 	/// Wrapper for Animation constructor
-	boost::shared_ptr<Animation> createAnimation(Gosu::Graphics &_graphics, std::wstring _filename, int _width, int _height, int _delay = 1);
+	boost::shared_ptr<Animation> createAnimation(MUGE *_engine, std::wstring _filename, std::string _name, int _width, int _height, int _delay = 1);
 	
 	/// Get an Animation by manager's ID
 	boost::shared_ptr<Animation> getAnimationByID( int _id );
 	
-	/// Get an Animation by filename (project relative)
-	boost::shared_ptr<Animation> getAnimationByName( std::wstring _filename );
+	/// Get an Animation by name 
+	boost::shared_ptr<Animation> getAnimationByName( std::string _name );
 	
 	
 private:
+	
+	MUGE *m_Engine;
+
 	std::map< int, boost::shared_ptr<Animation> > m_Animations;
-	std::map< std::wstring, int > m_AnimationMap;
+	std::map< std::string, int > m_AnimationMap;
 	
 	int m_curID;
 };
+
+#endif
