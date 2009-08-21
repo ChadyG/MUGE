@@ -21,7 +21,7 @@
 		E90B45A40FFD16860099688F /* Sprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E90B458D0FFD16860099688F /* Sprite.cpp */; };
 		E90B45A50FFD16860099688F /* TitleState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E90B458F0FFD16860099688F /* TitleState.cpp */; };
 		E90B45A60FFD16860099688F /* UIButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E90B45930FFD16860099688F /* UIButton.cpp */; };
-		E90B45A70FFD16860099688F /* UISheet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E90B45940FFD16860099688F /* UISheet.cpp */; };
+		E90B45A70FFD16860099688F /* UIScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E90B45940FFD16860099688F /* UIScreen.cpp */; };
 		E90B45A80FFD16860099688F /* UISliderControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E90B45950FFD16860099688F /* UISliderControl.cpp */; };
 		E90B45A90FFD16860099688F /* UITextBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E90B45960FFD16860099688F /* UITextBox.cpp */; };
 		E92AE8080F8E636C00E5222C /* libboost_signals-xgcc40-mt-1_38.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E92AE8070F8E636C00E5222C /* libboost_signals-xgcc40-mt-1_38.dylib */; };
@@ -106,13 +106,14 @@
 		E90B45900FFD16860099688F /* TitleState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitleState.h; sourceTree = "<group>"; };
 		E90B45920FFD16860099688F /* GUIObjects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GUIObjects.h; sourceTree = "<group>"; };
 		E90B45930FFD16860099688F /* UIButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UIButton.cpp; sourceTree = "<group>"; };
-		E90B45940FFD16860099688F /* UISheet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UISheet.cpp; sourceTree = "<group>"; };
+		E90B45940FFD16860099688F /* UIScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UIScreen.cpp; sourceTree = "<group>"; };
 		E90B45950FFD16860099688F /* UISliderControl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UISliderControl.cpp; sourceTree = "<group>"; };
 		E90B45960FFD16860099688F /* UITextBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UITextBox.cpp; sourceTree = "<group>"; };
 		E92AE8070F8E636C00E5222C /* libboost_signals-xgcc40-mt-1_38.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libboost_signals-xgcc40-mt-1_38.dylib"; path = "../libs/libboost_signals-xgcc40-mt-1_38.dylib"; sourceTree = SOURCE_ROOT; };
 		E9382FE40F216BFC0093F382 /* MUGDsm.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; name = MUGDsm.ico; path = ../Images/MUGDsm.ico; sourceTree = SOURCE_ROOT; };
 		E93830150F2170B70093F382 /* Images */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Images; path = ../Images; sourceTree = SOURCE_ROOT; };
 		E947C90A0F8939110015A29A /* Sound */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Sound; path = ../Sound; sourceTree = SOURCE_ROOT; };
+		E9580B17103F3F4A0002C8F0 /* Global.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Global.h; sourceTree = "<group>"; };
 		E962E10310210B88001B8BAA /* SpriteManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpriteManager.cpp; sourceTree = "<group>"; };
 		E962E10610210D35001B8BAA /* AnimationManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationManager.cpp; sourceTree = "<group>"; };
 		E984F61F100EC2AD00638023 /* Player.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Player.cpp; sourceTree = "<group>"; };
@@ -222,6 +223,7 @@
 		E90B45650FFD16860099688F /* src */ = {
 			isa = PBXGroup;
 			children = (
+				E9580B17103F3F4A0002C8F0 /* Global.h */,
 				E90B45660FFD16860099688F /* AdventureState.cpp */,
 				E90B45670FFD16860099688F /* AdventureState.h */,
 				E90B45680FFD16860099688F /* Core */,
@@ -307,7 +309,7 @@
 				E9EA39541008208500D37BA7 /* UIWindow.cpp */,
 				E90B45920FFD16860099688F /* GUIObjects.h */,
 				E90B45930FFD16860099688F /* UIButton.cpp */,
-				E90B45940FFD16860099688F /* UISheet.cpp */,
+				E90B45940FFD16860099688F /* UIScreen.cpp */,
 				E90B45950FFD16860099688F /* UISliderControl.cpp */,
 				E90B45960FFD16860099688F /* UITextBox.cpp */,
 			);
@@ -394,7 +396,7 @@
 				E90B45A40FFD16860099688F /* Sprite.cpp in Sources */,
 				E90B45A50FFD16860099688F /* TitleState.cpp in Sources */,
 				E90B45A60FFD16860099688F /* UIButton.cpp in Sources */,
-				E90B45A70FFD16860099688F /* UISheet.cpp in Sources */,
+				E90B45A70FFD16860099688F /* UIScreen.cpp in Sources */,
 				E90B45A80FFD16860099688F /* UISliderControl.cpp in Sources */,
 				E90B45A90FFD16860099688F /* UITextBox.cpp in Sources */,
 				E9EA39551008208500D37BA7 /* UIContainer.cpp in Sources */,
