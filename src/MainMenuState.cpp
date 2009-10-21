@@ -85,6 +85,7 @@ void MainMenuState::init( MUGE* _engine)
 	
 	// UI Stuff (finally!)
 	m_UI = new UIScreen(m_Engine);
+	m_UI->giveFocus();
 	
 	arr = m_jFile->get<json::grammar<char>::array>("Objects");
 	evalJSON( arr, m_UI );

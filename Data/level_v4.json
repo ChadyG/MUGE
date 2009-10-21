@@ -105,7 +105,7 @@
 				},
 				{
 					"Type" : "Sprite",
-					"Name" : "bg_hill",
+					"Name" : "bg_cloud",
 					"Image" : "Levels/cloud1.png",
 					"Position" : [ -8.0, -5.5],
 					"Rotation" : 0.0,
@@ -116,7 +116,7 @@
 				},
 				{
 					"Type" : "Sprite",
-					"Name" : "bg_hill",
+					"Name" : "bg_cloud",
 					"Image" : "Levels/cloud1.png",
 					"Position" : [ -1.0, -7.7],
 					"Rotation" : 24.0,
@@ -127,7 +127,7 @@
 				},
 				{
 					"Type" : "Sprite",
-					"Name" : "bg_hill",
+					"Name" : "bg_cloud2",
 					"Image" : "Levels/cloud2.png",
 					"Position" : [ -3.0, -6.5],
 					"Rotation" : 10.0,

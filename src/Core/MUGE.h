@@ -39,6 +39,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 //#include "../Input/InputManager.hpp"
 #include "../Sprite/SpriteManager.h"
 #include "../Sprite/AnimationManager.h"
+#include "../Sprite/ResourceManager.h"
 
 class GameState;
 
@@ -89,8 +90,16 @@ public:
 	/// wrapper function
 	b2Vec2 worldToScreen( b2Vec2 _world, Gosu::ZPos _layer );
 
+
+	///Resource Management utilities
+	///Create a context for resources
+	ResourceManager* createResContext(std::string _context);
+
+	void deleteResContext(std::string _context);
+
+
 	/// Wrapper for Sprite constructor
-	boost::shared_ptr<Sprite> createSprite(MUGE *_engine, std::wstring _filename, std::string _group, std::string _name);
+	int createSprite(MUGE *_engine, std::wstring _filename, std::string _group, std::string _name);
 	/// Get a sprite by the manager's ID
 	boost::shared_ptr<Sprite> getSpriteByID( std::string _group, int _id );
 	/// Get a Sprite by the filename (project relative)
@@ -99,7 +108,7 @@ public:
 	void deleteSpritesByGroup( std::string _group );
 
 	/// Wrapper for Animation constructor
-	boost::shared_ptr<Animation> createAnimation(MUGE *_engine, std::wstring _filename, std::string _group, std::string _name, int _width, int _height, int _delay = 1);
+	int createAnimation(MUGE *_engine, std::wstring _filename, std::string _group, std::string _name, int _width, int _height, int _delay = 1);
 	/// Get an Animation by manager's ID
 	boost::shared_ptr<Animation> getAnimationByID( std::string _group, int _id );
 	/// Get an Animation by name 
@@ -114,8 +123,9 @@ private:
 
 	// Resource management
 	// Divided into groups or contexts
-	std::map< std::string, SpriteManager> m_SpriteGroups;
-	std::map< std::string, AnimationManager> m_AnimGroups;
+	//std::map< std::string, SpriteManager> m_SpriteGroups;
+	//std::map< std::string, AnimationManager> m_AnimGroups;
+	std::map< std::string, ResourceManager> m_ResGroups;
 	
 	int m_curFPS;
 	int m_curTicks;

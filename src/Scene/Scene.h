@@ -34,8 +34,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include <map>
 #include <list>
 #include "SceneObject.h"
-#include "../Sprite/SpriteManager.h"
-#include "../Sprite/AnimationManager.h"
+#include "../Sprite/ResourceManager.h"
 #include "../Physics/ContactListener.h"
 
 class MUGE;
@@ -74,6 +73,7 @@ protected:
 	
 	void evalJSON( json::grammar<char>::array _array, int _layer, SceneObject *_parent );
 	void evalSprite( json::grammar<char>::array::const_iterator _it, int _layer, SceneObject *_parent );
+	void evalAnim( json::grammar<char>::array::const_iterator _it, int _layer, SceneObject *_parent );
 	void evalTrigger( json::grammar<char>::array::const_iterator _it, int _layer, SceneObject *_parent );
 	
 	// Game Data
@@ -92,12 +92,11 @@ protected:
 	std::map< std::string, Gosu::ZPos > m_LayerNames;
 	
 	// Scene stuff
-	SpriteManager m_SpriteMan;
-	AnimationManager m_AnimMan;
+	ResourceManager* m_ResMan;
 	boost::scoped_ptr< Gosu::Song > m_Music;
 	Player *m_Player;
 	b2Vec2 m_PlayerPos;
-	
+
 	
 	// Physics data
 	AdventureListener m_ContactListener;

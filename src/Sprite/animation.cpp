@@ -53,6 +53,7 @@ void Animation::setImage(MUGE *_engine, std::wstring _fileName, int _width, int 
 {
 	m_Engine = _engine;
 	m_Delay = _delay;
+	m_Sprites.clear();
 	Gosu::imagesFromTiledBitmap(m_Engine->graphics(), _fileName, _width, _height, false, m_Sprites);
 	m_Frame = 0;
 	m_Timer = m_Delay;

@@ -162,43 +162,60 @@ b2Vec2 MUGE::worldToScreen( b2Vec2 _world, Gosu::ZPos _layer )
 }
 
 
-boost::shared_ptr<Sprite> MUGE::createSprite(MUGE *_engine, std::wstring _filename, std::string _group, std::string _name)
+ResourceManager* MUGE::createResContext(std::string _context)
 {
-	return m_SpriteGroups[_group].createSprite( _engine, _filename, _name);
+	return &(m_ResGroups[_context]);
+}
+
+void MUGE::deleteResContext(std::string _context)
+{
+	m_ResGroups.erase(_context);
+}
+
+
+
+
+
+
+
+
+int MUGE::createSprite(MUGE *_engine, std::wstring _filename, std::string _group, std::string _name)
+{
+	return m_ResGroups[_group].createSprite( _engine, _filename, _name);
 }
 
 boost::shared_ptr<Sprite> MUGE::getSpriteByID( std::string _group, int _id )
 {
-	return m_SpriteGroups[_group].getSpriteByID( _id );
+	return m_ResGroups[_group].getSpriteByID( _id );
 }
 
 boost::shared_ptr<Sprite> MUGE::getSpriteByName( std::string _group, std::string _name )
 {
-	return m_SpriteGroups[_group].getSpriteByName( _name );
+	return m_ResGroups[_group].getSpriteByName( _name );
 }
 
 void MUGE::deleteSpritesByGroup( std::string _group )
 {
-	m_SpriteGroups.erase( _group );
+	m_ResGroups.erase( _group );
 }
 
 
-boost::shared_ptr<Animation> MUGE::createAnimation(MUGE *_engine, std::wstring _filename, std::string _group, std::string _name, int _width, int _height, int _delay)
+int MUGE::createAnimation(MUGE *_engine, std::wstring _filename, std::string _group, std::string _name, int _width, int _height, int _delay)
 {
-	return m_AnimGroups[_group].createAnimation( _engine, _filename, _name, _width, _height, _delay);
+	return m_ResGroups[_group].createAnimation( _engine, _filename, _name, _width, _height, _delay);
 }
 
 boost::shared_ptr<Animation> MUGE::getAnimationByID( std::string _group, int _id )
 {
-	return m_AnimGroups[_group].getAnimationByID( _id );
+	return m_ResGroups[_group].getAnimationByID( _id );
 }
 
 boost::shared_ptr<Animation> MUGE::getAnimationByName( std::string _group, std::string _name )
 {
-	return m_AnimGroups[_group].getAnimationByName( _name );
+	return m_ResGroups[_group].getAnimationByName( _name );
 }
 
 void MUGE::deleteAnimationsByGroup( std::string _group )
 {
-	m_AnimGroups.erase( _group );
+	m_ResGroups.erase( _group );
 }

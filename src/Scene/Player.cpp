@@ -106,11 +106,13 @@ void Player::update(Gosu::Input& _input)
 	
 	// Temporary shit
 	if (_input.down(Gosu::kbLeft)) {
+		m_AnimState = m_Anims["WalkLeft"];
 		m_Pos.x -= 0.1;
 		if (_input.down(Gosu::kbLeftShift)) 
 			m_Pos.x -= 0.1;
 	}
 	if (_input.down(Gosu::kbRight)) {
+		m_AnimState = m_Anims["Walk"];
 		m_Pos.x += 0.1;
 		if (_input.down(Gosu::kbLeftShift)) 
 			m_Pos.x += 0.1;

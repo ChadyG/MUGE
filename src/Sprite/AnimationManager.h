@@ -38,6 +38,10 @@
 
 class MUGE;
 
+/**
+*	Provide lazy-loading
+*	Allow resource sharing
+*/
 class AnimationManager
 {
 public:

@@ -33,8 +33,8 @@
 #include "../Sprite/Animation.h"
 
 SceneObject::SceneObject()
-: m_Orientation(0.0), m_Rotation(0.0), m_Translation(0.0, 0.0), m_Position(0.0, 0.0),
-m_Sprite(NULL), m_Animation(NULL), m_Body(NULL), m_Frozen(false)
+: /*m_Orientation(0.0),*/ m_Rotation(0.0), /*m_Translation(0.0, 0.0),*/ m_Position(0.0, 0.0),
+m_Sprite(NULL), m_Animation(NULL), m_Body(NULL), m_Frozen(false), m_hidden(false)
 {
 
 }
@@ -42,10 +42,10 @@ m_Sprite(NULL), m_Animation(NULL), m_Body(NULL), m_Frozen(false)
 void SceneObject::registerScene( Scene *_scene )
 {
 	m_Scene = _scene;
-	std::list< SceneObject* >::iterator tChild;
-	for (tChild = m_Children.begin(); tChild != m_Children.end(); ++tChild) {
-		(*tChild)->registerScene( _scene );
-	}
+	//std::list< SceneObject* >::iterator tChild;
+	//for (tChild = m_Children.begin(); tChild != m_Children.end(); ++tChild) {
+	//	(*tChild)->registerScene( _scene );
+	//}
 }
 
 void SceneObject::setSprite( Sprite *_sprite )
@@ -62,13 +62,18 @@ void SceneObject::setAnimation( Animation *_anim)
 
 void SceneObject::hide()
 {
-	m_Sprite = NULL;
-	m_Animation = NULL;
+	m_hidden = true;
+}
+
+void SceneObject::show()
+{
+	m_hidden = false;
 }
 
 
-void SceneObject::update( double _rotate, b2Vec2 _translate)
+void SceneObject::update()// double _rotate, b2Vec2 _translate)
 {
+	/*
 	// if we have physics, set local transform to body
 	b2Mat22 rotate( _rotate );
 	m_Position = b2Mul(rotate, m_Translation) + _translate;
@@ -79,15 +84,20 @@ void SceneObject::update( double _rotate, b2Vec2 _translate)
 	for (tChild = m_Children.begin(); tChild != m_Children.end(); ++tChild) {
 		(*tChild)->update( m_Rotation, m_Position);
 	}
+	*/
+	if (m_Body) {
+		m_Position = m_Body->GetPosition();
+		m_Rotation = m_Body->GetAngle();
+	}
 }
 
 void SceneObject::draw(double _x, double _y, Gosu::ZPos _layer, double _zoom, double _angle) const
 {
 	if (m_Sprite)
-		m_Sprite->draw( _x - m_Position.x, _y - m_Position.y, _layer, _zoom, _angle);
+		m_Sprite->draw( _x - m_Position.x, _y - m_Position.y, _layer, _zoom, m_Rotation + _angle);
 	
 	if (m_Animation)
-		m_Animation->draw( _x - m_Position.x, _y - m_Position.y, _layer, _zoom, _angle);
+		m_Animation->draw( _x - m_Position.x, _y - m_Position.y, _layer, _zoom, m_Rotation + _angle);
 }
 
 void SceneObject::onHit( SceneObject &other, b2ContactPoint &point) 

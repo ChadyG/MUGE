@@ -61,6 +61,9 @@ Scene::Scene(MUGE* _engine, std::wstring _config)
 
 	m_Iterations = 10;
 	*/
+
+	m_ResMan = m_Engine->createResContext(Gosu::narrow(m_Config));
+
 	//
 	// Read in JSON encoded file
 	// TinyJSON library will perform lexing and parsing
@@ -173,11 +176,16 @@ void Scene::evalSprite( json::grammar<char>::array::const_iterator _it, int _lay
 	//Sprite tSprite;
 	SceneObject tObject;
 	std::string tString = m_jFile->get<std::string>("Name", *_it);
-	boost::shared_ptr<Sprite> tSprite = m_Engine->createSprite(
-		m_Engine, 
+	//boost::shared_ptr<Sprite> tSprite = m_Engine->createSprite(
+	//	m_Engine, 
+	//	Gosu::resourcePrefix() + L"Images/" + Gosu::widen( m_jFile->get<std::string>("Image", *_it) ),
+	//	Gosu::narrow(m_Config),
+	//	tString);
+	int sprID = m_ResMan->createSprite(
+		m_Engine,
 		Gosu::resourcePrefix() + L"Images/" + Gosu::widen( m_jFile->get<std::string>("Image", *_it) ),
-		Gosu::narrow(m_Config),
 		tString);
+	boost::shared_ptr<Sprite> tSprite = m_ResMan->getSpriteByID(sprID);
 	//tSprite.setImage( 
 	//	m_Engine->graphics(), 
 	//	Gosu::resourcePrefix() + L"Images/" + Gosu::widen( m_jFile->get<std::string>("Image", *_it) ) );
@@ -200,7 +208,42 @@ void Scene::evalSprite( json::grammar<char>::array::const_iterator _it, int _lay
 	tObject.registerScene( this );
 	tObject.setSprite( tSprite.get() );
 	m_Layers[_layer].objects.push_back( tObject );
-	_parent->addChild( &(m_Layers[_layer].objects.back()) );//(SceneObject*)(&(m_Layers[_layer].sprites.back())) );
+	//_parent->addChild( &(m_Layers[_layer].objects.back()) );//(SceneObject*)(&(m_Layers[_layer].sprites.back())) );
+}
+
+void Scene::evalAnim( json::grammar<char>::array::const_iterator _it, int _layer, SceneObject *_parent )
+{
+	//Sprite tSprite;
+	SceneObject tObject;
+	std::string tString = m_jFile->get<std::string>("Name", *_it);
+	int animID = m_ResMan->createAnimation(
+		m_Engine,
+		Gosu::resourcePrefix() + L"Images/" + Gosu::widen( m_jFile->get<std::string>("Image", *_it) ),
+		tString,
+		m_jFile->get<int>("CellDimension[0]", *_it),
+		m_jFile->get<int>("CellDimension[1]", *_it),
+		m_jFile->get<int>("Delay", *_it));
+	boost::shared_ptr<Animation> tAnim = m_ResMan->getAnimationByID(animID);
+	
+	tObject.setPosition( 
+		b2Vec2(m_jFile->get< double >("Position[0]", *_it) * m_Layers[_layer].scale, 
+		m_jFile->get< double >("Position[1]", *_it) * m_Layers[_layer].scale));
+	tAnim->setRotation( m_jFile->get< double >("Rotation", *_it) );
+	
+	tAnim->setColorMod(
+		Gosu::Color( m_jFile->get< int >("ColorMod[0]", *_it), 
+					m_jFile->get< int >("ColorMod[1]", *_it), 
+					m_jFile->get< int >("ColorMod[2]", *_it), 
+					m_jFile->get< int >("ColorMod[3]", *_it) ) );
+	tAnim->setScaling( 
+		m_jFile->get< double >("xScale", *_it), 
+		m_jFile->get< double >("yScale", *_it) );
+	
+	
+	tObject.registerScene( this );
+	tObject.setAnimation( tAnim.get() );
+	m_Layers[_layer].objects.push_back( tObject );
+	//_parent->addChild( &(m_Layers[_layer].objects.back()) );//(SceneObject*)(&(m_Layers[_layer].sprites.back())) );
 }
 
 void Scene::evalTrigger( json::grammar<char>::array::const_iterator _it, int _layer, SceneObject *_parent )
@@ -219,7 +262,7 @@ void Scene::evalTrigger( json::grammar<char>::array::const_iterator _it, int _la
 void Scene::tellPlayer( Player *_player )
 {
 	m_Player = _player;
-	m_SceneRoot.addChild( (SceneObject*)(_player) );
+	//m_SceneRoot.addChild( (SceneObject*)(_player) );
 	m_Player->registerScene( this );
 	m_Player->setPhysics( m_PlayerPos.x, m_PlayerPos.y, m_World);
 	m_Player->setLayer( 3 );
@@ -243,7 +286,7 @@ void Scene::update()
 {
 	// Step physics simulation
 	//m_Worldp->Step(m_TimeStep, m_Iterations);
-	m_SceneRoot.update(m_Orientation, b2Vec2(0.0, 0.0));
+	m_SceneRoot.update();//m_Orientation, b2Vec2(0.0, 0.0));
 	//m_Orientation += 0.01;
 	
 	m_Player->update(m_Engine->input());
