@@ -1,10 +1,10 @@
 /*
    UIWindow.cpp
-   Mizzou Game Engine
+   My Unnamed Game Engine
  
    Created by Chad Godsey on 7/09/09.
   
- Copyright 2009 Mizzou Game Design.
+ Copyright 2009 BlitThis! studios.
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
@@ -30,8 +30,8 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 #include "GUIObjects.h"
 
-UIWindow::UIWindow(windowDef& _def, MUGE *_engine)
-: m_closed(false), m_dragging(false), UIContainer(_engine)
+UIWindow::UIWindow(windowDef& _def, Gosu::Graphics &_graphics, Gosu::Input &_input)
+: m_closed(false), m_dragging(false), UIContainer(_graphics, _input)
 {
 	m_visible = true;
 	m_hasFocus = true;
@@ -64,7 +64,7 @@ UIWindow::UIWindow(windowDef& _def, MUGE *_engine)
 	*/
 
 	//m_TitleBar.reset( new Gosu::Image(_graphics, titleBar) );
-	m_TitleBar.setImage( m_Engine, Gosu::resourcePrefix() + L"Images/titlebar.png", 25, 25);
+	m_TitleBar.setImage( Gosu::resourcePrefix() + L"Images/titlebar.png", 25, 25);
 	m_TitleBar.setCenter( 0.0, 0.0);
 	
 
@@ -74,7 +74,7 @@ UIWindow::UIWindow(windowDef& _def, MUGE *_engine)
 	def.width = 20;
 	def.height = 20;
 	
-	m_CloseButton.reset( new UIButton(def, m_Engine) );
+	m_CloseButton.reset( new UIButton(def, m_Graphics, m_Input) );
 	m_currentPage->push_back( m_CloseButton );
 	
 	std::wstring tString = Gosu::resourcePrefix() + L"Images/closebutton.png";
@@ -116,10 +116,10 @@ void UIWindow::update()
 	if (m_hasFocus && m_visible) {
 		std::list< boost::shared_ptr<UIObject> >::iterator itObj;
 		bool mouseIn = false;
-		int mouseX = m_Engine->input().mouseX(), mouseY = m_Engine->input().mouseY();
+		int mouseX = m_Input.mouseX(), mouseY = m_Input.mouseY();
 
 		// General mouse state detection
-		if (m_Engine->input().down(Gosu::msLeft)) {
+		if (m_Input.down(Gosu::msLeft)) {
 			if (m_mouseDown) {
 				m_mouseHeld = true;
 				m_mouseDown = false;
@@ -216,12 +216,12 @@ void UIWindow::draw(int _x, int _y, int _layer) const
 			m_TitleBar.drawFrameToScreen( 1, m_X + i, m_Y, _layer);
 		} 
 		m_TitleBar.drawFrameToScreen( 2, m_X + m_Width - 25, m_Y, _layer);
-		m_Engine->graphics().drawQuad( m_X, m_Y + 25, Gosu::Colors::white, m_X, m_Y + m_Height, Gosu::Colors::white,
+		m_Graphics.drawQuad( m_X, m_Y + 25, Gosu::Colors::white, m_X, m_Y + m_Height, Gosu::Colors::white,
 			m_X-1 + m_Width, m_Y + m_Height, Gosu::Colors::white, m_X-1 + m_Width, m_Y + 25, Gosu::Colors::white, _layer);
 
-		m_Engine->graphics().drawLine( m_X, m_Y + 25, Gosu::Colors::black, m_X, m_Y + m_Height, Gosu::Colors::black, _layer);
-		m_Engine->graphics().drawLine( m_X, m_Y + m_Height, Gosu::Colors::black, m_X-1 + m_Width, m_Y + m_Height, Gosu::Colors::black, _layer);
-		m_Engine->graphics().drawLine( m_X-1 + m_Width, m_Y + m_Height, Gosu::Colors::black, m_X-1 + m_Width, m_Y + 25, Gosu::Colors::black, _layer);
+		m_Graphics.drawLine( m_X, m_Y + 25, Gosu::Colors::black, m_X, m_Y + m_Height, Gosu::Colors::black, _layer);
+		m_Graphics.drawLine( m_X, m_Y + m_Height, Gosu::Colors::black, m_X-1 + m_Width, m_Y + m_Height, Gosu::Colors::black, _layer);
+		m_Graphics.drawLine( m_X-1 + m_Width, m_Y + m_Height, Gosu::Colors::black, m_X-1 + m_Width, m_Y + 25, Gosu::Colors::black, _layer);
 
 		std::list< boost::shared_ptr<UIObject> >::const_iterator itObj;
 		for (itObj = m_currentPage->begin(); itObj != m_currentPage->end(); itObj++) {

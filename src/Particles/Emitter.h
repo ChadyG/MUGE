@@ -1,10 +1,10 @@
 /*
 	Emitter.h
-	Mizzou Game Engine
+	My Unnamed Game Engine
  
 	Created by Chad Godsey on 7/18/09.
  
-	Copyright 2009 Mizzou Game Design.
+	Copyright 2009 BlitThis! studios.
  
  Permission is hereby granted, free of charge, to any person
  obtaining a copy of this software and associated documentation
@@ -27,9 +27,7 @@
  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  OTHER DEALINGS IN THE SOFTWARE.
 */
-
-#include "../Global.h"
-
+#include <Gosu/Gosu.hpp>
 #include <list>
 
 struct Particle

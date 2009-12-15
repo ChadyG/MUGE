@@ -1,22 +1,15 @@
 {
 	"PlayerDefinition" : "PlayerDef",
 	"Levels" : [
-		"level_v4"
+		"level_1"
 	],
 	"PlayerAnimations" : [
 		{
 			"Name" : "Walk",
-			"FileName" : "Hero_walking.png",
-			"Width" : 85,
-			"Height" : 128,
-			"Duration" : 20
-		},
-		{
-			"Name" : "WalkLeft",
-			"FileName" : "Hero_walking_left.png",
-			"Width" : 85,
-			"Height" : 128,
-			"Duration" : 20
+			"FileName" : "CircleMan.png",
+			"Width" : 32,
+			"Height" : 32,
+			"Duration" : 1
 		}
 	],
 	"PlayerDataModel" : [

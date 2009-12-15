@@ -1,10 +1,9 @@
 /*
 	GameState.h
-	Mizzou Game Engine
+	My Unnamed Game Engine
 
 	Created by Chad Godsey on 11/12/08.
- 
- Copyright 2009 Mizzou Game Design.
+	Copyright 2009 BlitThis! studios.
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
@@ -30,8 +29,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 #ifndef GAMESTATE_H
 #define GAMESTATE_H
 
-#include "../Global.h"
-class MUGE;
+class Core;
 
 /**
 * Abstract class to describe a game state
@@ -50,7 +48,7 @@ public:
 	
 	/// Called when added to state stack in Engine
 	/// Try to do most initialization here instead of constructor
-	virtual void init( MUGE* _engine ) = 0;
+	virtual void init() = 0;
 	
 	/// Called when being removed from state stack.
 	/// Good place to cleanup all data and write to disk.
@@ -71,10 +69,6 @@ public:
 	
 	/// Game render callback
 	virtual void draw() const = 0;
-
-	/// Screen to World coordinate transform
-	/// wrapper function
-	virtual b2Vec2 worldToScreen( b2Vec2 _world, Gosu::ZPos _layer ) = 0;
 	
 	
 	void setFocus(bool _focus) { m_hasFocus = _focus; };
@@ -84,7 +78,7 @@ public:
 	
 protected:
 	
-	MUGE* m_Engine;
+	boost::shared_ptr<Core> m_Engine;
 	
 private:
 	bool m_hasFocus;

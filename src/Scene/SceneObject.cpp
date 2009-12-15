@@ -1,10 +1,10 @@
 /*
  SceneObject.cpp
- Mizzou Game Engine
+ My Unnamed Game Engine
  
  Created by Chad Godsey on 1/9/08.
  
- Copyright 2009 Mizzou Game Design.
+ Copyright 2009 BlitThis! studios.
  
  Permission is hereby granted, free of charge, to any person
  obtaining a copy of this software and associated documentation
@@ -30,33 +30,21 @@
 
 #include "SceneObject.h"
 #include "../Sprite/Sprite.h"
-#include "../Sprite/Animation.h"
+#include "../Sprite/SpriteSheet.h"
 
 SceneObject::SceneObject()
-: /*m_Orientation(0.0),*/ m_Rotation(0.0), /*m_Translation(0.0, 0.0),*/ m_Position(0.0, 0.0),
-m_Sprite(NULL), m_Animation(NULL), m_Body(NULL), m_Frozen(false), m_hidden(false)
 {
-
-}
-
-void SceneObject::registerScene( Scene *_scene )
-{
-	m_Scene = _scene;
-	//std::list< SceneObject* >::iterator tChild;
-	//for (tChild = m_Children.begin(); tChild != m_Children.end(); ++tChild) {
-	//	(*tChild)->registerScene( _scene );
-	//}
 }
 
 void SceneObject::setSprite( Sprite *_sprite )
 {
 	m_Sprite = _sprite;
-	m_Animation = NULL;
+	m_SpriteSheet = NULL;
 }
 
-void SceneObject::setAnimation( Animation *_anim)
+void SceneObject::setSpriteSheet( SpriteSheet *_anim)
 {
-	m_Animation = _anim;
+	m_SpriteSheet = _anim;
 	m_Sprite = NULL;
 }
 
@@ -71,33 +59,17 @@ void SceneObject::show()
 }
 
 
-void SceneObject::update()// double _rotate, b2Vec2 _translate)
+void SceneObject::update()
 {
-	/*
-	// if we have physics, set local transform to body
-	b2Mat22 rotate( _rotate );
-	m_Position = b2Mul(rotate, m_Translation) + _translate;
-	m_Rotation = m_Orientation + _rotate;
-	
-	// update children in hierarchy
-	std::list< SceneObject* >::iterator tChild;
-	for (tChild = m_Children.begin(); tChild != m_Children.end(); ++tChild) {
-		(*tChild)->update( m_Rotation, m_Position);
-	}
-	*/
-	if (m_Body) {
-		m_Position = m_Body->GetPosition();
-		m_Rotation = m_Body->GetAngle();
-	}
 }
 
 void SceneObject::draw(double _x, double _y, Gosu::ZPos _layer, double _zoom, double _angle) const
 {
 	if (m_Sprite)
-		m_Sprite->draw( _x - m_Position.x, _y - m_Position.y, _layer, _zoom, m_Rotation + _angle);
+		m_Sprite->draw( m_Position.x, m_Position.y, _layer, _zoom, m_Rotation + _angle);
 	
-	if (m_Animation)
-		m_Animation->draw( _x - m_Position.x, _y - m_Position.y, _layer, _zoom, m_Rotation + _angle);
+	if (m_SpriteSheet)
+		m_SpriteSheet->draw( m_Position.x, m_Position.y, _layer, _zoom, m_Rotation + _angle);
 }
 
 void SceneObject::onHit( SceneObject &other, b2ContactPoint &point) 

@@ -1,11 +1,9 @@
 /*
-   Scene.cpp
-   Mizzou Game Engine
+	Scene.cpp
+	My Unnamed Game Engine
  
-   Created by Chad Godsey on 11/12/08.
-  
-  
- Copyright 2009 Mizzou Game Design.
+	Created by Chad Godsey on 11/12/08.
+	Copyright 2009 BlitThis! studios.
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
@@ -29,15 +27,14 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
  */
  
-#include "../Core/MUGE.h"
+#include "../Core/Core.h"
 #include "Scene.h"
 #include "../Physics/ContactListener.h"
 #include "../Scene/Player.h"
 
-Scene::Scene(MUGE* _engine, std::wstring _config)
+Scene::Scene(std::wstring _config)
 {
-	m_Engine = _engine;
-	m_Config = _config;
+	m_Engine = Core::getCurrentContext();
 	
 	m_TimeStep = 1.0f / 50.0f;
 	m_Iterations = 10.0f;
@@ -49,7 +46,7 @@ Scene::Scene(MUGE* _engine, std::wstring _config)
 	m_Orientation = 0.0;
 	
 	// box2D stuff
-	/*
+	
 	b2AABB worldAABB;
 	worldAABB.lowerBound.Set( -500.0f, -500.0f);
 	worldAABB.upperBound.Set( 500.0f, 500.0f);
@@ -60,26 +57,25 @@ Scene::Scene(MUGE* _engine, std::wstring _config)
 	m_World->SetContactListener( &m_ContactListener );
 
 	m_Iterations = 10;
-	*/
-
-	m_ResMan = m_Engine->createResContext(Gosu::narrow(m_Config));
-
+	
 	//
 	// Read in JSON encoded file
 	// TinyJSON library will perform lexing and parsing
 	// pull out data using JSONFile class
-	//
+	// 
+	// Todo: move to Adventure State?
 	
-	m_jFile.reset( new JSONFile(Gosu::narrow(Gosu::resourcePrefix() + L"Data/" + m_Config + L".json")) );
+	m_jFile.reset( new JSONFile(Gosu::narrow(Gosu::resourcePrefix() + L"Data/" + _config + L".json")) );
 	json::grammar<char>::array::const_iterator it, it2;
 	json::grammar<char>::array arr, arr2;
 	json::grammar<char>::object o;
 	int i, layer;
 	std::string tString;
 	
-	
+	// Player spawn
 	m_PlayerPos.Set(m_jFile->get< double >("PlayerSpawn[0]"), m_jFile->get< double >("PlayerSpawn[1]"));
 	
+	// Background color
 	arr = m_jFile->get<json::grammar<char>::array>("CanvasColor");
 	m_canvasColor = Gosu::Color( 
 							m_jFile->get< int >("CanvasColor[0]"), 
@@ -87,46 +83,10 @@ Scene::Scene(MUGE* _engine, std::wstring _config)
 							m_jFile->get< int >("CanvasColor[2]"),
 							m_jFile->get< int >("CanvasColor[3]"));
 	
-	
+	// Coordinate transform stuff for world -> screen
 	m_Scale = m_jFile->get< int >("Scale");
 	
-	// Physics shape cache here
-	std::map< std::string, b2ShapeDef* > tShapes;
-	arr = m_jFile->get<json::grammar<char>::array>("PhysicsShapes");
-	for (i = 0, it = arr.begin(); it != arr.end(); ++it, ++i) {
-		tString = m_jFile->get< std::string >("Type", *it);
-		if (tString == "Rectangle") {
-			b2PolygonDef *pDef = new b2PolygonDef();
-			// width
-			// height
-			pDef->density = m_jFile->get< double >("Density", *it);
-			pDef->friction = m_jFile->get< double >("Friction", *it);
-			pDef->restitution = m_jFile->get< double >("Restitution", *it);
-			// LinearDamping if exists
-			
-			tShapes[m_jFile->get<std::string>("ID", *it)] = pDef;
-		}
-		if (tString == "Circle") {
-			b2CircleDef *cDef = new b2CircleDef();
-			cDef->radius = m_jFile->get< double >("Radius", *it);
-			cDef->density = m_jFile->get< double >("Density", *it);
-			cDef->friction = m_jFile->get< double >("Friction", *it);
-			cDef->restitution = m_jFile->get< double >("Restitution", *it);
-			
-			tShapes[m_jFile->get<std::string>("ID", *it)] = cDef;
-		}
-		if (tString == "Polygon") {
-			b2PolygonDef *pDef = new b2PolygonDef();
-			// Verts
-			pDef->density = m_jFile->get< double >("Density", *it);
-			pDef->friction = m_jFile->get< double >("Friction", *it);
-			pDef->restitution = m_jFile->get< double >("Restitution", *it);
-			
-			tShapes[m_jFile->get<std::string>("ID", *it)] = pDef;
-		}
-	}
-	
-	
+	// Dig down to the actual scene objects
 	arr = m_jFile->get<json::grammar<char>::array>("Layers");
 	for (i = 0, it = arr.begin(); it != arr.end(); ++it, ++i) {
 		layer = m_jFile->get< int >("Layer", *it);
@@ -139,56 +99,54 @@ Scene::Scene(MUGE* _engine, std::wstring _config)
 		
 		// Recursive evaluation of layer hierarchy
 		arr2 = m_jFile->get<json::grammar<char>::array>("Objects", *it);
-		evalJSON(arr2, layer, &m_SceneRoot);
+		evalJSON(arr2, layer);
 	}
 	
-	
+	//This is dumb, fix it!
 	m_Music.reset( new Gosu::Song( m_Engine->audio(), Gosu::resourcePrefix() + L"Sound/Colugo-Fantastic_face.ogg"));
 	m_Music->play(true);
 	
 }
 
-void Scene::evalJSON( json::grammar<char>::array _array, int _layer, SceneObject *_parent )
+void Scene::addSprite( SceneObject &_object, Gosu::ZPos _layer )
+{
+	m_Layers[_layer].objects.push_back( _object );
+}
+
+void Scene::addTrigger( Trigger &_trigger, Gosu::ZPos _layer
+{
+	m_Layers[_layer].triggers.push_back( _trigger );
+}
+
+void Scene::evalJSON( json::grammar<char>::array _array, int _layer )
 {
 	std::string type;
 	json::grammar<char>::array::const_iterator it;
 	for (it = _array.begin(); it != _array.end(); ++it) {
 		type = m_jFile->get<std::string>("Type", *it);
 		if (type == "Sprite") {
-			evalSprite( it, _layer, _parent );
-			
-			json::grammar<char>::array childrenArray = m_jFile->get<json::grammar<char>::array>("Children", *it);
-			if (!childrenArray.empty())
-				evalJSON(childrenArray, _layer, (SceneObject*)(&(m_Layers[_layer].sprites.back())));
+			evalSprite( it, _layer );
 		}
 		if (type == "Trigger" ) {
-			evalTrigger( it, _layer, _parent );
-			
-			json::grammar<char>::array childrenArray = m_jFile->get<json::grammar<char>::array>("Children", *it);
-			if (!childrenArray.empty())
-				evalJSON(childrenArray, _layer, (SceneObject*)(&(m_Layers[_layer].triggers.back())));
+			evalTrigger( it, _layer );
 		}
+		if (type == "Key") {
+			evalKey( it, _layer );
+		}
+		if (type == "Wall") {
+			evalWall( it, _layer );
+		}
+		// String, functor pairs for others? meh
 	}
 }
 
-void Scene::evalSprite( json::grammar<char>::array::const_iterator _it, int _layer, SceneObject *_parent )
+void Scene::evalSprite( json::grammar<char>::array::const_iterator _it, int _layer )
 {
-	//Sprite tSprite;
+	Sprite* tSprite = new Sprite();
 	SceneObject tObject;
 	std::string tString = m_jFile->get<std::string>("Name", *_it);
-	//boost::shared_ptr<Sprite> tSprite = m_Engine->createSprite(
-	//	m_Engine, 
-	//	Gosu::resourcePrefix() + L"Images/" + Gosu::widen( m_jFile->get<std::string>("Image", *_it) ),
-	//	Gosu::narrow(m_Config),
-	//	tString);
-	int sprID = m_ResMan->createSprite(
-		m_Engine,
-		Gosu::resourcePrefix() + L"Images/" + Gosu::widen( m_jFile->get<std::string>("Image", *_it) ),
-		tString);
-	boost::shared_ptr<Sprite> tSprite = m_ResMan->getSpriteByID(sprID);
-	//tSprite.setImage( 
-	//	m_Engine->graphics(), 
-	//	Gosu::resourcePrefix() + L"Images/" + Gosu::widen( m_jFile->get<std::string>("Image", *_it) ) );
+	tSprite->setImage( 
+		Gosu::resourcePrefix() + L"Images/" + Gosu::widen( m_jFile->get<std::string>("Image", *_it) ) );
 	
 	tObject.setPosition( 
 		b2Vec2(m_jFile->get< double >("Position[0]", *_it) * m_Layers[_layer].scale, 
@@ -205,48 +163,13 @@ void Scene::evalSprite( json::grammar<char>::array::const_iterator _it, int _lay
 		m_jFile->get< double >("yScale", *_it) );
 	
 	
-	tObject.registerScene( this );
-	tObject.setSprite( tSprite.get() );
+	tSprite->registerTransMod( this );
+	//tObject.registerTransMod( this );
+	tObject.setSprite( tSprite );
 	m_Layers[_layer].objects.push_back( tObject );
-	//_parent->addChild( &(m_Layers[_layer].objects.back()) );//(SceneObject*)(&(m_Layers[_layer].sprites.back())) );
 }
 
-void Scene::evalAnim( json::grammar<char>::array::const_iterator _it, int _layer, SceneObject *_parent )
-{
-	//Sprite tSprite;
-	SceneObject tObject;
-	std::string tString = m_jFile->get<std::string>("Name", *_it);
-	int animID = m_ResMan->createAnimation(
-		m_Engine,
-		Gosu::resourcePrefix() + L"Images/" + Gosu::widen( m_jFile->get<std::string>("Image", *_it) ),
-		tString,
-		m_jFile->get<int>("CellDimension[0]", *_it),
-		m_jFile->get<int>("CellDimension[1]", *_it),
-		m_jFile->get<int>("Delay", *_it));
-	boost::shared_ptr<Animation> tAnim = m_ResMan->getAnimationByID(animID);
-	
-	tObject.setPosition( 
-		b2Vec2(m_jFile->get< double >("Position[0]", *_it) * m_Layers[_layer].scale, 
-		m_jFile->get< double >("Position[1]", *_it) * m_Layers[_layer].scale));
-	tAnim->setRotation( m_jFile->get< double >("Rotation", *_it) );
-	
-	tAnim->setColorMod(
-		Gosu::Color( m_jFile->get< int >("ColorMod[0]", *_it), 
-					m_jFile->get< int >("ColorMod[1]", *_it), 
-					m_jFile->get< int >("ColorMod[2]", *_it), 
-					m_jFile->get< int >("ColorMod[3]", *_it) ) );
-	tAnim->setScaling( 
-		m_jFile->get< double >("xScale", *_it), 
-		m_jFile->get< double >("yScale", *_it) );
-	
-	
-	tObject.registerScene( this );
-	tObject.setAnimation( tAnim.get() );
-	m_Layers[_layer].objects.push_back( tObject );
-	//_parent->addChild( &(m_Layers[_layer].objects.back()) );//(SceneObject*)(&(m_Layers[_layer].sprites.back())) );
-}
-
-void Scene::evalTrigger( json::grammar<char>::array::const_iterator _it, int _layer, SceneObject *_parent )
+void Scene::evalTrigger( json::grammar<char>::array::const_iterator _it, int _layer )
 {
 	Trigger tTrigger;	
 	
@@ -258,38 +181,50 @@ void Scene::evalTrigger( json::grammar<char>::array::const_iterator _it, int _la
 	m_Layers[_layer].triggers.push_back( tTrigger );
 }
 
+void Scene::evalWall( json::grammar<char>::array::const_iterator _it, int _layer )
+{
+	//Wall tWall;
+	std::string tString = m_jFile->get<std::string>("Class", *_it);
+	
+	//m_Layers[_layer].walls.push_back( tWall );
+}
+
+void Scene::evalKey( json::grammar<char>::array::const_iterator _it, int _layer )
+{
+	//Key tKey;	
+	
+	//m_Layers[_layer].keys.push_back( tKey );
+}
 
 void Scene::tellPlayer( Player *_player )
 {
 	m_Player = _player;
-	//m_SceneRoot.addChild( (SceneObject*)(_player) );
-	m_Player->registerScene( this );
 	m_Player->setPhysics( m_PlayerPos.x, m_PlayerPos.y, m_World);
 	m_Player->setLayer( 3 );
 }
 
-
-b2Vec2 Scene::worldToScreen( b2Vec2 _world, Gosu::ZPos _layer )
+//This needs to be a translation module!!!
+b2XForm Scene::worldToScreen( float _x, float _y, Gosu::ZPos _layer )
 {
 	double scale = 1.0/m_Layers[_layer].scale;
 	double zoom = 1.0 + scale * (m_Zoom - 1.0);
-	b2Vec2 newPos((_world.x * m_Scale * scale) * zoom, 
-				  (_world.y * m_Scale * scale) * zoom);
-	b2Mat22 rotate( m_Rot*(Gosu::pi/180.0) );
-	b2Vec2 rotPos = b2Mul( rotate, newPos);
-	rotPos.Set( rotPos.x + m_Width/2, rotPos.y + m_Height/2);
-	return rotPos;
+	b2Vec2 newPos((_x * m_Scale * scale) * zoom, 
+				  (_y * m_Scale * scale) * zoom);
+	b2XForm trans;
+	trans.R.Set( m_Rot*(Gosu::pi/180.0) );
+	trans.position = b2Mul( trans.R, newPos);
+	trans.position.Set( trans.position.x + m_Width/2, trans.position.y + m_Height/2);
+	return trans;
 }
-
 
 void Scene::update()
 {
 	// Step physics simulation
 	//m_Worldp->Step(m_TimeStep, m_Iterations);
-	m_SceneRoot.update();//m_Orientation, b2Vec2(0.0, 0.0));
+	m_SceneRoot.update();
 	//m_Orientation += 0.01;
 	
-	m_Player->update(m_Engine->input());
+	m_Player->update();
 	b2Vec2 m_PlayerPos = m_Player->getPosition();
 	
 	// Test Zoom
@@ -368,10 +303,10 @@ void Scene::draw() const
 		scale = 1.0/itL->second.scale;
 		zoom = 1.0 + scale * (m_Zoom - 1.0);
 		for (itS = itL->second.objects.begin(); itS != itL->second.objects.end(); ++itS) {
-			itS->draw( m_Focus[0], m_Focus[1], itL->second.layer, zoom, m_Rot);
+			itS->draw(m_Focus[0], m_Focus[1], itL->second.layer, zoom, m_Rot);
 		}
 	}
 	
 	// Render dynamic objects
-	m_Player->draw( m_Focus[0], m_Focus[1], m_Zoom, m_Rot);
+	m_Player->draw();
 }

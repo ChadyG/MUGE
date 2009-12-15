@@ -1,8 +1,8 @@
 /*
-   TitleState.h
+   UISheet.cpp
    My Unnamed Game Engine
  
-   Created by Chad Godsey on 11/12/08.
+   Created by Chad on 6/09/09.
   
  Copyright 2009 BlitThis! studios.
 
@@ -27,33 +27,24 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
  */
- 
-#include <Gosu/Gosu.hpp>
-#include "Core/GameState.h"
 
-class Core;
+#include "GUIObjects.h"
 
-/**
-* State for title screen and other middleware screens
-* goes into main menu
-*/
-class TitleState : public GameState
+UISheet::UISheet(Gosu::Graphics &_graphics, Gosu::Input &_input)
+: UIContainer(_graphics, _input)
 {
-public:
-	TitleState( std::wstring _config );
-	
-	void init();
-	void cleanup();
-	
-	void pause();
-	void resume();
-	
-	void update();
-	void draw() const;
-	
-private:
-	boost::scoped_ptr<Gosu::Image> m_TitleScreen;
-	int counter;
-	int step;
+}
 
-};
+UIWindow* UISheet::createWindow(windowDef &_def)
+{
+	//m_Objects
+	m_currentPage->push_back( boost::shared_ptr<UIObject>( new UIWindow(_def, m_Graphics, m_Input) ) );
+	return reinterpret_cast<UIWindow*>(m_currentPage->back().get());
+}
+
+UIWindow* UISheet::createWindow(windowDef &_def, std::string &_page)
+{
+	//m_Objects
+	m_Pages[ _page ].push_back( boost::shared_ptr<UIObject>( new UIWindow(_def, m_Graphics, m_Input) ) );
+	return reinterpret_cast<UIWindow*>(m_Pages[ _page ].back().get());
+}

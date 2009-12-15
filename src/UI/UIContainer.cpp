@@ -1,10 +1,10 @@
 /*
    UIContainer.cpp
-   Mizzou Game Engine
+   My Unnamed Game Engine
  
    Created by Chad on 7/09/09.
   
- Copyright 2009 Mizzou Game Design.
+ Copyright 2009 BlitThis! studios.
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
@@ -30,8 +30,8 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 #include "GUIObjects.h"
 
-UIContainer::UIContainer(MUGE *_engine)
-: m_hasFocus(false), m_Engine(_engine),
+UIContainer::UIContainer(Gosu::Graphics &_graphics, Gosu::Input &_input)
+: m_hasFocus(false), m_Graphics(_graphics), m_Input(_input), 
 m_mouseDown(false), m_mouseHeld(false), m_mouseUp(true), m_hitObj(false)
 {
 	std::string page = "default";
@@ -45,14 +45,14 @@ m_mouseDown(false), m_mouseHeld(false), m_mouseUp(true), m_hitObj(false)
 UITextBox* UIContainer::createTextBox(texDef &_def)
 {
 	//m_Objects
-	m_currentPage->push_back(  boost::shared_ptr<UIObject>( new UITextBox(_def, m_Engine) ) );
+	m_currentPage->push_back(  boost::shared_ptr<UIObject>( new UITextBox(_def, m_Graphics, m_Input) ) );
 	return reinterpret_cast<UITextBox*>(m_currentPage->back().get());
 }
 
 UITextBox* UIContainer::createTextBox(texDef &_def, std::string &_page)
 {
 	//m_Objects
-	m_Pages[ _page ].push_back(  boost::shared_ptr<UIObject>( new UITextBox(_def, m_Engine) ) );
+	m_Pages[ _page ].push_back(  boost::shared_ptr<UIObject>( new UITextBox(_def, m_Graphics, m_Input) ) );
 	return reinterpret_cast<UITextBox*>(m_Pages[ _page ].back().get());
 }
 
@@ -61,14 +61,14 @@ UITextBox* UIContainer::createTextBox(texDef &_def, std::string &_page)
 UITextArea* UIContainer::createTextArea(texAreaDef &_def)
 {
 	//m_Objects
-	m_currentPage->push_back(  boost::shared_ptr<UIObject>( new UITextArea(_def, m_Engine) ) );
+	m_currentPage->push_back(  boost::shared_ptr<UIObject>( new UITextArea(_def, m_Graphics, m_Input) ) );
 	return reinterpret_cast<UITextArea*>(m_currentPage->back().get());
 }
 
 UITextArea* UIContainer::createTextArea(texAreaDef &_def, std::string &_page)
 {
 	//m_Objects
-	m_Pages[ _page ].push_back(  boost::shared_ptr<UIObject>( new UITextArea(_def, m_Engine) ) );
+	m_Pages[ _page ].push_back(  boost::shared_ptr<UIObject>( new UITextArea(_def, m_Graphics, m_Input) ) );
 	return reinterpret_cast<UITextArea*>(m_Pages[ _page ].back().get());
 }
 
@@ -77,14 +77,14 @@ UITextArea* UIContainer::createTextArea(texAreaDef &_def, std::string &_page)
 UISliderControl* UIContainer::createSlider(slideDef &_def)
 {
 	//m_Objects
-	m_currentPage->push_back(  boost::shared_ptr<UIObject>( new UISliderControl(_def, m_Engine) ) );
+	m_currentPage->push_back(  boost::shared_ptr<UIObject>( new UISliderControl(_def, m_Graphics, m_Input) ) );
 	return reinterpret_cast<UISliderControl*>(m_currentPage->back().get());
 }
 
 UISliderControl* UIContainer::createSlider(slideDef &_def, std::string &_page)
 {
 	//m_Objects
-	m_Pages[ _page ].push_back(  boost::shared_ptr<UIObject>( new UISliderControl(_def, m_Engine) ) );
+	m_Pages[ _page ].push_back(  boost::shared_ptr<UIObject>( new UISliderControl(_def, m_Graphics, m_Input) ) );
 	return reinterpret_cast<UISliderControl*>(m_Pages[ _page ].back().get());
 }
 
@@ -93,14 +93,14 @@ UISliderControl* UIContainer::createSlider(slideDef &_def, std::string &_page)
 UIButton* UIContainer::createButton(buttonDef &_def)
 {
 	//m_Objects
-	m_currentPage->push_back(  boost::shared_ptr<UIObject>( new UIButton(_def, m_Engine) ) );
+	m_currentPage->push_back(  boost::shared_ptr<UIObject>( new UIButton(_def, m_Graphics, m_Input) ) );
 	return reinterpret_cast<UIButton*>(m_currentPage->back().get());
 }
 
 UIButton* UIContainer::createButton(buttonDef &_def, std::string &_page)
 {
 	//m_Objects
-	m_Pages[ _page ].push_back(  boost::shared_ptr<UIObject>( new UIButton(_def, m_Engine) ) );
+	m_Pages[ _page ].push_back(  boost::shared_ptr<UIObject>( new UIButton(_def, m_Graphics, m_Input) ) );
 	return reinterpret_cast<UIButton*>(m_Pages[ _page ].back().get());
 }
 
@@ -118,10 +118,10 @@ void UIContainer::update()
 	if (m_hasFocus) {
 		std::list< boost::shared_ptr<UIObject> >::iterator itObj;
 		bool mouseIn = false;
-		int mouseX = m_Engine->input().mouseX(), mouseY = m_Engine->input().mouseY();
+		int mouseX = m_Input.mouseX(), mouseY = m_Input.mouseY();
 
 		// General mouse state detection
-		if (m_Engine->input().down(Gosu::msLeft)) {
+		if (m_Input.down(Gosu::msLeft)) {
 			if (m_mouseDown) {
 				m_mouseHeld = true;
 				m_mouseDown = false;

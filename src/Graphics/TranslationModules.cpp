@@ -1,10 +1,10 @@
 /*
-	Emitter.cpp
-	My Unnamed Game Engine
-
-	Created by Chad Godsey on 7/18/09.
-
-	Copyright 2009 BlitThis! studios.
+   TranslationModules.cpp
+   Gosu Extensions
+ 
+   Created by Chad Godsey on 11/24/09.
+  
+ Copyright 2009 BlitThis! studios.
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
@@ -28,5 +28,5 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#include "Emitter.h"
+#include "TranslationModules.h"
 

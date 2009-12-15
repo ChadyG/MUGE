@@ -208,15 +208,15 @@
 				Name="Core"
 				>
 				<File
+					RelativePath="..\src\Core\Core.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Core\Core.h"
+					>
+				</File>
+				<File
 					RelativePath="..\src\Core\GameState.h"
-					>
-				</File>
-				<File
-					RelativePath="..\src\Core\MUGE.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\src\Core\MUGE.h"
 					>
 				</File>
 			</Filter>
@@ -252,7 +252,7 @@
 					>
 				</File>
 				<File
-					RelativePath="..\src\UI\UIScreen.cpp"
+					RelativePath="..\src\UI\UISheet.cpp"
 					>
 				</File>
 				<File
@@ -269,30 +269,34 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="Resources"
+				Name="Graphics"
 				>
 				<File
-					RelativePath="..\src\Sprite\animation.cpp"
+					RelativePath="..\src\Graphics\Camera.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\src\Sprite\Animation.h"
+					RelativePath="..\src\Graphics\Camera.h"
 					>
 				</File>
 				<File
-					RelativePath="..\src\Sprite\ResourceManager.cpp"
+					RelativePath="..\src\Graphics\RenderManager.h"
 					>
 				</File>
 				<File
-					RelativePath="..\src\Sprite\ResourceManager.h"
+					RelativePath="..\src\Graphics\Sprite.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\src\Sprite\Sprite.cpp"
+					RelativePath="..\src\Graphics\Sprite.h"
 					>
 				</File>
 				<File
-					RelativePath="..\src\Sprite\Sprite.h"
+					RelativePath="..\src\Graphics\SpriteSheet.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Graphics\SpriteSheet.h"
 					>
 				</File>
 			</Filter>
@@ -348,16 +352,20 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="Audio"
+				>
+				<File
+					RelativePath="..\src\Audio\AudioManager.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
-			<File
-				RelativePath="..\src\Global.h"
-				>
-			</File>
 			<Filter
 				Name="Core"
 				>

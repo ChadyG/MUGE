@@ -1,11 +1,9 @@
 /*
-   Scene.h
-   Mizzou Game Engine
+	Scene.h
+	My Unnamed Game Engine
  
-   Created by Chad Godsey on 11/12/08.
-  
-  
- Copyright 2009 Mizzou Game Design.
+	Created by Chad Godsey on 11/12/08.
+	Copyright 2009 BlitThis! studios.
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
@@ -29,15 +27,18 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
  */
  
-#include "../Global.h"
-
+#include <Gosu/Gosu.hpp>
+#include <Box2D.h>
 #include <map>
 #include <list>
 #include "SceneObject.h"
-#include "../Sprite/ResourceManager.h"
+#include "../Input/JSONFile.hpp"
+#include "../Sprite/Sprite.h"
+#include "../Sprite/SpriteSheet.h"
+#include "../Sprite/TranslationModules.h"
 #include "../Physics/ContactListener.h"
 
-class MUGE;
+class Core;
 class Player;
 
 struct SpriteLayer
@@ -57,46 +58,44 @@ struct SpriteLayer
 * defer up to this class.
 * Also handles level loading.
 */
-class Scene
+class Scene : public TransMod
 {
 public:
-	Scene(MUGE* _engine, std::wstring _config );
+	Scene(std::wstring _config );
 	
 	void tellPlayer( Player *_player );
+
+	void addObject( SceneObject &_object, Gosu::ZPos _layer );
 	
-	b2Vec2 worldToScreen( b2Vec2 _world, Gosu::ZPos _layer );
+	void addTrigger( Trigger &_trigger, Gosu::ZPos _layer );
+	
+	b2XForm worldToScreen( float _x, float _y, Gosu::ZPos _layer );
 	
 	void update();
 	void draw() const;
 	
 protected:
 	
-	void evalJSON( json::grammar<char>::array _array, int _layer, SceneObject *_parent );
-	void evalSprite( json::grammar<char>::array::const_iterator _it, int _layer, SceneObject *_parent );
-	void evalAnim( json::grammar<char>::array::const_iterator _it, int _layer, SceneObject *_parent );
-	void evalTrigger( json::grammar<char>::array::const_iterator _it, int _layer, SceneObject *_parent );
+	void evalJSON( json::grammar<char>::array _array, int _layer );
+	void evalSprite( json::grammar<char>::array::const_iterator _it, int _layer );
+	void evalTrigger( json::grammar<char>::array::const_iterator _it, int _layer );
+	void evalWall( json::grammar<char>::array::const_iterator _it, int _layer );
+	void evalKey( json::grammar<char>::array::const_iterator _it, int _layer );
 	
 	// Game Data
-	MUGE* m_Engine;
+	boost::shared_ptr<Core> m_Engine;
 	
 	Gosu::Color m_canvasColor;
 	
-	std::wstring m_Config;
 	boost::scoped_ptr<JSONFile> m_jFile;
 	
-	// TODO: add a hierarchy via SceneObject
-	// Keep these layer containers, but build transform
-	// hierarchy through base class SceneObject
-	SceneObject m_SceneRoot;
 	std::map< Gosu::ZPos, SpriteLayer > m_Layers;
 	std::map< std::string, Gosu::ZPos > m_LayerNames;
 	
 	// Scene stuff
-	ResourceManager* m_ResMan;
 	boost::scoped_ptr< Gosu::Song > m_Music;
 	Player *m_Player;
 	b2Vec2 m_PlayerPos;
-
 	
 	// Physics data
 	AdventureListener m_ContactListener;
@@ -108,7 +107,6 @@ protected:
 	// Focus is the level coordinates of the center of the screen
 	// Extents are the rectangular width and height of the level
 	// Zoom is a zooming factor for all layers
-	// Rot is the camera rotation, orientation is scene rotation (temporary)
 	// Scale is the x/y scale to transform from level coordinates to screen
 	// Width and Height are screen size
 	double m_Focus[2];

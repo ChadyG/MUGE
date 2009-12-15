@@ -1,10 +1,10 @@
 /*
    AdventureState.h
-   Mizzou Game Engine
+   My Unnamed Game Engine
  
    Created by Chad Godsey on 3/9/09.
   
- Copyright 2009 Mizzou Game Design.
+ Copyright 2009 BlitThis! studios.
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
@@ -28,13 +28,12 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include "Global.h"
-
+#include <Gosu/Gosu.hpp>
 #include "Core/GameState.h"
 #include "Scene/Scene.h"
 #include "Scene/Player.h"
 
-class MUGE;
+class Core;
 
 /**
  * State for Adventure gameplay
@@ -50,7 +49,7 @@ class AdventureState : public GameState
 public:
 	AdventureState( std::wstring _config );
 	
-	void init( MUGE* _engine );
+	void init();
 	void cleanup();
 	
 	void pause();
@@ -58,10 +57,6 @@ public:
 	
 	void update();
 	void draw() const;
-
-	/// Screen to World coordinate transform
-	/// wrapper function
-	b2Vec2 worldToScreen( b2Vec2 _world, Gosu::ZPos _layer );
 	
 	void save();
 	
@@ -70,4 +65,5 @@ private:
 	Player m_Player;
 	boost::scoped_ptr< Scene > m_Scene;
 
+	//save stuff (sqlite?)
 };

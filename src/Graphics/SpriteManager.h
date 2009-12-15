@@ -1,5 +1,5 @@
 /*
- AnimationManager.cpp
+ SpriteManager.h
  Mizzou Game Engine
  
  Created by Chad Godsey on 11/12/08.
@@ -29,42 +29,29 @@
  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef ANIMMANAGER_H
-#define ANIMMANAGER_H
-
-#include "../Global.h"
+#include <Gosu/Gosu.hpp>
 #include <map>
-#include "Animation.h"
 
-class MUGE;
+#include "Sprite.h"
 
-/**
-*	Provide lazy-loading
-*	Allow resource sharing
-*/
-class AnimationManager
+class SpriteManager
 {
 public:
-	AnimationManager();
+	SpriteManager();
 	
-	/// Wrapper for Animation constructor
-	boost::shared_ptr<Animation> createAnimation(MUGE *_engine, std::wstring _filename, std::string _name, int _width, int _height, int _delay = 1);
+	/// Wrapper for Sprite constructor
+	boost::shared_ptr<Sprite> createSprite(Gosu::Graphics &_graphics, std::wstring _filename, std::string _name);
 	
-	/// Get an Animation by manager's ID
-	boost::shared_ptr<Animation> getAnimationByID( int _id );
+	/// Get a sprite by the manager's ID
+	boost::shared_ptr<Sprite> getSpriteByID( int _id );
 	
-	/// Get an Animation by name 
-	boost::shared_ptr<Animation> getAnimationByName( std::string _name );
+	/// Get a Sprite by the filename (project relative)
+	boost::shared_ptr<Sprite> getSpriteByName( std::string _name );
 	
 	
 private:
-	
-	MUGE *m_Engine;
-
-	std::map< int, boost::shared_ptr<Animation> > m_Animations;
-	std::map< std::string, int > m_AnimationMap;
+	std::map< int, boost::shared_ptr<Sprite> > m_Sprites;
+	std::map< std::string, int > m_SpriteMap;
 	
 	int m_curID;
 };
-
-#endif

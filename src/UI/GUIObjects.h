@@ -1,10 +1,10 @@
 /*
    GUIObjects.h
-   Mizzou Game Engine
+   My Unnamed Game Engine
  
    Created by Chad on 6/09/09.
   
- Copyright 2009 Mizzou Game Design.
+ Copyright 2009 BlitThis! studios.
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
@@ -31,12 +31,11 @@ OTHER DEALINGS IN THE SOFTWARE.
 #ifndef GUIOBJECTS_H
 #define GUIOBJECTS_H
 
-#include "../Global.h"
-
+#include <Gosu/Gosu.hpp>
 #include <list>
 #include <map>
-#include "../Core/MUGE.h"
-#include "../Sprite/Animation.h"
+
+#include "../Sprite/SpriteSheet.h"
 
 /**
 * Abstract base class for all UI Objects
@@ -102,7 +101,7 @@ struct texDef
 class UITextBox : public UIObject
 {
 public:
-	UITextBox(texDef&, MUGE *_engine);
+	UITextBox(texDef&, Gosu::Graphics&, Gosu::Input&);
 
 	void onMouseIn();
 	void onMouseOut();
@@ -125,7 +124,8 @@ private:
 	int m_X, m_Y, m_Length, m_maxSize, m_Height, m_Width;
 	int m_Caret, m_Offset, m_Timer;
 	bool m_inFocus;
-	MUGE *m_Engine;
+	Gosu::Graphics& m_Graphics;
+	Gosu::Input& m_Input;
 	Gosu::TextInput* m_TextInput;
 	Gosu::Font* m_Text;
 };
@@ -151,7 +151,7 @@ public:
 		Right
 	};
 
-	UITextArea(texAreaDef&, MUGE *_engine );
+	UITextArea(texAreaDef&, Gosu::Graphics&, Gosu::Input& );
 
 	void onMouseIn();
 	void onMouseOut();
@@ -174,9 +174,9 @@ private:
 	int m_X, m_Y, m_Length, m_maxSize, m_Height, m_Width, m_Offset;
 	bool m_inFocus;
 	Justify m_Justify;
-	std::wstring m_Text;
+	Gosu::Graphics& m_Graphics;
 	Gosu::Font* m_Font;
-	MUGE *m_Engine;
+	std::wstring m_Text;
 };
 
 /**
@@ -197,7 +197,7 @@ struct slideDef
 class UISliderControl : public UIObject
 {
 public:
-	UISliderControl(slideDef&, MUGE *_engine);
+	UISliderControl(slideDef&, Gosu::Graphics&, Gosu::Input&);
 
 	void onMouseIn();
 	void onMouseOut();
@@ -219,8 +219,9 @@ private:
 	int m_X, m_Y, m_Min, m_Max, m_Height, m_Width;
 	double m_Scale;
 	double m_Value;
+	Gosu::Graphics& m_Graphics;
+	Gosu::Input& m_Input;
 	Gosu::Font* m_Text;
-	MUGE *m_Engine;
 };
 
 /**
@@ -247,7 +248,7 @@ public:
 		btnPress
 	};
 
-	UIButton(buttonDef&, MUGE *_engine);
+	UIButton(buttonDef&, Gosu::Graphics&, Gosu::Input&);
 	
 	void setImage(std::wstring &);
 	
@@ -270,8 +271,9 @@ private:
 	int m_X, m_Y, m_Height, m_Width;
 	bool m_hasImage;
 	buttonState m_State;
-	Animation m_Image;
-	MUGE *m_Engine;
+	Gosu::Graphics& m_Graphics;
+	Gosu::Input& m_Input;
+	SpriteSheet m_Image;
 };
 
 /**
@@ -287,7 +289,7 @@ private:
 class UIContainer
 {
 public:
-	UIContainer( MUGE *_engine );
+	UIContainer( Gosu::Graphics&, Gosu::Input& );
 	
 	void giveFocus() { m_hasFocus = true; }
 	void takeFocus() { m_hasFocus = false; }
@@ -337,7 +339,8 @@ protected:
 	bool m_mouseUp;
 	bool m_hitObj;
 
-	MUGE *m_Engine;
+	Gosu::Graphics& m_Graphics;
+	Gosu::Input& m_Input;
 };
 
 /**
@@ -361,7 +364,7 @@ struct windowDef
 class UIWindow : public UIContainer, public UIObject
 {
 public:
-	UIWindow(windowDef& _def, MUGE *_engine);
+	UIWindow(windowDef& _def, Gosu::Graphics&, Gosu::Input&);
 
 	void onMouseIn() {}
 	void onMouseOut() {}
@@ -389,7 +392,7 @@ private:
 
 	boost::shared_ptr<UIButton> m_CloseButton;
 	//boost::scoped_ptr<Gosu::Image> m_TitleBar;
-	Animation m_TitleBar;
+	SpriteSheet m_TitleBar;
 
 	bool m_closed;
 	bool m_dragging;
@@ -402,11 +405,12 @@ private:
 
 };
 
-
-class UIScreen : public UIContainer
+//TODO: give the responsibility of defining input event objects and 
+// passing down through the chain of responsibility
+class UISheet : public UIContainer
 {
 public:
-	UIScreen(MUGE *_engine);
+	UISheet(Gosu::Graphics &_graphics, Gosu::Input &_input);
 
 	/// Creates a window using the provided definition and puts 
 	/// it into the page designated by string

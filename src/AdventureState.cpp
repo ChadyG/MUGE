@@ -1,10 +1,10 @@
 /*
    AdventureState.cpp
-   Mizzou Game Engine
+   My Unnamed Game Engine
  
    Created by Chad Godsey on 3/9/09.
   
- Copyright 2009 Mizzou Game Design.
+ Copyright 2009 BlitThis! studios.
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
@@ -29,8 +29,10 @@ OTHER DEALINGS IN THE SOFTWARE.
  */
 
 #include "AdventureState.h"
-#include "Core/MUGE.h"
+#include "Core/Core.h"
 #include "Input/JSONFile.hpp"
+#include "../Sprite/Sprite.h"
+#include "../Sprite/SpriteSheet.h"
 
 /**
  *
@@ -41,9 +43,9 @@ AdventureState::AdventureState( std::wstring _config )
 	m_ConfigFile = _config;
 }
 
-void AdventureState::init( MUGE* _engine)
+void AdventureState::init()
 {	
-	m_Engine = _engine;
+	m_Engine = Core::getCurrentContext();
 	
 	//Let's set up the player!
 	JSONFile jFile(Gosu::narrow(Gosu::resourcePrefix() + L"Data/" + m_ConfigFile + L".json"));
@@ -53,18 +55,20 @@ void AdventureState::init( MUGE* _engine)
 	int i, j;
 	std::string tString;
 	
-	arr = jFile.get<json::grammar<char>::array>("PlayerAnimations");
+	m_Scene.reset( new Scene(Gosu::widen( jFile.get< std::string >("Levels[0]") )));
+
+	arr = jFile.get<json::grammar<char>::array>("PlayerSpriteSheets");
 	for (i = 0, it = arr.begin(); it != arr.end(); ++it, ++i) {
-		Animation *anim = new Animation();
-		anim->setImage( m_Engine, 
+		SpriteSheet *anim = new SpriteSheet();
+		anim->setImage( 
 			Gosu::resourcePrefix() + L"Images/" + Gosu::widen(jFile.get< std::string >("FileName", *it)), 
 			jFile.get< int >("Width", *it),
 			jFile.get< int >("Height", *it),
 			jFile.get< int >("Duration", *it));
-		m_Player.addAnimation( jFile.get< std::string >("Name", *it), anim );
+		anim->registerTransMod( m_Scene.get() );
+		m_Player.addSpriteSheet( jFile.get< std::string >("Name", *it), anim );
 	}
 	
-	m_Scene.reset( new Scene(m_Engine, Gosu::widen( jFile.get< std::string >("Levels[0]") )));
 	m_Scene->tellPlayer( &m_Player );
 }
 
@@ -93,9 +97,4 @@ void AdventureState::resume()
 void AdventureState::pause()
 {
 	
-}
-
-b2Vec2 AdventureState::worldToScreen( b2Vec2 _world, Gosu::ZPos _layer )
-{
-	return m_Scene->worldToScreen( _world, _layer );
 }

@@ -1,11 +1,9 @@
 /*
-   ContactListener.cpp
-   Mizzou Game Engine
+	contactListener.cpp
+	My Unnamed Game Engine
  
-   Created by Chad Godsey on 11/12/08.
-  
-  
- Copyright 2009 Mizzou Game Design.
+	Created by Chad on 11/12/08.
+	Copyright 2009 BlitThis! studios. All rights reserved.
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
@@ -28,7 +26,6 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
  */
-
 #include "ContactListener.h"
 #include <Box2D.h>
 
@@ -99,18 +96,17 @@ int MenuListener::Update()
 {
 	std::vector< b2ContactPoint >::iterator ic;
 	b2FilterData filter;
-	int sm = 0;
-	int large = 0;
+	int small = 0, large = 0;
 	for (ic = m_Contacts.begin(); ic != m_Contacts.end(); ++ic) {
 		//stuff goes here
 		if ( ic->velocity.Length() > 75.0f) {
 			large = 2;
 		}else
 		if ( ic->velocity.Length() > 20.0f) {
-			sm = 1;
+			small = 1;
 		}
 	}
-	return sm + large;
+	return small + large;
 }
 
 
@@ -184,15 +180,15 @@ int AdventureListener::Update()
 {
 	std::vector< b2ContactPoint >::iterator ic;
 	b2FilterData filter;
-	int sm = 0, large = 0;
+	int small = 0, large = 0;
 	for (ic = m_Contacts.begin(); ic != m_Contacts.end(); ++ic) {
 		//stuff goes here
 		if ( ic->velocity.Length() > 75.0f) {
 			large = 2;
 		}else
 		if ( ic->velocity.Length() > 20.0f) {
-			sm = 1;
+			small = 1;
 		}
 	}
-	return sm + large;
+	return small + large;
 }

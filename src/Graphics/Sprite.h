@@ -1,10 +1,10 @@
 /*
    Sprite.h
-   Mizzou Game Engine
+   My Unnamed Game Engine
  
    Created by Chad Godsey on 4/9/09.
   
- Copyright 2009 Mizzou Game Design.
+ Copyright 2009 BlitThis! studios.
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
@@ -35,12 +35,13 @@ OTHER DEALINGS IN THE SOFTWARE.
 #ifndef SPRITE_H
 #define SPRITE_H
 
-#include "../Global.h"
-
+#include <Gosu/Gosu.hpp>
+#include <Box2D.h>
 #include <map>
 #include "../Scene/SceneObject.h"
+#include "TranslationModules.h"
 
-class MUGE;
+class Scene;
 
 class Sprite
 {
@@ -52,22 +53,16 @@ public:
 	*	TODO: move these into some sort of image manager? (owned by engine)
 	*/
 	static std::map< std::wstring, boost::shared_ptr<Gosu::Image> > theImageCache;
-	static boost::shared_ptr<Gosu::Image> GetImage(Gosu::Graphics &graphics, std::wstring filename);
+	static boost::shared_ptr<Gosu::Image> GetImage(std::wstring filename);
 	
 	Sprite();
-	Sprite(MUGE *_engine, std::wstring _filename);
+	Sprite(std::wstring _filename);
 	
 	unsigned getID() { return m_ID; }
 	void setID( unsigned _id) { m_ID = _id; }
 	
-	/// Register this object in a scene, used for world to screen transformations
-	void registerScene( Scene *_scene );
+	void setImage(std::wstring _filename);
 	
-	void setImage(MUGE *_engine, std::wstring _filename);
-	/// setRotation - sets world Rotation
-	void setRotation( double _angle ) { m_Rotation = _angle; }
-	/// setPosition - sets world position
-	void setPosition( b2Vec2 _pos ) { m_Position = _pos; }
 	void setScaling(double _factorX, double _factorY);
 	void setCenter(double _centerX, double _centerY);
 	void setColorMod(Gosu::Color _colorMod);
@@ -85,15 +80,14 @@ public:
 private:
 	boost::shared_ptr<Gosu::Image> m_Image;
 	
-	MUGE *m_Engine;
-	
 	unsigned int m_ID;
+	//zoom factors
 	double m_factX;
 	double m_factY;
+	//rotation center
 	double m_centerX;
 	double m_centerY;
-	b2Vec2 m_Position;
-	double m_Rotation;
+	//color modifier
 	Gosu::Color m_ColorMod;
 };
 

@@ -1,38 +1,16 @@
-{
-	"Background" : "Menu/Menu_screen.png",
-	"CursorImage" : "Menu/cursor.png",
-	"Objects" : [
-		{
-			"Type" : "Button",
-			"Name" : "StartButton",
-			"Image" : "StartButton.png",
-			"Position" : [ 240, 200],
-			"Width" : 70,
-			"Height" : 32
-		},
-		{
-			"Type" : "Button",
-			"Name" : "LoadButton",
-			"Image" : "StartButton.png",
-			"Position" : [ 240, 250],
-			"Width" : 70,
-			"Height" : 32
-		},
-		{
-			"Type" : "Window",
-			"Name" : "AboutWindow",
-			"Width" : 200,
-			"Height" : 300,
-			"Objects" : [
-				{
-					"Type" : "TextArea",
-					"Name" : "AboutText",
-					"Position" : [ 10, 30],
-					"Width" : 180,
-					"Justify" : "Right",
-					"Text" : "This is a test"
-				}
-			]
-		}
-	]
-}
+[
+	{
+		"Type" : "Button",
+		"Name" : "StartButton",
+		"Image" : "startbutton.png",
+		"Position" : [ 240, 200],
+		"Size" : [ 64, 24]
+	},
+	{
+		"Type" : "Button",
+		"Name" : "LoadButton",
+		"Image" : "loadbutton.png",
+		"Position" : [ 240, 250],
+		"Size" : [ 64, 24]
+	}
+]

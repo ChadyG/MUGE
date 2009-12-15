@@ -1,10 +1,10 @@
 /*
    SceneObject.h
-   Mizzou Game Engine
+   My Unnamed Game Engine
  
    Created by Chad Godsey on 1/9/08.
   
- Copyright 2009 Mizzou Game Design.
+ Copyright 2009 BlitThis! studios.
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
@@ -35,9 +35,8 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include <Box2D.h>
 #include <list>
 
-class Animation;
+class SpriteSheet;
 class Sprite;
-class Scene;
 
 /**
  Base classes for scene object
@@ -55,14 +54,11 @@ class SceneObject
 {
 public:
 	SceneObject();
-	
-	/// Register this object in a scene, used for world to screen transformations
-	void registerScene( Scene *_scene );
-	
+
 	/// Set this object to render as the given sprite
 	void setSprite( Sprite *_sprite );
-	/// Set this object to render as the given animation
-	void setAnimation( Animation *_anim);
+	/// Set this object to render as the given SpriteSheet
+	void setSpriteSheet( SpriteSheet *_anim);
 	/// Disable rendering for this object 
 	void hide();
 	/// Enable rendering for this object 
@@ -75,54 +71,36 @@ public:
 	/// Resume physics operations
 	void Thaw() { m_Frozen = false; }
 	
-	/// setOrientation - sets local rotation (relative to parent)
-	//void setOrientation( double _angle ) { m_Orientation = _angle; }
-	/// setTranslation - sets local translation (relative to parent)
-	//void setTranslation( b2Vec2 _trans ) { m_Translation = _trans; }
-	
 	/// setRotation - sets world Rotation
-	void setRotation( double _angle ) { /*m_Orientation += _angle - m_Rotation;*/ m_Rotation = _angle; }
+	void setRotation( double _angle ) { m_Rotation = _angle; }
 	/// setPosition - sets world position
-	void setPosition( b2Vec2 _pos ) { /*m_Translation += _pos - m_Position;*/ m_Position = _pos; }
-	
-	
-	/// getOrientation - returns local rotation
-	//double getOrientation() { return m_Orientation; }
-	/// getTranslation - returns local translation
-	//b2Vec2 getTranslation() { return m_Translation; }
+	void setPosition( b2Vec2 _pos ) { m_Position = _pos; }
 	
 	/// getRotation - returns world rotation
 	double getRotation() { return m_Rotation; }
 	/// getPosition - returns world position
 	b2Vec2 getPosition() { return m_Position; }
 	
-	void update();// double _rotate, b2Vec2 _translate);
+	virtual void update();
 	
-	void draw(double _x, double _y, Gosu::ZPos _layer, double _zoom = 1.0, double _angle = 0.0) const;
+	virtual void draw(double _x, double _y, Gosu::ZPos _layer, double _zoom = 1.0, double _angle = 0.0) const;
 
 	/// Physics callback
 	virtual void onHit(SceneObject &other, b2ContactPoint &point);
 	
-	//void addChild( SceneObject* _child) { m_Children.push_back( _child ); }
-	
 protected:
-
-	//double m_Orientation;
-	//b2Vec2 m_Translation;
-	
 	b2Vec2 m_Position;
 	double m_Rotation;
-		
-	std::list< SceneObject*> m_Children;
-	Scene *m_Scene;
-	
+
 	Sprite *m_Sprite;
-	Animation *m_Animation;
+	SpriteSheet *m_SpriteSheet;
 	
 	b2Body *m_Body;
 	bool m_Frozen;
 	
 	bool m_hidden;
+
+	unsigned m_ID;
 };
 
 /**

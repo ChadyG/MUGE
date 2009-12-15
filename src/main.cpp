@@ -1,10 +1,10 @@
 /*
    Main.cpp
-   Mizzou Game Engine
+   My Unnamed Game Engine
  
    Created by Chad Godsey on 11/12/08.
   
- Copyright 2009 Mizzou Game Design.
+ Copyright 2009 BlitThis! studios.
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
@@ -28,27 +28,39 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
  */
  
-#include "Global.h"
-
-#include "Core/MUGE.h"
+#include <Gosu/Gosu.hpp>
+#include "Input/JSONFile.hpp"
+#include "Core/Core.h"
 #include "TitleState.h"
 
 
 int main(int argc, char* argv[])
 {
+	// Let's make the game creation a little more dynamic
 	JSONFile jFile(Gosu::narrow(Gosu::resourcePrefix() + L"Data/main.json"));
 	json::grammar<char>::array::const_iterator it;
 	json::grammar<char>::array arr, arr2;
 	json::grammar<char>::object o;
+	
+	// Retrieve window size parameters
 	int width = jFile.get< int >("WindowSize[0]");
 	int height = jFile.get< int >("WindowSize[1]");
+	// Framerate and fullscreen stuff
 	double updateInterval = jFile.get< double >("UpdateInterval");
 	bool fullscreen = jFile.get< bool >("FullScreen");
 	
-    MUGE win(width, height, fullscreen, updateInterval);
-	win.setCaption( Gosu::widen( jFile.get< std::string >("WindowTitle") ) );
+	// Create the game object
+    Core win(width, height, fullscreen, updateInterval);
+	// Must set context otherwise subsystems will fail
+	win.setCurrentContext(&win);
+
+	// Create and add a title state to our game object
     TitleState *state = new TitleState( Gosu::widen(jFile.get< std::string >("StartState")) );
     win.pushState( state );
+
+	// Start the game!
     win.show();
+
+	// Exit
     return 0;
 }
