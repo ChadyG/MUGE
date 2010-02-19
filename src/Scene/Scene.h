@@ -31,11 +31,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include <Box2D.h>
 #include <map>
 #include <list>
+#include "../Graphics/RenderManager.h"
 #include "SceneObject.h"
 #include "../Input/JSONFile.hpp"
-#include "../Sprite/Sprite.h"
-#include "../Sprite/SpriteSheet.h"
-#include "../Sprite/TranslationModules.h"
 #include "../Physics/ContactListener.h"
 
 class Core;
@@ -58,18 +56,20 @@ struct SpriteLayer
 * defer up to this class.
 * Also handles level loading.
 */
-class Scene : public TransMod
+class Scene
 {
 public:
 	Scene(std::wstring _config );
+
+	~Scene() { RenderManager::setCurrentContext( NULL ); }
+
+	void registerRenderManager() { RenderManager::setCurrentContext( &m_rendMan ); }
 	
 	void tellPlayer( Player *_player );
 
 	void addObject( SceneObject &_object, Gosu::ZPos _layer );
 	
 	void addTrigger( Trigger &_trigger, Gosu::ZPos _layer );
-	
-	b2XForm worldToScreen( float _x, float _y, Gosu::ZPos _layer );
 	
 	void update();
 	void draw() const;
@@ -91,6 +91,8 @@ protected:
 	
 	std::map< Gosu::ZPos, SpriteLayer > m_Layers;
 	std::map< std::string, Gosu::ZPos > m_LayerNames;
+
+	RenderManager m_rendMan;
 	
 	// Scene stuff
 	boost::scoped_ptr< Gosu::Song > m_Music;
@@ -105,13 +107,10 @@ protected:
 	
 	//	Pixel transformation data
 	// Focus is the level coordinates of the center of the screen
-	// Extents are the rectangular width and height of the level
 	// Zoom is a zooming factor for all layers
 	// Scale is the x/y scale to transform from level coordinates to screen
 	// Width and Height are screen size
-	double m_Focus[2];
-	double m_Offset[2];
-	double m_Extents[2];
+	double m_Focus[2], m_Offset[2], m_Extents[2];
 	double m_Zoom;
 	double m_Rot, m_Orientation;
 	int m_Scale;

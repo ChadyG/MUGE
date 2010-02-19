@@ -32,6 +32,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include "SceneObject.h"
  
 class SpriteSheet;
+class RenderManager;
 
 /**
 * Our Player class
@@ -53,14 +54,13 @@ public:
 	void setLayer( Gosu::ZPos _z );
 	
 	void setPhysics( double _x, double _y, b2World* _world);
-	//b2Vec2 getPosition();
+	b2Vec2 getPosition() { return m_Pos; }
 	
 	void setGravity( b2Vec2 _gravity );
 	
 	void onHit(SceneObject &other, b2ContactPoint &point);
 	
 	void update();
-	void draw() const;
 	
 protected:
 	//Image Data

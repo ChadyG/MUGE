@@ -32,44 +32,26 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include "../Scene/Scene.h"
 #include "../Core/Core.h"
 
-std::map< std::wstring, boost::shared_ptr<Gosu::Image> > Sprite::theImageCache;
-
-boost::shared_ptr<Gosu::Image> Sprite::GetImage(std::wstring filename)
-{
-	std::map< std::wstring, boost::shared_ptr<Gosu::Image> >::iterator it = theImageCache.find(filename);
-	if (it != theImageCache.end()) {
-		return (it->second);
-	}
-	boost::shared_ptr<Gosu::Image> newImage( new Gosu::Image(Core::getCurrentContext()->graphics(), filename) );
-	theImageCache[filename] = newImage;
-	return theImageCache[filename];
-}
-
 Sprite::Sprite()
-	: m_centerX(0.5), m_centerY(0.5), m_Rotation(0.0),
+	: m_centerX(0.5), m_centerY(0.5),
+	m_posX(0.0f), m_posY(0.0f), m_zoom(1.0f), m_angle(0.0f), m_layer(0.0f),
 	m_factX(1.0), m_factY(1.0), m_ColorMod(Gosu::Colors::white)
 {
-	m_Position.Set( 0.0, 0.0);
 }
 
-Sprite::Sprite(std::wstring _filename)
-	: m_centerX(0.5), m_centerY(0.5), m_Rotation(0.0),
+Sprite::Sprite(Gosu::Image* _image)
+	: m_centerX(0.5), m_centerY(0.5),
+	m_posX(0.0f), m_posY(0.0f), m_zoom(1.0f), m_angle(0.0f), m_layer(0.0f),
 	m_factX(1.0), m_factY(1.0), m_ColorMod(Gosu::Colors::white)
 {
-	m_Position.Set( 0.0, 0.0);
-	m_Image = Sprite::GetImage(_filename);
+	m_Image = _image;//.Set( new Gosu::Image(Core::getCurrentContext()->graphics(), filename) );
 }
 
 //----------Setters----------
 
-void Sprite::registerTransMod( TransMod *_tmod )
+void Sprite::setImage(Gosu::Image* _image)
 {
-	m_TransMod = _tmod;
-}
-
-void Sprite::setImage(std::wstring _filename)
-{
-	m_Image = Sprite::GetImage(_filename);
+	m_Image = _image;//Sprite::GetImage(_filename);
 }
 
 void Sprite::setScaling(double _factorX, double _factorY)
@@ -91,16 +73,16 @@ void Sprite::setColorMod(Gosu::Color _colorMod)
 
 //----------Operations----------
 
-void Sprite::draw(double _x, double _y, Gosu::ZPos _layer, 
+void Sprite::draw(double _x, double _y, 
 					 double _zoom, double _angle) const
 {
 	m_Image->drawRot( _x, 
 					 _y, 
-					 _layer, 
-					 _angle, 
+					 m_layer, 
+					 m_angle + _angle, 
 					 m_centerX, 
 					 m_centerY, 
-					 m_factX*_zoom, 
-					 m_factY*_zoom, 
+					 m_factX*_zoom*m_zoom, 
+					 m_factY*_zoom*m_zoom, 
 					 m_ColorMod);
 }

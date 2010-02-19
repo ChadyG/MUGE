@@ -29,8 +29,8 @@
  */
 
 #include "SceneObject.h"
-#include "../Sprite/Sprite.h"
-#include "../Sprite/SpriteSheet.h"
+#include "../Graphics/Sprite.h"
+#include "../Graphics/SpriteSheet.h"
 
 SceneObject::SceneObject()
 {
@@ -61,15 +61,6 @@ void SceneObject::show()
 
 void SceneObject::update()
 {
-}
-
-void SceneObject::draw(double _x, double _y, Gosu::ZPos _layer, double _zoom, double _angle) const
-{
-	if (m_Sprite)
-		m_Sprite->draw( m_Position.x, m_Position.y, _layer, _zoom, m_Rotation + _angle);
-	
-	if (m_SpriteSheet)
-		m_SpriteSheet->draw( m_Position.x, m_Position.y, _layer, _zoom, m_Rotation + _angle);
 }
 
 void SceneObject::onHit( SceneObject &other, b2ContactPoint &point) 

@@ -33,48 +33,50 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 #include <Gosu/Gosu.hpp>
 #include <map>
+#include <list>
 #include "SpriteSheet.h"
 #include "Sprite.h"
 
 /**
-*	Provide lazy-loading
-*	Allow resource sharing
+*	Intended services 
+*		* simple resource managing for Gosu::Image in Sprites
+*		* state based rendering
+*			- persistent rendering based on given values
+*		* clean separation of world to screen transformation
+*			- all given values are in world coordinates
+*			- scene manager tells camera orientation + position for rendering
 */
 class RenderManager
 {
 public:
-	RenderManager() {}
+	RenderManager() : m_curImageID(0) {}
 	
-	void registerCamera( Camera *_cam );
+	void setScreen( int _w, int _h, int _s)
+	{
+		m_screenW = _w; m_screenH = _h; m_screenScale = _s;
+	};
+
+	void setCamera( float _x, float _y, float _zoom = 1.f, float _rot = 0.f )
+	{
+		m_camX = _x; m_camY = _y, m_camZoom = _zoom; m_camRot = _rot;
+	};
 
 	void updateSpriteSheets();
 
-	void doRender();
+	void doRender() const;
+
+	void setLayerScale(int _layer, float _scale) { m_LayerScales[_layer] = _scale; }
 
 	/// create a sprite
-	int createSprite(std::wstring _filename, std::string _name);
-	/// create an SpriteSheet
-	int createSpriteSheet(std::wstring _filename, std::string _name, int _width, int _height, int _delay = 1);
-		
-	/// Get a sprite by ID
-	boost::shared_ptr<Sprite> getSpriteByID( int _id );
-	/// Get an SpriteSheet by ID
-	boost::shared_ptr<SpriteSheet> getSpriteSheetByID( int _id );
+	Sprite* createSprite(int _layer, std::wstring _filename);
+	/// create a SpriteSheet
+	SpriteSheet* createSpriteSheet(
+		int _layer, std::wstring _filename, int _width, int _height, int _delay = 1);
 
-	/// Get a Sprite by name
-	int getSpriteByName( std::string _name );
-	/// Get an SpriteSheet by name 
-	int getSpriteSheetByName( std::string _name );
-
-	/// draw operations for sprite
-	void drawSprite(int _id, double _x, double _y, Gosu::ZPos _layer, double _zoom = 1.0, double _angle = 0.0);
-	void drawSpriteToScreen(int _id, double _x, double _y, Gosu::ZPos _layer, double _zoom = 1.0, double _angle = 0.0);
-	/// draw operations for SpriteSheet
-	void drawSheet(int _id, double _x, double _y, Gosu::ZPos _layer, double _zoom = 1.0, double _angle = 0.0);
-	void drawSheetToScreen(int _id, double _x, double _y, Gosu::ZPos _layer, double _zoom = 1.0, double _angle = 0.0);
-	void drawSheetFrame(int _id, int _frame, double _x, double _y, Gosu::ZPos _layer, double _zoom = 1.0, double _angle = 0.0);
-	void drawSheetFrameToScreen(int _id, int _frame, double _x, double _y, Gosu::ZPos _layer, double _zoom = 1.0, double _angle = 0.0);
-
+	/// register a sprite
+	void registerSprite(int _layer, Sprite* _sp);
+	/// register a SpriteSheet
+	void registerSpriteSheet(int _layer, SpriteSheet* _ss);
 
 	/// Static accessor to current render manager
 	static boost::shared_ptr< RenderManager > getCurrentContext() { return s_CurrentContext; }
@@ -83,18 +85,23 @@ public:
 	static void setCurrentContext(RenderManager* _context) { s_CurrentContext.reset(_context); }
 
 protected:
-
 	static boost::shared_ptr< RenderManager > s_CurrentContext;
 
-	std::map< int, boost::shared_ptr<SpriteSheet> > m_SpriteSheets;
-	std::map< std::string, int > m_SpriteSheetMap;
 	
-	std::map< int, boost::shared_ptr<Sprite> > m_Sprites;
-	std::map< std::string, int > m_SpriteMap;
+	std::map< int, Gosu::Image* > m_Images;
+	std::map< std::wstring, int > m_ImageMap;
+
+	std::map< int, float > m_LayerScales;
+
+	std::list< SpriteSheet > m_SpriteSheets;
+	std::list< Sprite > m_Sprites;
 	
-	int m_curSpriteID;
-	int m_curSheetID;
+	int m_curImageID;
+
+	float m_camX, m_camY, m_camZoom, m_camRot;
+	int m_screenW, m_screenH, m_screenScale;
 };
 
 
 #endif
+

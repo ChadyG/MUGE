@@ -82,8 +82,6 @@ public:
 	b2Vec2 getPosition() { return m_Position; }
 	
 	virtual void update();
-	
-	virtual void draw(double _x, double _y, Gosu::ZPos _layer, double _zoom = 1.0, double _angle = 0.0) const;
 
 	/// Physics callback
 	virtual void onHit(SceneObject &other, b2ContactPoint &point);

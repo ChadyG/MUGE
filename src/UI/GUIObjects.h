@@ -35,7 +35,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include <list>
 #include <map>
 
-#include "../Sprite/SpriteSheet.h"
+#include "../Graphics/SpriteSheet.h"
 
 /**
 * Abstract base class for all UI Objects

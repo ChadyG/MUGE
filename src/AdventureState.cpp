@@ -31,8 +31,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include "AdventureState.h"
 #include "Core/Core.h"
 #include "Input/JSONFile.hpp"
-#include "../Sprite/Sprite.h"
-#include "../Sprite/SpriteSheet.h"
+#include "Graphics/Sprite.h"
+#include "Graphics/SpriteSheet.h"
+#include "Graphics/RenderManager.h"
 
 /**
  *
@@ -56,16 +57,22 @@ void AdventureState::init()
 	std::string tString;
 	
 	m_Scene.reset( new Scene(Gosu::widen( jFile.get< std::string >("Levels[0]") )));
+	m_Scene->registerRenderManager();
 
-	arr = jFile.get<json::grammar<char>::array>("PlayerSpriteSheets");
+	boost::shared_ptr<RenderManager> rendMan = RenderManager::getCurrentContext();
+
+	arr = jFile.get<json::grammar<char>::array>("PlayerAnimations");
 	for (i = 0, it = arr.begin(); it != arr.end(); ++it, ++i) {
-		SpriteSheet *anim = new SpriteSheet();
-		anim->setImage( 
+		SpriteSheet *anim = rendMan->createSpriteSheet( 3,
 			Gosu::resourcePrefix() + L"Images/" + Gosu::widen(jFile.get< std::string >("FileName", *it)), 
 			jFile.get< int >("Width", *it),
 			jFile.get< int >("Height", *it),
-			jFile.get< int >("Duration", *it));
-		anim->registerTransMod( m_Scene.get() );
+			jFile.get< int >("Duration", *it));//new SpriteSheet();
+		//anim->setImage( 
+		//	Gosu::resourcePrefix() + L"Images/" + Gosu::widen(jFile.get< std::string >("FileName", *it)), 
+		//	jFile.get< int >("Width", *it),
+		//	jFile.get< int >("Height", *it),
+		//	jFile.get< int >("Duration", *it));
 		m_Player.addSpriteSheet( jFile.get< std::string >("Name", *it), anim );
 	}
 	

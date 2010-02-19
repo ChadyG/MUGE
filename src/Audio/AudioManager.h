@@ -63,6 +63,11 @@ class AudioManager
 public:
 	AudioManager() {}
 
+	void setCamera( float _x, float _y, float _zoom = 1.f, float _rot = 0.f )
+	{
+		m_camX = _x; m_camY = _y, m_camZoom = _zoom; m_camRot = _rot;
+	};
+
 	void doPlay();
 
 	/// create a sample
@@ -103,6 +108,8 @@ protected:
 	
 	int m_curSampleID;
 	int m_curSongID;
+
+	float m_camX, m_camY, m_camZoom, m_camRot;
 };
 
 

@@ -31,7 +31,8 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include "../Core/Core.h"
 #include <Box2D.h>
 #include "Player.h"
-#include "../Sprite/SpriteSheet.h"
+#include "../Graphics/SpriteSheet.h"
+#include "../Graphics/RenderManager.h"
 
 Player::Player()
 {
@@ -64,11 +65,16 @@ void Player::addSpriteSheet(std::string _name, SpriteSheet* _anim)
 {
 	m_Anims[_name] = _anim;
 	m_AnimState = m_Anims[_name];
+	m_AnimState->setVisible(false);
 }
 
 void Player::setLayer(Gosu::ZPos _z)
 {
 	m_Layer = _z;
+	std::map< std::string, SpriteSheet*>::iterator iAnim;
+	for (iAnim = m_Anims.begin(); iAnim != m_Anims.end(); iAnim++) {
+		(*iAnim).second->setLayer( m_Layer );
+	}
 }
 
 void Player::setGravity( b2Vec2 _gravity )
@@ -84,23 +90,32 @@ void Player::onHit(SceneObject &other, b2ContactPoint &point)
 void Player::update()
 {
 	Gosu::Input& input = Core::getCurrentContext()->input();
-	m_Pos = m_Body->GetPosition();
+	//m_Pos = m_Body->GetPosition();
 	
 	if (input.down(Gosu::kbLeft)) {
+		m_AnimState->setVisible(false);
+		m_AnimState = m_Anims["WalkLeft"];
+		m_AnimState->setVisible(true);
 		m_Pos.x -= 0.1;
 		if (input.down(Gosu::kbLeftShift)) 
 			m_Pos.x -= 0.1;
 	}
 	if (input.down(Gosu::kbRight)) {
+		m_AnimState->setVisible(false);
+		m_AnimState = m_Anims["Walk"];
+		m_AnimState->setVisible(true);
 		m_Pos.x += 0.1;
 		if (input.down(Gosu::kbLeftShift)) 
 			m_Pos.x += 0.1;
 	}
 
-	m_AnimState->update();
+	m_AnimState->setX( m_Pos.x );
+	m_AnimState->setY( m_Pos.y );
+	//m_AnimState->update();
 }
-
+/*
 void Player::draw() const
 {
 	m_AnimState->draw(  m_Pos.x, m_Pos.y, m_Layer);
 }
+*/

@@ -30,11 +30,13 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include "../Core/Core.h"
 #include "Scene.h"
 #include "../Physics/ContactListener.h"
-#include "../Scene/Player.h"
+#include "Player.h"
 
 Scene::Scene(std::wstring _config)
 {
 	m_Engine = Core::getCurrentContext();
+
+	//RenderManager::setCurrentContext(&m_rendMan);
 	
 	m_TimeStep = 1.0f / 50.0f;
 	m_Iterations = 10.0f;
@@ -85,6 +87,9 @@ Scene::Scene(std::wstring _config)
 	
 	// Coordinate transform stuff for world -> screen
 	m_Scale = m_jFile->get< int >("Scale");
+
+	// Configure render manager for screen transformation
+	m_rendMan.setScreen( m_Width, m_Height, m_Scale );
 	
 	// Dig down to the actual scene objects
 	arr = m_jFile->get<json::grammar<char>::array>("Layers");
@@ -93,6 +98,8 @@ Scene::Scene(std::wstring _config)
 		m_Layers[layer].scale = m_jFile->get< double >("Scale", *it);
 		m_Layers[layer].layer = m_jFile->get< int >("Layer", *it);
 		m_Layers[layer].ID = m_jFile->get<std::string>("ID", *it);
+
+		m_rendMan.setLayerScale( m_Layers[layer].layer, m_Layers[layer].scale);
 		
 		// String access map
 		m_LayerNames[m_Layers[layer].ID] = layer;
@@ -108,12 +115,12 @@ Scene::Scene(std::wstring _config)
 	
 }
 
-void Scene::addSprite( SceneObject &_object, Gosu::ZPos _layer )
-{
-	m_Layers[_layer].objects.push_back( _object );
-}
+//void Scene::addSprite( SceneObject &_object, Gosu::ZPos _layer )
+//{
+//	m_Layers[_layer].objects.push_back( _object );
+//}
 
-void Scene::addTrigger( Trigger &_trigger, Gosu::ZPos _layer
+void Scene::addTrigger( Trigger &_trigger, Gosu::ZPos _layer)
 {
 	m_Layers[_layer].triggers.push_back( _trigger );
 }
@@ -142,17 +149,23 @@ void Scene::evalJSON( json::grammar<char>::array _array, int _layer )
 
 void Scene::evalSprite( json::grammar<char>::array::const_iterator _it, int _layer )
 {
-	Sprite* tSprite = new Sprite();
-	SceneObject tObject;
+	Sprite* tSprite = m_rendMan.createSprite(_layer,
+		Gosu::resourcePrefix() + L"Images/" + Gosu::widen( m_jFile->get<std::string>("Image", *_it) ));
+		//new Sprite();
+	//SceneObject tObject;
 	std::string tString = m_jFile->get<std::string>("Name", *_it);
-	tSprite->setImage( 
-		Gosu::resourcePrefix() + L"Images/" + Gosu::widen( m_jFile->get<std::string>("Image", *_it) ) );
+	//tSprite->setImage( 
+	//	Gosu::resourcePrefix() + L"Images/" + Gosu::widen( m_jFile->get<std::string>("Image", *_it) ) );
 	
+	/*
 	tObject.setPosition( 
 		b2Vec2(m_jFile->get< double >("Position[0]", *_it) * m_Layers[_layer].scale, 
 		m_jFile->get< double >("Position[1]", *_it) * m_Layers[_layer].scale));
 	tObject.setRotation( m_jFile->get< double >("Rotation", *_it) );
-	
+	*/
+	tSprite->setX(m_jFile->get< double >("Position[0]", *_it) * m_Layers[_layer].scale);
+	tSprite->setY(m_jFile->get< double >("Position[1]", *_it) * m_Layers[_layer].scale);
+	tSprite->setAngle(m_jFile->get< double >("Rotation", *_it));
 	tSprite->setColorMod(
 		Gosu::Color( m_jFile->get< int >("ColorMod[0]", *_it), 
 					m_jFile->get< int >("ColorMod[1]", *_it), 
@@ -163,10 +176,8 @@ void Scene::evalSprite( json::grammar<char>::array::const_iterator _it, int _lay
 		m_jFile->get< double >("yScale", *_it) );
 	
 	
-	tSprite->registerTransMod( this );
-	//tObject.registerTransMod( this );
-	tObject.setSprite( tSprite );
-	m_Layers[_layer].objects.push_back( tObject );
+	//tObject.setSprite( tSprite );
+	//m_Layers[_layer].objects.push_back( tObject );
 }
 
 void Scene::evalTrigger( json::grammar<char>::array::const_iterator _it, int _layer )
@@ -201,31 +212,19 @@ void Scene::tellPlayer( Player *_player )
 	m_Player = _player;
 	m_Player->setPhysics( m_PlayerPos.x, m_PlayerPos.y, m_World);
 	m_Player->setLayer( 3 );
-}
-
-//This needs to be a translation module!!!
-b2XForm Scene::worldToScreen( float _x, float _y, Gosu::ZPos _layer )
-{
-	double scale = 1.0/m_Layers[_layer].scale;
-	double zoom = 1.0 + scale * (m_Zoom - 1.0);
-	b2Vec2 newPos((_x * m_Scale * scale) * zoom, 
-				  (_y * m_Scale * scale) * zoom);
-	b2XForm trans;
-	trans.R.Set( m_Rot*(Gosu::pi/180.0) );
-	trans.position = b2Mul( trans.R, newPos);
-	trans.position.Set( trans.position.x + m_Width/2, trans.position.y + m_Height/2);
-	return trans;
+	//m_Player->registerSheets( &m_rendMan );
 }
 
 void Scene::update()
 {
 	// Step physics simulation
 	//m_Worldp->Step(m_TimeStep, m_Iterations);
-	m_SceneRoot.update();
 	//m_Orientation += 0.01;
 	
 	m_Player->update();
 	b2Vec2 m_PlayerPos = m_Player->getPosition();
+
+	m_rendMan.updateSpriteSheets();
 	
 	// Test Zoom
 	if (m_Engine->input().down(Gosu::kbUp)) {
@@ -250,6 +249,8 @@ void Scene::update()
 	// Set screen offset from world focus point
 	m_Offset[0] = m_Focus[0]*m_Scale*m_Zoom - m_Width/2;
 	m_Offset[1] = m_Height - m_Focus[1]*m_Scale*m_Zoom - m_Height/2;
+
+	m_rendMan.setCamera( m_Focus[0], m_Focus[1], m_Zoom, m_Rot);
 	
 	// Update scene objects
 	// Do callbacks for areas
@@ -296,17 +297,18 @@ void Scene::draw() const
 		m_Width, m_Height, m_canvasColor, 0);
 	
 	// Render all sprites
+	m_rendMan.doRender();
 	double scale, zoom;
 	std::map< Gosu::ZPos, SpriteLayer >::const_iterator itL;
 	std::list< SceneObject >::const_iterator itS;
-	for (itL = m_Layers.begin(); itL != m_Layers.end(); ++itL) {
+	/*for (itL = m_Layers.begin(); itL != m_Layers.end(); ++itL) {
 		scale = 1.0/itL->second.scale;
 		zoom = 1.0 + scale * (m_Zoom - 1.0);
 		for (itS = itL->second.objects.begin(); itS != itL->second.objects.end(); ++itS) {
 			itS->draw(m_Focus[0], m_Focus[1], itL->second.layer, zoom, m_Rot);
 		}
-	}
+	}*/
 	
 	// Render dynamic objects
-	m_Player->draw();
+	//m_Player->draw();
 }

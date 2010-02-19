@@ -25,7 +25,8 @@ HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
-
+*/
+/*
 
 	SpriteSheet encapsulates a set of images that are cycled through
 	to give the illusion of movement.
@@ -38,9 +39,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 #define SpriteSheet_H
 
 #include <Gosu/Gosu.hpp>
-#include <Box2D.h>
-#include "../Scene/SceneObject.h"
-#include "TranslationModules.h"
 
 typedef boost::shared_ptr<Gosu::Image> t_Image;
 
@@ -50,14 +48,25 @@ public:
 	SpriteSheet();
 	SpriteSheet(std::wstring _filename, int width, int height, int delay=1);
 	
-	unsigned getID() { return m_ID; }
-	void setID( unsigned _id) { m_ID = _id; }
-	
 	void setImage(std::wstring _filename, int width, int height, int delay=1);
 	
 	void setScaling(double _factorX, double _factorY);
 	void setCenter(double _centerX, double _centerY);
 	void setColorMod(Gosu::Color _colorMod);
+
+	float posX() const { return m_posX; }
+	float posY() const { return m_posY; }
+	float zoom() const { return m_zoom; }
+	float angle() const { return m_angle; }
+	int layer() const { return m_layer; }
+	bool visible() const { return m_visible; }
+
+	void setX(float _x) { m_posX = _x; }
+	void setY(float _y) { m_posY = _y; }
+	void setZoom(float _zoom) { m_zoom = _zoom; }
+	void setAngle(float _angle) { m_angle = _angle; }
+	void setLayer(float _layer) { m_layer = _layer; }
+	void setVisible(bool _vis) { m_visible = _vis; }
 	
 	Gosu::Image& getFrame(unsigned frame);
 	const Gosu::Image& getFrame(unsigned frame) const;
@@ -68,20 +77,25 @@ public:
 	//Call this to increment frame based on time delay
 	void update();
 
-	void draw(double _x, double _y, Gosu::ZPos _layer, double _zoom = 1.0, double _angle = 0.0) const;
-	void drawFrame(int _frame, double _x, double _y, Gosu::ZPos _layer, double _zoom = 1.0, double _angle = 0.0) const;
+	void draw(double _x, double _y, double _zoom = 1.0, double _angle = 0.0) const;
+	void drawFrame(int _frame, double _x, double _y, double _zoom = 1.0, double _angle = 0.0) const;
+
+	// Back asswards support for UI stuff
+	void drawAt(double _x, double _y, Gosu::ZPos _layer, double _zoom = 1.0, double _angle = 0.0) const;
+	void drawFrameAt(int _frame, double _x, double _y, Gosu::ZPos _layer, double _zoom = 1.0, double _angle = 0.0) const;
 
 private:
 	std::vector< t_Image > m_Sprites;
 
-	TransMod *m_TransMod;
+	float m_posX, m_posY, m_zoom, m_angle;
+	int m_layer;
 	
-	unsigned int m_ID;
 	unsigned int m_Frame;
 	int m_numFrames;
 	int m_Timer;
 	int m_Delay;
 	
+	bool m_visible;
 	double m_factX;
 	double m_factY;
 	double m_centerX;
