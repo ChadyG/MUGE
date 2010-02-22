@@ -29,58 +29,46 @@ OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #include "AudioManager.h"
+#include "../Core/Core.h"
+
+AudioManager* AudioManager::s_CurrentContext;
 
 //AudioManager::AudioManager() {}
-
 
 void AudioManager::doPlay()
 {
 }
 
 /// create a sample
-int AudioManager::createSample(std::wstring _filename, std::string _name)
+void AudioManager::createSample(std::wstring _filename, std::string _name)
 {
-	if (m_SampleMap.find(_name) == m_SampleMap.end())
+	if (m_Samples.find(_name) == m_Samples.end())
 		throw std::runtime_error("Sample name already in use: " + _name);
 
-	m_Samples[m_curSampleID] = new Gosu::Sample(Core::getCurrentContext()->audio(), _filename);
-	m_SampleMap[_name] = m_curSampleID++;
+	m_Samples[_name] = new Gosu::Sample(Core::getCurrentContext()->audio(), _filename);
 }
 /// create a song
-int AudioManager::createSong(std::wstring _filename, std::string _name)
+void AudioManager::createSong(std::wstring _filename, std::string _name)
 {
-	if (m_SongMap.find(_name) == m_SongMap.end())
+	if (m_Songs.find(_name) == m_Songs.end())
 		throw std::runtime_error("Song name already in use: " + _name);
+
+	m_Songs[_name] = new Gosu::Song(Core::getCurrentContext()->audio(), _filename);
 }
 
-/// Get a sample by name
-int AudioManager::getSampleByName( std::string _name )
-{
-	if (m_SampleMap.find(_name) == m_SampleMap.end())
-		return -1;
-	return m_SampleMap[_name];
-}
-/// Get a song by name
-int AudioManager::getSongByName( std::string _name )
-{
-	if (m_SongMap.find(_name) == m_SongMap.end())
-		return -1;
-	return m_SongMap[_name];
-}
-
-void AudioManager::playSong( int _id, double _volume = 1.0, double _speed = 1.0 )
+void AudioManager::playSong( std::string _name, double _volume, double _speed )
 {
 }
-void AudioManager::playAmbientSample( int _id, double _volume = 1.0, double _speed = 1.0 )
+void AudioManager::playAmbientSample( std::string _name, double _volume, double _speed )
 {
 }
-void AudioManager::playStereoSample( int _id, double _x, double _y, double _volume = 1.0, double _speed = 1.0 )
+void AudioManager::playStereoSample( std::string _name, double _x, double _y, double _volume, double _speed )
 {
 }
 
-void AudioManager::stopSong( int _id )
+void AudioManager::stopSong( std::string _name )
 {
 }
-void AudioManager::pauseSong( int _id )
+void AudioManager::pauseSong( std::string _name )
 {
 }

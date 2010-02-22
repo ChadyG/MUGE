@@ -2,5 +2,32 @@
 	"WindowSize" : [768, 480],
 	"FullScreen" : false,
 	"UpdateInterval" : 20.0,
-	"StartState" : "mainmenu"
+	"StartState" : "mainmenu",
+	"ButtonMaps" : [
+		{
+			"Action" : "Menu.Up",
+			"Key" : "kbUp",
+			"Type" : "action"
+		},
+		{
+			"Action" : "Menu.Down",
+			"Key" : "kbDown",
+			"Type" : "action"
+		},
+		{
+			"Action" : "Menu.Select",
+			"Key" : "kbEnter",
+			"Type" : "action"
+		},
+		{
+			"Action" : "Play.MoveRight",
+			"Key" : "kbRight",
+			"Type" : "action"
+		},
+		{
+			"Action" : "Play.MoveLeft",
+			"Key" : "kbLeft",
+			"Type" : "action"
+		}
+	]
 }

@@ -35,7 +35,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include <map>
 #include <queue>
 
-sruct SamplePlay
+struct SamplePlay
 {
 	int sampleID;
 	double volume;
@@ -45,7 +45,7 @@ sruct SamplePlay
 	float x, y;
 };
 
-sruct SongPlay
+struct SongPlay
 {
 	int songID;
 	double volume;
@@ -61,7 +61,7 @@ sruct SongPlay
 class AudioManager
 {
 public:
-	AudioManager() : m_curSampleID(0), m_curSongID(0), m_camX(0), m_camY(0), m_camZoom(0), m_camRot(0) {}
+	AudioManager() : m_camX(0), m_camY(0), m_camZoom(0), m_camRot(0) {}
 
 	void setCamera( float _x, float _y, float _zoom = 1.f, float _rot = 0.f )
 	{
@@ -71,46 +71,35 @@ public:
 	void doPlay();
 
 	/// create a sample
-	int createSample(std::wstring _filename, std::string _name);
+	void createSample(std::wstring _filename, std::string _name);
 	/// create a song
-	int createSong(std::wstring _filename, std::string _name);
+	void createSong(std::wstring _filename, std::string _name);
 
-	/// Get a sample by name
-	int getSampleByName( std::string _name );
-	/// Get a song by name
-	int getSongByName( std::string _name );
+	void playSong( std::string _name, double _volume = 1.0, double _speed = 1.0 );
+	void playAmbientSample( std::string _name, double _volume = 1.0, double _speed = 1.0 );
+	void playStereoSample( std::string _name, double _x, double _y, double _volume = 1.0, double _speed = 1.0 );
 
-	void playSong( int _id, double _volume = 1.0, double _speed = 1.0 );
-	void playAmbientSample( int _id, double _volume = 1.0, double _speed = 1.0 );
-	void playStereoSample( int _id, double _x, double _y, double _volume = 1.0, double _speed = 1.0 );
+	bool songPlaying( std::string _name ) { return m_Songs[_name]->playing(); }
+	bool songPaused( std::string _name ) { return m_Songs[_name]->paused(); }
 
-	bool songPlaying( int _id ) const { return m_Songs[m_SongMap[_id]]->playing(); }
-	bool songPaused( int _id ) const { return m_Songs[m_SongMap[_id]]->paused(); }
-
-	void stopSong( int _id );
-	void pauseSong( int _id );
+	void stopSong( std::string _name );
+	void pauseSong( std::string _name );
 
 	/// Static accessor to current render manager
-	static boost::shared_ptr< AudioManager > getCurrentContext() { return s_CurrentContext; }
+	static AudioManager* getCurrentContext() { return s_CurrentContext; }
 
 	/// Static setter for current render manager
-	static void setCurrentContext(AudioManager* _context) { s_CurrentContext.reset(_context); }
+	static void setCurrentContext(AudioManager* _context) { s_CurrentContext = _context; }
 
 protected:
 
-	static boost::shared_ptr< AudioManager > s_CurrentContext;
+	static AudioManager* s_CurrentContext;
 
-	std::map< int, Gosu::Sample* > m_Samples;
-	std::map< std::string, int > m_SampleMap;
-	
-	std::map< int, Gosu::Song* > m_Songs;
-	std::map< std::string, int > m_SongMap;
+	std::map< std::string, Gosu::Sample* > m_Samples;
+	std::map< std::string, Gosu::Song* > m_Songs;
 
 	std::queue< SamplePlay > m_SampleQ;
 	std::queue< SongPlay > m_SongQ;
-	
-	int m_curSampleID;
-	int m_curSongID;
 
 	float m_camX, m_camY, m_camZoom, m_camRot;
 };

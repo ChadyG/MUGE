@@ -68,7 +68,7 @@ public:
 	actionState query(std::string _action);
 
 	void createAction(std::string _name);
-	void createSequence(std::string _name, int _threshhold);
+	void createSequence(std::string _name, int _threshold);
 	void createChord(std::string _name);
 
 	void bindAction(std::string _name, Gosu::ButtonName _button);
@@ -87,10 +87,12 @@ public:
 	void enable() { m_enabled = true; }
 
 	/// Static accessor to current render manager
-	InputManager* getCurrentContext() { return s_CurrentContext; }
+	static InputManager* getCurrentContext() { return s_CurrentContext; }
 
 	/// Static setter for current render manager
 	static void setCurrentContext(InputManager* _context) { s_CurrentContext = _context; }
+
+	static Gosu::ButtonName strToButton(std::string _name);
 
 private:
 	static InputManager* s_CurrentContext;

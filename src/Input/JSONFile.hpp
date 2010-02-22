@@ -62,6 +62,13 @@ public:
       * @name: the name of the variable, including any object it belongs to (example: object1.variable)
       **/
      bool isAnArray(const std::string& name);
+
+	 /**
+	  *	hasKey - checks to see if the JSON object has the specified key
+	  *	@key: the key to search on
+	  **/
+     bool hasKey(const std::string& key, 
+	   const boost::shared_ptr< boost::any > object = boost::shared_ptr< boost::any >());
 		
 private:
      json::grammar< char >::variant variant;

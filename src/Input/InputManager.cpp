@@ -32,6 +32,58 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 InputManager* InputManager::s_CurrentContext;
 
+
+Gosu::ButtonName InputManager::strToButton(std::string _name)
+{
+	if (_name == "kb1") return Gosu::kb1;
+	if (_name == "kb2") return Gosu::kb2;
+	if (_name == "kb3") return Gosu::kb3;
+	if (_name == "kb4") return Gosu::kb4;
+	if (_name == "kb5") return Gosu::kb5;
+	if (_name == "kb6") return Gosu::kb6;
+	if (_name == "kb7") return Gosu::kb7;
+	if (_name == "kb8") return Gosu::kb8;
+	if (_name == "kb9") return Gosu::kb9;
+	if (_name == "kb0") return Gosu::kb0;
+	
+	if (_name == "kbA") return Gosu::kbA;
+	if (_name == "kbB") return Gosu::kbB;
+	if (_name == "kbC") return Gosu::kbC;
+	if (_name == "kbD") return Gosu::kbD;
+	if (_name == "kbE") return Gosu::kbE;
+	if (_name == "kbF") return Gosu::kbF;
+	if (_name == "kbG") return Gosu::kbG;
+	if (_name == "kbH") return Gosu::kbH;
+	if (_name == "kbI") return Gosu::kbI;
+	if (_name == "kbJ") return Gosu::kbJ;
+	if (_name == "kbK") return Gosu::kbK;
+	if (_name == "kbL") return Gosu::kbL;
+	if (_name == "kbM") return Gosu::kbM;
+	if (_name == "kbN") return Gosu::kbN;
+	if (_name == "kbO") return Gosu::kbO;
+	if (_name == "kbP") return Gosu::kbP;
+	if (_name == "kbQ") return Gosu::kbQ;
+	if (_name == "kbR") return Gosu::kbR;
+	if (_name == "kbS") return Gosu::kbS;
+	if (_name == "kbT") return Gosu::kbT;
+	if (_name == "kbU") return Gosu::kbU;
+	if (_name == "kbV") return Gosu::kbV;
+	if (_name == "kbW") return Gosu::kbW;
+	if (_name == "kbX") return Gosu::kbX;
+	if (_name == "kbY") return Gosu::kbY;
+	if (_name == "kbZ") return Gosu::kbZ;
+	if (_name == "kbTab") return Gosu::kbTab;
+	if (_name == "kbReturn") return Gosu::kbReturn;
+	if (_name == "kbLeftShift") return Gosu::kbLeftShift;
+	if (_name == "kbRightShift") return Gosu::kbRightShift;
+	if (_name == "kbLeftControl") return Gosu::kbLeftControl;
+	if (_name == "kbRightControl") return Gosu::kbRightControl;
+	if (_name == "kbUp") return Gosu::kbUp;
+	if (_name == "kbDown") return Gosu::kbDown;
+	if (_name == "kbLeft") return Gosu::kbLeft;
+	if (_name == "kbRight") return Gosu::kbRight;
+}
+
 void InputManager::buttonDown(Gosu::Button _button)
 {
 	//Update chords
@@ -213,10 +265,10 @@ void InputManager::createAction(std::string _name)
 {
 	m_actions[_name].state = actnIdle;
 }
-void InputManager::createSequence(std::string _name, int _threshhold)
+void InputManager::createSequence(std::string _name, int _threshold)
 {
 	m_sequences[_name].state = actnIdle;
-	m_sequences[_name].threshold = _threshhold;
+	m_sequences[_name].threshold = _threshold;
 }
 void InputManager::createChord(std::string _name)
 {

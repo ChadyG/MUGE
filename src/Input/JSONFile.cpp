@@ -36,3 +36,9 @@ bool JSONFile::isAnArray(const std::string& name)
 {
      return checkType< json::grammar<char>::array >(name);
 }
+
+bool JSONFile::hasKey(const std::string& key, const boost::shared_ptr< boost::any > object)
+{
+	json::grammar< char >::object o = object ? boost::any_cast< json::grammar< char >::object >(*object) : this->config;
+    return (o.find(key) != o.end());
+}
