@@ -79,13 +79,13 @@ public:
 	void registerSpriteSheet(int _layer, SpriteSheet* _ss);
 
 	/// Static accessor to current render manager
-	static boost::shared_ptr< RenderManager > getCurrentContext() { return s_CurrentContext; }
+	static RenderManager* getCurrentContext() { return s_CurrentContext; }
 
 	/// Static setter for current render manager
-	static void setCurrentContext(RenderManager* _context) { s_CurrentContext.reset(_context); }
+	static void setCurrentContext(RenderManager* _context) { s_CurrentContext = _context; }
 
 protected:
-	static boost::shared_ptr< RenderManager > s_CurrentContext;
+	static RenderManager* s_CurrentContext;
 
 	
 	std::map< int, Gosu::Image* > m_Images;

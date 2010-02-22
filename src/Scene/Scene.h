@@ -83,7 +83,7 @@ protected:
 	void evalKey( json::grammar<char>::array::const_iterator _it, int _layer );
 	
 	// Game Data
-	boost::shared_ptr<Core> m_Engine;
+	Core* m_Engine;
 	
 	Gosu::Color m_canvasColor;
 	

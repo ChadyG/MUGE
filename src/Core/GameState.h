@@ -78,7 +78,7 @@ public:
 	
 protected:
 	
-	boost::shared_ptr<Core> m_Engine;
+	Core* m_Engine;
 	
 private:
 	bool m_hasFocus;

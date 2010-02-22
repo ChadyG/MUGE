@@ -235,6 +235,14 @@
 			Name="Input"
 			>
 			<File
+				RelativePath="..\src\Input\InputManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\Input\InputManager.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\Input\JSONFile.cpp"
 				>
 			</File>

@@ -59,7 +59,7 @@ void AdventureState::init()
 	m_Scene.reset( new Scene(Gosu::widen( jFile.get< std::string >("Levels[0]") )));
 	m_Scene->registerRenderManager();
 
-	boost::shared_ptr<RenderManager> rendMan = RenderManager::getCurrentContext();
+	RenderManager* rendMan = RenderManager::getCurrentContext();
 
 	arr = jFile.get<json::grammar<char>::array>("PlayerAnimations");
 	for (i = 0, it = arr.begin(); it != arr.end(); ++it, ++i) {

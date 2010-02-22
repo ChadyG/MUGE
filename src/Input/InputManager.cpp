@@ -1,11 +1,10 @@
 /*
    InputManager.cpp
-   Mizzou Game Engine
+   My Unnamed Game Engine
  
-   Created by Zach Conn on 02/12/09.
+   Created by Chad Godsey on 2/20/10.
   
-  
- Copyright 2009 Mizzou Game Design.
+ Copyright 2009 BlitThis! studios.
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
@@ -29,133 +28,228 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include "InputManager.hpp"
-#include <boost/algorithm/string.hpp>
-#include <cassert>
-#include <iostream>
+#include "InputManager.h"
 
-InputManager::InputManager() : bindingFile(JSONFile(Gosu::narrow(Gosu::resourcePrefix()) + "Data/commandBindings.json")), currentContext("Default")
+InputManager* InputManager::s_CurrentContext;
+
+void InputManager::buttonDown(Gosu::Button _button)
 {
-	buildButtonGosuValueTable();
+	//Update chords
+	std::map<std::string, chord>::iterator cit;
+	for (cit = m_chords.begin(); cit != m_chords.end(); cit++) {
+		std::list<btnVald>::iterator bit;
+		for (bit = cit->second.buttons.begin(); bit != cit->second.buttons.end(); bit++) {
+			if (bit->button == _button.getId()) {
+				bit->valid = true;
+				if (cit->second.state == actnIdle) {
+					cit->second.timer = 10;
+					cit->second.state = actnProcess;
+				}else{
+					//Check Start state
+					std::list<btnVald>::iterator bit2;
+					bool valid = true;
+					for (bit2 = cit->second.buttons.begin(); bit2 != cit->second.buttons.end(); bit2++) {
+						if (bit2->valid == false)
+							valid = false;
+					}
+					if (valid)
+						cit->second.state = actnBegin;
+				}
+			}
+		}
+	}
+	//Update sequences with start state
+	std::list<sequencebuff>::iterator sit;
+	for (sit = m_seqbuff.begin();sit != m_seqbuff.end(); sit++) {
+		if (sit->index == (sit->sequence->buttons.size()-1) &&_button.getId() == sit->sequence->buttons[sit->index]) {
+			sit->sequence->state = actnBegin;
+		}
+	}
+	//Update actions
+	std::map<std::string, action>::iterator ait;
+	for (ait = m_actions.begin();ait != m_actions.end(); ait++) {
+		std::list<Gosu::ButtonName>::iterator bit;
+		for (bit = ait->second.buttons.begin(); bit != ait->second.buttons.end(); bit++) {
+			if ((*bit) == _button.getId()) {
+				ait->second.state = actnBegin;
+			}
+		}
+	}
+}
+void InputManager::buttonUp(Gosu::Button _button)
+{
+	//Invalidate current sequences
+	//Update sequences
+	std::list<sequencebuff>::iterator sit = m_seqbuff.begin();
+	while (sit != m_seqbuff.end()) {
+		if (_button.getId() != sit->sequence->buttons[sit->index]) {
+			if (sit->sequence->state != actnActive) {
+				sit->sequence->state = actnIdle;
+				sit = m_seqbuff.erase(sit);
+				continue;
+			}
+		}else{
+			sit->timer = 10;
+			sit->index++;
+			if (sit->index == sit->sequence->buttons.size()) {
+				sit->sequence->state = actnFinish;
+				sit = m_seqbuff.erase(sit);
+				continue;
+			}
+		}
+		sit++;
+	}
+	//Start new sequences
+	std::map<std::string, sequence>::iterator ssit;
+	for (ssit = m_sequences.begin(); ssit != m_sequences.end(); ssit++) {
+		if (_button.getId() == ssit->second.buttons.front()) {
+			sequencebuff sb;
+			sb.index = 1;
+			sb.sequence = &(ssit->second);
+			sb.timer = 10;
+			sb.valid = true;
+			m_seqbuff.push_back(sb);
+		}
+	}
+	//Invalidate chords
+	std::map<std::string, chord>::iterator cit;
+	for (cit = m_chords.begin(); cit != m_chords.end(); cit++) {
+		std::list<btnVald>::iterator bit;
+		for (bit = cit->second.buttons.begin(); bit != cit->second.buttons.end(); bit++) {
+			if (bit->button == _button.getId()) {
+				if(cit->second.state == actnProcess)
+					cit->second.state = actnIdle;
+				else
+					cit->second.state = actnFinish;
+				cit->second.timer = -1;
+				std::list<btnVald>::iterator bit2;
+				for (bit2 = cit->second.buttons.begin(); bit2 != cit->second.buttons.end(); bit2++) {
+					bit2->valid = false;
+				}
+			}
+		}
+	}
+	//Update actions
+	std::map<std::string, action>::iterator ait;
+	for (ait = m_actions.begin();ait != m_actions.end(); ait++) {
+		std::list<Gosu::ButtonName>::iterator bit;
+		for (bit = ait->second.buttons.begin(); bit != ait->second.buttons.end(); bit++) {
+			if ((*bit) == _button.getId()) {
+				ait->second.state = actnFinish;
+			}
+		}
+	}
 }
 
-InputManager::~InputManager()
+void InputManager::update()
 {
-	buttonGosuValueAssociations.clear();
-	contexts.clear();
+	//Update chords
+	//Invalidate old chords
+	std::map<std::string, chord>::iterator cit;
+	for (cit = m_chords.begin(); cit != m_chords.end(); cit++) {
+		if(cit->second.state == actnBegin) {
+			cit->second.state = actnActive;
+		}else
+		if(cit->second.state == actnFinish) {
+			cit->second.state = actnIdle;
+		}else
+		if (cit->second.state == actnProcess && cit->second.timer <= 0) {
+			cit->second.state = actnIdle;
+			std::list<btnVald>::iterator bit;
+			for (bit = cit->second.buttons.begin(); bit != cit->second.buttons.end(); bit++) {
+				bit->valid = false;
+			}
+		}else{
+			cit->second.timer--;
+		}
+	}
+	//Invalidate old sequences
+	std::list<sequencebuff>::iterator sit = m_seqbuff.begin();
+	while (sit != m_seqbuff.end()) {
+		if (sit->timer <= 0 && sit->sequence->state != actnActive) {
+			sit = m_seqbuff.erase(sit);
+			continue;
+		}else{
+			sit->timer--;
+		}
+		sit++;
+	}
+	std::map<std::string, sequence>::iterator ssit;
+	for (ssit = m_sequences.begin(); ssit != m_sequences.end(); ssit++) {
+		if (ssit->second.state == actnBegin) {
+			ssit->second.state = actnActive;
+		}else
+		if (ssit->second.state == actnFinish) {
+			ssit->second.state = actnIdle;
+		}
+	}
+	//Update actions
+	std::map<std::string, action>::iterator ait;
+	for (ait = m_actions.begin();ait != m_actions.end(); ait++) {
+		if (ait->second.state == actnBegin) {
+			ait->second.state = actnActive;
+		}
+		if (ait->second.state == actnFinish) {
+			ait->second.state = actnIdle;
+		}
+	}
 }
 
-void InputManager::hookIntoCommand(const std::string& command, const CommandSignalType::slot_type& slot)
+InputManager::actionState InputManager::query(std::string _action)
 {
-     // -- Break "context.command:direction" into "context.command" and "direction"
-
-     std::vector< std::string > tokens;
-     boost::split(tokens, command, boost::is_any_of(":"));
-
-     std::string commandName = tokens.at(0);
-     //std::string key = bindingFile.get< std::string >(commandName);
-
-     std::string direction = boost::to_lower_copy(tokens.at(1));
-
-     // -- Extract "context" from "context.name"
-
-     boost::split(tokens, commandName, boost::is_any_of("."));
-
-     std::string contextName = tokens.at(0);
-
-     // -- Create a new context if necessary
-
-     if (contexts.find(contextName) == contexts.end())
-     {
-	  contexts[contextName] = std::pair< CommandTable, CommandTable >(CommandTable(), CommandTable());
-     }
-
-     // -- Find the appropriate command table based on "direction"
-
-     CommandTable& table = (direction == "down") ? contexts[contextName].first : contexts[contextName].second;
-
-     // -- We need to figure out if this is a single string or an array
-
-     if (bindingFile.isAnArray(commandName))
-     {
-	  // Loop through all the keys associated with this command and for each create a signal that hooks into the provided slot
-	  std::string key;
-	  int index = 0;
-
-	  while ((key = bindingFile.get< std::string >(commandName + "[" + boost::lexical_cast<std::string>(index) + "]")) != std::string())
-	  {
-	       hookSignalToSlot(key, table, slot);
-	       ++index;
-	  }
-     }
-     else
-     {
-	  std::string key = bindingFile.get< std::string >(commandName);
-	  hookSignalToSlot(key, table, slot);
-     }
+	if (m_sequences.find(_action) != m_sequences.end()) {
+		return m_sequences.find(_action)->second.state;
+	}else
+	if (m_chords.find(_action) != m_chords.end()) {
+		return m_chords.find(_action)->second.state;
+	}else
+	if (m_actions.find(_action) != m_actions.end()) {
+		return m_actions.find(_action)->second.state;
+	}else
+		return actnInvalid;
 }
 
-void InputManager::hookSignalToSlot(const std::string& key, CommandTable& table, const CommandSignalType::slot_type& slot)
+void InputManager::createAction(std::string _name)
 {
-     // -- Create a new signal if necessary
-     
-     Gosu::ButtonName buttonName = buttonGosuValueAssociations[key];
-     
-     if (table.find(buttonName) == table.end())
-     {
-	  table[buttonName] = CommandSignalPtr(new CommandSignalType());
-     }
-     
-     CommandSignalPtr sig = table[buttonName];
-     
-     // -- Finally, connect the slot to the signal
-     
-     sig->connect(slot);
+	m_actions[_name].state = actnIdle;
+}
+void InputManager::createSequence(std::string _name, int _threshhold)
+{
+	m_sequences[_name].state = actnIdle;
+	m_sequences[_name].threshold = _threshhold;
+}
+void InputManager::createChord(std::string _name)
+{
+	m_chords[_name].state = actnIdle;
+	m_chords[_name].timer = -1;
 }
 
-void InputManager::setCurrentContext(const std::string& newContext)
+void InputManager::bindAction(std::string _name, Gosu::ButtonName _button)
 {
-     currentContext = newContext;
+	m_actions[_name].buttons.push_back(_button);
+}
+void InputManager::clearAction(std::string _name)
+{
+	m_actions[_name].buttons.clear();
 }
 
-InputManager::CommandTable& InputManager::getDownCommandTableForCurrentContext()
+void InputManager::pushSequence(std::string _name, Gosu::ButtonName _button)
 {
-     return contexts[currentContext].first;
+	m_sequences[_name].buttons.push_back(_button);
+}
+void InputManager::clearSequence(std::string _name)
+{
+	m_sequences[_name].buttons.clear();
 }
 
-InputManager::CommandTable& InputManager::getUpCommandTableForCurrentContext()
+void InputManager::addChord(std::string _name, Gosu::ButtonName _button)
 {
-     return contexts[currentContext].second;
+	btnVald bv;
+	bv.button = _button;
+	bv.valid = false;
+	m_chords[_name].buttons.push_back(bv);
 }
-
-void InputManager::checkCommandTableForUpdates(CommandTable& table, Gosu::Button button)
+void InputManager::clearChord(std::string _name)
 {
-     for (CommandTable::const_iterator it = table.begin(); it != table.end(); ++it)
-     {
-	  if (button == (*it).first)
-	  {
-	       CommandSignalPtr sig = (*it).second;
-	       (*sig)();
-	  }
-     }
-}
-
-void InputManager::buttonDownHandler(Gosu::Button button)
-{
-     CommandTable& downCommands = getDownCommandTableForCurrentContext();
-     checkCommandTableForUpdates(downCommands, button);
-}
-
-void InputManager::buttonUpHandler(Gosu::Button button)
-{
-     CommandTable& upCommands = getUpCommandTableForCurrentContext();
-     checkCommandTableForUpdates(upCommands, button);
-}
-
-void InputManager::buildButtonGosuValueTable()
-{
-#define USE_INPUT_KEY(enumValue, textValue) \
-	buttonGosuValueAssociations[textValue] = enumValue;
-	#include "ButtonGosuValueTable.hpp"
-#undef USE_INPUT_KEY
+	m_chords[_name].buttons.clear();
 }

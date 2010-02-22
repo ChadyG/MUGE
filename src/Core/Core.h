@@ -29,6 +29,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include <Gosu/Gosu.hpp>
 #include <stack>
 #include <queue>
+#include "../Input/InputManager.h"
+
+#include <string>
 
 class GameState;
 
@@ -63,25 +66,25 @@ public:
 	void draw();
 
 	/// Input event callback from Gosu, sent to current state.
-	void buttonDown(Gosu::Button button);
+	void buttonDown(Gosu::Button _button);
 	
 	/// Input event callback from Gosu, sent to current state.
-	void buttonUp(Gosu::Button button);
+	void buttonUp(Gosu::Button _button);
 	
 	/// Returns dynamic FPS calculation
 	int getFPS();
 
 	/// Static accessor to current state manager (central game class)
-	static boost::shared_ptr< Core > getCurrentContext() { return s_CurrentContext; }
+	static Core* getCurrentContext() { return s_CurrentContext; }
 
 	/// Static setter for current state manager
-	static void setCurrentContext(Core* _context) { s_CurrentContext.reset(_context); }
+	static void setCurrentContext(Core* _context) { s_CurrentContext = _context; }
 	
 private:
 	
-	static boost::shared_ptr< Core > s_CurrentContext;
+	static Core* s_CurrentContext;
 
-	//InputManager inputManager;
+	InputManager m_inputManager;
 	std::stack< boost::shared_ptr<GameState> > m_States;
 	std::queue< boost::shared_ptr<GameState> > m_NextStates;
 	
@@ -91,6 +94,8 @@ private:
 	
 	bool m_stackDirty;
 
+	Gosu::Font *m_font;
+	std::wstring m_message;
 };
 /*
 namespace Core

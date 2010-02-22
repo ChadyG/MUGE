@@ -61,7 +61,7 @@ sruct SongPlay
 class AudioManager
 {
 public:
-	AudioManager() {}
+	AudioManager() : m_curSampleID(0), m_curSongID(0), m_camX(0), m_camY(0), m_camZoom(0), m_camRot(0) {}
 
 	void setCamera( float _x, float _y, float _zoom = 1.f, float _rot = 0.f )
 	{
@@ -84,6 +84,9 @@ public:
 	void playAmbientSample( int _id, double _volume = 1.0, double _speed = 1.0 );
 	void playStereoSample( int _id, double _x, double _y, double _volume = 1.0, double _speed = 1.0 );
 
+	bool songPlaying( int _id ) const { return m_Songs[m_SongMap[_id]]->playing(); }
+	bool songPaused( int _id ) const { return m_Songs[m_SongMap[_id]]->paused(); }
+
 	void stopSong( int _id );
 	void pauseSong( int _id );
 
@@ -97,10 +100,10 @@ protected:
 
 	static boost::shared_ptr< AudioManager > s_CurrentContext;
 
-	std::map< int, boost::shared_ptr<Gosu::Sample> > m_Samples;
+	std::map< int, Gosu::Sample* > m_Samples;
 	std::map< std::string, int > m_SampleMap;
 	
-	std::map< int, boost::shared_ptr<Gosu::Song> > m_Songs;
+	std::map< int, Gosu::Song* > m_Songs;
 	std::map< std::string, int > m_SongMap;
 
 	std::queue< SamplePlay > m_SampleQ;

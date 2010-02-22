@@ -30,8 +30,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include "GameState.h"
 #include <boost/bind.hpp>
 
-
-boost::shared_ptr< Core > Core::s_CurrentContext;
+Core* Core::s_CurrentContext;
 
 /**
 * Entry point to the engine
@@ -41,23 +40,22 @@ boost::shared_ptr< Core > Core::s_CurrentContext;
 Core::Core(int _width, int _height, bool _fullscreen, double _updateInterval)
 : Gosu::Window(_width, _height, _fullscreen, _updateInterval)
 {
-	//inputManager.hookIntoCommand("Menu.Quit:Down", boost::bind(&Core::quitHandler, this));
-	//inputManager.setCurrentContext("Menu");
-	
+	InputManager::setCurrentContext( &m_inputManager );
+
 	m_curFPS = 1;
 	m_curTicks = 0;
 	m_lastSecond = Gosu::milliseconds()/1000;
 	m_stackDirty = false;
 }
 
-void Core::buttonDown(Gosu::Button button)
+void Core::buttonDown(Gosu::Button _button)
 {
-	//inputManager.buttonDownHandler(button);
+	m_inputManager.buttonDown(_button);
 }
 
-void Core::buttonUp(Gosu::Button button)
+void Core::buttonUp(Gosu::Button _button)
 {
-	//inputManager.buttonUpHandler(button);
+	m_inputManager.buttonUp(_button);
 }
 
 void Core::changeState( GameState *state )
@@ -66,12 +64,8 @@ void Core::changeState( GameState *state )
 	if (!m_States.empty()) {
 		m_States.top()->setFocus(false);
 		m_States.top()->setDirty();
-		//m_States.top()->cleanup();
-		//m_States.pop();
 	}
 	m_NextStates.push( boost::shared_ptr<GameState>(state) );
-	//m_States.push(state);
-	//state->init(this);
 }
 
 void Core::pushState( GameState *state )
@@ -80,8 +74,6 @@ void Core::pushState( GameState *state )
 	if (!m_States.empty())
 		m_States.top()->setFocus(false);
 	m_NextStates.push( boost::shared_ptr<GameState>(state) );
-	//m_States.push(state);
-	//state->init(this);
 }
 
 void Core::popState()
@@ -89,8 +81,6 @@ void Core::popState()
 	m_stackDirty = true;
 	m_States.top()->setFocus(false);
 	m_States.top()->setDirty();
-	//m_States.top()->cleanup();
-	//m_States.pop();
 	if (m_States.empty()) 
 		close();
 }
@@ -128,24 +118,18 @@ void Core::update()
 		
 	if (input().down(Gosu::kbEscape))
 		close();
+
+	// Done last as to keep queries valid for each game tick
+	m_inputManager.update();
 }
 
 void Core::draw()
 {
+	m_font->draw(m_message, 4, 4, 15);
 	if (!m_States.empty())
 		m_States.top()->draw();
 }
 /*
-void Core::hookIntoCommand(const std::string& command, const InputManager::CommandSignalType::slot_type& slot)
-{
-	inputManager.hookIntoCommand(command, slot);
-}
-
-void Core::setCurrentContext(const std::string& newContext)
-{
-	inputManager.setCurrentContext(newContext);
-}
-
 void Core::quitHandler()
 {
 	close();
