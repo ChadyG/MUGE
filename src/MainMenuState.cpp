@@ -103,6 +103,7 @@ void MainMenuState::update()
 		m_Music->play();
 	}
 	
+	InputManager* input = InputManager::getCurrentContext();
 	
 	// Mouse stuff
 	bool lClick = false;
@@ -110,20 +111,14 @@ void MainMenuState::update()
 	m_mousePos.y = m_Engine->input().mouseY();
 	if (m_mousePos.x > 200 && m_mousePos.x < 310 && m_mousePos.y > 200 && m_mousePos.y < 360) {
 		m_CursorPos = (m_mousePos.y - 200)/45;
+		if (input->query("Menu.MouseSelect") == InputManager::actnBegin) {
+			lClick = true;
+		}
 	}
 	
-	if (m_Engine->input().down(Gosu::msLeft)) {
-		// Is this a new click or hold?
-		if (!m_msLeftHeld) {
-			// Are we over the menu items?
-			if (m_mousePos.x > 200 && m_mousePos.x < 310 && m_mousePos.y > 200 && m_mousePos.y < 360) {
-				lClick = true;
-			}
-		}
-		m_msLeftHeld = true;																																							
-	}else
-		m_msLeftHeld = false;
-
+	if (input->query("Menu.Select") == InputManager::actnBegin) {
+		lClick = true;
+	}
 	
 	// Selection sounds
 	if (m_lastCursorPos != m_CursorPos) {

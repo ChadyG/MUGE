@@ -35,24 +35,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include <map>
 #include <queue>
 
-struct SamplePlay
-{
-	int sampleID;
-	double volume;
-	double speed;
-	bool loop;
-	bool ambient;
-	float x, y;
-};
-
-struct SongPlay
-{
-	int songID;
-	double volume;
-	double speed;
-	bool loop;
-};
-
 /**
 *	Provide interface for audio resource management
 *	-stereo output based on scene/camera
@@ -63,6 +45,10 @@ class AudioManager
 public:
 	AudioManager() : m_camX(0), m_camY(0), m_camZoom(0), m_camRot(0) {}
 
+	void setScreen( int _w, int _h, int _s)
+	{
+		m_screenW = _w; m_screenH = _h; m_screenScale = _s;
+	};
 	void setCamera( float _x, float _y, float _zoom = 1.f, float _rot = 0.f )
 	{
 		m_camX = _x; m_camY = _y, m_camZoom = _zoom; m_camRot = _rot;
@@ -75,7 +61,7 @@ public:
 	/// create a song
 	void createSong(std::wstring _filename, std::string _name);
 
-	void playSong( std::string _name, double _volume = 1.0, double _speed = 1.0 );
+	void playSong( std::string _name, bool _loop = false, double _volume = 1.0 );
 	void playAmbientSample( std::string _name, double _volume = 1.0, double _speed = 1.0 );
 	void playStereoSample( std::string _name, double _x, double _y, double _volume = 1.0, double _speed = 1.0 );
 
@@ -92,6 +78,23 @@ public:
 	static void setCurrentContext(AudioManager* _context) { s_CurrentContext = _context; }
 
 protected:
+	struct SamplePlay
+	{
+		int sampleID;
+		double volume;
+		double speed;
+		bool loop;
+		bool ambient;
+		float x, y;
+	};
+
+	struct SongPlay
+	{
+		int songID;
+		double volume;
+		double speed;
+		bool loop;
+	};
 
 	static AudioManager* s_CurrentContext;
 
@@ -102,6 +105,7 @@ protected:
 	std::queue< SongPlay > m_SongQ;
 
 	float m_camX, m_camY, m_camZoom, m_camRot;
+	int m_screenW, m_screenH, m_screenScale;
 };
 
 

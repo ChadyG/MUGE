@@ -16,7 +16,12 @@
 		},
 		{
 			"Action" : "Menu.Select",
-			"Key" : "kbEnter",
+			"Keys" : ["kbEnter", "kbSpace"],
+			"Type" : "action"
+		},
+		{
+			"Action" : "Menu.MouseSelect",
+			"Key" : "msLeft",
 			"Type" : "action"
 		},
 		{
@@ -27,6 +32,11 @@
 		{
 			"Action" : "Play.MoveLeft",
 			"Key" : "kbLeft",
+			"Type" : "action"
+		},
+		{
+			"Action" : "Play.Run",
+			"Key" : "kbLeftShift",
 			"Type" : "action"
 		}
 	]

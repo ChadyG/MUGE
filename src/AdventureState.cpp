@@ -57,7 +57,7 @@ void AdventureState::init()
 	std::string tString;
 	
 	m_Scene.reset( new Scene(Gosu::widen( jFile.get< std::string >("Levels[0]") )));
-	m_Scene->registerRenderManager();
+	m_Scene->registerManagers();
 
 	RenderManager* rendMan = RenderManager::getCurrentContext();
 
@@ -67,12 +67,7 @@ void AdventureState::init()
 			Gosu::resourcePrefix() + L"Images/" + Gosu::widen(jFile.get< std::string >("FileName", *it)), 
 			jFile.get< int >("Width", *it),
 			jFile.get< int >("Height", *it),
-			jFile.get< int >("Duration", *it));//new SpriteSheet();
-		//anim->setImage( 
-		//	Gosu::resourcePrefix() + L"Images/" + Gosu::widen(jFile.get< std::string >("FileName", *it)), 
-		//	jFile.get< int >("Width", *it),
-		//	jFile.get< int >("Height", *it),
-		//	jFile.get< int >("Duration", *it));
+			jFile.get< int >("Duration", *it));
 		m_Player.addSpriteSheet( jFile.get< std::string >("Name", *it), anim );
 	}
 	

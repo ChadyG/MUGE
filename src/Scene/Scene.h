@@ -31,6 +31,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include <Box2D.h>
 #include <map>
 #include <list>
+#include "../Audio/AudioManager.h"
 #include "../Graphics/RenderManager.h"
 #include "SceneObject.h"
 #include "../Input/JSONFile.hpp"
@@ -61,9 +62,9 @@ class Scene
 public:
 	Scene(std::wstring _config );
 
-	~Scene() { RenderManager::setCurrentContext( NULL ); }
+	~Scene() { RenderManager::setCurrentContext( NULL ); AudioManager::setCurrentContext( NULL ); }
 
-	void registerRenderManager() { RenderManager::setCurrentContext( &m_rendMan ); }
+	void registerManagers() { RenderManager::setCurrentContext( &m_rendMan ); AudioManager::setCurrentContext( &m_audMan ); }
 	
 	void tellPlayer( Player *_player );
 
@@ -93,9 +94,9 @@ protected:
 	std::map< std::string, Gosu::ZPos > m_LayerNames;
 
 	RenderManager m_rendMan;
+	AudioManager m_audMan;
 	
 	// Scene stuff
-	boost::scoped_ptr< Gosu::Song > m_Music;
 	Player *m_Player;
 	b2Vec2 m_PlayerPos;
 	
@@ -115,5 +116,4 @@ protected:
 	double m_Rot, m_Orientation;
 	int m_Scale;
 	int m_Width, m_Height;
-	
 };

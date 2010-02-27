@@ -92,7 +92,7 @@ Sprite* RenderManager::createSprite(int _layer, std::wstring _filename)
 {
 	//m_Sprites[m_CurSpriteID] = new Sprite();
 	Sprite tsprite;
-	if (m_ImageMap.find(_filename) != m_ImageMap.end()) {
+	if (m_ImageMap.find(_filename) == m_ImageMap.end()) {
 		m_Images[m_curImageID] = new Gosu::Image(Core::getCurrentContext()->graphics(),_filename);
 		m_ImageMap[_filename] = m_curImageID++;
 	}

@@ -35,8 +35,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 Scene::Scene(std::wstring _config)
 {
 	m_Engine = Core::getCurrentContext();
-
-	//RenderManager::setCurrentContext(&m_rendMan);
 	
 	m_TimeStep = 1.0f / 50.0f;
 	m_Iterations = 10.0f;
@@ -88,8 +86,9 @@ Scene::Scene(std::wstring _config)
 	// Coordinate transform stuff for world -> screen
 	m_Scale = m_jFile->get< int >("Scale");
 
-	// Configure render manager for screen transformation
+	// Configure render/audio manager for screen transformation
 	m_rendMan.setScreen( m_Width, m_Height, m_Scale );
+	m_audMan.setScreen( m_Width, m_Height, m_Scale );
 	
 	// Dig down to the actual scene objects
 	arr = m_jFile->get<json::grammar<char>::array>("Layers");
@@ -109,10 +108,12 @@ Scene::Scene(std::wstring _config)
 		evalJSON(arr2, layer);
 	}
 	
-	//This is dumb, fix it!
-	m_Music.reset( new Gosu::Song( m_Engine->audio(), Gosu::resourcePrefix() + L"Sound/Colugo-Fantastic_face.ogg"));
-	m_Music->play(true);
-	
+	//Pass off song creation/management to manager
+	//  this way anyone can pause the music if needed
+	m_audMan.createSong(
+		Gosu::resourcePrefix() + L"Sound/" + Gosu::widen( m_jFile->get<std::string>("Music")), 
+		"Background");
+	m_audMan.playSong("Background", true);
 }
 
 //void Scene::addSprite( SceneObject &_object, Gosu::ZPos _layer )
@@ -151,13 +152,10 @@ void Scene::evalSprite( json::grammar<char>::array::const_iterator _it, int _lay
 {
 	Sprite* tSprite = m_rendMan.createSprite(_layer,
 		Gosu::resourcePrefix() + L"Images/" + Gosu::widen( m_jFile->get<std::string>("Image", *_it) ));
-		//new Sprite();
-	//SceneObject tObject;
+
 	std::string tString = m_jFile->get<std::string>("Name", *_it);
-	//tSprite->setImage( 
-	//	Gosu::resourcePrefix() + L"Images/" + Gosu::widen( m_jFile->get<std::string>("Image", *_it) ) );
 	
-	/*
+	/* Use this later
 	tObject.setPosition( 
 		b2Vec2(m_jFile->get< double >("Position[0]", *_it) * m_Layers[_layer].scale, 
 		m_jFile->get< double >("Position[1]", *_it) * m_Layers[_layer].scale));
@@ -212,7 +210,6 @@ void Scene::tellPlayer( Player *_player )
 	m_Player = _player;
 	m_Player->setPhysics( m_PlayerPos.x, m_PlayerPos.y, m_World);
 	m_Player->setLayer( 3 );
-	//m_Player->registerSheets( &m_rendMan );
 }
 
 void Scene::update()
@@ -225,12 +222,13 @@ void Scene::update()
 	b2Vec2 m_PlayerPos = m_Player->getPosition();
 
 	m_rendMan.updateSpriteSheets();
+	InputManager* input = InputManager::getCurrentContext();
 	
 	// Test Zoom
-	if (m_Engine->input().down(Gosu::kbUp)) {
+	if (m_Engine->input().down(Gosu::kbUp) && m_Zoom < 2.0) {
 		m_Zoom += 0.01;
 	}
-	if (m_Engine->input().down(Gosu::kbDown)) {
+	if (m_Engine->input().down(Gosu::kbDown) && m_Zoom > 1.0) {
 		m_Zoom -= 0.01;
 	}
 	
@@ -251,6 +249,7 @@ void Scene::update()
 	m_Offset[1] = m_Height - m_Focus[1]*m_Scale*m_Zoom - m_Height/2;
 
 	m_rendMan.setCamera( m_Focus[0], m_Focus[1], m_Zoom, m_Rot);
+	m_audMan.setCamera( m_Focus[0], m_Focus[1], m_Zoom, m_Rot);
 	
 	// Update scene objects
 	// Do callbacks for areas

@@ -74,6 +74,7 @@ Gosu::ButtonName InputManager::strToButton(std::string _name)
 	if (_name == "kbZ") return Gosu::kbZ;
 	if (_name == "kbTab") return Gosu::kbTab;
 	if (_name == "kbReturn") return Gosu::kbReturn;
+	if (_name == "kbEnter") return Gosu::kbEnter;
 	if (_name == "kbLeftShift") return Gosu::kbLeftShift;
 	if (_name == "kbRightShift") return Gosu::kbRightShift;
 	if (_name == "kbLeftControl") return Gosu::kbLeftControl;
@@ -82,6 +83,14 @@ Gosu::ButtonName InputManager::strToButton(std::string _name)
 	if (_name == "kbDown") return Gosu::kbDown;
 	if (_name == "kbLeft") return Gosu::kbLeft;
 	if (_name == "kbRight") return Gosu::kbRight;
+	
+	if (_name == "msLeft") return Gosu::msLeft;
+	if (_name == "msRight") return Gosu::msRight;
+	if (_name == "msMiddle") return Gosu::msMiddle;
+	if (_name == "msWheelUp") return Gosu::msWheelUp;
+	if (_name == "msWheelDown") return Gosu::msWheelDown;
+
+	return Gosu::noButton;
 }
 
 void InputManager::buttonDown(Gosu::Button _button)

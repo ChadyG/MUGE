@@ -72,7 +72,7 @@ int main(int argc, char* argv[])
 			}else{
 				//There are multiple keys to be bound
 				arr2 = jFile.get<json::grammar<char>::array>("Keys", *it);
-				for (i = 0,it2 = arr.begin(); it2 != arr2.end(); ++it2, ++i) {
+				for (i = 0,it2 = arr2.begin(); it2 != arr2.end(); ++it2, ++i) {
 					str2 = jFile.get< std::string >("Keys[" + boost::lexical_cast<std::string>(i) + "]", *it);
 					iman->bindAction(str, InputManager::strToButton(str2));
 				}

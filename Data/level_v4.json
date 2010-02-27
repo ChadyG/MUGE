@@ -3,6 +3,7 @@
 	"Scale" : 32,
 	"Physics" : true,
 	"PlayerSpawn" : [ -6.0, 4.5],
+	"Music" : "Colugo-Fantastic_face.ogg",
 	"PhysicsShapes" : [
 		{
 			"Type" : "Rectangle",

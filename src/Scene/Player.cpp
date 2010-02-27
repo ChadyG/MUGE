@@ -32,7 +32,8 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include <Box2D.h>
 #include "Player.h"
 #include "../Graphics/SpriteSheet.h"
-#include "../Graphics/RenderManager.h"
+#include "../Audio/AudioManager.h"
+#include "../Input/InputManager.h"
 
 Player::Player()
 {
@@ -89,33 +90,26 @@ void Player::onHit(SceneObject &other, b2ContactPoint &point)
 
 void Player::update()
 {
-	Gosu::Input& input = Core::getCurrentContext()->input();
+	InputManager* input = InputManager::getCurrentContext();
 	//m_Pos = m_Body->GetPosition();
 	
-	if (input.down(Gosu::kbLeft)) {
+	if (input->query("Play.MoveLeft") == InputManager::actnActive) {
 		m_AnimState->setVisible(false);
 		m_AnimState = m_Anims["WalkLeft"];
 		m_AnimState->setVisible(true);
 		m_Pos.x -= 0.1;
-		if (input.down(Gosu::kbLeftShift)) 
+		if (input->query("Play.Run") == InputManager::actnActive) 
 			m_Pos.x -= 0.1;
 	}
-	if (input.down(Gosu::kbRight)) {
+	if (input->query("Play.MoveRight") == InputManager::actnActive) {
 		m_AnimState->setVisible(false);
 		m_AnimState = m_Anims["Walk"];
 		m_AnimState->setVisible(true);
 		m_Pos.x += 0.1;
-		if (input.down(Gosu::kbLeftShift)) 
+		if (input->query("Play.Run") == InputManager::actnActive)
 			m_Pos.x += 0.1;
 	}
 
 	m_AnimState->setX( m_Pos.x );
 	m_AnimState->setY( m_Pos.y );
-	//m_AnimState->update();
 }
-/*
-void Player::draw() const
-{
-	m_AnimState->draw(  m_Pos.x, m_Pos.y, m_Layer);
-}
-*/
