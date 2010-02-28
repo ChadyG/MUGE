@@ -72,18 +72,57 @@ Gosu::ButtonName InputManager::strToButton(std::string _name)
 	if (_name == "kbX") return Gosu::kbX;
 	if (_name == "kbY") return Gosu::kbY;
 	if (_name == "kbZ") return Gosu::kbZ;
+
+	if (_name == "kbEscape") return Gosu::kbEscape;
 	if (_name == "kbTab") return Gosu::kbTab;
 	if (_name == "kbReturn") return Gosu::kbReturn;
 	if (_name == "kbEnter") return Gosu::kbEnter;
+	if (_name == "kbSpace") return Gosu::kbSpace;
 	if (_name == "kbLeftShift") return Gosu::kbLeftShift;
 	if (_name == "kbRightShift") return Gosu::kbRightShift;
 	if (_name == "kbLeftControl") return Gosu::kbLeftControl;
 	if (_name == "kbRightControl") return Gosu::kbRightControl;
+
 	if (_name == "kbUp") return Gosu::kbUp;
 	if (_name == "kbDown") return Gosu::kbDown;
 	if (_name == "kbLeft") return Gosu::kbLeft;
 	if (_name == "kbRight") return Gosu::kbRight;
+
+	if (_name == "kbF1") return Gosu::kbF1;
+	if (_name == "kbF2") return Gosu::kbF2;
+	if (_name == "kbF3") return Gosu::kbF3;
+	if (_name == "kbF4") return Gosu::kbF4;
+	if (_name == "kbF5") return Gosu::kbF5;
+	if (_name == "kbF6") return Gosu::kbF6;
+	if (_name == "kbF7") return Gosu::kbF7;
+	if (_name == "kbF8") return Gosu::kbF8;
+	if (_name == "kbF9") return Gosu::kbF9;
+	if (_name == "kbF10") return Gosu::kbF10;
+	if (_name == "kbF11") return Gosu::kbF11;
+	if (_name == "kbF12") return Gosu::kbF12;
 	
+	if (_name == "gpLeft") return Gosu::gpLeft;
+	if (_name == "gpUp") return Gosu::gpUp;
+	if (_name == "gpRight") return Gosu::gpRight;
+	if (_name == "gpDown") return Gosu::gpDown;
+	
+	if (_name == "gp0") return Gosu::gp0;
+	if (_name == "gp1") return Gosu::gp1;
+	if (_name == "gp2") return Gosu::gp2;
+	if (_name == "gp3") return Gosu::gp3;
+	if (_name == "gp4") return Gosu::gp4;
+	if (_name == "gp5") return Gosu::gp5;
+	if (_name == "gp6") return Gosu::gp6;
+	if (_name == "gp7") return Gosu::gp7;
+	if (_name == "gp8") return Gosu::gp8;
+	if (_name == "gp9") return Gosu::gp9;
+	if (_name == "gp10") return Gosu::gp10;
+	if (_name == "gp11") return Gosu::gp11;
+	if (_name == "gp12") return Gosu::gp12;
+	if (_name == "gp13") return Gosu::gp13;
+	if (_name == "gp14") return Gosu::gp14;
+	if (_name == "gp15") return Gosu::gp15;
+
 	if (_name == "msLeft") return Gosu::msLeft;
 	if (_name == "msRight") return Gosu::msRight;
 	if (_name == "msMiddle") return Gosu::msMiddle;
