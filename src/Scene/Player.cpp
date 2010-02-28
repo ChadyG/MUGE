@@ -37,7 +37,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 Player::Player()
 {
-
+	m_AnimState = NULL;
 }
 
 void Player::setPhysics( double _x, double _y, b2World* _world)
@@ -47,13 +47,13 @@ void Player::setPhysics( double _x, double _y, b2World* _world)
 
 	m_World = _world;
 	b2CircleDef cDef;
-	cDef.radius = 1.75;
-	cDef.density = 0.25;
-	cDef.friction = 5.0;
-	cDef.restitution = 0.25;
+	cDef.radius = 1.0;
+	cDef.density = 1.0;
+	cDef.friction = 1.3;
+	cDef.restitution = 0.3;
 	b2BodyDef bDef;
+	bDef.userData = this;
 	bDef.position.Set( _x, _y );
-	bDef.userData = (void *)this;
 	bDef.linearDamping = 0.5f;
 	bDef.angularDamping = 0.5f;
 	//bDef.fixedRotation = true;
@@ -65,8 +65,10 @@ void Player::setPhysics( double _x, double _y, b2World* _world)
 void Player::addSpriteSheet(std::string _name, SpriteSheet* _anim)
 {
 	m_Anims[_name] = _anim;
+	if (m_AnimState)
+		m_AnimState->setVisible(false);
 	m_AnimState = m_Anims[_name];
-	m_AnimState->setVisible(false);
+	m_AnimState->setVisible(true);
 }
 
 void Player::setLayer(Gosu::ZPos _z)
@@ -83,7 +85,22 @@ void Player::setGravity( b2Vec2 _gravity )
 	m_Gravity = _gravity;
 }
 
-void Player::onHit(SceneObject &other, b2ContactPoint &point)
+void Player::onColStart( SceneObject *other, b2ContactPoint point) 
+{
+	
+}
+
+void Player::onColPersist( SceneObject *other, b2ContactPoint point) 
+{
+	
+}
+
+void Player::onColFinish( SceneObject *other, b2ContactPoint point) 
+{
+	
+}
+
+void Player::onMessage(std::string _message)
 {
 
 }
@@ -91,25 +108,26 @@ void Player::onHit(SceneObject &other, b2ContactPoint &point)
 void Player::update()
 {
 	InputManager* input = InputManager::getCurrentContext();
-	//m_Pos = m_Body->GetPosition();
+	m_Pos = m_Body->GetPosition();
 	
 	if (input->query("Play.MoveLeft") == InputManager::actnActive) {
-		m_AnimState->setVisible(false);
-		m_AnimState = m_Anims["WalkLeft"];
-		m_AnimState->setVisible(true);
-		m_Pos.x -= 0.1;
+		//m_AnimState->setVisible(false);
+		//m_AnimState = m_Anims["WalkLeft"];
+		//m_AnimState->setVisible(true);
+		m_Body->ApplyImpulse( b2Vec2(-m_Gravity.y, m_Gravity.x), m_Pos );
 		if (input->query("Play.Run") == InputManager::actnActive) 
-			m_Pos.x -= 0.1;
+			m_Body->ApplyImpulse( b2Vec2(-m_Gravity.y, m_Gravity.x), m_Pos );
 	}
 	if (input->query("Play.MoveRight") == InputManager::actnActive) {
-		m_AnimState->setVisible(false);
-		m_AnimState = m_Anims["Walk"];
-		m_AnimState->setVisible(true);
-		m_Pos.x += 0.1;
+		//m_AnimState->setVisible(false);
+		//m_AnimState = m_Anims["Walk"];
+		//m_AnimState->setVisible(true);
+		m_Body->ApplyImpulse( b2Vec2(m_Gravity.y, -m_Gravity.x), m_Pos );
 		if (input->query("Play.Run") == InputManager::actnActive)
-			m_Pos.x += 0.1;
+			m_Body->ApplyImpulse( b2Vec2(m_Gravity.y, -m_Gravity.x), m_Pos );
 	}
 
 	m_AnimState->setX( m_Pos.x );
 	m_AnimState->setY( m_Pos.y );
+	m_AnimState->setAngle( Gosu::angle( m_Gravity.x, m_Gravity.y, 0.0, 0.0) );
 }

@@ -63,7 +63,22 @@ void SceneObject::update()
 {
 }
 
-void SceneObject::onHit( SceneObject &other, b2ContactPoint &point) 
+void SceneObject::onColStart( SceneObject *other, b2ContactPoint point) 
+{
+	
+}
+
+void SceneObject::onColPersist( SceneObject *other, b2ContactPoint point) 
+{
+	
+}
+
+void SceneObject::onColFinish( SceneObject *other, b2ContactPoint point) 
+{
+	
+}
+
+void SceneObject::onMessage(std::string _message) 
 {
 	
 }

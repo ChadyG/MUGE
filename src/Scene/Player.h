@@ -58,7 +58,10 @@ public:
 	
 	void setGravity( b2Vec2 _gravity );
 	
-	void onHit(SceneObject &other, b2ContactPoint &point);
+	void onColStart(SceneObject *other, b2ContactPoint point);
+	void onColPersist(SceneObject *other, b2ContactPoint point);
+	void onColFinish(SceneObject *other, b2ContactPoint point);
+	void onMessage(std::string _message);
 	
 	void update();
 	

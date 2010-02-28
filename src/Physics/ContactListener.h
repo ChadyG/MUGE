@@ -35,6 +35,22 @@ OTHER DEALINGS IN THE SOFTWARE.
 #ifndef CONTACTLISTENER_H
 #define CONTACTLISTENER_H
 
+class SceneObject;
+
+enum mugeContactState {
+	eConStart,
+	eConPersist,
+	eConFinish,
+	eConDefunct
+};
+
+struct mugeContact
+{
+	SceneObject *obj1, *obj2;
+	b2ContactPoint contact;
+	mugeContactState state;
+};
+
 /**
 * Used by Box2D to provide physics callbacks
 * derived functions are called during CCD and 
@@ -56,13 +72,13 @@ public:
 
 class AdventureListener : public b2ContactListener
 {
-	std::vector< b2ContactPoint > m_Contacts;
+	std::vector< mugeContact > m_Contacts;
 public:
 	void Add(const b2ContactPoint* point);
 	void Persist(const b2ContactPoint* point);
 	void Remove(const b2ContactPoint* point);
 	void Result(const b2ContactResult* point);
-	int Update();
+	void Update();
 };
 
 #endif

@@ -84,7 +84,12 @@ public:
 	virtual void update();
 
 	/// Physics callback
-	virtual void onHit(SceneObject &other, b2ContactPoint &point);
+	virtual void onColStart(SceneObject *other, b2ContactPoint point);
+	virtual void onColPersist(SceneObject *other, b2ContactPoint point);
+	virtual void onColFinish(SceneObject *other, b2ContactPoint point);
+
+	/// Message passing
+	virtual void onMessage(std::string _message);
 	
 protected:
 	b2Vec2 m_Position;
