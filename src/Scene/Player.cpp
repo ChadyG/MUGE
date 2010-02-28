@@ -44,7 +44,7 @@ void Player::setPhysics( double _x, double _y, b2World* _world)
 {
 	m_Pos.x = _x;
 	m_Pos.y = _y;
-
+/*
 	m_World = _world;
 	b2CircleDef cDef;
 	cDef.radius = 1.0;
@@ -60,6 +60,7 @@ void Player::setPhysics( double _x, double _y, b2World* _world)
 	m_Body = m_World->CreateBody( &bDef );
 	m_Body->CreateShape( &cDef );
 	m_Body->SetMassFromShapes();
+*/
 }
 
 void Player::addSpriteSheet(std::string _name, SpriteSheet* _anim)
@@ -111,20 +112,20 @@ void Player::update()
 	m_Pos = m_Body->GetPosition();
 	
 	if (input->query("Play.MoveLeft") == InputManager::actnActive) {
-		//m_AnimState->setVisible(false);
-		//m_AnimState = m_Anims["WalkLeft"];
-		//m_AnimState->setVisible(true);
-		m_Body->ApplyImpulse( b2Vec2(-m_Gravity.y, m_Gravity.x), m_Pos );
+		m_AnimState->setVisible(false);
+		m_AnimState = m_Anims["WalkLeft"];
+		m_AnimState->setVisible(true);
+		m_Pos.x -= 0.1;
 		if (input->query("Play.Run") == InputManager::actnActive) 
-			m_Body->ApplyImpulse( b2Vec2(-m_Gravity.y, m_Gravity.x), m_Pos );
+			m_Pos.x -= 0.1;
 	}
 	if (input->query("Play.MoveRight") == InputManager::actnActive) {
-		//m_AnimState->setVisible(false);
-		//m_AnimState = m_Anims["Walk"];
-		//m_AnimState->setVisible(true);
-		m_Body->ApplyImpulse( b2Vec2(m_Gravity.y, -m_Gravity.x), m_Pos );
+		m_AnimState->setVisible(false);
+		m_AnimState = m_Anims["Walk"];
+		m_AnimState->setVisible(true);
+		m_Pos.x += 0.1;
 		if (input->query("Play.Run") == InputManager::actnActive)
-			m_Body->ApplyImpulse( b2Vec2(m_Gravity.y, -m_Gravity.x), m_Pos );
+			m_Pos.x += 0.1
 	}
 
 	m_AnimState->setX( m_Pos.x );
