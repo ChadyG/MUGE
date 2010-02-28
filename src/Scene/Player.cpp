@@ -125,7 +125,7 @@ void Player::update()
 		m_AnimState->setVisible(true);
 		m_Pos.x += 0.1;
 		if (input->query("Play.Run") == InputManager::actnActive)
-			m_Pos.x += 0.1
+			m_Pos.x += 0.1;
 	}
 
 	m_AnimState->setX( m_Pos.x );
