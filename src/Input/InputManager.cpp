@@ -106,22 +106,22 @@ Gosu::ButtonName InputManager::strToButton(std::string _name)
 	if (_name == "gpRight") return Gosu::gpRight;
 	if (_name == "gpDown") return Gosu::gpDown;
 	
-	if (_name == "gp0") return Gosu::gp0;
-	if (_name == "gp1") return Gosu::gp1;
-	if (_name == "gp2") return Gosu::gp2;
-	if (_name == "gp3") return Gosu::gp3;
-	if (_name == "gp4") return Gosu::gp4;
-	if (_name == "gp5") return Gosu::gp5;
-	if (_name == "gp6") return Gosu::gp6;
-	if (_name == "gp7") return Gosu::gp7;
-	if (_name == "gp8") return Gosu::gp8;
-	if (_name == "gp9") return Gosu::gp9;
-	if (_name == "gp10") return Gosu::gp10;
-	if (_name == "gp11") return Gosu::gp11;
-	if (_name == "gp12") return Gosu::gp12;
-	if (_name == "gp13") return Gosu::gp13;
-	if (_name == "gp14") return Gosu::gp14;
-	if (_name == "gp15") return Gosu::gp15;
+	if (_name == "gpButton0") return Gosu::gpButton0;
+	if (_name == "gpButton1") return Gosu::gpButton1;
+	if (_name == "gpButton2") return Gosu::gpButton2;
+	if (_name == "gpButton3") return Gosu::gpButton3;
+	if (_name == "gpButton4") return Gosu::gpButton4;
+	if (_name == "gpButton5") return Gosu::gpButton5;
+	if (_name == "gpButton6") return Gosu::gpButton6;
+	if (_name == "gpButton7") return Gosu::gpButton7;
+	if (_name == "gpButton8") return Gosu::gpButton8;
+	if (_name == "gpButton9") return Gosu::gpButton9;
+	if (_name == "gpButton10") return Gosu::gpButton10;
+	if (_name == "gpButton11") return Gosu::gpButton11;
+	if (_name == "gpButton12") return Gosu::gpButton12;
+	if (_name == "gpButton13") return Gosu::gpButton13;
+	if (_name == "gpButton14") return Gosu::gpButton14;
+	if (_name == "gpButton15") return Gosu::gpButton15;
 
 	if (_name == "msLeft") return Gosu::msLeft;
 	if (_name == "msRight") return Gosu::msRight;
