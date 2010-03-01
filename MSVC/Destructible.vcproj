@@ -356,6 +356,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\MUGE.rc"
+			>
+		</File>
+		<File
 			RelativePath="..\src\TitleState.cpp"
 			>
 		</File>

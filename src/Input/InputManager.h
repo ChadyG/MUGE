@@ -59,6 +59,7 @@ public:
 	};
 
 	InputManager() {}
+	~InputManager();
 
 	void buttonDown(Gosu::Button _button);
 	void buttonUp(Gosu::Button _button);

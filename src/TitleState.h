@@ -28,6 +28,7 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
  */
  
+#include <list>
 #include <Gosu/Gosu.hpp>
 #include "Core/GameState.h"
 
@@ -52,8 +53,15 @@ public:
 	void draw() const;
 	
 private:
-	boost::scoped_ptr<Gosu::Image> m_TitleScreen;
+	struct screen
+	{
+		Gosu::Image *image;
+		int decayTime, duration;
+		Gosu::Color fadeTo;
+	};
+	std::wstring m_ConfigFile;
+	std::list<screen> m_Screens;
+	std::list<screen>::iterator m_curScreen;
 	int counter;
-	int step;
-
+	bool fade;
 };

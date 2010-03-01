@@ -32,6 +32,25 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 InputManager* InputManager::s_CurrentContext;
 
+InputManager::~InputManager() 
+{
+	std::map<std::string, chord>::iterator cit;
+	for (cit = m_chords.begin(); cit != m_chords.end(); cit++) {
+		cit->second.buttons.clear();
+	}
+	m_chords.clear();
+	std::map<std::string, sequence>::iterator sit;
+	for (sit = m_sequences.begin();sit != m_sequences.end(); sit++) {
+		sit->second.buttons.clear();
+	}
+	m_sequences.clear();
+	m_seqbuff.clear();
+	std::map<std::string, action>::iterator ait;
+	for (ait = m_actions.begin();ait != m_actions.end(); ait++) {
+		ait->second.buttons.clear();
+	}
+	m_actions.clear();
+}
 
 Gosu::ButtonName InputManager::strToButton(std::string _name)
 {

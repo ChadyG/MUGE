@@ -31,6 +31,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include "TitleState.h"
 #include "MainMenuState.h"
 #include "Core/Core.h"
+#include "Input/JSONFile.hpp"
 
 /**
 *
@@ -38,22 +39,43 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 TitleState::TitleState( std::wstring _config )
 {
-
+	m_ConfigFile = _config;
 }
 
 void TitleState::init()
 {
 	m_Engine = Core::getCurrentContext();
-	std::wstring filename = Gosu::resourcePrefix() + L"Images/MUGD_Title_screen.png";
-	m_TitleScreen.reset(new Gosu::Image(m_Engine->graphics(), filename, false));
+
+	JSONFile jFile(Gosu::narrow(Gosu::resourcePrefix() + L"Data/" + m_ConfigFile + L".json"));
+	json::grammar<char>::array::const_iterator it, it2;
+	json::grammar<char>::array arr, arr2;
+	int i, j;
+	std::string tString;
+	std::wstring filename;
+
+	arr = jFile.get<json::grammar<char>::array>("Screens");
+	for (i = 0, it = arr.begin(); it != arr.end(); ++it, ++i) {
+		tString = jFile.get<std::string>("Image", *it);
+		filename = Gosu::resourcePrefix() + L"Images/" + Gosu::widen(tString);
+		screen ts;
+		ts.image = new Gosu::Image(m_Engine->graphics(), filename, false);
+		ts.duration = jFile.get<double>("Duration", *it) * 50;
+		ts.decayTime = jFile.get<double>("DecayTime", *it) * 50;
+		ts.fadeTo = Gosu::Color(jFile.get<int>("FadeTo[0]", *it),
+			jFile.get<int>("FadeTo[1]", *it),
+			jFile.get<int>("FadeTo[2]", *it));
+
+		m_Screens.push_back( ts );
+	}
 	
-	counter = 256;
-	step = 0;
+	m_curScreen = m_Screens.begin();
+	counter = m_curScreen->duration;
+	fade = false;
 }
 
 void TitleState::cleanup()
 {
-	m_TitleScreen.reset(0);
+	m_Screens.clear();
 }
 
 void TitleState::pause()
@@ -68,14 +90,35 @@ void TitleState::resume()
 
 void TitleState::update()
 {
-	if (m_Engine->input().down(Gosu::kbReturn) || counter <= 0) {
+	if (m_Engine->input().down(Gosu::kbReturn)) {
 		MainMenuState *state = new MainMenuState( std::wstring(L"MainMenuState") );
 		m_Engine->changeState( state );
+	}
+	if (counter <= 0) {
+		if (fade) {
+			m_curScreen++;
+			if (m_curScreen == m_Screens.end()) {
+				MainMenuState *state = new MainMenuState( std::wstring(L"MainMenuState") );
+				m_Engine->changeState( state );
+				return;
+			}
+			counter = m_curScreen->duration;
+			fade = false;
+		}else{
+			counter = m_curScreen->decayTime;
+			fade = true;
+		}
 	}
 	--counter;
 }
 
 void TitleState::draw() const
 {
-	m_TitleScreen->draw(0,0,0, 1,1, Gosu::Color::fromHSV(0, 0, counter));
+	if (m_curScreen != m_Screens.end()) {
+		if (fade) {
+			m_curScreen->image->draw(0,0,0, 1,1, 
+				Gosu::interpolate(m_curScreen->fadeTo, Gosu::Colors::white, ((double)counter)/m_curScreen->decayTime));
+		}else
+			m_curScreen->image->draw(0,0,0, 1,1);
+	}
 }

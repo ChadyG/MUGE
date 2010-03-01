@@ -13,18 +13,18 @@ FILEFLAGS 0x0
   {
     BLOCK "040904E4"
     {
-      VALUE "ProductName", "Destructible (working title)"
+      VALUE "ProductName", "My Unnamed Game Engine"
       VALUE "ProductVersion", "0.0.1"
       VALUE "FileVersion", "0.0.1"
-      VALUE "LegalCopyright", "Copyright (c) 2008  Mizzou Game Design"
-      VALUE "FileDescription", "Destructible"
+      VALUE "LegalCopyright", "Copyright (c) 2010 BlitThis!"
+      VALUE "FileDescription", "MUGE"
 #ifdef CS_DEBUG
       VALUE "Comments", "Debug build"
 #else
       VALUE "Comments", "Release build"
 #endif
-      VALUE "WWW", "http://groups.google.com/groups/mugd"
+      VALUE "WWW", "http://www.blitthis.com"
     }
   }
 }
-1 ICON "MUGD.ico"
+1 ICON "BT_logo.ico"
