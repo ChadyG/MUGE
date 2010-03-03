@@ -18,6 +18,12 @@ namespace Gosu
     //! Returns the height, in pixels, of the user's primary screen.
     unsigned screenHeight();
     
+    // Returns the maximum size of an image that can fit on a single
+    // texture.
+    // Only useful when extending Gosu using OpenGL.
+    // (Held back until it will not cause a stock Ubuntu to crash. Don't ask me!)
+    //extern unsigned const MAX_TEXTURE_SIZE;
+    
     //! Serves as the target of all drawing and provides basic drawing
     //! functionality.
     //! Usually created by Gosu::Window.
@@ -42,7 +48,7 @@ namespace Gosu
 
         //! Prepares the graphics object for drawing. Nothing must be drawn
         //! without calling begin.
-        bool begin(Color clearWithColor = Colors::black);
+        bool begin(Color clearWithColor = Color::BLACK);
         //! Every call to begin must have a matching call to end.
         void end();
         //! Finishes all pending Gosu drawing operations and executes
@@ -54,6 +60,12 @@ namespace Gosu
         void beginClipping(int x, int y, unsigned width, unsigned height);
         //! Disables clipping.
         void endClipping();
+        
+        //! Starts recording a macro. Cannot be nested.
+        void beginRecording();
+        //! Finishes building the macro and returns it as a drawable object.
+        //! Most usually, the return value is passed to Image::Image().
+        std::auto_ptr<Gosu::ImageData> endRecording();
 
         //! Draws a line from one point to another (last pixel exclusive).
         void drawLine(double x1, double y1, Color c1,

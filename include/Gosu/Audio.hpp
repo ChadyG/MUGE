@@ -1,9 +1,6 @@
 //! \file Audio.hpp
 //! Contains all the classes of Gosu's audio system.
 
-// REDESIGN: Rename all changeXXX() member functions to setXXX().
-// REDESIGN: Don't require window argument, is this possible?
-
 #ifndef GOSU_AUDIO_HPP
 #define GOSU_AUDIO_HPP
 
@@ -14,27 +11,12 @@
 #include <Gosu/IO.hpp>
 #include <Gosu/Platform.hpp>
 #include <boost/scoped_ptr.hpp>
-#include <boost/utility.hpp>
 #include <string>
 
 namespace Gosu
 {
-    //! Manages initialization and finalization of audio libraries. Must be
-    //! created before and destroyed after all samples and songs.
-    //! There can only be one instance of Gosu::Audio.
-    //! Usually created internally by Gosu::Window.
-    class Audio : boost::noncopyable
-    {
-    public:
-        #ifdef GOSU_IS_WIN
-        explicit Audio(HWND window);
-        #else
-        Audio();
-        #endif
-        ~Audio();
-        
-        void update();
-    };
+    // Deprecated.
+    class Audio;
 
     //! An instance of a Sample playing. Can be used to stop sounds dynamically,
     //! or to check if they are finished.
@@ -81,11 +63,11 @@ namespace Gosu
     public:
         //! Constructs a sample that can be played on the specified audio
         //! system and loads the sample from a file.
-        Sample(Audio& audio, const std::wstring& filename);
+        explicit Sample(const std::wstring& filename);
         
         //! Constructs a sample that can be played on the specified audio
         //! system and loads the sample data from a stream.
-        Sample(Audio& audio, Reader reader);
+        explicit Sample(Reader reader);
         
         ~Sample();
 
@@ -109,6 +91,11 @@ namespace Gosu
         //! or low values. Use 1.0 for normal playback speed.
         SampleInstance playPan(double pan, double volume = 1, double speed = 1,
             bool looping = false) const;
+
+
+        // Deprecated.
+        Sample(Audio& audio, const std::wstring& filename);
+        Sample(Audio& audio, Reader reader);
     };
 
     //! Songs are less flexible than samples in that they can only be played
@@ -119,11 +106,6 @@ namespace Gosu
         class ModuleData;
         class StreamData;
         boost::scoped_ptr<BaseData> data;
-        
-        #ifdef GOSU_IS_MAC
-        void update();
-        friend class Audio;
-        #endif
     public:
         //! There are two types of songs that can be loaded as a Song: Streamed
         //! songs (like OGG) and modules (like MOD or XM).
@@ -136,11 +118,11 @@ namespace Gosu
         //! Constructs a song that can be played on the provided audio system
         //! and loads the song from a file. The type is determined from the
         //! filename.
-        Song(Audio&, const std::wstring& filename);
+        explicit Song(const std::wstring& filename);
         
         //! Constructs a song of the specified type that can be played on the
         //! provided audio system and loads the song data from a stream.
-        Song(Audio&, Type type, Reader reader);
+        Song(Type type, Reader reader);
         
         ~Song();
         
@@ -167,6 +149,13 @@ namespace Gosu
         double volume() const;
         //! Changes the volume of the song.
         void changeVolume(double volume);
+        
+        //! Called every tick by Window for management purposes.
+        static void update();
+
+        // Deprecated.
+        Song(Audio&, const std::wstring& filename);
+        Song(Audio&, Type type, Reader reader);
     };
 }
 

@@ -43,7 +43,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 class AudioManager
 {
 public:
-	AudioManager() : m_camX(0), m_camY(0), m_camZoom(0), m_camRot(0) {}
+	AudioManager();
 
 	void setScreen( int _w, int _h, int _s)
 	{
@@ -70,6 +70,8 @@ public:
 
 	void stopSong( std::string _name );
 	void pauseSong( std::string _name );
+
+	//fadeToSong( std::string _name, float _time = 1.f);
 
 	/// Static accessor to current render manager
 	static AudioManager* getCurrentContext() { return s_CurrentContext; }
@@ -100,6 +102,7 @@ protected:
 
 	std::map< std::string, Gosu::Sample* > m_Samples;
 	std::map< std::string, Gosu::Song* > m_Songs;
+	std::map< std::string, Gosu::Song* >::iterator m_curSong;
 
 	std::queue< SamplePlay > m_SampleQ;
 	std::queue< SongPlay > m_SongQ;

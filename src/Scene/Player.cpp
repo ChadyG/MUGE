@@ -109,7 +109,7 @@ void Player::onMessage(std::string _message)
 void Player::update()
 {
 	InputManager* input = InputManager::getCurrentContext();
-	m_Pos = m_Body->GetPosition();
+	//m_Pos = m_Body->GetPosition();
 	
 	if (input->query("Play.MoveLeft") == InputManager::actnActive) {
 		m_AnimState->setVisible(false);
@@ -130,5 +130,4 @@ void Player::update()
 
 	m_AnimState->setX( m_Pos.x );
 	m_AnimState->setY( m_Pos.y );
-	m_AnimState->setAngle( Gosu::angle( m_Gravity.x, m_Gravity.y, 0.0, 0.0) );
 }

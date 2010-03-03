@@ -34,7 +34,11 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 AudioManager* AudioManager::s_CurrentContext;
 
-//AudioManager::AudioManager() {}
+AudioManager::AudioManager()
+: m_camX(0), m_camY(0), m_camZoom(0), m_camRot(0) 
+{
+	m_curSong = m_Songs.end();
+}
 
 void AudioManager::doPlay()
 {

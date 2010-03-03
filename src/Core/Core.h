@@ -74,6 +74,9 @@ public:
 	/// Returns dynamic FPS calculation
 	int getFPS();
 
+	/// Returns set FPS
+	int getUpdateRate() { return m_FPS; }
+
 	/// Static accessor to current state manager (central game class)
 	static Core* getCurrentContext() { return s_CurrentContext; }
 
@@ -88,6 +91,7 @@ private:
 	std::stack< boost::shared_ptr<GameState> > m_States;
 	std::queue< boost::shared_ptr<GameState> > m_NextStates;
 	
+	int m_FPS;
 	int m_curFPS;
 	int m_curTicks;
 	int m_lastSecond;

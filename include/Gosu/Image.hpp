@@ -8,6 +8,7 @@
 #include <Gosu/Bitmap.hpp>
 #include <Gosu/RotFlip.hpp>
 #include <boost/scoped_ptr.hpp>
+#include <memory>
 
 namespace Gosu
 {
@@ -42,16 +43,19 @@ namespace Gosu
         Image(Graphics& graphics, const Bitmap& source, unsigned srcX,
             unsigned srcY, unsigned srcWidth, unsigned srcHeight,
             bool tileable = false);
+        
+        //! Creates an Image from a user-supplied instance of the ImageData interface.
+        explicit Image(std::auto_ptr<ImageData> data);
 
         ~Image();
-
+        
         unsigned width() const;
         unsigned height() const;
 
         //! Draws the image so its upper left corner is at (x; y).
         void draw(double x, double y, ZPos z,
             double factorX = 1, double factorY = 1,
-            Color c = Colors::white,
+            Color c = Color::WHITE,
             AlphaMode mode = amDefault) const;
         //! Like draw(), but allows to give modulation colors for all four
         //! corners.
@@ -72,14 +76,14 @@ namespace Gosu
         void drawRot(double x, double y, ZPos z,
             double angle, double centerX = 0.5, double centerY = 0.5,
             double factorX = 1, double factorY = 1,
-            Color c = Colors::white,
+            Color c = Color::WHITE,
             AlphaMode mode = amDefault) const;
 
         #ifndef SWIG
         void drawRotFlip(double x, double y, ZPos z,
             RotFlip rf,
             double factorX = 1, double factorY = 1,
-            Color c = Colors::white,
+            Color c = Color::WHITE,
             AlphaMode mode = amDefault) const;
         void drawRotFlipMod(double x, double y, ZPos z,
             RotFlip rf,
