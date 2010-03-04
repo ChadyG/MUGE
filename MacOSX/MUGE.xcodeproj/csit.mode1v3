@@ -241,7 +241,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>E9134491113F820D006EDEB4</string>
+						<string>E91344C0113F8428006EDEB4</string>
 						<key>history</key>
 						<array>
 							<string>E9134453113F8089006EDEB4</string>
@@ -281,7 +281,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>E9134492113F820D006EDEB4</string>
+						<string>E91344C1113F8428006EDEB4</string>
 						<key>history</key>
 						<array>
 							<string>E9134448113F806B006EDEB4</string>
@@ -321,7 +321,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>E9134493113F820D006EDEB4</string>
+						<string>E91344C2113F8428006EDEB4</string>
 						<key>history</key>
 						<array>
 							<string>E9134431113F8008006EDEB4</string>
@@ -369,7 +369,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>E9134494113F820D006EDEB4</string>
+						<string>E91344C3113F8428006EDEB4</string>
 						<key>history</key>
 						<array>
 							<string>E913442D113F8003006EDEB4</string>
@@ -409,7 +409,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>E9134495113F820D006EDEB4</string>
+						<string>E91344C4113F8428006EDEB4</string>
 						<key>history</key>
 						<array>
 							<string>E91343D8113F7BF1006EDEB4</string>
@@ -699,14 +699,14 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>50</integer>
-									<integer>39</integer>
-									<integer>28</integer>
+									<integer>61</integer>
+									<integer>60</integer>
+									<integer>58</integer>
 									<integer>0</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 371}, {261, 640}}</string>
+							<string>{{0, 675}, {261, 640}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -760,7 +760,7 @@
 	<key>StatusbarIsVisible</key>
 	<true/>
 	<key>TimeStamp</key>
-	<real>289374733.85376197</real>
+	<real>289375272.82652199</real>
 	<key>ToolbarDisplayMode</key>
 	<integer>1</integer>
 	<key>ToolbarIsVisible</key>
@@ -784,8 +784,8 @@
 		<string>E913442E113F8008006EDEB4</string>
 		<string>E91343BD113F7B4B006EDEB4</string>
 		<string>E913444B113F807E006EDEB4</string>
-		<string>/Users/csit/Projects/Mizzou Game Engine/MacOSX/MUGE.xcodeproj</string>
 		<string>E9134456113F8091006EDEB4</string>
+		<string>/Users/csit/Projects/Mizzou Game Engine/MacOSX/MUGE.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
 	<string>57 138 278 699 0 0 1440 878 </string>
