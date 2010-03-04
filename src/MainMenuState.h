@@ -33,8 +33,16 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include <list>
 #include "Core/GameState.h"
 #include "Physics/ContactListener.h"
+#include "Input/JSONFile.hpp"
 
 class Core;
+class UIContainer;
+class UIObject;
+class UIScreen;
+class UIWindow;
+class UIButton;
+class UITextArea;
+class UITextBox;
 
 /**
  * State for main menu
@@ -58,20 +66,43 @@ public:
 	void draw() const;
 	
 private:
+	
+	//void evalJSON(json::grammar<char>::array _array, UIScreen *_container);
+	//void evalButton(json::grammar<char>::array::const_iterator _it, UIContainer *_container);
+	//void evalTextBox(json::grammar<char>::array::const_iterator _it, UIContainer *_container);
+	//void evalTextArea(json::grammar<char>::array::const_iterator _it, UIContainer *_container);
+	//void evalWindow(json::grammar<char>::array::const_iterator _it, UIScreen *_container);
+	
+	std::wstring m_ConfigFile;
+	boost::scoped_ptr<JSONFile> m_jFile;
+	
 	boost::scoped_ptr<Gosu::Image> m_MenuScreen;
-	boost::scoped_ptr<Gosu::Image> m_AboutScreen;
-	boost::scoped_ptr<Gosu::Image> m_ScoresScreen;
 	boost::scoped_ptr<Gosu::Image> m_Cursor;
 	boost::scoped_ptr<Gosu::Image> m_MouseCursor;
+	
 	boost::scoped_ptr<Gosu::Sample> m_CursorMove;
 	boost::scoped_ptr<Gosu::Sample> m_CursorSelect;
+	//boost::scoped_ptr<Gosu::Sample> m_PhysHit;
+	//boost::scoped_ptr<Gosu::Sample> m_PhysBigHit;
+	//std::vector< Gosu::Image* > m_LettersV;
+	
 	boost::scoped_ptr<Gosu::Song> m_Music;
 	boost::scoped_ptr<Gosu::Font> m_Font;
+	
 	int m_CursorPos, m_lastCursorPos;
 	b2Vec2 m_mousePos;
 	bool m_Held, m_msLeftHeld;
 	
 	double m_width, m_height, m_units;
+	
+	boost::scoped_ptr< b2World > m_Worldp;
+	MenuListener m_ContactListener;
+	std::list< b2Body* > m_Bodies;
+	b2MouseJoint* m_mouseJoint;
+	
+	UIScreen *m_UI;
+	std::list< UIObject* > m_UIObjects;
+	std::map< std::string, UIObject* > m_UINames;
 
 	enum eMenuState
 	{

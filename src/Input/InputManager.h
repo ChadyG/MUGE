@@ -111,7 +111,7 @@ private:
 	};
 	struct sequencebuff
 	{
-		sequence* sequence;
+		InputManager::sequence* sequence;
 		int timer;
 		int index;
 		bool valid;

@@ -6,10 +6,17 @@
 	"PlayerAnimations" : [
 		{
 			"Name" : "Walk",
-			"FileName" : "CircleMan.png",
-			"Width" : 32,
-			"Height" : 32,
-			"Duration" : 1
+			"FileName" : "Hero_walking.png",
+			"Width" : 85,
+			"Height" : 128,
+			"Duration" : 20
+		},
+		{
+			"Name" : "WalkLeft",
+			"FileName" : "Hero_walking_left.png",
+			"Width" : 85,
+			"Height" : 128,
+			"Duration" : 20
 		}
 	],
 	"PlayerDataModel" : [
