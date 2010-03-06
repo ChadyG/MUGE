@@ -31,28 +31,39 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include "../Scene/Scene.h"
 
 SpriteSheet::SpriteSheet( )
-: m_Delay(0), m_Frame(0), m_Timer(0), m_centerX(0.5), 
+: m_Delay(0), m_Frame(0), m_Timer(0), m_centerX(0.5), m_Speed(1.f),
 m_posX(0.0f), m_posY(0.0f), m_zoom(1.0f), m_angle(0.0f), m_layer(0.0f),
 m_centerY(0.5), m_factX(1.0), m_factY(1.0), m_ColorMod(Gosu::Colors::white)
 {
 }
 
 SpriteSheet::SpriteSheet( std::wstring _fileName, int _width, int _height, int _delay)
-: m_centerX(0.5), m_centerY(0.5), m_factX(1.0), m_factY(1.0),
+: m_centerX(0.5), m_centerY(0.5), m_factX(1.0), m_factY(1.0), m_Speed(1.f),
 m_posX(0.0f), m_posY(0.0f), m_zoom(1.0f), m_angle(0.0f), m_layer(0.0f),
 m_ColorMod(Gosu::Colors::white), m_Delay(_delay), m_Frame(0)
 {
 	Gosu::imagesFromTiledBitmap(Core::getCurrentContext()->graphics(), _fileName, _width, _height, false, m_Sprites);
+	m_numFrames = m_Sprites.size();
 	m_Timer = m_Delay;
 }
 
 //----------Setters----------
+
+void SpriteSheet::setImage( std::wstring _fileName, Gosu::Graphics &_graphics, int _width, int _height, int _delay)
+{
+	m_Delay = _delay;
+	Gosu::imagesFromTiledBitmap(_graphics, _fileName, _width, _height, false, m_Sprites);
+	m_Frame = 0;
+	m_numFrames = m_Sprites.size();
+	m_Timer = m_Delay;
+}
 
 void SpriteSheet::setImage( std::wstring _fileName, int _width, int _height, int _delay)
 {
 	m_Delay = _delay;
 	Gosu::imagesFromTiledBitmap(Core::getCurrentContext()->graphics(), _fileName, _width, _height, false, m_Sprites);
 	m_Frame = 0;
+	m_numFrames = m_Sprites.size();
 	m_Timer = m_Delay;
 }
 
@@ -97,11 +108,11 @@ const Gosu::Image& SpriteSheet::getCurFrame() const
 
 void SpriteSheet::update()
 {
-	m_Timer--;
+	m_Timer -= m_Speed;
 	if (m_Timer <= 0) {
 		m_Timer = m_Delay;
 		m_Frame++;
-		if (m_Frame == m_Sprites.size())
+		if (m_Frame == m_numFrames)
 			m_Frame = 0;
 	}
 }

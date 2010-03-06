@@ -30,6 +30,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include <stack>
 #include <queue>
 #include "../Input/InputManager.h"
+#include "../UI/GUIObjects.h"
 
 #include <string>
 
@@ -77,6 +78,9 @@ public:
 	/// Returns set FPS
 	int getUpdateRate() { return m_FPS; }
 
+	/// Show or hide the cursor
+	void showCursor(bool _show) { m_showCursor = _show; m_cursorSetting = _show; }
+
 	/// Static accessor to current state manager (central game class)
 	static Core* getCurrentContext() { return s_CurrentContext; }
 
@@ -97,6 +101,15 @@ private:
 	int m_lastSecond;
 	
 	bool m_stackDirty;
+
+	bool m_showCursor, m_cursorSetting;
+	boost::scoped_ptr<Gosu::Image> m_Cursor;
+	UISheet *m_UI;
+	UIWindow *m_UIWin;
+	UIButton *m_UIConfirm;
+	UIButton *m_UICancel;
+	UITextArea *m_UIDialogue;
+	bool m_inDialog;
 
 	Gosu::Font *m_font;
 	std::wstring m_message;

@@ -64,7 +64,7 @@ UIWindow::UIWindow(windowDef& _def, Gosu::Graphics &_graphics, Gosu::Input &_inp
 	*/
 
 	//m_TitleBar.reset( new Gosu::Image(_graphics, titleBar) );
-	m_TitleBar.setImage( Gosu::resourcePrefix() + L"Images/titlebar.png", 25, 25);
+	m_TitleBar.setImage( Gosu::resourcePrefix() + L"Images/titlebar.png", m_Graphics, 25, 25);
 	m_TitleBar.setCenter( 0.0, 0.0);
 	
 

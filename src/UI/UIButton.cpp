@@ -45,7 +45,7 @@ UIButton::UIButton(buttonDef &_def, Gosu::Graphics &_graphics, Gosu::Input &_inp
 void UIButton::setImage(std::wstring &_file)
 {
 	m_hasImage = true;
-	m_Image.setImage(_file, m_Width, m_Height);
+	m_Image.setImage(_file, m_Graphics, m_Width, m_Height);
 	m_Image.setCenter(0.0, 0.0);
 }
 

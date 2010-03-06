@@ -47,6 +47,43 @@ Core::Core(int _width, int _height, bool _fullscreen, double _updateInterval)
 	m_curTicks = 0;
 	m_lastSecond = Gosu::milliseconds()/1000;
 	m_stackDirty = false;
+
+	m_UI = new UISheet(graphics(), input());
+	m_UI->giveFocus();
+
+	// Create the movable window container
+	windowDef wDef;
+	wDef.height = 100;
+	wDef.width = 250;
+	m_UIWin = m_UI->createWindow(wDef);
+	m_UIWin->giveFocus();
+	m_UIWin->hide();
+
+	// Create text areas for the window (Wall editing)
+	texAreaDef tADef;
+	tADef.justify = UITextArea::Center;
+	tADef.width = -1;
+	tADef.x = 125;
+	tADef.y = 30;
+	m_UIDialogue = m_UIWin->createTextArea( tADef );
+	m_UIDialogue->setText( L"Would you like to quit?" );
+	// Create Cancel/Confirm buttons
+	buttonDef bDef;
+	bDef.height = 32;
+	bDef.width = 70;
+	bDef.x = 40;
+	bDef.y = 50;
+	m_UIConfirm = m_UIWin->createButton( bDef );
+	m_UIConfirm->setImage( Gosu::resourcePrefix() + L"Images/ConfirmButton.png" );
+	bDef.x = 140;
+	m_UICancel = m_UIWin->createButton( bDef );
+	m_UICancel->setImage( Gosu::resourcePrefix() + L"Images/CancelButton.png" );
+
+	m_inDialog = false;
+
+	m_Cursor.reset(new Gosu::Image(graphics(), Gosu::resourcePrefix() + L"Images/cursor.png", false));
+	m_showCursor = false;
+	m_cursorSetting = false;
 }
 
 void Core::buttonDown(Gosu::Button _button)
@@ -112,13 +149,36 @@ void Core::update()
 		m_stackDirty = false;
 	}
 	
-	if (!m_States.empty()) {
-		m_States.top()->update();
-	}else
+	//start close dialog
+	if (m_inputManager.query("Game.Quit") == InputManager::actnBegin) {
+		m_inDialog = true;
+		m_showCursor = true;
+		m_UIWin->show();
+	}
+
+	if (m_UIConfirm->getState() == UIButton::btnPress){
 		close();
-		
-	if (input().down(Gosu::kbEscape))
-		close();
+	}
+
+	if (m_UIWin->isClosed() && m_UIWin->isVisible()) {
+		m_UIWin->hide();
+		m_showCursor = m_cursorSetting;
+		m_inDialog = false;
+	}
+	if (m_UICancel->getState() == UIButton::btnPress){
+		m_inDialog = false;
+		m_showCursor = m_cursorSetting;
+		m_UIWin->hide();
+	}
+	m_UI->update();
+	// End Close dialog
+
+	if (!m_inDialog) {
+		if (!m_States.empty()) {
+			m_States.top()->update();
+		}else
+			close();
+	}
 
 	// Done last as to keep queries valid for each game tick
 	m_inputManager.update();
@@ -127,6 +187,10 @@ void Core::update()
 void Core::draw()
 {
 	m_font->draw(m_message, 4, 4, 15);
+	m_UI->draw(20);
+	if (m_showCursor)
+		m_Cursor->draw(input().mouseX() - 7, input().mouseY(), 21);
+
 	if (!m_States.empty())
 		m_States.top()->draw();
 }

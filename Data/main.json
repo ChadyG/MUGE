@@ -3,7 +3,16 @@
 	"FullScreen" : false,
 	"UpdateInterval" : 20.0,
 	"StartState" : "TitleState",
+	"Cursor" : {
+		"Image" : "cursor.png",
+		"Center" : [ 0, 0]
+	},
 	"ButtonMaps" : [
+		{
+			"Action" : "Game.Quit",
+			"Key" : "kbEscape",
+			"Type" : "action"
+		},
 		{
 			"Action" : "Menu.Up",
 			"Key" : "kbUp",
