@@ -154,6 +154,7 @@ void Core::update()
 		m_inDialog = true;
 		m_showCursor = true;
 		m_UIWin->show();
+		m_UIWin->giveFocus();
 	}
 
 	if (m_UIConfirm->getState() == UIButton::btnPress){

@@ -71,6 +71,14 @@ Scene::Scene(std::wstring _config)
 	json::grammar<char>::object o;
 	int i, layer;
 	std::string tString;
+
+	// Testing stuff
+	m_jFile->setInt("loltest", 1);
+	m_jFile->setInt("Physics", 0);
+	m_jFile->setBoolean("testbool", false);
+	m_jFile->setDouble("PlayerSpawn[0]", 1.0);
+	m_jFile->writeFile("test.json");
+	// End testing
 	
 	// Player spawn
 	m_PlayerPos.Set(m_jFile->get< double >("PlayerSpawn[0]"), m_jFile->get< double >("PlayerSpawn[1]"));
