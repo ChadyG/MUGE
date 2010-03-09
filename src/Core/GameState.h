@@ -29,6 +29,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 #ifndef GAMESTATE_H
 #define GAMESTATE_H
 
+#include <map>
+#include <string>
+
 class Core;
 
 /**
@@ -71,19 +74,35 @@ public:
 	virtual void draw() const = 0;
 	
 	
+	/// Stack maintenence functions
 	void setFocus(bool _focus) { m_hasFocus = _focus; };
 	bool inFocus() const { return m_hasFocus; };
 	void setDirty() { m_isDirty = true; };
 	bool dirty() const { return m_isDirty; };
-	
+
 protected:
-	
 	Core* m_Engine;
 	
 private:
 	bool m_hasFocus;
 	bool m_isDirty;
 	
+};
+
+class State_maker
+{
+public:
+	State_maker(std::string _name) {
+		if (s_makerMap == 0)
+			s_makerMap = new std::map<std::string, State_maker*>();
+
+		s_makerMap->insert(std::make_pair(_name, this));
+	}
+	/// Static state registration
+	static GameState* createState(std::string _name, std::wstring _config);
+protected:
+	static std::map<std::string, State_maker*> *s_makerMap;
+	virtual GameState* makeState(std::wstring _config) =0;
 };
 
 #endif

@@ -34,6 +34,17 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include "Input/JSONFile.hpp"
 
 /**
+*  Set up pluggable factory
+*/
+
+titleState_maker titleState_maker::s_sRegisteredMaker;
+
+GameState* titleState_maker::makeState(std::wstring _config)
+{
+	return new TitleState(_config);
+}
+
+/**
 *
 */
 
@@ -46,7 +57,7 @@ void TitleState::init()
 {
 	m_Engine = Core::getCurrentContext();
 
-	JSONFile jFile(Gosu::narrow(Gosu::resourcePrefix() + L"Data/" + m_ConfigFile + L".json"));
+	JSONFile jFile(Gosu::narrow(Gosu::resourcePrefix() + L"Data/" + m_ConfigFile));
 	json::grammar<char>::array::const_iterator it, it2;
 	json::grammar<char>::array arr, arr2;
 	int i, j;

@@ -36,6 +36,17 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include "Graphics/RenderManager.h"
 
 /**
+*  Set up pluggable factory
+*/
+
+adventureState_maker adventureState_maker::s_sRegisteredMaker;
+
+GameState* adventureState_maker::makeState(std::wstring _config)
+{
+	return new AdventureState(_config);
+}
+
+/**
  *
  */
 

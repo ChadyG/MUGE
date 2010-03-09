@@ -2,7 +2,10 @@
 	"WindowSize" : [768, 480],
 	"FullScreen" : false,
 	"UpdateInterval" : 20.0,
-	"StartState" : "TitleState",
+	"NextState" : [
+		"TitleState",
+		"TitleState.json"
+	],
 	"Cursor" : {
 		"Image" : "cursor.png",
 		"Center" : [ 0, 0]

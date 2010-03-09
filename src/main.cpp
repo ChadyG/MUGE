@@ -117,8 +117,11 @@ int main(int argc, char* argv[])
 	}
 
 	// Create and add a title state to our game object
-    TitleState *state = new TitleState( Gosu::widen(jFile.get< std::string >("StartState")) );
-    win.pushState( state );
+	win.pushState( State_maker::createState(
+			jFile.get< std::string >("NextState[0]"),
+			Gosu::widen(jFile.get< std::string >("NextState[1]"))) );
+    //TitleState *state = new TitleState( Gosu::widen(jFile.get< std::string >("StartState")) );
+    //win.pushState( state );
 
 	// Start the game!
     win.show();

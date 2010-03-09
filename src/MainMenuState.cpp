@@ -33,6 +33,17 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include "Core/Core.h"
 
 /**
+*  Set up pluggable factory
+*/
+
+menuState_maker menuState_maker::s_sRegisteredMaker;
+
+GameState* menuState_maker::makeState(std::wstring _config)
+{
+	return new MainMenuState(_config);
+}
+
+/**
 *
 */
 

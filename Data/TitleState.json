@@ -1,4 +1,8 @@
 {
+	"NextState" : [
+		"MainMenuState",
+		"MainMenuState.json"
+	],
 	"Screens" : [
 		{
 			"Image" : "BT_Title_screen.png",

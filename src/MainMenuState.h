@@ -114,3 +114,12 @@ private:
 
 	eMenuState m_State;
 };
+
+class menuState_maker : public State_maker
+{
+public:
+	menuState_maker() : State_maker("MainMenuState") {}
+protected:
+	GameState* makeState(std::wstring _config);
+	static menuState_maker s_sRegisteredMaker;
+};

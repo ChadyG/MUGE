@@ -1,4 +1,8 @@
 [
+	"NextState" : [
+		"AdventureState",
+		"AdventureState.json"
+	],
 	{
 		"Type" : "Button",
 		"Name" : "StartButton",

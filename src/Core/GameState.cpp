@@ -1,10 +1,9 @@
 /*
-   TitleState.h
-   My Unnamed Game Engine
- 
-   Created by Chad Godsey on 11/12/08.
-  
- Copyright 2009 BlitThis! studios.
+	GameState.cpp
+	My Unnamed Game Engine
+
+	Created by Chad Godsey on 3/8/10.
+	Copyright 2010 BlitThis! studios.
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
@@ -27,50 +26,20 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
  */
- 
-#include <list>
-#include <Gosu/Gosu.hpp>
-#include "Core/GameState.h"
 
-class Core;
+#include "GameState.h"
 
-/**
-* State for title screen and other middleware screens
-* goes into main menu
-*/
-class TitleState : public GameState
+std::map<std::string, State_maker*> *State_maker::s_makerMap = 0;
+
+GameState* State_maker::createState(std::string _name, std::wstring _config)
 {
-public:
-	TitleState( std::wstring _config );
-	
-	void init();
-	void cleanup();
-	
-	void pause();
-	void resume();
-	
-	void update();
-	void draw() const;
-	
-private:
-	struct screen
-	{
-		Gosu::Image *image;
-		int decayTime, duration;
-		Gosu::Color fadeTo;
-	};
-	std::wstring m_ConfigFile;
-	std::list<screen> m_Screens;
-	std::list<screen>::iterator m_curScreen;
-	int counter;
-	bool fade;
-};
-
-class titleState_maker : public State_maker
-{
-public:
-	titleState_maker() : State_maker("TitleState") {}
-protected:
-	GameState* makeState(std::wstring _config);
-	static titleState_maker s_sRegisteredMaker;
-};
+	try {
+		// find the appropriate factory in the map of factories...
+		State_maker *maker = (*s_makerMap->find(_name)).second;
+		// use that factory to construct the net_message derivative
+		return maker->makeState(_config);
+	} catch(...) {
+		throw std::runtime_error("State type unknown: " + _name);
+	}
+	return(NULL);
+}

@@ -67,3 +67,12 @@ private:
 
 	//save stuff (sqlite?)
 };
+
+class adventureState_maker : public State_maker
+{
+public:
+	adventureState_maker() : State_maker("AdventureState") {}
+protected:
+	GameState* makeState(std::wstring _config);
+	static adventureState_maker s_sRegisteredMaker;
+};

@@ -223,6 +223,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\Core\GameState.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\Core\GameState.h"
 				>
 			</File>
