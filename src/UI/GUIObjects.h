@@ -250,7 +250,7 @@ public:
 
 	UIButton(buttonDef&, Gosu::Graphics&, Gosu::Input&);
 	
-	void setImage(std::wstring &);
+	void setImage(std::wstring);
 	
 	void onMouseIn();
 	void onMouseOut();

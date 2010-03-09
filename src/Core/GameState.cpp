@@ -27,6 +27,7 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
  */
 
+#include <stdexcept>
 #include "GameState.h"
 
 std::map<std::string, State_maker*> *State_maker::s_makerMap = 0;

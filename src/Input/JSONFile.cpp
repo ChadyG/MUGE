@@ -1,5 +1,6 @@
 #include "JSONFile.hpp"
 #include <fstream>
+#include <stdexcept>
 
 
 JSONFile::JSONFile(std::string fileName)
@@ -28,7 +29,7 @@ bool JSONFile::writeFile(std::string file)
 	return writeFile(file, this->variant, 0);
 }
 
-bool JSONFile::writeFile(std::string file, json::grammar<char>::variant& var, int depth)
+bool JSONFile::writeFile(std::string file, json::grammar<char>::variant var, int depth)
 {
 	std::ofstream outputStream;
 	outputStream.open(file.c_str(), std::ios_base::app);

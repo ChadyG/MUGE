@@ -42,7 +42,7 @@ UIButton::UIButton(buttonDef &_def, Gosu::Graphics &_graphics, Gosu::Input &_inp
 	m_hasImage = false;
 }
 
-void UIButton::setImage(std::wstring &_file)
+void UIButton::setImage(std::wstring _file)
 {
 	m_hasImage = true;
 	m_Image.setImage(_file, m_Graphics, m_Width, m_Height);

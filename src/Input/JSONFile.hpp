@@ -46,7 +46,7 @@ public:
 	*
 	* Recursively evaluate child data and write out in JSON format
 	**/
-	bool writeFile(std::string file, json::grammar<char>::variant& var,  int);
+	bool writeFile(std::string file, json::grammar<char>::variant var,  int);
 		
 	/**
 	* get - read a variable from a JSON file
