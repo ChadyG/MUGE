@@ -35,7 +35,7 @@
 	"Layers" : [
 		{
 			"ID" : "background",
-			"Layer" : 1,
+			"Layer" : -2,
 			"Scale" : 100.0,
 			"Objects" : [
 				{
@@ -141,7 +141,7 @@
 		},
 		{
 			"ID" : "midground",
-			"Layer" : 2,
+			"Layer" : -1,
 			"Scale" : 10.0,
 			"Objects" : [
 				{
@@ -236,7 +236,7 @@
 		},
 		{
 			"ID" : "ground",
-			"Layer" : 3,
+			"Layer" : 0,
 			"Scale" : 1.0,
 			"Objects" : [
 				{
@@ -353,7 +353,7 @@
 		},
 		{
 			"ID" : "foreground",
-			"Layer" : 5,
+			"Layer" : 1,
 			"Scale" : 0.5,
 			"Objects" : [
 				{
