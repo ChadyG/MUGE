@@ -84,9 +84,8 @@ public:
 	virtual void update();
 
 	/// Physics callback
-	virtual void onColStart(SceneObject *other, b2ContactPoint point);
-	virtual void onColPersist(SceneObject *other, b2ContactPoint point);
-	virtual void onColFinish(SceneObject *other, b2ContactPoint point);
+	virtual void onColStart(b2Fixture *_fix, SceneObject *_other, b2Manifold _manifold);
+	virtual void onColFinish(b2Fixture *_fix, SceneObject *_other, b2Manifold _manifold);
 
 	/// Message passing
 	virtual void onMessage(std::string _message);

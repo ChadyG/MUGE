@@ -69,7 +69,7 @@ public:
 	void setY(float _y) { m_posY = _y; }
 	void setZoom(float _zoom) { m_zoom = _zoom; }
 	void setAngle(float _angle) { m_angle = _angle; }
-	void setLayer(float _layer) { m_layer = _layer; }
+	void setLayer(float _layer) { m_layer = (int)_layer; }
 	void setVisible(bool _vis) { m_visible = _vis; }
 	
 	/**

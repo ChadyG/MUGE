@@ -1,0 +1,23 @@
+{
+	"CanvasColor" : [255, 10, 165, 255],
+	"xUnits" : 32,
+	"yUnits" : 32,
+	"Physics" : false,
+	"Layers" : [
+		{
+			"ID" : "background",
+			"Layer" : 1,
+			"Scale" : 1.0,
+			"Sprites" : [
+				{
+					"Image" : "MUGD_Title_screen.png",
+					"Position" : [ 0.0, 0.0],
+					"Rotation" : 0.0,
+					"ColorMod" : [255, 153, 153, 153],
+					"xScale" : 1.0,
+					"yScale" : 1.0
+				}
+			]
+		}
+	]
+}

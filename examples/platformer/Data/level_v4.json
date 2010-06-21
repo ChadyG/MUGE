@@ -1,0 +1,393 @@
+{
+	"CanvasColor" : [255, 10, 165, 255],
+	"Scale" : 32,
+	"Physics" : true,
+	"PlayerSpawn" : [ -6.0, 4.5],
+	"Music" : "Colugo-Fantastic_face.ogg",
+	"PhysicsShapes" : [
+		{
+			"Type" : "Rectangle",
+			"ID" : "rect",
+			"Width" : 1,
+			"Height" : 1,
+			"Density" : 1.0,
+			"Friction" : 1.3,
+			"Restitution" : 0.25,
+			"LinearDamping" : 0.0
+		},
+		{
+			"Type" : "Circle",
+			"ID" : "circle",
+			"Radius" : 2.0,
+			"Density" : 1.0,
+			"Friction" : 1.3,
+			"Restitution" : 0.25
+		},
+		{
+			"Type" : "Polygon",
+			"ID" : "poly",
+			"Vertices" : [ [1,0],[1,1],[0,1] ],
+			"Density" : 1.0,
+			"Friction" : 1.3,
+			"Restitution" : 0.25
+		}
+	],
+	"Layers" : [
+		{
+			"ID" : "background",
+			"Layer" : -2,
+			"Scale" : 100.0,
+			"Objects" : [
+				{
+					"Type" : "Sprite",
+					"Name" : "bg_hill",
+					"Image" : "Levels/hill.png",
+					"Position" : [ -10.0, 3.5],
+					"Rotation" : 0.0,
+					"ColorMod" : [255, 153, 153, 153],
+					"xScale" : 1.0,
+					"yScale" : 1.0,
+					"Objects" : []
+				},
+				{
+					"Type" : "Sprite",
+					"Name" : "bg_hill",
+					"Image" : "Levels/hill.png",
+					"Position" : [ -6.0, 5.0],
+					"Rotation" : 0.0,
+					"ColorMod" : [255, 153, 153, 153],
+					"xScale" : 1.0,
+					"yScale" : 1.0,
+					"Objects" : []
+				},
+				{
+					"Type" : "Sprite",
+					"Name" : "bg_hill",
+					"Image" : "Levels/hill.png",
+					"Position" : [ -2.0, 4.5],
+					"Rotation" : 0.0,
+					"ColorMod" : [255, 153, 153, 153],
+					"xScale" : 1.0,
+					"yScale" : 1.0,
+					"Objects" : []
+				},
+				{
+					"Type" : "Sprite",
+					"Name" : "bg_hill",
+					"Image" : "Levels/hill.png",
+					"Position" : [ 2.0, 3.4],
+					"Rotation" : 0.0,
+					"ColorMod" : [255, 153, 153, 153],
+					"xScale" : 1.0,
+					"yScale" : 1.0,
+					"Objects" : []
+				},
+				{
+					"Type" : "Sprite",
+					"Name" : "bg_hill",
+					"Image" : "Levels/hill.png",
+					"Position" : [ 6.0, 3.7],
+					"Rotation" : 0.0,
+					"ColorMod" : [255, 153, 153, 153],
+					"xScale" : 1.0,
+					"yScale" : 1.0,
+					"Objects" : []
+				},
+				{
+					"Type" : "Sprite",
+					"Name" : "bg_hill",
+					"Image" : "Levels/hill.png",
+					"Position" : [ 10.0, 2.5],
+					"Rotation" : 0.0,
+					"ColorMod" : [255, 153, 153, 153],
+					"xScale" : 1.0,
+					"yScale" : 1.0,
+					"Objects" : []
+				},
+				{
+					"Type" : "Sprite",
+					"Name" : "bg_cloud",
+					"Image" : "Levels/cloud1.png",
+					"Position" : [ -8.0, -5.5],
+					"Rotation" : 0.0,
+					"ColorMod" : [255, 255, 255, 255],
+					"xScale" : 1.0,
+					"yScale" : 1.0,
+					"Objects" : []
+				},
+				{
+					"Type" : "Sprite",
+					"Name" : "bg_cloud",
+					"Image" : "Levels/cloud1.png",
+					"Position" : [ -1.0, -7.7],
+					"Rotation" : 24.0,
+					"ColorMod" : [255, 255, 255, 255],
+					"xScale" : 1.0,
+					"yScale" : 1.0,
+					"Objects" : []
+				},
+				{
+					"Type" : "Sprite",
+					"Name" : "bg_cloud2",
+					"Image" : "Levels/cloud2.png",
+					"Position" : [ -3.0, -6.5],
+					"Rotation" : 10.0,
+					"ColorMod" : [255, 255, 255, 255],
+					"xScale" : 1.0,
+					"yScale" : 1.0,
+					"Objects" : []
+				}
+			]
+		},
+		{
+			"ID" : "midground",
+			"Layer" : -1,
+			"Scale" : 10.0,
+			"Objects" : [
+				{
+					"Type" : "Sprite",
+					"Name" : "mg_hill",
+					"Image" : "Levels/hill.png",
+					"Position" : [ -10.0, 4.5],
+					"Rotation" : 0.0,
+					"ColorMod" : [255, 170, 170, 170],
+					"xScale" : 1.0,
+					"yScale" : 1.0,
+					"Objects" : []
+				},
+				{
+					"Type" : "Sprite",
+					"Name" : "mg_hill",
+					"Image" : "Levels/hill.png",
+					"Position" : [ -6.0, 4.3],
+					"Rotation" : 0.0,
+					"ColorMod" : [255, 170, 170, 170],
+					"xScale" : 1.0,
+					"yScale" : 1.0,
+					"Objects" : []
+				},
+				{
+					"Type" : "Sprite",
+					"Name" : "mg_hill",
+					"Image" : "Levels/hill.png",
+					"Position" : [ -2.0, 4.9],
+					"Rotation" : 0.0,
+					"ColorMod" : [255, 170, 170, 170],
+					"xScale" : 1.0,
+					"yScale" : 1.0,
+					"Objects" : []
+				},
+				{
+					"Type" : "Sprite",
+					"Name" : "mg_hill",
+					"Image" : "Levels/hill.png",
+					"Position" : [ 2.0, 5.1],
+					"Rotation" : 0.0,
+					"ColorMod" : [255, 170, 170, 170],
+					"xScale" : 1.0,
+					"yScale" : 1.0,
+					"Objects" : []
+				},
+				{
+					"Type" : "Sprite",
+					"Name" : "mg_hill",
+					"Image" : "Levels/hill.png",
+					"Position" : [ 6.0, 5.0],
+					"Rotation" : 0.0,
+					"ColorMod" : [255, 170, 170, 170],
+					"xScale" : 1.0,
+					"yScale" : 1.0,
+					"Objects" : []
+				},
+				{
+					"Type" : "Sprite",
+					"Name" : "mg_hill",
+					"Image" : "Levels/hill.png",
+					"Position" : [ 10.0, 4.5],
+					"Rotation" : 0.0,
+					"ColorMod" : [255, 170, 170, 170],
+					"xScale" : 1.0,
+					"yScale" : 1.0,
+					"Objects" : []
+				},
+				{
+					"Type" : "Sprite",
+					"Name" : "mg_hill",
+					"Image" : "Levels/hill.png",
+					"Position" : [ 14.0, 5.3],
+					"Rotation" : 0.0,
+					"ColorMod" : [255, 170, 170, 170],
+					"xScale" : 1.0,
+					"yScale" : 1.0,
+					"Objects" : []
+				},
+				{
+					"Type" : "Sprite",
+					"Name" : "mg_hill",
+					"Image" : "Levels/hill.png",
+					"Position" : [ 18.0, 4.5],
+					"Rotation" : 0.0,
+					"ColorMod" : [255, 170, 170, 170],
+					"xScale" : 1.0,
+					"yScale" : 1.0,
+					"Objects" : []
+				}
+			]
+		},
+		{
+			"ID" : "ground",
+			"Layer" : 0,
+			"Scale" : 1.0,
+			"Objects" : [
+				{
+					"Type" : "Sprite",
+					"Name" : "g_grass",
+					"Image" : "Levels/Ground_01.png",
+					"Position" : [ -10.0, 5.5],
+					"Rotation" : 0.0,
+					"ColorMod" : [255, 255, 255, 255],
+					"xScale" : 1.0,
+					"yScale" : 1.0,
+					"Objects" : []
+				},
+				{
+					"Type" : "Sprite",
+					"Image" : "Levels/Ground_01.png",
+					"Position" : [ -6.85, 5.5],
+					"Rotation" : 0.0,
+					"ColorMod" : [255, 255, 255, 255],
+					"xScale" : 1.0,
+					"yScale" : 1.0,
+					"Objects" : []
+				},
+				{
+					"Type" : "Sprite",
+					"Image" : "Levels/Ground_01.png",
+					"Position" : [ -3.7, 5.5],
+					"Rotation" : 0.0,
+					"ColorMod" : [255, 255, 255, 255],
+					"xScale" : 1.0,
+					"yScale" : 1.0,
+					"Objects" : []
+				},
+				{
+					"Type" : "Sprite",
+					"Image" : "Levels/Ground_01.png",
+					"Position" : [ -0.55, 5.5],
+					"Rotation" : 0.0,
+					"ColorMod" : [255, 255, 255, 255],
+					"xScale" : 1.0,
+					"yScale" : 1.0,
+					"Objects" : []
+				},
+				{
+					"Type" : "Sprite",
+					"Image" : "Levels/Ground_01.png",
+					"Position" : [ 2.6, 5.5],
+					"Rotation" : 0.0,
+					"ColorMod" : [255, 255, 255, 255],
+					"xScale" : 1.0,
+					"yScale" : 1.0,
+					"Objects" : []
+				},
+				{
+					"Type" : "Sprite",
+					"Image" : "Levels/Ground_01.png",
+					"Position" : [ 5.75, 5.5],
+					"Rotation" : 0.0,
+					"ColorMod" : [255, 255, 255, 255],
+					"xScale" : 1.0,
+					"yScale" : 1.0,
+					"Objects" : []
+				},
+				{
+					"Type" : "Sprite",
+					"Image" : "Levels/Ground_01.png",
+					"Position" : [ 8.9, 5.5],
+					"Rotation" : 0.0,
+					"ColorMod" : [255, 255, 255, 255],
+					"xScale" : 1.0,
+					"yScale" : 1.0,
+					"Objects" : []
+				},
+				{
+					"Type" : "Sprite",
+					"Image" : "Levels/Ground_01.png",
+					"Position" : [ 12.05, 5.5],
+					"Rotation" : 0.0,
+					"ColorMod" : [255, 255, 255, 255],
+					"xScale" : 1.0,
+					"yScale" : 1.0,
+					"Objects" : []
+				},
+				{
+					"Type" : "Sprite",
+					"Image" : "Levels/Ground_01.png",
+					"Position" : [ 15.2, 5.5],
+					"Rotation" : 0.0,
+					"ColorMod" : [255, 255, 255, 255],
+					"xScale" : 1.0,
+					"yScale" : 1.0
+				},
+				{
+					"Type" : "Sprite",
+					"Image" : "Levels/Ground_01.png",
+					"Position" : [ 18.35, 5.5],
+					"Rotation" : 0.0,
+					"ColorMod" : [255, 255, 255, 255],
+					"xScale" : 1.0,
+					"yScale" : 1.0,
+					"Objects" : []
+				},
+				{
+					"Type" : "Sprite",
+					"Image" : "Levels/Ground_01.png",
+					"Position" : [ 21.5, 5.5],
+					"Rotation" : 0.0,
+					"ColorMod" : [255, 255, 255, 255],
+					"xScale" : 1.0,
+					"yScale" : 1.0,
+					"Objects" : []
+				}
+			]
+		},
+		{
+			"ID" : "foreground",
+			"Layer" : 1,
+			"Scale" : 0.5,
+			"Objects" : [
+				{
+					"Type" : "Sprite",
+					"Name" : "fg_hill",
+					"Image" : "Levels/hill.png",
+					"Position" : [ -10.0, 7.1],
+					"Rotation" : 0.0,
+					"ColorMod" : [255, 255, 255, 255],
+					"xScale" : 1.0,
+					"yScale" : 1.0,
+					"Objects" : []
+				},
+				{
+					"Type" : "Sprite",
+					"Image" : "Levels/hill.png",
+					"Position" : [ 2.0, 7.2],
+					"Rotation" : 0.0,
+					"ColorMod" : [255, 255, 255, 255],
+					"xScale" : 1.0,
+					"yScale" : 1.0,
+					"Objects" : []
+				},
+				{
+					"Type" : "Sprite",
+					"Image" : "Levels/hill.png",
+					"Position" : [ 6.0, 7.5],
+					"Rotation" : 0.0,
+					"ColorMod" : [255, 255, 255, 255],
+					"xScale" : 1.0,
+					"yScale" : 1.0,
+					"Objects" : []
+				}
+			]
+		}
+	]
+}

@@ -118,7 +118,7 @@ void UIContainer::update()
 	if (m_hasFocus) {
 		std::list< boost::shared_ptr<UIObject> >::iterator itObj;
 		bool mouseIn = false;
-		int mouseX = m_Input.mouseX(), mouseY = m_Input.mouseY();
+		int mouseX = (int)m_Input.mouseX(), mouseY = (int)m_Input.mouseY();
 
 		// General mouse state detection
 		if (m_Input.down(Gosu::msLeft)) {

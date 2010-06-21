@@ -1,9 +1,0 @@
-{
-        "Menu" : 
-        {
-                "Quit" : "Escape",
-                "Select" : "Return",
-				"CursorUp" : "UpArrow",
-				"CursorDown" : "DownArrow"
-        }
-}

@@ -1,0 +1,14 @@
+{
+	"NextState" : [
+		"MainMenuState",
+		"MainMenuState.json"
+	],
+	"Screens" : [
+		{
+			"Image" : "BT_Title_screen.png",
+			"Duration" : 4.0,
+			"FadeTo" : [ 0, 0, 0],
+			"DecayTime" : 1.0
+		}
+	]
+}

@@ -63,17 +63,12 @@ void SceneObject::update()
 {
 }
 
-void SceneObject::onColStart( SceneObject *other, b2ContactPoint point) 
+void SceneObject::onColStart( b2Fixture *_fix, SceneObject *_other, b2Manifold _manifold) 
 {
 	
 }
 
-void SceneObject::onColPersist( SceneObject *other, b2ContactPoint point) 
-{
-	
-}
-
-void SceneObject::onColFinish( SceneObject *other, b2ContactPoint point) 
+void SceneObject::onColFinish( b2Fixture *_fix, SceneObject *_other, b2Manifold _manifold) 
 {
 	
 }
@@ -91,8 +86,8 @@ Trigger::Trigger()
 
 void Trigger::setExtents( double _top, double _left, double _bottom, double _right)
 {
-	m_Box.upperBound.Set( _left, _top );
-	m_Box.lowerBound.Set( _right, _bottom );
+	m_Box.upperBound.Set( (float32)_left, (float32)_top );
+	m_Box.lowerBound.Set( (float32)_right, (float32)_bottom );
 }
 
 bool Trigger::pointIn(b2Vec2 &_point)

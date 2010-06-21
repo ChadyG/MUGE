@@ -30,7 +30,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 #ifndef CAMERA_H
 #define CAMERA_H
-
+/*
 #include <Gosu/Gosu.hpp>
 
 class Camera
@@ -67,5 +67,5 @@ private:
 	std::map< int, float > m_LayerScales;
 	float m_Zoom, m_Rot;
 };
-
+*/
 #endif

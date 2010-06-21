@@ -29,10 +29,10 @@ OTHER DEALINGS IN THE SOFTWARE.
  */
  
 #include <Gosu/Gosu.hpp>
-#include "Input/JSONFile.hpp"
+#include "Data/JSONFile.hpp"
 #include "Input/InputManager.h"
 #include "Core/Core.h"
-#include "TitleState.h"
+#include "Core/GameState.h"
 
 
 int main(int argc, char* argv[])

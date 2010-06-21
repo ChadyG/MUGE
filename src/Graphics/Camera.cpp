@@ -30,7 +30,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 #include "Camera.h"
 #include <Box2D.h>
-
+/*
 
 b2XForm Camera::worldToScreen( float _x, float _y, Gosu::ZPos _layer )
 {
@@ -58,3 +58,4 @@ b2XForm Camera_Parallax::worldToScreen( float _x, float _y, Gosu::ZPos _layer )
 	trans.position.Set( trans.position.x + m_Width/2, trans.position.y + m_Height/2);
 	return trans;
 }
+*/

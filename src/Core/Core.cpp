@@ -42,7 +42,7 @@ Core::Core(int _width, int _height, bool _fullscreen, double _updateInterval)
 {
 	InputManager::setCurrentContext( &m_inputManager );
 
-	m_FPS = 1000/_updateInterval;
+	m_FPS = (int)(1000.0/_updateInterval);
 	m_curFPS = 1;
 	m_curTicks = 0;
 	m_lastSecond = Gosu::milliseconds()/1000;

@@ -54,13 +54,13 @@ void RenderManager::doRender() const
 	for (isprite = m_Sprites.begin(); isprite != m_Sprites.end(); isprite++) {
 		if (isprite->visible()) {
 			iscale = m_LayerScales.find(isprite->layer());
-			scale = 1.0/iscale->second;
-			zoom = 1.0 + scale * (m_camZoom - 1.0);
+			scale = 1.f/iscale->second;
+			zoom = 1.f + scale * (m_camZoom - 1.f);
 
 			b2Vec2 newPos((isprite->posX() - m_camX) * scale * m_screenScale * zoom, 
 						  (isprite->posY() - m_camY) * scale * m_screenScale * zoom);
-			b2XForm trans;
-			trans.R.Set( m_camRot*(Gosu::pi/180.0) );
+			b2Transform trans;
+			trans.R.Set( m_camRot*(float)(Gosu::pi/180.0) );
 			trans.position = b2Mul( trans.R, newPos);
 			trans.position.Set( trans.position.x + m_screenW/2, trans.position.y + m_screenH/2);
 
@@ -71,14 +71,14 @@ void RenderManager::doRender() const
 	std::list<SpriteSheet>::const_iterator isheet;
 	for (isheet = m_SpriteSheets.begin(); isheet != m_SpriteSheets.end(); isheet++) {
 		if (isheet->visible()) {
-			iscale = m_LayerScales.find(isheet->layer());
-			scale = 1.0/iscale->second;
-			zoom = 1.0 + scale * (m_camZoom - 1.0);
+			iscale = m_LayerScales.find((float)isheet->layer());
+			scale = 1.f/iscale->second;
+			zoom = 1.f + scale * (m_camZoom - 1.f);
 
 			b2Vec2 newPos((isheet->posX() - m_camX) * scale * m_screenScale * zoom, 
 						  (isheet->posY() - m_camY) * scale * m_screenScale * zoom);
-			b2XForm trans;
-			trans.R.Set( m_camRot*(Gosu::pi/180.0) );
+			b2Transform trans;
+			trans.R.Set( m_camRot*(float32)(Gosu::pi/180.0) );
 			trans.position = b2Mul( trans.R, newPos);
 			trans.position.Set( trans.position.x + m_screenW/2, trans.position.y + m_screenH/2);
 
@@ -97,7 +97,7 @@ Sprite* RenderManager::createSprite(int _layer, std::wstring _filename)
 		m_ImageMap[_filename] = m_curImageID++;
 	}
 	tsprite.setImage(m_Images[m_ImageMap[_filename]]);
-	tsprite.setLayer(_layer);
+	tsprite.setLayer((float)_layer);
 	m_Sprites.push_back(tsprite);
 	return &(m_Sprites.back());
 }
@@ -126,7 +126,7 @@ double scale = 1.0/m_LayerScales[_layer];
 double zoom = 1.0 + scale * (m_Zoom - 1.0);
 b2Vec2 newPos((_x * m_Scale * scale) * zoom, 
 			  (_y * m_Scale * scale) * zoom);
-b2XForm trans;
+b2Transform trans;
 trans.R.Set( m_Rot*(Gosu::pi/180.0) );
 trans.position = b2Mul( trans.R, newPos);
 trans.position.Set( trans.position.x + m_Width/2, trans.position.y + m_Height/2);

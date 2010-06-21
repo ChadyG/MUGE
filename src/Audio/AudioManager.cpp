@@ -75,10 +75,10 @@ void AudioManager::playStereoSample( std::string _name, double _x, double _y, do
 	double scale = 1.0;
 	double zoom = 1.0 + scale * (m_camZoom - 1.0);
 
-	b2Vec2 newPos((_x - m_camX) * scale * m_screenScale * zoom, 
-				  (_y - m_camY) * scale * m_screenScale * zoom);
-	b2XForm trans;
-	trans.R.Set( m_camRot*(Gosu::pi/180.0) );
+	b2Vec2 newPos((float32)((_x - (double)m_camX) * scale * (double)m_screenScale * zoom), 
+				  (float32)((_y - (double)m_camY) * scale * (double)m_screenScale * zoom));
+	b2Transform trans;
+	trans.R.Set( m_camRot*(float32)(Gosu::pi/180.0) );
 	trans.position = b2Mul( trans.R, newPos);
 
 	m_Samples[_name]->playPan( Gosu::clamp<double>(trans.position.x/(m_screenW/2), -1.0, 1.0), _volume, _speed );

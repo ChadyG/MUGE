@@ -28,7 +28,6 @@ OTHER DEALINGS IN THE SOFTWARE.
  */
 #include "../Core/Core.h"
 #include "SpriteSheet.h"
-#include "../Scene/Scene.h"
 
 SpriteSheet::SpriteSheet( )
 : m_Delay(0), m_Frame(0), m_Timer(0), m_centerX(0.5), m_Speed(1.f),
@@ -44,7 +43,7 @@ m_ColorMod(Gosu::Colors::white), m_Delay(_delay), m_Frame(0)
 {
 	Gosu::imagesFromTiledBitmap(Core::getCurrentContext()->graphics(), _fileName, _width, _height, false, m_Sprites);
 	m_numFrames = m_Sprites.size();
-	m_Timer = m_Delay;
+	m_Timer = (float)m_Delay;
 }
 
 //----------Setters----------
@@ -55,7 +54,7 @@ void SpriteSheet::setImage( std::wstring _fileName, Gosu::Graphics &_graphics, i
 	Gosu::imagesFromTiledBitmap(_graphics, _fileName, _width, _height, false, m_Sprites);
 	m_Frame = 0;
 	m_numFrames = m_Sprites.size();
-	m_Timer = m_Delay;
+	m_Timer = (float)m_Delay;
 }
 
 void SpriteSheet::setImage( std::wstring _fileName, int _width, int _height, int _delay)
@@ -64,7 +63,7 @@ void SpriteSheet::setImage( std::wstring _fileName, int _width, int _height, int
 	Gosu::imagesFromTiledBitmap(Core::getCurrentContext()->graphics(), _fileName, _width, _height, false, m_Sprites);
 	m_Frame = 0;
 	m_numFrames = m_Sprites.size();
-	m_Timer = m_Delay;
+	m_Timer = (float)m_Delay;
 }
 
 void SpriteSheet::setScaling(double _factorX, double _factorY)
@@ -110,7 +109,7 @@ void SpriteSheet::update()
 {
 	m_Timer -= m_Speed;
 	if (m_Timer <= 0) {
-		m_Timer = m_Delay;
+		m_Timer = (float)m_Delay;
 		m_Frame++;
 		if (m_Frame == m_numFrames)
 			m_Frame = 0;

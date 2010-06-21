@@ -48,36 +48,24 @@ class Player : public SceneObject
 {
 public:
 	Player();
+	virtual void init() = 0;
 	
-	void addSpriteSheet(std::string _name, SpriteSheet* _anim);
+	virtual void setLayer( Gosu::ZPos _z ) { m_Layer = _z; }
 	
-	void setLayer( Gosu::ZPos _z );
+	virtual void setPhysics( double _x, double _y, b2World* _world);
+	b2Vec2 getPosition() { return m_Position; }
 	
-	void setPhysics( double _x, double _y, b2World* _world);
-	b2Vec2 getPosition() { return m_Pos; }
+	virtual void onColStart(b2Fixture *_fix, SceneObject *_other, b2Manifold _manifold);
+	virtual void onColFinish(b2Fixture *_fix, SceneObject *_other, b2Manifold _manifold);
+	virtual void onMessage(std::string _message);
 	
-	void setGravity( b2Vec2 _gravity );
-	
-	void onColStart(SceneObject *other, b2ContactPoint point);
-	void onColPersist(SceneObject *other, b2ContactPoint point);
-	void onColFinish(SceneObject *other, b2ContactPoint point);
-	void onMessage(std::string _message);
-	
-	void update();
+	virtual void update() = 0;
 	
 protected:
-	//Image Data
-	std::map< std::string, SpriteSheet*> m_Anims;
-	SpriteSheet* m_AnimState;
 	Gosu::ZPos m_Layer;
 	
 	b2Body *m_Body;
 	b2World *m_World;
-	b2Vec2 m_Pos;
-	b2Vec2 m_Gravity;
-	
-	// something about serialization into sqlite...
-	// something about lua bindings..
 };
 
 /**
@@ -86,10 +74,17 @@ protected:
 */
 class AIPlayer : public Player {
 public:
-	AIPlayer(int _x, int _y, b2World* _world, Gosu::Graphics& _graphics);
+	AIPlayer();
+	virtual void init() = 0;
 	
-	void update(Gosu::Input& _input);
-	void draw() const;
+	virtual void setPhysics( double _x, double _y, b2World* _world);
+	
+	virtual void onColStart(SceneObject *other, b2ContactPoint point);
+	virtual void onColPersist(SceneObject *other, b2ContactPoint point);
+	virtual void onColFinish(SceneObject *other, b2ContactPoint point);
+	virtual void onMessage(std::string _message);
+	
+	virtual void update();
 private:
 	
 	//AI data

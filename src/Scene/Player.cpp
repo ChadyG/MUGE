@@ -37,66 +37,20 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 Player::Player()
 {
-	m_AnimState = NULL;
 }
 
 void Player::setPhysics( double _x, double _y, b2World* _world)
 {
-	m_Pos.x = _x;
-	m_Pos.y = _y;
-/*
-	m_World = _world;
-	b2CircleDef cDef;
-	cDef.radius = 1.0;
-	cDef.density = 1.0;
-	cDef.friction = 1.3;
-	cDef.restitution = 0.3;
-	b2BodyDef bDef;
-	bDef.userData = this;
-	bDef.position.Set( _x, _y );
-	bDef.linearDamping = 0.5f;
-	bDef.angularDamping = 0.5f;
-	//bDef.fixedRotation = true;
-	m_Body = m_World->CreateBody( &bDef );
-	m_Body->CreateShape( &cDef );
-	m_Body->SetMassFromShapes();
-*/
+	m_Position.x = (float32)_x;
+	m_Position.y = (float32)_y;
 }
 
-void Player::addSpriteSheet(std::string _name, SpriteSheet* _anim)
-{
-	m_Anims[_name] = _anim;
-	if (m_AnimState)
-		m_AnimState->setVisible(false);
-	m_AnimState = m_Anims[_name];
-	m_AnimState->setVisible(true);
-}
-
-void Player::setLayer(Gosu::ZPos _z)
-{
-	m_Layer = _z;
-	std::map< std::string, SpriteSheet*>::iterator iAnim;
-	for (iAnim = m_Anims.begin(); iAnim != m_Anims.end(); iAnim++) {
-		(*iAnim).second->setLayer( m_Layer );
-	}
-}
-
-void Player::setGravity( b2Vec2 _gravity )
-{
-	m_Gravity = _gravity;
-}
-
-void Player::onColStart( SceneObject *other, b2ContactPoint point) 
+void Player::onColStart( b2Fixture *_fix, SceneObject *_other, b2Manifold _manifold) 
 {
 	
 }
 
-void Player::onColPersist( SceneObject *other, b2ContactPoint point) 
-{
-	
-}
-
-void Player::onColFinish( SceneObject *other, b2ContactPoint point) 
+void Player::onColFinish( b2Fixture *_fix, SceneObject *_other, b2Manifold _manifold) 
 {
 	
 }
@@ -104,30 +58,4 @@ void Player::onColFinish( SceneObject *other, b2ContactPoint point)
 void Player::onMessage(std::string _message)
 {
 
-}
-
-void Player::update()
-{
-	InputManager* input = InputManager::getCurrentContext();
-	//m_Pos = m_Body->GetPosition();
-	
-	if (input->query("Play.MoveLeft") == InputManager::actnActive) {
-		m_AnimState->setVisible(false);
-		m_AnimState = m_Anims["WalkLeft"];
-		m_AnimState->setVisible(true);
-		m_Pos.x -= 0.1;
-		if (input->query("Play.Run") == InputManager::actnActive) 
-			m_Pos.x -= 0.1;
-	}
-	if (input->query("Play.MoveRight") == InputManager::actnActive) {
-		m_AnimState->setVisible(false);
-		m_AnimState = m_Anims["Walk"];
-		m_AnimState->setVisible(true);
-		m_Pos.x += 0.1;
-		if (input->query("Play.Run") == InputManager::actnActive)
-			m_Pos.x += 0.1;
-	}
-
-	m_AnimState->setX( m_Pos.x );
-	m_AnimState->setY( m_Pos.y );
 }

@@ -1,0 +1,55 @@
+{
+	"WindowSize" : [768, 480],
+	"FullScreen" : false,
+	"UpdateInterval" : 20.0,
+	"NextState" : [
+		"TitleState",
+		"TitleState.json"
+	],
+	"Cursor" : {
+		"Image" : "cursor.png",
+		"Center" : [ 0, 0]
+	},
+	"ButtonMaps" : [
+		{
+			"Action" : "Game.Quit",
+			"Key" : "kbEscape",
+			"Type" : "action"
+		},
+		{
+			"Action" : "Menu.Up",
+			"Key" : "kbUp",
+			"Type" : "action"
+		},
+		{
+			"Action" : "Menu.Down",
+			"Key" : "kbDown",
+			"Type" : "action"
+		},
+		{
+			"Action" : "Menu.Select",
+			"Keys" : ["kbEnter", "kbSpace"],
+			"Type" : "action"
+		},
+		{
+			"Action" : "Menu.MouseSelect",
+			"Key" : "msLeft",
+			"Type" : "action"
+		},
+		{
+			"Action" : "Play.MoveRight",
+			"Key" : "kbRight",
+			"Type" : "action"
+		},
+		{
+			"Action" : "Play.MoveLeft",
+			"Key" : "kbLeft",
+			"Type" : "action"
+		},
+		{
+			"Action" : "Play.Run",
+			"Key" : "kbLeftShift",
+			"Type" : "action"
+		}
+	]
+}

@@ -106,7 +106,7 @@ void UISliderControl::draw(int _x, int _y, int _layer) const
 
 bool UISliderControl::pointIn(int _x, int _y)
 {
-	int x = m_X + m_Value * m_Scale - m_Min * m_Scale;
+	int x = m_X + (int)m_Value * (int)m_Scale - m_Min * (int)m_Scale;
 	if (_x > (x - 10) && _x < (x + 10) &&
 		_y > (m_Y + m_Height) && _y < (m_Y + m_Height + 15)) 
 		return true;
