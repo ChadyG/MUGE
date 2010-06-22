@@ -29,6 +29,7 @@ OTHER DEALINGS IN THE SOFTWARE.
  */
 
 #include "InputManager.h"
+#include "../Core/Core.h"
 
 InputManager* InputManager::s_CurrentContext;
 
@@ -158,7 +159,7 @@ void InputManager::buttonDown(Gosu::Button _button)
 	for (cit = m_chords.begin(); cit != m_chords.end(); cit++) {
 		std::list<btnVald>::iterator bit;
 		for (bit = cit->second.buttons.begin(); bit != cit->second.buttons.end(); bit++) {
-			if (bit->button == _button.getId()) {
+			if (bit->button == _button) {
 				bit->valid = true;
 				if (cit->second.state == actnIdle) {
 					cit->second.timer = 10;
@@ -180,7 +181,7 @@ void InputManager::buttonDown(Gosu::Button _button)
 	//Update sequences with start state
 	std::list<sequencebuff>::iterator sit;
 	for (sit = m_seqbuff.begin();sit != m_seqbuff.end(); sit++) {
-		if (sit->index == (sit->sequence->buttons.size()-1) &&_button.getId() == sit->sequence->buttons[sit->index]) {
+		if (sit->index == (sit->sequence->buttons.size()-1) && _button == sit->sequence->buttons[sit->index]) {
 			sit->sequence->state = actnBegin;
 		}
 	}
@@ -189,7 +190,7 @@ void InputManager::buttonDown(Gosu::Button _button)
 	for (ait = m_actions.begin();ait != m_actions.end(); ait++) {
 		std::list<Gosu::ButtonName>::iterator bit;
 		for (bit = ait->second.buttons.begin(); bit != ait->second.buttons.end(); bit++) {
-			if ((*bit) == _button.getId()) {
+			if ((*bit) == _button) {
 				ait->second.state = actnBegin;
 			}
 		}
@@ -201,7 +202,7 @@ void InputManager::buttonUp(Gosu::Button _button)
 	//Update sequences
 	std::list<sequencebuff>::iterator sit = m_seqbuff.begin();
 	while (sit != m_seqbuff.end()) {
-		if (_button.getId() != sit->sequence->buttons[sit->index]) {
+		if (_button != sit->sequence->buttons[sit->index]) {
 			if (sit->sequence->state != actnActive) {
 				sit->sequence->state = actnIdle;
 				sit = m_seqbuff.erase(sit);
@@ -221,7 +222,7 @@ void InputManager::buttonUp(Gosu::Button _button)
 	//Start new sequences
 	std::map<std::string, sequence>::iterator ssit;
 	for (ssit = m_sequences.begin(); ssit != m_sequences.end(); ssit++) {
-		if (_button.getId() == ssit->second.buttons.front()) {
+		if (_button == ssit->second.buttons.front()) {
 			sequencebuff sb;
 			sb.index = 1;
 			sb.sequence = &(ssit->second);
@@ -235,7 +236,7 @@ void InputManager::buttonUp(Gosu::Button _button)
 	for (cit = m_chords.begin(); cit != m_chords.end(); cit++) {
 		std::list<btnVald>::iterator bit;
 		for (bit = cit->second.buttons.begin(); bit != cit->second.buttons.end(); bit++) {
-			if (bit->button == _button.getId()) {
+			if (bit->button == _button) {
 				if(cit->second.state == actnProcess)
 					cit->second.state = actnIdle;
 				else
@@ -253,10 +254,32 @@ void InputManager::buttonUp(Gosu::Button _button)
 	for (ait = m_actions.begin();ait != m_actions.end(); ait++) {
 		std::list<Gosu::ButtonName>::iterator bit;
 		for (bit = ait->second.buttons.begin(); bit != ait->second.buttons.end(); bit++) {
-			if ((*bit) == _button.getId()) {
+			if ((*bit) == _button) {
 				ait->second.state = actnFinish;
 			}
 		}
+	}
+}
+
+void InputManager::resetInputs()
+{
+	//Update sequences
+	m_seqbuff.clear();
+
+	//Start new sequences
+	std::map<std::string, sequence>::iterator ssit;
+	for (ssit = m_sequences.begin(); ssit != m_sequences.end(); ssit++) {
+		ssit->second.state = actnIdle;
+	}
+	//Invalidate chords
+	std::map<std::string, chord>::iterator cit;
+	for (cit = m_chords.begin(); cit != m_chords.end(); cit++) {
+		cit->second.state = actnIdle;
+	}
+	//Update actions
+	std::map<std::string, action>::iterator ait;
+	for (ait = m_actions.begin();ait != m_actions.end(); ait++) {
+		ait->second.state = actnIdle;
 	}
 }
 
@@ -314,8 +337,28 @@ void InputManager::update()
 	}
 }
 
+b2Vec2 InputManager::getMouse()
+{
+	b2Vec2 mouse(Core::getCurrentContext()->input().mouseX() - m_screenW/2, Core::getCurrentContext()->input().mouseY() - m_screenH/2);
+
+	double scale = 1.0;
+	double zoom = 1.0 + scale * (m_camZoom - 1.0);
+
+	b2Transform trans;
+	trans.R.Set( -m_camRot*(Gosu::pi/180.0) );
+	trans.position = b2Mul( trans.R, mouse);
+
+	mouse.Set((trans.position.x) / (scale * m_screenScale * zoom) + m_camX, 
+				  (trans.position.y) / (scale * m_screenScale * zoom) + m_camY);
+	
+	return mouse;
+}
+
 InputManager::actionState InputManager::query(std::string _action)
 {
+	if (!m_enabled)
+		return actnIdle;
+
 	if (m_sequences.find(_action) != m_sequences.end()) {
 		return m_sequences.find(_action)->second.state;
 	}else

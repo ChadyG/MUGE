@@ -28,34 +28,38 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#include <math.h>
 #include "Camera.h"
-#include <Box2D.h>
-/*
 
-b2XForm Camera::worldToScreen( float _x, float _y, Gosu::ZPos _layer )
+
+CameraTransform Camera::worldToScreen( double _x, double _y, Gosu::ZPos _layer )
 {
-	b2XForm trans;
-	trans.R.Set( 0.0 );
-	trans.position.Set( _x + m_FocusX, _y + m_FocusY);
+	CameraTransform trans;
+	trans.rot = 0.0;
+	trans.zoom = 1.0;
+	trans.x = _x - m_FocusX + m_Width/2;
+	trans.y = _y - m_FocusY + m_Height/2;
 	return trans;
 }
 
 
-void Camera_Parallax::addLayer(int _layer, float _dist)
+void Camera_Parallax::addLayer(int _layer, double _dist)
 {
 	m_LayerScales[_layer] = _dist;
 }
 
-b2XForm Camera_Parallax::worldToScreen( float _x, float _y, Gosu::ZPos _layer )
+CameraTransform Camera_Parallax::worldToScreen( double _x, double _y, Gosu::ZPos _layer )
 {
 	double scale = 1.0/m_LayerScales[_layer];
 	double zoom = 1.0 + scale * (m_Zoom - 1.0);
-	b2Vec2 newPos((_x * m_Scale * scale) * zoom, 
-				  (_y * m_Scale * scale) * zoom);
-	b2XForm trans;
-	trans.R.Set( m_Rot*(Gosu::pi/180.0) );
-	trans.position = b2Mul( trans.R, newPos);
-	trans.position.Set( trans.position.x + m_Width/2, trans.position.y + m_Height/2);
+	double nX = ((_x  - m_FocusX) * m_Scale * scale) * zoom;
+	double nY = ((_y  - m_FocusY) * m_Scale * scale) * zoom;
+	double rot =  m_Rot*(Gosu::pi/180.0);
+
+	CameraTransform trans;
+	trans.x = nX * cos( rot ) - nY * sin( rot ) + m_Width/2;
+	trans.y = nX * sin( rot ) + nY * cos( rot ) + m_Height/2;
+	trans.rot = m_Rot;
+	trans.zoom = zoom;
 	return trans;
 }
-*/

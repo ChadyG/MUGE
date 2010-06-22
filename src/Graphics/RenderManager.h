@@ -36,6 +36,19 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include <list>
 #include "SpriteSheet.h"
 #include "Sprite.h"
+#include "Camera.h"
+
+
+struct MessageBubble
+{
+	Gosu::Image *text;
+	std::wstring Message;
+	bool isStatic;
+	int width;
+	int height;
+	double x;
+	double y;
+};
 
 /**
 *	Intended services 
@@ -49,24 +62,57 @@ OTHER DEALINGS IN THE SOFTWARE.
 class RenderManager
 {
 public:
-	RenderManager() : m_curImageID(0) {}
+	RenderManager();
+	~RenderManager();
 	
-	void setScreen( int _w, int _h, int _s)
+	/// Set parameters for window
+	/// @param _w screen width
+	/// @param _h screen height
+	/// @param _s screen scaling factor - pixels per world unit
+	void setScreen( int _w, int _h, double _s)
 	{
-		m_screenW = _w; m_screenH = _h; m_screenScale = _s;
+		m_Camera->setExtents( _w, _h);
+		m_Camera->setScale( _s );
 	};
 
-	void setCamera( float _x, float _y, float _zoom = 1.f, float _rot = 0.f )
+	/// Update camera parameters
+	/// @param _x world space X coordinate of camera 
+	/// @param _y world space Y coordinate of camera 
+	/// @param _zoom zoom factor of camera 
+	/// @param _rot angle of camera (degrees)
+	/// This should be called on each game tick
+	void setCamera( double _x, double _y, double _zoom = 1.f, double _rot = 0.f )
 	{
-		m_camX = _x; m_camY = _y, m_camZoom = _zoom; m_camRot = _rot;
+		m_Camera->setFocus( _x, _y);
+		m_Camera->setZoom( _zoom );
+		m_Camera->setRotation( _rot );
 	};
 
+	/// Set camera object to user defined type
+	/// This camera takes cares of the world to screen transformation.  
+	/// The default camera does a direct transformation (1:1 linear) from world space to screen space.
+	/// If this does not suit your needs, create a child class of the Camera type to perform your own transformation.
+	/// @param _cam A camera object created by the caller (RenderManager will not automatically initialize your Camera)
+	void setCamera( Camera *_cam )
+	{
+		if (_cam) {
+			delete m_Camera;
+			m_Camera = _cam;
+		}
+	};
+
+	/// Updates all sprite sheets
+	/// This should be called every game tick
 	void updateSpriteSheets();
 
+	/// Call to run draw operations
 	void doRender() const;
 
+	/// Define scaling factor for a layer
 	void setLayerScale(int _layer, float _scale) { m_LayerScales[_layer] = _scale; }
 
+	/// create a message bubble
+	MessageBubble* createMessage(std::wstring _message, double _x, double _y, bool _static = true);
 	/// create a sprite
 	Sprite* createSprite(int _layer, std::wstring _filename);
 	/// create a SpriteSheet
@@ -77,6 +123,22 @@ public:
 	void registerSprite(int _layer, Sprite* _sp);
 	/// register a SpriteSheet
 	void registerSpriteSheet(int _layer, SpriteSheet* _ss);
+
+	/// Delete a specific sprite
+	void deleteSprite(Sprite* _sprite);
+	/// Delete a specific spritesheet
+	void deleteSpriteSheet(SpriteSheet* _sheet);
+	/// Delete a specific sprite
+	void deleteMessage(MessageBubble* _message);
+
+	/// Release all Sprites
+	void clearSprites() { m_Sprites.clear(); }
+	/// Release all SpriteSheets
+	void clearSpriteSheets() { m_SpriteSheets.clear(); }
+	/// Release all Message Bubbles
+	void clearMessages() { m_Messages.clear(); }
+	/// Release all resources
+	void clearAll() { m_Sprites.clear(); m_SpriteSheets.clear(); m_Messages.clear(); }
 
 	/// Static accessor to current render manager
 	static RenderManager* getCurrentContext() { return s_CurrentContext; }
@@ -95,11 +157,18 @@ protected:
 
 	std::list< SpriteSheet > m_SpriteSheets;
 	std::list< Sprite > m_Sprites;
+
+	std::list< MessageBubble > m_Messages;
+	SpriteSheet m_MessageCorners;
+	Gosu::Image m_MessageTip;
+	Gosu::Font m_Font;
 	
 	int m_curImageID;
 
-	float m_camX, m_camY, m_camZoom, m_camRot;
-	int m_screenW, m_screenH, m_screenScale;
+	//double m_camX, m_camY, m_camZoom, m_camRot;
+	//int m_screenW, m_screenH, m_screenScale;
+
+	Camera *m_Camera;
 };
 
 

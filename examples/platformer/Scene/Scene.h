@@ -93,6 +93,7 @@ protected:
 	std::map< Gosu::ZPos, SpriteLayer > m_Layers;
 	std::map< std::string, Gosu::ZPos > m_LayerNames;
 
+	Camera_Parallax m_Camera;
 	RenderManager m_rendMan;
 	AudioManager m_audMan;
 	

@@ -92,6 +92,7 @@ Scene::Scene(std::wstring _config)
 	m_Scale = m_jFile->get< int >("Scale");
 
 	// Configure render/audio manager for screen transformation
+	m_rendMan.setCamera( &m_Camera );
 	m_rendMan.setScreen( m_Width, m_Height, m_Scale );
 	m_audMan.setScreen( m_Width, m_Height, m_Scale );
 	
@@ -103,7 +104,8 @@ Scene::Scene(std::wstring _config)
 		m_Layers[layer].layer = m_jFile->get< int >("Layer", *it);
 		m_Layers[layer].ID = m_jFile->get<std::string>("ID", *it);
 
-		m_rendMan.setLayerScale( m_Layers[layer].layer, m_Layers[layer].scale);
+		//m_rendMan.setLayerScale( m_Layers[layer].layer, m_Layers[layer].scale);
+		m_Camera.addLayer( m_Layers[layer].layer, m_Layers[layer].scale );
 		
 		// String access map
 		m_LayerNames[m_Layers[layer].ID] = layer;

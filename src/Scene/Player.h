@@ -26,6 +26,9 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
  */
+#ifndef PLAYER_H
+#define PLAYER_H
+
 #include <Gosu/Gosu.hpp>
 #include <Box2D.h>
 #include <map>
@@ -90,3 +93,5 @@ private:
 	//AI data
 	int m_State;
 };
+
+#endif

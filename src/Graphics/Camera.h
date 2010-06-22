@@ -30,42 +30,76 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 #ifndef CAMERA_H
 #define CAMERA_H
-/*
+
 #include <Gosu/Gosu.hpp>
+#include <map>
+
+struct CameraTransform
+{
+	double x, y, rot, zoom;
+};
 
 class Camera
 {
 public:
-	Camera() {}
+	Camera() : m_FocusX(0.f), m_FocusY(640), m_Width(480), m_Scale(1.f), m_Zoom(1.f), m_Rot(0.f) {}
 	
-	void setFocus(float _x, float _y) { m_FocusX = _x, m_FocusY = _y; }
+	/// Set the window size of the camera
+	/// @param _w The width of the window
+	/// @param _h The height
+	void setExtents(int _w, int _h) { m_Width = _w; m_Height = _h; }
+	/// Set the scaling factor of the window
+	/// This determines the world pixel resolution to the screen (world/screen)
+	/// @param _scale scaling factor
+	void setScale( double _scale ) { m_Scale = _scale; }
+	/// Set the zoom factor of the camera
+	/// same effect as changing the scale, but meant to be dynamic
+	/// @param _zoom the zoom factor (default 1)
+	void setZoom( double _zoom ) { m_Zoom = _zoom; }
+	/// Set the rotation angle (degrees)
+	/// @param _rot angle to rotate by
+	void setRotation( double _rot ) { m_Rot = _rot; }
+	/// Set the world coordinates to center the camera on
+	/// @param _x World X
+	/// @param _y World Y
+	void setFocus(double _x, double _y) { m_FocusX = _x, m_FocusY = _y; }
+
+	double Zoom() { return m_Zoom; }
+	double Scale() { return m_Scale; }
+	double Rotation() { return m_Rot; }
+	int Width() { return m_Width; }
+	int Height() { return m_Height; }
 	
-	virtual b2XForm worldToScreen(float _x, float _y, Gosu::ZPos _z);
+	/// This tells the Render Manager where on screen a world coordinate currently is.
+	/// When creating your own camera, this method must be implemented.
+	/// @param _x World X 
+	/// @param _y World Y
+	/// @param _z World Z (in Gosu layers)
+	/// @return CameraTransform screen coordinates with rotation for displaying on screen
+	virtual CameraTransform worldToScreen(double _x, double _y, Gosu::ZPos _z);
 
 protected:
 
-	float m_FocusX, m_FocusY;
+	double m_FocusX, m_FocusY;
+	int m_Width, m_Height;
+	double m_Scale, m_Zoom, m_Rot;
 };
 
-
-class Camera_Parallax
+/// Parallax Camera
+/// Uses Gosu layers with individual scaling factors to create a parallax effect
+class Camera_Parallax : public Camera
 {
 public:
 	Camera_Parallax() {}
 	
-	void addLayer(int _layer, float _dist);
-
-	void setZoom( float _zoom ) { m_Zoom = _zoom; }
-
-	void setRotation( float _rot ) { m_Rot = _rot; }
+	void addLayer(int _layer, double _dist);
 	
 	/// Come up with a batch mechanism
-	b2XForm worldToScreen(float _x, float _y, Gosu::ZPos _z);
+	CameraTransform worldToScreen(double _x, double _y, Gosu::ZPos _z);
 
 private:
 
-	std::map< int, float > m_LayerScales;
-	float m_Zoom, m_Rot;
+	std::map< int, double > m_LayerScales;
 };
-*/
+
 #endif
