@@ -28,6 +28,7 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#include <Gosu/Gosu.hpp>
 #include "RenderManager.h"
 #include <Box2D.h>
 #include "../Core/Core.h"
@@ -46,7 +47,7 @@ RenderManager::RenderManager()
 
 RenderManager::~RenderManager()
 {
-	std::map< int, Gosu::Image* >::iterator it;
+	std::map< std::wstring, Gosu::Image* >::iterator it;
 	for (it = m_Images.begin(); it != m_Images.end(); ++it) {
 		delete it->second;
 	}
@@ -208,6 +209,84 @@ void RenderManager::doRender() const
 	}
 }
 
+//
+//	JSON creators
+
+Sprite* RenderManager::createSprite(int _layer, Json::Value _jval)
+{
+	Sprite tSprite;
+	std::wstring file = Gosu::resourcePrefix() + L"Images/" + Gosu::widen( _jval.get("Image", "defaultimg.png").asString() );
+	if (m_Images.find(file) == m_Images.end()) {
+		m_Images[file] = new Gosu::Image(Core::getCurrentContext()->graphics(), file);
+	}
+	tSprite.setImage(m_Images[file]);
+	tSprite.setLayer((float)_layer);
+
+
+	std::string tString = _jval.get("Name", "lolsprite" ).asString();
+	
+	tSprite.setX(_jval["Position"].get(0u, 0.0 ).asDouble());
+	tSprite.setY(_jval["Position"].get(1u, 0.0 ).asDouble());
+	tSprite.setAngle(_jval.get("Rotation", 0.0 ).asDouble());
+	tSprite.setColorMod(
+		Gosu::Color( _jval["ColorMod"].get(0u, 255 ).asInt(), 
+					_jval["ColorMod"].get(1u, 255 ).asInt(), 
+					_jval["ColorMod"].get(2u, 255 ).asInt(), 
+					_jval["ColorMod"].get(3u, 255 ).asInt() ) );
+	tSprite.setScaling( 
+		_jval.get("xScale", 1.0).asDouble(), 
+		_jval.get("yScale", 1.0).asDouble() );
+
+	tString = _jval.get("AlphaMode", "amDefault" ).asString();
+	if (tString == "amAdditive") {
+		tSprite.setAlphaMode(Gosu::amAdditive);
+	}else{
+		tSprite.setAlphaMode(Gosu::amDefault);
+	}
+	
+	m_Sprites.push_back(tSprite);
+	return &(m_Sprites.back());
+}
+
+SpriteSheet* RenderManager::createSpriteSheet(int _layer, Json::Value _jval)
+{
+	std::wstring filename = Gosu::resourcePrefix() + L"Images/" + Gosu::widen( _jval.get("Image", "defaultimg.png").asString() );
+
+	std::string tString = _jval.get("Name", "lolsprite" ).asString();
+	
+	int width = _jval.get("Width", 0 ).asInt();
+	int height = _jval.get("Height", 0 ).asInt();
+	int duration = _jval.get("Duration", 20 ).asInt();
+
+	SpriteSheet isheet( filename, width, height, duration );
+
+	isheet.setX(_jval["Position"].get(0u, 0.0 ).asDouble());
+	isheet.setY(_jval["Position"].get(1u, 0.0 ).asDouble());
+	isheet.setAngle(_jval.get("Rotation", 0.0 ).asDouble());
+	isheet.setColorMod(
+		Gosu::Color( _jval["ColorMod"].get(0u, 255 ).asInt(), 
+					_jval["ColorMod"].get(1u, 255 ).asInt(), 
+					_jval["ColorMod"].get(2u, 255 ).asInt(), 
+					_jval["ColorMod"].get(3u, 255 ).asInt() ) );
+	isheet.setScaling( 
+		_jval.get("xScale", 1.0).asDouble(), 
+		_jval.get("yScale", 1.0).asDouble() );
+
+	tString = _jval.get("AlphaMode", "amDefault" ).asString();
+	if (tString == "amAdditive") {
+		isheet.setAlphaMode(Gosu::amAdditive);
+	}else{
+		isheet.setAlphaMode(Gosu::amDefault);
+	}
+
+	isheet.setLayer(_layer);
+	m_SpriteSheets.push_back(isheet);
+	return &(m_SpriteSheets.back());
+}
+
+//
+//	Standard creators
+
 MessageBubble* RenderManager::createMessage(std::wstring _message, double _x, double _y, bool _static)
 {
 	MessageBubble nMB;
@@ -236,11 +315,10 @@ Sprite* RenderManager::createSprite(int _layer, std::wstring _filename)
 {
 	//m_Sprites[m_CurSpriteID] = new Sprite();
 	Sprite tsprite;
-	if (m_ImageMap.find(_filename) == m_ImageMap.end()) {
-		m_Images[m_curImageID] = new Gosu::Image(Core::getCurrentContext()->graphics(),_filename);
-		m_ImageMap[_filename] = m_curImageID++;
+	if (m_Images.find(_filename) == m_Images.end()) {
+		m_Images[_filename] = new Gosu::Image(Core::getCurrentContext()->graphics(),_filename);
 	}
-	tsprite.setImage(m_Images[m_ImageMap[_filename]]);
+	tsprite.setImage(m_Images[_filename]);
 	tsprite.setLayer((float)_layer);
 	m_Sprites.push_back(tsprite);
 	return &(m_Sprites.back());
@@ -255,6 +333,9 @@ SpriteSheet* RenderManager::createSpriteSheet(
 	return &(m_SpriteSheets.back());
 }
 
+//
+// Asset registration
+
 void RenderManager::registerSprite(int _layer, Sprite* _sp)
 {
 	m_Sprites.push_back(*_sp);
@@ -264,6 +345,9 @@ void RenderManager::registerSpriteSheet(int _layer, SpriteSheet* _ss)
 {
 	m_SpriteSheets.push_back(*_ss);
 }
+
+//
+// Asset deletion
 
 void RenderManager::deleteSprite(Sprite* _sprite) 
 { 

@@ -34,6 +34,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include <Gosu/Gosu.hpp>
 #include <map>
 #include <list>
+#include <json/json.h>
 #include "SpriteSheet.h"
 #include "Sprite.h"
 #include "Camera.h"
@@ -111,6 +112,11 @@ public:
 	/// Define scaling factor for a layer
 	void setLayerScale(int _layer, float _scale) { m_LayerScales[_layer] = _scale; }
 
+	/// create a sprite from JSON
+	Sprite* createSprite(int _layer, Json::Value _jval);
+	/// create a SpriteSheet from JSON
+	SpriteSheet* createSpriteSheet(int _layer, Json::Value _jval);
+
 	/// create a message bubble
 	MessageBubble* createMessage(std::wstring _message, double _x, double _y, bool _static = true);
 	/// create a sprite
@@ -149,16 +155,20 @@ public:
 protected:
 	static RenderManager* s_CurrentContext;
 
-	
-	std::map< int, Gosu::Image* > m_Images;
-	std::map< std::wstring, int > m_ImageMap;
+	//Gosu Images are a shared resource
+	std::map< std::wstring, Gosu::Image* > m_Images;
+	//std::map< int, Gosu::Image* > m_Images;
+	//std::map< std::wstring, int > m_ImageMap;
 
 	std::map< int, float > m_LayerScales;
 
+	//Renderable objects
 	std::list< SpriteSheet > m_SpriteSheets;
 	std::list< Sprite > m_Sprites;
-
+	//std::list< Animation > m_Animations;
 	std::list< MessageBubble > m_Messages;
+
+	//Shared resources for message bubbles
 	SpriteSheet m_MessageCorners;
 	Gosu::Image m_MessageTip;
 	Gosu::Font m_Font;

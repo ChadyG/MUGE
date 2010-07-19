@@ -48,12 +48,13 @@ void Camera_Parallax::addLayer(int _layer, double _dist)
 	m_LayerScales[_layer] = _dist;
 }
 
+//This is currently assuming that the focus point is in the main layer (scale of 1)
 CameraTransform Camera_Parallax::worldToScreen( double _x, double _y, Gosu::ZPos _layer )
 {
 	double scale = 1.0/m_LayerScales[_layer];
 	double zoom = 1.0 + scale * (m_Zoom - 1.0);
-	double nX = ((_x  - m_FocusX) * m_Scale * scale) * zoom;
-	double nY = ((_y  - m_FocusY) * m_Scale * scale) * zoom;
+	double nX = ((_x * m_LayerScales[_layer]  - m_FocusX) * m_Scale * scale) * zoom;
+	double nY = ((_y * m_LayerScales[_layer]  - m_FocusY) * m_Scale * scale) * zoom;
 	double rot =  m_Rot*(Gosu::pi/180.0);
 
 	CameraTransform trans;

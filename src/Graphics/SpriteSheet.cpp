@@ -32,14 +32,14 @@ OTHER DEALINGS IN THE SOFTWARE.
 SpriteSheet::SpriteSheet( )
 : m_Delay(0), m_Frame(0), m_Timer(0), m_centerX(0.5), m_Speed(1.f),
 m_posX(0.0f), m_posY(0.0f), m_zoom(1.0f), m_angle(0.0f), m_layer(0.0f),
-m_centerY(0.5), m_factX(1.0), m_factY(1.0), m_ColorMod(Gosu::Colors::white)
+m_centerY(0.5), m_factX(1.0), m_factY(1.0), m_ColorMod(Gosu::Colors::white), m_Alpha(Gosu::amDefault)
 {
 }
 
 SpriteSheet::SpriteSheet( std::wstring _fileName, int _width, int _height, int _delay)
 : m_centerX(0.5), m_centerY(0.5), m_factX(1.0), m_factY(1.0), m_Speed(1.f),
 m_posX(0.0f), m_posY(0.0f), m_zoom(1.0f), m_angle(0.0f), m_layer(0.0f),
-m_ColorMod(Gosu::Colors::white), m_Delay(_delay), m_Frame(0)
+m_ColorMod(Gosu::Colors::white), m_Delay(_delay), m_Frame(0), m_Alpha(Gosu::amDefault)
 {
 	Gosu::imagesFromTiledBitmap(Core::getCurrentContext()->graphics(), _fileName, _width, _height, false, m_Sprites);
 	m_numFrames = m_Sprites.size();
@@ -128,7 +128,8 @@ void SpriteSheet::draw(double _x, double _y, double _zoom, double _angle) const
 											 m_centerY, 
 											 m_factX*_zoom*m_zoom, 
 											 m_factY*_zoom*m_zoom, 
-											 m_ColorMod);
+											 m_ColorMod,
+											 m_Alpha);
 }
 
 void SpriteSheet::drawFrame(int _frame, double _x, double _y, double _zoom, double _angle) const
@@ -141,7 +142,8 @@ void SpriteSheet::drawFrame(int _frame, double _x, double _y, double _zoom, doub
 										 m_centerY, 
 										 m_factX*_zoom*m_zoom, 
 										 m_factY*_zoom*m_zoom, 
-										 m_ColorMod);
+										 m_ColorMod,
+											m_Alpha);
 }
 
 void SpriteSheet::drawAt(double _x, double _y, Gosu::ZPos _layer, double _zoom, double _angle) const
@@ -154,7 +156,8 @@ void SpriteSheet::drawAt(double _x, double _y, Gosu::ZPos _layer, double _zoom, 
 											 m_centerY, 
 											 m_factX*_zoom*m_zoom, 
 											 m_factY*_zoom*m_zoom, 
-											 m_ColorMod);
+											 m_ColorMod,
+											 m_Alpha);
 }
 
 void SpriteSheet::drawFrameAt(int _frame, double _x, double _y, Gosu::ZPos _layer, double _zoom, double _angle) const
@@ -167,5 +170,6 @@ void SpriteSheet::drawFrameAt(int _frame, double _x, double _y, Gosu::ZPos _laye
 										 m_centerY, 
 										 m_factX*_zoom*m_zoom, 
 										 m_factY*_zoom*m_zoom, 
-										 m_ColorMod);
+										 m_ColorMod,
+										 m_Alpha);
 }

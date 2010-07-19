@@ -47,28 +47,23 @@ class RenderManager;
 * collision normal.
 * 
 */
-class Player : public SceneObject
+class Player
 {
 public:
 	Player();
 	virtual void init() = 0;
 	
-	virtual void setLayer( Gosu::ZPos _z ) { m_Layer = _z; }
-	
-	virtual void setPhysics( double _x, double _y, b2World* _world);
-	b2Vec2 getPosition() { return m_Position; }
-	
-	virtual void onColStart(b2Fixture *_fix, SceneObject *_other, b2Manifold _manifold);
-	virtual void onColFinish(b2Fixture *_fix, SceneObject *_other, b2Manifold _manifold);
-	virtual void onMessage(std::string _message);
-	
 	virtual void update() = 0;
+
+	///Serialization/Deserialization
+	void encodeWith(Json::Value *_val);
+	void initWith(Json::Value _val);
 	
 protected:
-	Gosu::ZPos m_Layer;
-	
-	b2Body *m_Body;
-	b2World *m_World;
+	SceneObject m_Object;
+	RenderComponent m_RenderCom;
+	TransformComponent m_TransCom;
+	//Gosu::ZPos m_Layer;
 };
 
 /**
@@ -80,14 +75,11 @@ public:
 	AIPlayer();
 	virtual void init() = 0;
 	
-	virtual void setPhysics( double _x, double _y, b2World* _world);
-	
-	virtual void onColStart(SceneObject *other, b2ContactPoint point);
-	virtual void onColPersist(SceneObject *other, b2ContactPoint point);
-	virtual void onColFinish(SceneObject *other, b2ContactPoint point);
-	virtual void onMessage(std::string _message);
-	
 	virtual void update();
+
+	///Serialization/Deserialization
+	void encodeWith(Json::Value *_val);
+	void initWith(Json::Value _val);
 private:
 	
 	//AI data

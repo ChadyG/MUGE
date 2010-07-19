@@ -43,6 +43,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include <Input/InputManager.h>
 
 #include <Data/JSONFile.hpp>
+#include <json/json.h>
 
 #include <UI/GUIObjects.h>
 

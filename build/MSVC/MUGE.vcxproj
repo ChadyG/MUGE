@@ -11,6 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\include\jsoncpp\src\lib_json\json_reader.cpp" />
+    <ClCompile Include="..\..\include\jsoncpp\src\lib_json\json_value.cpp" />
+    <ClCompile Include="..\..\include\jsoncpp\src\lib_json\json_writer.cpp" />
     <ClCompile Include="..\..\src\Audio\AudioManager.cpp" />
     <ClCompile Include="..\..\src\Core\Core.cpp" />
     <ClCompile Include="..\..\src\Core\GameState.cpp" />
@@ -21,6 +24,7 @@
     <ClCompile Include="..\..\src\Graphics\SpriteSheet.cpp" />
     <ClCompile Include="..\..\src\Input\InputManager.cpp" />
     <ClCompile Include="..\..\src\Scene\Player.cpp" />
+    <ClCompile Include="..\..\src\Scene\SceneGraph.cpp" />
     <ClCompile Include="..\..\src\Scene\SceneObject.cpp" />
     <ClCompile Include="..\..\src\UI\UIButton.cpp" />
     <ClCompile Include="..\..\src\UI\UIContainer.cpp" />
@@ -31,6 +35,7 @@
     <ClCompile Include="..\..\src\UI\UIWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\include\jsoncpp\src\lib_json\json_batchallocator.h" />
     <ClInclude Include="..\..\src\Audio\AudioManager.h" />
     <ClInclude Include="..\..\src\Core\Core.h" />
     <ClInclude Include="..\..\src\Core\GameState.h" />
@@ -41,8 +46,14 @@
     <ClInclude Include="..\..\src\Graphics\SpriteSheet.h" />
     <ClInclude Include="..\..\src\Input\InputManager.h" />
     <ClInclude Include="..\..\src\Scene\Player.h" />
+    <ClInclude Include="..\..\src\Scene\SceneGraph.h" />
     <ClInclude Include="..\..\src\Scene\SceneObject.h" />
     <ClInclude Include="..\..\src\UI\GUIObjects.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\include\jsoncpp\src\lib_json\json_internalarray.inl" />
+    <None Include="..\..\include\jsoncpp\src\lib_json\json_internalmap.inl" />
+    <None Include="..\..\include\jsoncpp\src\lib_json\json_valueiterator.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>MUGE</ProjectName>
@@ -83,7 +94,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\include\Box2D;$(ProjectDir)\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\include\jsoncpp\include;$(ProjectDir)\..\..\include\Box2D;$(ProjectDir)\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -105,7 +116,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\include\Box2D;$(ProjectDir)\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\include\jsoncpp\include;$(ProjectDir)\..\..\include\Box2D;$(ProjectDir)\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>

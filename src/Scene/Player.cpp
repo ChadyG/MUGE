@@ -26,7 +26,7 @@ HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
-*/
+* /
 
 #include "../Core/Core.h"
 #include <Box2D.h>
@@ -36,13 +36,13 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include "../Input/InputManager.h"
 
 Player::Player()
+	: SceneObject(-1)
 {
 }
 
 void Player::setPhysics( double _x, double _y, b2World* _world)
 {
-	m_Position.x = (float32)_x;
-	m_Position.y = (float32)_y;
+	m_TransCom.setPosition( _x, _y);
 }
 
 void Player::onColStart( b2Fixture *_fix, SceneObject *_other, b2Manifold _manifold) 
@@ -59,3 +59,4 @@ void Player::onMessage(std::string _message)
 {
 
 }
+*/

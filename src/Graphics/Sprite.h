@@ -57,19 +57,20 @@ public:
 	void setScaling(double _factorX, double _factorY);
 	void setCenter(double _centerX, double _centerY);
 	void setColorMod(Gosu::Color _colorMod);
+	void setAlphaMode(Gosu::AlphaMode _amode) { m_Alpha = _amode; }
 
-	float posX() const { return m_posX; }
-	float posY() const { return m_posY; }
-	float zoom() const { return m_zoom; }
-	float angle() const { return m_angle; }
+	double posX() const { return m_posX; }
+	double posY() const { return m_posY; }
+	double zoom() const { return m_zoom; }
+	double angle() const { return m_angle; }
 	int layer() const { return m_layer; }
 	bool visible() const { return m_visible; }
 
-	void setX(float _x) { m_posX = _x; }
-	void setY(float _y) { m_posY = _y; }
-	void setZoom(float _zoom) { m_zoom = _zoom; }
-	void setAngle(float _angle) { m_angle = _angle; }
-	void setLayer(float _layer) { m_layer = (int)_layer; }
+	void setX(double _x) { m_posX = _x; }
+	void setY(double _y) { m_posY = _y; }
+	void setZoom(double _zoom) { m_zoom = _zoom; }
+	void setAngle(double _angle) { m_angle = _angle; }
+	void setLayer(double _layer) { m_layer = (int)_layer; }
 	void setVisible(bool _vis) { m_visible = _vis; }
 	
 	/**
@@ -85,7 +86,7 @@ public:
 private:
 	Gosu::Image* m_Image;
 
-	float m_posX, m_posY, m_zoom, m_angle;
+	double m_posX, m_posY, m_zoom, m_angle;
 	int m_layer;
 	
 	bool m_visible;
@@ -97,6 +98,7 @@ private:
 	double m_centerY;
 	//color modifier
 	Gosu::Color m_ColorMod;
+	Gosu::AlphaMode m_Alpha;
 };
 
 
