@@ -35,8 +35,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include <Core/Core.h>
 #include <Core/GameState.h>
 
-#include <Scene/SceneObject.h>
-#include <Scene/Player.h>
+#include <Scene/SceneGraph.h>
 
 #include <Graphics/RenderManager.h>
 #include <Audio/AudioManager.h>

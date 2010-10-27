@@ -35,7 +35,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include "SceneObject.h"
  
 class SpriteSheet;
-class RenderManager;
 
 /**
 * Our Player class
@@ -47,23 +46,22 @@ class RenderManager;
 * collision normal.
 * 
 */
-class Player
+class Player : public SceneObject
 {
 public:
-	Player();
+	Player() {}
+
+	//void setID(int _id) { m_Object.setID(_id); }
 	virtual void init() = 0;
 	
 	virtual void update() = 0;
 
 	///Serialization/Deserialization
-	void encodeWith(Json::Value *_val);
-	void initWith(Json::Value _val);
+	virtual void encodeWith(Json::Value *_val) = 0;
+	virtual void initWith(Json::Value _val) = 0;
 	
 protected:
-	SceneObject m_Object;
-	RenderComponent m_RenderCom;
-	TransformComponent m_TransCom;
-	//Gosu::ZPos m_Layer;
+	//SceneObject m_Object;
 };
 
 /**
