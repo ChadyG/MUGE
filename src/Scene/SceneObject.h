@@ -58,21 +58,21 @@ public:
 	Component(SceneObject *_obj) { m_Obj = _obj; }
 
 	//Returns the name of this component type
-	virtual std::string name();
+	virtual std::string name() = 0;
 
 	//logic update callback
 	virtual void update() = 0;
 
 	/// Physics callback
-	virtual void onColStart(b2Fixture *_fix, SceneObject *_other, b2Manifold _manifold);
-	virtual void onColFinish(b2Fixture *_fix, SceneObject *_other, b2Manifold _manifold);
+	virtual void onColStart(b2Fixture *_fix, SceneObject *_other, b2Manifold _manifold) = 0;
+	virtual void onColFinish(b2Fixture *_fix, SceneObject *_other, b2Manifold _manifold) = 0;
 
 	/// Message passing
-	virtual void onMessage(std::string _message);
+	virtual void onMessage(std::string _message) = 0;
 
 	//Serialization/Deserialization
-	virtual void encodeWith(Json::Value *_val);
-	virtual void initWith(Json::Value _val);
+	virtual void encodeWith(Json::Value *_val) = 0;
+	virtual void initWith(Json::Value _val) = 0;
 protected:
 	SceneObject* m_Obj;
 };
@@ -91,7 +91,7 @@ public:
 	static bool ComponentExists(std::string _name);
 protected:
 	static std::map<std::string, Component_maker*> *s_makerMap;
-	virtual Component* makeComponent(SceneObject *_obj);
+	virtual Component* makeComponent(SceneObject *_obj) = 0;
 };
 
 
