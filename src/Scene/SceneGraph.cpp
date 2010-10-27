@@ -30,6 +30,8 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 #include "SceneGraph.h"
 
+SceneGraph* SceneGraph::s_CurrentContext;
+
 SceneGraph::SceneGraph()
 	: m_CurIndex(1), m_SceneRoot(1), m_GroupRoot( &m_SceneRoot )
 {
@@ -38,6 +40,49 @@ SceneGraph::SceneGraph()
 
 SceneGraph::~SceneGraph()
 {
+	//iterator over m_Objects and clean up
+}
+
+void SceneGraph::addLocalPlayer(std::string _name, Player* _player)
+{
+	_player->setID(++m_CurIndex);
+	m_Players[_name] = _player;
+}
+
+Player* SceneGraph::getPlayer(std::string _name)
+{
+	if (m_Players.find(_name) != m_Players.end()) {
+		Player* obj = m_Players[_name];
+		if (obj != NULL)
+			return obj;
+	}
+	return NULL;
+}
+
+SceneObject* SceneGraph::createObject(std::string _name)
+{
+	SceneObject *obj = new SceneObject(++m_CurIndex);
+	obj->setName(_name);
+	m_GroupRoot.assign(_name, obj);
+	m_Objects[obj->ID()] = obj;
+	return obj;
+}
+
+bool SceneGraph::deleteObject(SceneObject* _object)
+{
+	bool found = false;
+	std::map<int, SceneObject*>::iterator it = m_Objects.begin();
+	while (it != m_Objects.end()) {
+		if (it->second == _object) {
+			m_GroupRoot.deleteObject(_object);
+			delete it->second;
+			it = m_Objects.erase(it);
+			found = true;
+			continue;
+		}
+		it++;
+	}
+	return found;
 }
 
 void SceneGraph::loadFile(std::wstring _config)
@@ -53,6 +98,7 @@ void SceneGraph::loadFile(std::wstring _config)
 			SceneObject *obj = new SceneObject(++m_CurIndex);
 			obj->initWith(m_json["Objects"][i]);
 			m_GroupRoot.assign(m_json["Objects"][i].get("Name", "").asString(), obj);
+			m_Objects[obj->ID()] = obj;
 		}
 	}
 }
@@ -64,6 +110,7 @@ void SceneGraph::createGroup(Json::Value _val, GroupComponent *_grp)
 	GroupComponent *grp = new GroupComponent(obj);
 	obj->addComponent( grp );
 	_grp->assign(_val.get("GroupName", "").asString(), obj);
+	m_Objects[obj->ID()] = obj;
 	for (int i = 0; i < _val["Children"].size(); ++i) {
 		if (_val["Children"][i].isMember("GroupName")) {
 			//create group
@@ -80,6 +127,34 @@ void SceneGraph::createGroup(Json::Value _val, GroupComponent *_grp)
 void SceneGraph::update()
 {
 	m_GroupRoot.update();
+	/*
+	b2AABB space;
+	space.lowerBound = b2Vec2(m_Focus[0] - m_Width/2, m_Focus[1] - m_Height/2);
+	space.upperBound = b2Vec2(m_Focus[0] + m_Width/2, m_Focus[1] + m_Height/2);
+	
+	std::list< Trigger >::iterator it;
+	for (it = itL->m_Triggers.begin(); it != m_Triggers.end(); it++) {
+		if (it->overlap(space)) {
+			if (!it->inCamera()) {
+				it->onEnterCamera();
+			}
+		}else{
+			if (it->inCamera()) {
+				it->onLeaveCamera();
+			}
+		}
+		
+		if (it->pointIn(m_PlayerPos)) {
+			if (!it->playerIn()) {
+				it->onPlayerEnter();
+			}
+		}else{
+			if (it->playerIn()) {
+				it->onPlayerLeave();
+			}
+		}
+	}
+	*/
 }
 
 SceneObject* SceneGraph::operator[](std::string _name)
@@ -89,5 +164,5 @@ SceneObject* SceneGraph::operator[](std::string _name)
 
 SceneObject* SceneGraph::operator[](int _id)
 {
-	return m_GroupRoot[_id];
+	return m_Objects[_id];
 }

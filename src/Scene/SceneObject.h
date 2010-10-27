@@ -55,6 +55,7 @@ class SceneObject;
 class Component
 {
 public:
+	Component() {}
 	Component(SceneObject *_obj) { m_Obj = _obj; }
 
 	//Returns the name of this component type
@@ -94,8 +95,6 @@ protected:
 	virtual Component* makeComponent(SceneObject *_obj) = 0;
 };
 
-
-
 class PhysComponent : public Component
 {
 public:
@@ -117,8 +116,6 @@ public:
 	//Serialization/Deserialization
 	void encodeWith(Json::Value *_val);
 	void initWith(Json::Value _val);
-
-	void setPhysics( b2Body *_body ) { m_Body = _body; }
 	
 	/// Inhibit physics response
 	void Freeze() { m_Frozen = true; }
@@ -272,14 +269,19 @@ public:
 	void encodeWith(Json::Value *_val);
 	void initWith(Json::Value _val);
 
-	/// Set this object to render as the given sprite
+	/// Array and hash access to inner objects
 	SceneObject* operator[](std::string _name);
 	SceneObject* operator[](int _id);
+
+	bool deleteObject(SceneObject* _object);
+
+	int size() { return m_Objects.size(); }
 
 	void assign(std::string _name, SceneObject* _obj);
 
 private:
-	std::map< std::string, SceneObject* > m_Objects;
+	std::map< std::string, SceneObject* > m_ObjectMap;
+	std::map< int, SceneObject* > m_Objects;
 };
 
 /// Builder for Group component
@@ -294,7 +296,7 @@ protected:
 
 
 
-/*
+
 class TriggerComponent : public Component
 {
 public:
@@ -330,7 +332,7 @@ public:
 	
 	/// inCamera - returns the state of camera focus
 	bool inCamera() { return m_inCamera; }
-	
+	/*
 	/// onEnterCamera - callback for entering focus
 	void onEnterCamera();
 	
@@ -345,17 +347,19 @@ public:
 	
 	/// onPlayerLeave - callback for player leaving this area
 	void onPlayerLeave();
-	
+	*/
 private:
 	//structure holding extent information
 	b2AABB m_Box;
 	//booleans for current state of trigger
 	bool m_inCamera;
 	bool m_inPlayer;
+	//lists!
+	// at the minimum I need an array of IDs
 };
-*/
 
-/// Builder for Transform component
+
+/// Builder for Trigger component
 class Triggcom_maker : public Component_maker
 {
 public:
@@ -383,19 +387,22 @@ class SceneObject
 {
 public:
 	SceneObject(int _id);
+	SceneObject() :m_ID(0) {}
 
-	void update();
+	virtual void update();
 
 	std::string Name() { return m_Name; }
+	void setName(std::string _name) { m_Name = _name; }
 	int ID() { return m_ID; }
+	void setID(int _id) { m_ID = _id; }
 
 	/// Physics callback
 	//TODO: do I want to abstract this from box2d?
-	void onColStart(b2Fixture *_fix, SceneObject *_other, b2Manifold _manifold);
-	void onColFinish(b2Fixture *_fix, SceneObject *_other, b2Manifold _manifold);
+	virtual void onColStart(b2Fixture *_fix, SceneObject *_other, b2Manifold _manifold);
+	virtual void onColFinish(b2Fixture *_fix, SceneObject *_other, b2Manifold _manifold);
 
 	/// Message passing
-	void onMessage(std::string _message);
+	virtual void onMessage(std::string _message);
 
 	///Serialization/Deserialization
 	void encodeWith(Json::Value *_val);
@@ -419,7 +426,6 @@ public:
 	bool addComponent(Component* _com);
 	
 protected:
-	//TODO: USE THIS
 	unsigned m_ID;
 	std::string m_Name;
 

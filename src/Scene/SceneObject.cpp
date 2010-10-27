@@ -29,6 +29,7 @@
  */
 
 #include "SceneObject.h"
+#include "SceneGraph.h"
 #include "../Graphics/RenderManager.h"
 #include "../Graphics/Sprite.h"
 #include "../Graphics/SpriteSheet.h"
@@ -74,14 +75,30 @@ void PhysComponent::encodeWith(Json::Value *_val)
 {
 }
 
-//FIXME: get world object to initialize m_Body?
 void PhysComponent::initWith(Json::Value _val)
 {
+	//Create our body
+	b2BodyDef bDef;
+	bDef.userData = m_Obj;
+	bDef.position.Set( (float32)_val["Position"].get(0u, 0.0).asDouble(), (float32)_val["Position"].get(1u, 0.0).asDouble() );
+	bDef.angle = (float32)_val.get("Angle", 0.0).asDouble();
+	//Extract body type, default to Dynamic
+	std::string tString = _val.get("Type", "").asString();
+	bDef.type = b2_dynamicBody;
+	if (tString == "Static") {
+		bDef.type = b2_staticBody;
+	}
+	if (tString == "Kinematic") {
+		bDef.type = b2_kinematicBody;
+	}
+	m_Body = SceneGraph::getCurrentContext()->getPhysics()->CreateBody(&bDef);
+
+	//Create our fixtures
 	uint16 filter = _val.get("Filter", 0).asInt();
 	if (!_val["Shapes"].isArray())
 		return;
 	for (unsigned int i = 0; i < _val.size(); ++i) {
-		std::string tString = _val["Shapes"][i].get("Type", "").asString();//m_jFile->get< std::string >("Type", *it);
+		tString = _val["Shapes"][i].get("Type", "").asString();
 		if (tString == "Rectangle") {
 			b2PolygonShape poly;
 			poly.SetAsBox((float32)_val["Shapes"][i].get("Width", 0.0).asDouble(), (float32)_val["Shapes"][i].get("Height", 0.0).asDouble(),
@@ -93,7 +110,6 @@ void PhysComponent::initWith(Json::Value _val)
 			fix.restitution = (float32)_val["Shapes"][i].get("Restitution", 1.0).asDouble();
 			fix.filter.categoryBits = filter;
 			fix.shape = &poly;
-			// LinearDamping if exists
 			
 			m_Body->CreateFixture(&fix);
 		}
@@ -323,7 +339,7 @@ GroupComponent::GroupComponent(SceneObject *_obj)
 
 void GroupComponent::update()
 {
-	std::map< std::string, SceneObject* >::iterator it;
+	std::map< int, SceneObject* >::iterator it;
 	for (it = m_Objects.begin(); it != m_Objects.end(); it++) {
 		it->second->update();
 	}
@@ -331,14 +347,14 @@ void GroupComponent::update()
 
 void GroupComponent::onColStart(b2Fixture *_fix, SceneObject *_other, b2Manifold _manifold)
 {
-	std::map< std::string, SceneObject* >::iterator it;
+	std::map< int, SceneObject* >::iterator it;
 	for (it = m_Objects.begin(); it != m_Objects.end(); it++) {
 		it->second->onColStart(_fix, _other, _manifold);
 	}
 }
 void GroupComponent::onColFinish(b2Fixture *_fix, SceneObject *_other, b2Manifold _manifold)
 {
-	std::map< std::string, SceneObject* >::iterator it;
+	std::map< int, SceneObject* >::iterator it;
 	for (it = m_Objects.begin(); it != m_Objects.end(); it++) {
 		it->second->onColFinish(_fix, _other, _manifold);
 	}
@@ -347,7 +363,7 @@ void GroupComponent::onColFinish(b2Fixture *_fix, SceneObject *_other, b2Manifol
 	/// Message passing
 void GroupComponent::onMessage(std::string _message)
 {
-	std::map< std::string, SceneObject* >::iterator it;
+	std::map< int, SceneObject* >::iterator it;
 	for (it = m_Objects.begin(); it != m_Objects.end(); it++) {
 		it->second->onMessage(_message);
 	}
@@ -363,9 +379,9 @@ void GroupComponent::initWith(Json::Value _val)
 
 SceneObject* GroupComponent::operator[](std::string _name)
 {
-	if (m_Objects.find(_name) != m_Objects.end())
-		return m_Objects[_name];
-	std::map< std::string, SceneObject* >::iterator it;
+	if (m_ObjectMap.find(_name) != m_ObjectMap.end())
+		return m_ObjectMap[_name];
+	std::map< int, SceneObject* >::iterator it;
 	for (it = m_Objects.begin(); it != m_Objects.end(); it++) {
 		if (it->second->hasComponent("SceneGroup")) {
 			SceneObject* obj = ((GroupComponent*)(it->second->getComponent("SceneGroup")))->operator[](_name);
@@ -378,7 +394,7 @@ SceneObject* GroupComponent::operator[](std::string _name)
 
 SceneObject* GroupComponent::operator[](int _id)
 {
-	std::map< std::string, SceneObject* >::iterator it;
+	std::map< int, SceneObject* >::iterator it;
 	for (it = m_Objects.begin(); it != m_Objects.end(); it++) {
 		if (it->second->ID() == _id) {
 			return it->second;
@@ -394,7 +410,23 @@ SceneObject* GroupComponent::operator[](int _id)
 
 void GroupComponent::assign(std::string _name, SceneObject* _obj)
 {
-	m_Objects[_name] = _obj;
+	m_ObjectMap[_name] = _obj;
+	m_Objects[_obj->ID()] = _obj;
+}
+
+bool GroupComponent::deleteObject(SceneObject* _object)
+{
+	bool found = false;
+	std::map< int, SceneObject* >::iterator it = m_Objects.begin();
+	while (it != m_Objects.end()) {
+		if (it->second == _object) {
+			m_ObjectMap.erase(it->second->Name());
+			it = m_Objects.erase(it);
+			continue;
+		}
+		it++;
+	}
+	return found;
 }
 
 Groupcom_maker Groupcom_maker::s_RegisteredMaker;
@@ -402,6 +434,85 @@ Groupcom_maker Groupcom_maker::s_RegisteredMaker;
 Component* Groupcom_maker::makeComponent(SceneObject *_obj)
 {
 	return new GroupComponent(_obj);
+}
+
+
+//===================================================================
+//	Trigger Component
+
+TriggerComponent::TriggerComponent(SceneObject *_obj)
+: Component(_obj)
+{
+}
+
+void TriggerComponent::update()
+{
+	//Query b2World for intersecting objects
+	//Maintain a list of intersecting, entering and exiting
+}
+
+void TriggerComponent::onColStart(b2Fixture *_fix, SceneObject *_other, b2Manifold _manifold)
+{
+	
+}
+void TriggerComponent::onColFinish(b2Fixture *_fix, SceneObject *_other, b2Manifold _manifold)
+{
+	
+}
+
+/// Message passing
+void TriggerComponent::onMessage(std::string _message)
+{
+}
+
+void TriggerComponent::setExtents( double _top, double _left, double _bottom, double _right)
+{
+	m_Box.upperBound.Set( (float32)_left, (float32)_top );
+	m_Box.lowerBound.Set( (float32)_right, (float32)_bottom );
+}
+
+bool TriggerComponent::pointIn(b2Vec2 &_point)
+{
+	return ( _point.x > m_Box.upperBound.x && _point.x < m_Box.lowerBound.x) &&
+	(_point.y > m_Box.lowerBound.y && _point.y < m_Box.upperBound.y);
+}
+/*
+void TriggerComponent::onEnterCamera()
+{
+	m_inCamera = true;
+}
+
+void TriggerComponent::onLeaveCamera()
+{
+	m_inCamera = false;
+}
+
+void TriggerComponent::onPlayerEnter()
+{
+	m_inPlayer = true;
+}
+
+void TriggerComponent::onPlayerLeave()
+{
+	m_inPlayer = false;
+}
+}
+*/
+
+void TriggerComponent::encodeWith(Json::Value *_val)
+{
+}
+
+void TriggerComponent::initWith(Json::Value _val)
+{
+}
+
+
+Triggcom_maker Triggcom_maker::s_RegisteredMaker;
+
+Component* Triggcom_maker::makeComponent(SceneObject *_obj)
+{
+	return new TriggerComponent(_obj);
 }
 
 
