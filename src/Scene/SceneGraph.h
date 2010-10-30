@@ -83,7 +83,7 @@ public:
 	/// Static setter for current render manager
 	static void setCurrentContext(SceneGraph* _context) { s_CurrentContext = _context; }
 
-private:
+protected:
 	static SceneGraph* s_CurrentContext;
 
 	void createGroup(Json::Value _val, GroupComponent *_grp);

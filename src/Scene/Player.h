@@ -52,13 +52,13 @@ public:
 	Player() {}
 
 	//void setID(int _id) { m_Object.setID(_id); }
-	virtual void init() = 0;
+	virtual void init() {}
 	
-	virtual void update() = 0;
+	virtual void update() {}
 
 	///Serialization/Deserialization
-	virtual void encodeWith(Json::Value *_val) = 0;
-	virtual void initWith(Json::Value _val) = 0;
+	virtual void encodeWith(Json::Value *_val) {}
+	virtual void initWith(Json::Value _val) {}
 	
 protected:
 	//SceneObject m_Object;
@@ -71,13 +71,13 @@ protected:
 class AIPlayer : public Player {
 public:
 	AIPlayer();
-	virtual void init() = 0;
+	virtual void init() {}
 	
-	virtual void update();
+	virtual void update() {}
 
 	///Serialization/Deserialization
-	void encodeWith(Json::Value *_val);
-	void initWith(Json::Value _val);
+	void encodeWith(Json::Value *_val) {}
+	void initWith(Json::Value _val) {}
 private:
 	
 	//AI data

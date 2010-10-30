@@ -41,6 +41,7 @@ Core::Core(int _width, int _height, bool _fullscreen, double _updateInterval)
 : Gosu::Window(_width, _height, _fullscreen, _updateInterval)
 {
 	InputManager::setCurrentContext( &m_inputManager );
+	m_inputManager.enable();
 
 	m_FPS = (int)(1000.0/_updateInterval);
 	m_curFPS = 1;

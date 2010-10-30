@@ -417,14 +417,17 @@ void GroupComponent::assign(std::string _name, SceneObject* _obj)
 bool GroupComponent::deleteObject(SceneObject* _object)
 {
 	bool found = false;
+	std::map<int, SceneObject*>::iterator erase;
 	std::map< int, SceneObject* >::iterator it = m_Objects.begin();
 	while (it != m_Objects.end()) {
 		if (it->second == _object) {
 			m_ObjectMap.erase(it->second->Name());
-			it = m_Objects.erase(it);
+			erase = it;
+			it++;
+			m_Objects.erase(erase);
 			continue;
-		}
-		it++;
+		}else
+			it++;
 	}
 	return found;
 }

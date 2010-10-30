@@ -71,16 +71,19 @@ SceneObject* SceneGraph::createObject(std::string _name)
 bool SceneGraph::deleteObject(SceneObject* _object)
 {
 	bool found = false;
+	std::map<int, SceneObject*>::iterator erase;
 	std::map<int, SceneObject*>::iterator it = m_Objects.begin();
 	while (it != m_Objects.end()) {
 		if (it->second == _object) {
 			m_GroupRoot.deleteObject(_object);
 			delete it->second;
-			it = m_Objects.erase(it);
+			erase = it;
+			it++;
+			m_Objects.erase(erase);
 			found = true;
 			continue;
-		}
-		it++;
+		}else
+			it++;
 	}
 	return found;
 }
