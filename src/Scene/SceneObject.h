@@ -123,6 +123,8 @@ public:
 	void Thaw() { m_Frozen = false; }
 
 private:
+	bool isRectangle( b2PolygonShape *_poly );
+
 	b2Body *m_Body;
 	bool m_Frozen;
 };

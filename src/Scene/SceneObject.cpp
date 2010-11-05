@@ -73,6 +73,37 @@ void PhysComponent::update()
 
 void PhysComponent::encodeWith(Json::Value *_val)
 {
+	if (m_Body->GetType() == b2BodyType::b2_staticBody) {
+		(*_val)["Type"] = Json::Value("Static");
+	}
+	if (m_Body->GetType() == b2BodyType::b2_dynamicBody) {
+		(*_val)["Type"] = Json::Value("Dynamic");
+	}
+	if (m_Body->GetType() == b2BodyType::b2_kinematicBody) {
+		(*_val)["Type"] = Json::Value("Kinetic");
+	}
+	(*_val)["Rotation"] = Json::Value((double)m_Body->GetAngle());
+	(*_val)["Filter"] = Json::Value(m_Body->GetFixtureList()->GetFilterData().categoryBits);
+	(*_val)["Position"][0u] = Json::Value(m_Body->GetPosition().x);
+	(*_val)["Position"][1u] = Json::Value(m_Body->GetPosition().y);
+
+	b2Fixture *fixs = m_Body->GetFixtureList();
+	for (b2Fixture* f = fixs; f; f = f->GetNext()){
+		Json::Value jVal;
+		b2Shape* shape = f->GetShape();
+		//jVal["Position"][0u] = 
+		switch (f->GetType()) {
+		case b2Shape::e_circle:
+			break;
+		case b2Shape::e_polygon:
+			if (isRectangle((b2PolygonShape*)f->GetShape())) {
+
+			}else{
+
+			}
+			break;
+		}
+	}
 }
 
 void PhysComponent::initWith(Json::Value _val)
@@ -152,6 +183,14 @@ void PhysComponent::initWith(Json::Value _val)
 	}
 }
 
+bool PhysComponent::isRectangle( b2PolygonShape *_poly )
+{
+	if (_poly->GetVertexCount() != 4)
+		return false;
+	//Gosu::angle();
+	return true;
+}
+
 Physcom_maker Physcom_maker::s_RegisteredMaker;
 
 Component* Physcom_maker::makeComponent(SceneObject *_obj)
@@ -220,6 +259,67 @@ void RenderComponent::update()
 
 void RenderComponent::encodeWith(Json::Value *_val)
 {
+	if (m_Sprite) {
+		(*_val)["Type"] = Json::Value("Sprite");
+		(*_val)["Image"] = Json::Value(Gosu::narrow(m_Sprite->fileName()));
+		(*_val)["Layer"] = Json::Value(m_Sprite->layer());
+		
+		(*_val)["xScale"] = Json::Value(m_Sprite->factX());
+		(*_val)["yScale"] = Json::Value(m_Sprite->factY());
+		(*_val)["CenterX"] = Json::Value(m_Sprite->centerX());
+		(*_val)["CenterY"] = Json::Value(m_Sprite->centerY());
+		
+		(*_val)["Position"][0u] = Json::Value(m_Sprite->posX());
+		(*_val)["Position"][1u] = Json::Value(m_Sprite->posY());
+		
+		Gosu::Color color = m_Sprite->colorMod();
+		(*_val)["ColorMod"][0u] = Json::Value(color.alpha());
+		(*_val)["ColorMod"][1u] = Json::Value(color.red());
+		(*_val)["ColorMod"][2u] = Json::Value(color.green());
+		(*_val)["ColorMod"][3u] = Json::Value(color.blue());
+	}else{
+		(*_val)["Type"] = Json::Value("SpriteSheet");
+		(*_val)["Image"] = Json::Value(Gosu::narrow(m_SpriteSheet->fileName()));
+		(*_val)["Layer"] = Json::Value(m_SpriteSheet->layer());
+		(*_val)["Width"] = Json::Value(m_SpriteSheet->width());
+		(*_val)["Height"] = Json::Value(m_SpriteSheet->height());
+		(*_val)["Duration"] = Json::Value(m_SpriteSheet->delay());
+		
+		(*_val)["xScale"] = Json::Value(m_SpriteSheet->factX());
+		(*_val)["yScale"] = Json::Value(m_SpriteSheet->factY());
+		(*_val)["CenterX"] = Json::Value(m_SpriteSheet->centerX());
+		(*_val)["CenterY"] = Json::Value(m_SpriteSheet->centerY());
+		
+		(*_val)["Position"][0u] = Json::Value(m_SpriteSheet->posX());
+		(*_val)["Position"][1u] = Json::Value(m_SpriteSheet->posY());
+		
+		Gosu::Color color = m_SpriteSheet->colorMod();
+		(*_val)["ColorMod"][0u] = Json::Value(color.alpha());
+		(*_val)["ColorMod"][1u] = Json::Value(color.red());
+		(*_val)["ColorMod"][2u] = Json::Value(color.green());
+		(*_val)["ColorMod"][3u] = Json::Value(color.blue());
+	//int layer = _val.get("Layer", 0).asInt();
+	//int width = _val.get("Width", 0 ).asInt();
+	//int height = _val.get("Height", 0 ).asInt();
+	//int duration = _val.get("Duration", 20 ).asInt();
+	}
+	//std::wstring file = Gosu::resourcePrefix() + L"Images/" + Gosu::widen( _val.get("Image", "defaultimg.png").asString() );
+	//int layer = _val.get("Layer", 0).asInt();
+	//m_Sprite = RenderManager::getCurrentContext()->createSprite( layer, file);
+
+	//m_Sprite->setX(_val["Position"].get(0u, 0.0 ).asDouble());
+	//m_Sprite->setY(_val["Position"].get(1u, 0.0 ).asDouble());
+	//m_Sprite->setAngle(_val.get("Rotation", 0.0 ).asDouble());
+	//m_Sprite->setColorMod(
+	//	Gosu::Color( _val["ColorMod"].get(0u, 255 ).asInt(), 
+	//				_val["ColorMod"].get(1u, 255 ).asInt(), 
+	//				_val["ColorMod"].get(2u, 255 ).asInt(), 
+	//				_val["ColorMod"].get(3u, 255 ).asInt() ) );
+	//m_Sprite->setScaling( 
+	//	_val.get("xScale", 1.0).asDouble(), 
+	//	_val.get("yScale", 1.0).asDouble() );
+
+	//std::string tString = _val.get("AlphaMode", "amDefault" ).asString();
 }
 
 void RenderComponent::initWith(Json::Value _val)
@@ -238,6 +338,8 @@ void RenderComponent::initSprite(Json::Value _val)
 	int layer = _val.get("Layer", 0).asInt();
 	m_Sprite = RenderManager::getCurrentContext()->createSprite( layer, file);
 
+	m_Sprite->setFileName( Gosu::widen( _val.get("Image", "defaultimg.png").asString() ) );
+
 	m_Sprite->setX(_val["Position"].get(0u, 0.0 ).asDouble());
 	m_Sprite->setY(_val["Position"].get(1u, 0.0 ).asDouble());
 	m_Sprite->setAngle(_val.get("Rotation", 0.0 ).asDouble());
@@ -249,6 +351,9 @@ void RenderComponent::initSprite(Json::Value _val)
 	m_Sprite->setScaling( 
 		_val.get("xScale", 1.0).asDouble(), 
 		_val.get("yScale", 1.0).asDouble() );
+	m_Sprite->setCenter( 
+		_val.get("CenterX", 0.5).asDouble(), 
+		_val.get("CenterY", 0.5).asDouble() );
 
 	std::string tString = _val.get("AlphaMode", "amDefault" ).asString();
 	if (tString == "amAdditive") {
@@ -269,6 +374,7 @@ void RenderComponent::initSpriteSheet(Json::Value _val)
 
 	m_SpriteSheet = RenderManager::getCurrentContext()->createSpriteSheet( layer, filename, width, height, duration);
 	
+	m_SpriteSheet->setFileName( Gosu::widen( _val.get("Image", "defaultimg.png").asString() ) );
 	m_SpriteSheet->setX(_val["Position"].get(0u, 0.0 ).asDouble());
 	m_SpriteSheet->setY(_val["Position"].get(1u, 0.0 ).asDouble());
 	m_SpriteSheet->setAngle(_val.get("Rotation", 0.0 ).asDouble());
@@ -280,6 +386,9 @@ void RenderComponent::initSpriteSheet(Json::Value _val)
 	m_SpriteSheet->setScaling( 
 		_val.get("xScale", 1.0).asDouble(), 
 		_val.get("yScale", 1.0).asDouble() );
+	m_SpriteSheet->setCenter( 
+		_val.get("CenterX", 0.5).asDouble(), 
+		_val.get("CenterY", 0.5).asDouble() );
 
 	std::string tString = _val.get("AlphaMode", "amDefault" ).asString();
 	if (tString == "amAdditive") {
@@ -371,6 +480,22 @@ void GroupComponent::onMessage(std::string _message)
 
 void GroupComponent::encodeWith(Json::Value *_val)
 {
+	std::map< std::string, SceneObject* >::iterator it;
+	int i;
+	for (i = 0, it = m_ObjectMap.begin(); it != m_ObjectMap.end(); it++, i++) {
+		if (it->second->hasComponent("SceneGroup")) {
+			Json::Value jVal, jChildren;
+			jVal["GroupName"] = Json::Value(it->first);
+			it->second->encodeWith( &jChildren );
+			jVal["Children"] = jChildren;
+			_val->append( jVal );
+		}else{
+			Json::Value jVal;
+			jVal["Name"] = Json::Value(it->first);
+			it->second->encodeWith( &jVal );
+			_val->append( jVal );
+		}
+	}
 }
 
 void GroupComponent::initWith(Json::Value _val)
@@ -563,7 +688,9 @@ void SceneObject::encodeWith(Json::Value *_val)
 {
 	std::map< std::string, Component* >::iterator cit;
 	for (cit = m_Components.begin(); cit != m_Components.end(); cit++) {
-		cit->second->encodeWith(_val);
+		Json::Value jComp;
+		cit->second->encodeWith( &jComp );
+		(*_val)[cit->first] = jComp;
 	}
 }
 

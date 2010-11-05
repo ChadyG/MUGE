@@ -60,6 +60,14 @@ struct MessageBubble
 *			- all given values are in world coordinates
 *			- scene manager tells camera orientation + position for rendering
 */
+//TODO: establish base renderable class with draw(x, y)
+//		use Gosu::Translate/Rotate stuff to do coordinate transform
+//		start using render groups (?)
+//== Order of transforms
+//	Global
+//		Translate to origin
+//		Rotate
+//		Translate to focus
 class RenderManager
 {
 public:
@@ -111,12 +119,7 @@ public:
 
 	/// Define scaling factor for a layer
 	void setLayerScale(int _layer, float _scale) { m_LayerScales[_layer] = _scale; }
-
-	/// create a sprite from JSON
-	Sprite* createSprite(int _layer, Json::Value _jval);
-	/// create a SpriteSheet from JSON
-	SpriteSheet* createSpriteSheet(int _layer, Json::Value _jval);
-
+	
 	/// create a message bubble
 	MessageBubble* createMessage(std::wstring _message, double _x, double _y, bool _static = true);
 	/// create a sprite
