@@ -32,7 +32,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include "../Core/Core.h"
 
 Sprite::Sprite()
-	: m_centerX(0.5), m_centerY(0.5),
+	: m_fileName(L""), m_centerX(0.5), m_centerY(0.5),
 	m_posX(0.0f), m_posY(0.0f), m_zoom(1.0f), m_angle(0.0f), m_layer(0),
 	m_factX(1.0), m_factY(1.0), m_ColorMod(Gosu::Colors::white), m_Alpha(Gosu::amDefault)
 {

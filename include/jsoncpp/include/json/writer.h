@@ -16,7 +16,7 @@ namespace Json {
    {
    public:
       virtual ~Writer();
-
+	  virtual std::string writeFile( std::string file, const Value &root ) = 0;
       virtual std::string write( const Value &root ) = 0;
    };
 
@@ -35,6 +35,7 @@ namespace Json {
       void enableYAMLCompatibility();
 
    public: // overridden from Writer
+      virtual std::string writeFile( std::string file, const Value &root );
       virtual std::string write( const Value &root );
 
    private:
@@ -69,6 +70,11 @@ namespace Json {
       virtual ~StyledWriter(){}
 
    public: // overridden from Writer
+	   /** \brief Serialize a Value in <a HREF="http://www.json.org">JSON</a> format.
+       * \param root Value to serialize.
+       * \return String containing the JSON document that represents the root value.
+       */
+      virtual std::string writeFile( std::string file, const Value &root );
       /** \brief Serialize a Value in <a HREF="http://www.json.org">JSON</a> format.
        * \param root Value to serialize.
        * \return String containing the JSON document that represents the root value.

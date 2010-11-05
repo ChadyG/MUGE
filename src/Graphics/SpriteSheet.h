@@ -52,11 +52,21 @@ public:
 	void setImage(std::wstring _filename, Gosu::Graphics &_graphics, int width, int height, int delay=1);
 	void setImage(std::wstring _filename, int width, int height, int delay=1);
 	
+	void setFileName(std::wstring _filename) { m_fileName = _filename; }
 	void setScaling(double _factorX, double _factorY);
 	void setCenter(double _centerX, double _centerY);
 	void setColorMod(Gosu::Color _colorMod);
 	void setAlphaMode(Gosu::AlphaMode _amode) { m_Alpha = _amode; }
 
+	std::wstring fileName() const { return m_fileName; }
+	Gosu::Color colorMod() const { return m_ColorMod; }
+	int width() const { return m_width; }
+	int height() const { return m_height; }
+	double delay() const { return m_Delay; }
+	double factX() const { return m_factX; }
+	double factY() const { return m_factY; }
+	double centerX() const { return m_centerX; }
+	double centerY() const { return m_centerY; }
 	double posX() const { return m_posX; }
 	double posY() const { return m_posY; }
 	double zoom() const { return m_zoom; }
@@ -92,6 +102,8 @@ public:
 private:
 	std::vector< t_Image > m_Sprites;
 
+	std::wstring m_fileName;
+	int m_width, m_height;
 	double m_posX, m_posY, m_zoom, m_angle;
 	double m_layer;
 	

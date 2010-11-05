@@ -71,6 +71,7 @@ public:
 
 	//Call setPhysics first!
 	void loadFile(std::wstring _config);
+	void writeFile(std::wstring _outfile);
 
 	void update();
 

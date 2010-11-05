@@ -29,6 +29,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #include "SceneGraph.h"
+#include <fstream>
 
 SceneGraph* SceneGraph::s_CurrentContext;
 
@@ -104,6 +105,14 @@ void SceneGraph::loadFile(std::wstring _config)
 			m_Objects[obj->ID()] = obj;
 		}
 	}
+}
+
+void SceneGraph::writeFile(std::wstring _outfile)
+{
+	Json::Value jVal;
+	Json::StyledWriter writer;
+	m_GroupRoot.encodeWith( &jVal );
+	writer.writeFile( Gosu::narrow(Gosu::resourcePrefix() + L"Data/" + _outfile + L".json"), jVal );
 }
 
 //Recursive group creation

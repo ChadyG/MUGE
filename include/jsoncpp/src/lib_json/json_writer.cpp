@@ -6,6 +6,7 @@
 #include <iostream>
 #include <sstream>
 #include <iomanip>
+#include <fstream>
 
 #if _MSC_VER >= 1400 // VC++ 8.0
 #pragma warning( disable : 4996 )   // disable warning about strdup being deprecated.
@@ -195,6 +196,22 @@ FastWriter::enableYAMLCompatibility()
 
 
 std::string 
+FastWriter::writeFile( std::string file, const Value &root )
+{
+   document_ = "";
+   writeValue( root );
+   document_ += "\n";
+
+   std::ofstream outputStream;
+   outputStream.open(file.c_str(), std::ios_base::trunc);
+
+   outputStream.write( document_.c_str(), document_.size() );
+   outputStream.close();
+
+   return document_;
+}
+
+std::string 
 FastWriter::write( const Value &root )
 {
    document_ = "";
@@ -272,6 +289,26 @@ StyledWriter::StyledWriter()
 {
 }
 
+
+std::string 
+StyledWriter::writeFile( const std::string file, const Value &root )
+{
+   document_ = "";
+   addChildValues_ = false;
+   indentString_ = "";
+   writeCommentBeforeValue( root );
+   writeValue( root );
+   writeCommentAfterValueOnSameLine( root );
+   document_ += "\n";
+
+   std::ofstream outputStream;
+   outputStream.open(file.c_str(), std::ios_base::trunc);
+
+   outputStream.write( document_.c_str(), document_.size() );
+   outputStream.close();
+
+   return document_;
+}
 
 std::string 
 StyledWriter::write( const Value &root )

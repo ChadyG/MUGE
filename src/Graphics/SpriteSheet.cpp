@@ -30,14 +30,16 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include "SpriteSheet.h"
 
 SpriteSheet::SpriteSheet( )
-: m_Delay(0), m_Frame(0), m_Timer(0), m_centerX(0.5), m_Speed(1.f),
+: m_fileName(L""), m_width(0), m_height(0),
+m_Delay(0), m_Frame(0), m_Timer(0), m_centerX(0.5), m_Speed(1.f),
 m_posX(0.0f), m_posY(0.0f), m_zoom(1.0f), m_angle(0.0f), m_layer(0.0f),
 m_centerY(0.5), m_factX(1.0), m_factY(1.0), m_ColorMod(Gosu::Colors::white), m_Alpha(Gosu::amDefault)
 {
 }
 
 SpriteSheet::SpriteSheet( std::wstring _fileName, int _width, int _height, int _delay)
-: m_centerX(0.5), m_centerY(0.5), m_factX(1.0), m_factY(1.0), m_Speed(1.f),
+: m_fileName(_fileName), m_width(_width), m_height(_height),
+m_centerX(0.5), m_centerY(0.5), m_factX(1.0), m_factY(1.0), m_Speed(1.f),
 m_posX(0.0f), m_posY(0.0f), m_zoom(1.0f), m_angle(0.0f), m_layer(0.0f),
 m_ColorMod(Gosu::Colors::white), m_Delay(_delay), m_Frame(0), m_Alpha(Gosu::amDefault)
 {
@@ -50,6 +52,9 @@ m_ColorMod(Gosu::Colors::white), m_Delay(_delay), m_Frame(0), m_Alpha(Gosu::amDe
 
 void SpriteSheet::setImage( std::wstring _fileName, Gosu::Graphics &_graphics, int _width, int _height, int _delay)
 {
+	m_fileName = _fileName;
+	m_width = _width;
+	m_height = _height;
 	m_Delay = _delay;
 	Gosu::imagesFromTiledBitmap(_graphics, _fileName, _width, _height, false, m_Sprites);
 	m_Frame = 0;
@@ -59,6 +64,9 @@ void SpriteSheet::setImage( std::wstring _fileName, Gosu::Graphics &_graphics, i
 
 void SpriteSheet::setImage( std::wstring _fileName, int _width, int _height, int _delay)
 {
+	m_fileName = _fileName;
+	m_width = _width;
+	m_height = _height;
 	m_Delay = _delay;
 	Gosu::imagesFromTiledBitmap(Core::getCurrentContext()->graphics(), _fileName, _width, _height, false, m_Sprites);
 	m_Frame = 0;
