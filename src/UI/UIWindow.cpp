@@ -29,6 +29,7 @@ OTHER DEALINGS IN THE SOFTWARE.
  */
 
 #include "GUIObjects.h"
+#include "../Input/InputManager.h"
 
 UIWindow::UIWindow(windowDef& _def, Gosu::Graphics &_graphics, Gosu::Input &_input)
 : m_closed(false), m_dragging(false), UIContainer(_graphics, _input)
@@ -117,9 +118,10 @@ void UIWindow::update()
 		std::list< boost::shared_ptr<UIObject> >::iterator itObj;
 		bool mouseIn = false;
 		int mouseX = (int)m_Input.mouseX(), mouseY = (int)m_Input.mouseY();
-
+		
+		InputManager* input = InputManager::getCurrentContext();
 		// General mouse state detection
-		if (m_Input.down(Gosu::msLeft)) {
+		/*if (m_Input.down(Gosu::msLeft)) {
 			if (m_mouseDown) {
 				m_mouseHeld = true;
 				m_mouseDown = false;
@@ -130,6 +132,20 @@ void UIWindow::update()
 		}else{
 			m_mouseDown = false;
 			m_mouseHeld = false;
+		}*/
+
+		m_mouseUp = false;
+		m_mouseDown = false;
+		m_mouseHeld = false;
+		if (input->query("Menu.Select") == InputManager::actnBegin) {
+			m_mouseUp = false;
+			m_mouseDown = true;
+			m_mouseHeld = false;
+		}
+		if (input->query("Menu.Select") == InputManager::actnActive) {
+			m_mouseUp = false;
+			m_mouseDown = true;
+			m_mouseHeld = true;
 		}
 
 		// Dragging logic
@@ -190,12 +206,19 @@ void UIWindow::update()
 
 
 		// Mouse up events for any object (only sent when released over object)
-		if (!m_mouseHeld && !m_mouseUp) {
+		/*if (!m_mouseHeld && !m_mouseUp) {
 			if (m_MouseInObject != m_currentPage->end()) {
 				(*m_MouseInObject)->onMouseUp();
 				m_MouseInObject = m_currentPage->end();
 			}
 			m_mouseUp = true;
+		}*/
+
+		if (input->query("Menu.Select") == InputManager::actnFinish) {
+			if (m_MouseInObject != m_currentPage->end()) {
+				(*m_MouseInObject)->onMouseUp();
+				m_MouseInObject = m_currentPage->end();
+			}
 		}
 		
 		// Check status of close button

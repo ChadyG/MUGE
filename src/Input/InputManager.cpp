@@ -53,6 +53,7 @@ InputManager::~InputManager()
 	m_actions.clear();
 }
 
+//TODO: look into using Gosu::Input::idToChar/charToId
 Gosu::ButtonName InputManager::strToButton(std::string _name)
 {
 	if (_name == "kb1") return Gosu::kb1;

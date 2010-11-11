@@ -19,6 +19,7 @@
     <ClCompile Include="..\..\src\Core\GameState.cpp" />
     <ClCompile Include="..\..\src\Data\JSONFile.cpp" />
     <ClCompile Include="..\..\src\Graphics\Camera.cpp" />
+    <ClCompile Include="..\..\src\Graphics\MessageBubble.cpp" />
     <ClCompile Include="..\..\src\Graphics\RenderManager.cpp" />
     <ClCompile Include="..\..\src\Graphics\Sprite.cpp" />
     <ClCompile Include="..\..\src\Graphics\SpriteSheet.cpp" />
@@ -41,6 +42,7 @@
     <ClInclude Include="..\..\src\Core\GameState.h" />
     <ClInclude Include="..\..\src\Data\JSONFile.hpp" />
     <ClInclude Include="..\..\src\Graphics\Camera.h" />
+    <ClInclude Include="..\..\src\Graphics\MessageBubble.h" />
     <ClInclude Include="..\..\src\Graphics\RenderManager.h" />
     <ClInclude Include="..\..\src\Graphics\Sprite.h" />
     <ClInclude Include="..\..\src\Graphics\SpriteSheet.h" />

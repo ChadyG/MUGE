@@ -91,18 +91,27 @@ void PhysComponent::encodeWith(Json::Value *_val)
 	for (b2Fixture* f = fixs; f; f = f->GetNext()){
 		Json::Value jVal;
 		b2Shape* shape = f->GetShape();
+		jVal["Density"] = Json::Value((double)f->GetDensity());
+		jVal["Friction"] = Json::Value((double)f->GetFriction());
+		jVal["Restitution"] = Json::Value((double)f->GetRestitution());
 		//jVal["Position"][0u] = 
 		switch (f->GetType()) {
 		case b2Shape::e_circle:
+			jVal["Type"] = Json::Value("Circle");
+			jVal["Radius"] = Json::Value((double)shape->m_radius);
+			jVal["Position"][0u] = Json::Value((double)((b2CircleShape*)shape)->m_p.x);
+			jVal["Position"][1u] = Json::Value((double)((b2CircleShape*)shape)->m_p.y);
 			break;
 		case b2Shape::e_polygon:
-			if (isRectangle((b2PolygonShape*)f->GetShape())) {
-
-			}else{
-
+			jVal["Type"] = Json::Value("Polygon");
+			b2PolygonShape* pshape = (b2PolygonShape*)shape;
+			for (int i=0; i < pshape->m_vertexCount; ++i) {
+				jVal["Vertices"][i][0u] = Json::Value((double)pshape->m_vertices[i].x);
+				jVal["Vertices"][i][1u] = Json::Value((double)pshape->m_vertices[i].y);
 			}
 			break;
 		}
+		(*_val)["Shapes"].append(jVal);
 	}
 }
 
@@ -298,28 +307,7 @@ void RenderComponent::encodeWith(Json::Value *_val)
 		(*_val)["ColorMod"][1u] = Json::Value(color.red());
 		(*_val)["ColorMod"][2u] = Json::Value(color.green());
 		(*_val)["ColorMod"][3u] = Json::Value(color.blue());
-	//int layer = _val.get("Layer", 0).asInt();
-	//int width = _val.get("Width", 0 ).asInt();
-	//int height = _val.get("Height", 0 ).asInt();
-	//int duration = _val.get("Duration", 20 ).asInt();
 	}
-	//std::wstring file = Gosu::resourcePrefix() + L"Images/" + Gosu::widen( _val.get("Image", "defaultimg.png").asString() );
-	//int layer = _val.get("Layer", 0).asInt();
-	//m_Sprite = RenderManager::getCurrentContext()->createSprite( layer, file);
-
-	//m_Sprite->setX(_val["Position"].get(0u, 0.0 ).asDouble());
-	//m_Sprite->setY(_val["Position"].get(1u, 0.0 ).asDouble());
-	//m_Sprite->setAngle(_val.get("Rotation", 0.0 ).asDouble());
-	//m_Sprite->setColorMod(
-	//	Gosu::Color( _val["ColorMod"].get(0u, 255 ).asInt(), 
-	//				_val["ColorMod"].get(1u, 255 ).asInt(), 
-	//				_val["ColorMod"].get(2u, 255 ).asInt(), 
-	//				_val["ColorMod"].get(3u, 255 ).asInt() ) );
-	//m_Sprite->setScaling( 
-	//	_val.get("xScale", 1.0).asDouble(), 
-	//	_val.get("yScale", 1.0).asDouble() );
-
-	//std::string tString = _val.get("AlphaMode", "amDefault" ).asString();
 }
 
 void RenderComponent::initWith(Json::Value _val)

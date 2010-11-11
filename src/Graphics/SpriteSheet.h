@@ -39,10 +39,11 @@ OTHER DEALINGS IN THE SOFTWARE.
 #define SpriteSheet_H
 
 #include <Gosu/Gosu.hpp>
+#include "RenderManager.h"
 
 typedef boost::shared_ptr<Gosu::Image> t_Image;
 
-class SpriteSheet
+class SpriteSheet : public Renderable
 {
 public:
 	SpriteSheet();
@@ -104,8 +105,8 @@ private:
 
 	std::wstring m_fileName;
 	int m_width, m_height;
-	double m_posX, m_posY, m_zoom, m_angle;
-	double m_layer;
+	//double m_posX, m_posY, m_zoom, m_angle;
+	//double m_layer;
 	
 	unsigned int m_Frame;
 	int m_numFrames;

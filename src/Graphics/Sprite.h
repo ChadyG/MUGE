@@ -39,8 +39,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 #include <Gosu/Gosu.hpp>
 #include <map>
+#include "RenderManager.h"
 
-class Sprite
+class Sprite : public Renderable
 {
 public:
 	/**
@@ -94,8 +95,8 @@ private:
 	Gosu::Image* m_Image;
 
 	std::wstring m_fileName;
-	double m_posX, m_posY, m_zoom, m_angle;
-	int m_layer;
+	//double m_posX, m_posY, m_zoom, m_angle;
+	//int m_layer;
 	
 	bool m_visible;
 	//zoom factors

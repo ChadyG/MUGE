@@ -32,14 +32,18 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include "RenderManager.h"
 #include <Box2D.h>
 #include "../Core/Core.h"
+#include "MessageBubble.h"
+#include "SpriteSheet.h"
+#include "Sprite.h"
+#include "Camera.h"
 
 RenderManager* RenderManager::s_CurrentContext;
 
 //save for later to do precaching of memory
 RenderManager::RenderManager() 
-	: m_curImageID(0),
-	m_MessageCorners(Gosu::resourcePrefix() + L"Images/Message_corners.png", 16, 16, 50),
-	m_MessageTip(Core::getCurrentContext()->graphics(), Gosu::resourcePrefix() + L"Images/Message_tip.png"),
+	: m_curImageID(0), m_rendlist(0),
+	//m_MessageCorners(Gosu::resourcePrefix() + L"Images/Message_corners.png", 16, 16, 50),
+	//m_MessageTip(Core::getCurrentContext()->graphics(), Gosu::resourcePrefix() + L"Images/Message_tip.png"),
 	m_Font(Core::getCurrentContext()->graphics(), Gosu::defaultFontName(), 12, 0)
 {	
 	m_Camera = new Camera();
@@ -47,18 +51,23 @@ RenderManager::RenderManager()
 
 RenderManager::~RenderManager()
 {
-	std::map< std::wstring, Gosu::Image* >::iterator it;
-	for (it = m_Images.begin(); it != m_Images.end(); ++it) {
-		delete it->second;
-	}
+	//std::map< std::wstring, Gosu::Image* >::iterator it;
+	//for (it = m_Images.begin(); it != m_Images.end(); ++it) {
+	//	delete it->second;
+	//}
 }
 
-void RenderManager::updateSpriteSheets()
+void RenderManager::update()
 {
-	std::list<SpriteSheet>::iterator isheet;
-	for (isheet = m_SpriteSheets.begin(); isheet != m_SpriteSheets.end(); isheet++) {
-		isheet->update();
+	Renderable *r = m_rendlist;
+	while (r != NULL) {
+		r->update();
+		r = r->m_next;
 	}
+	//std::list<SpriteSheet>::iterator isheet;
+	//for (isheet = m_SpriteSheets.begin(); isheet != m_SpriteSheets.end(); isheet++) {
+	//	isheet->update();
+	//}
 }
 
 void RenderManager::doRender() const
@@ -67,6 +76,13 @@ void RenderManager::doRender() const
 	//m_camX = _x; m_camY = _y, 
 	double camZoom = m_Camera->Zoom(), camRot = m_Camera->Rotation(), camScale = m_Camera->Scale();
 
+	Renderable *r = m_rendlist;
+	while (r != NULL) {
+		CameraTransform trans = m_Camera->worldToScreen( r->m_posX, r->m_posY, r->m_layer);
+		r->draw(trans.x, trans.y, trans.zoom, trans.rot);
+		r = r->m_next;
+	}
+	/*
 	std::map< int, float >::const_iterator iscale;
 	std::list<Sprite>::const_iterator isprite;
 	for (isprite = m_Sprites.begin(); isprite != m_Sprites.end(); isprite++) {
@@ -83,7 +99,7 @@ void RenderManager::doRender() const
 			trans.position = b2Mul( trans.R, newPos);
 			trans.position.Set( trans.position.x + m_screenW/2, trans.position.y + m_screenH/2);
 
-			*/
+			* /
 			CameraTransform trans = m_Camera->worldToScreen( isprite->posX(), isprite->posY(), isprite->layer());
 			isprite->draw(trans.x, trans.y, trans.zoom, trans.rot);
 		}
@@ -103,7 +119,7 @@ void RenderManager::doRender() const
 			trans.R.Set( m_camRot*(Gosu::pi/180.0) );
 			trans.position = b2Mul( trans.R, newPos);
 			trans.position.Set( trans.position.x + m_screenW/2, trans.position.y + m_screenH/2);
-			*/
+			* /
 			CameraTransform trans = m_Camera->worldToScreen( isheet->posX(), isheet->posY(), isheet->layer());
 			isheet->draw(trans.x, trans.y, trans.zoom, trans.rot);
 		}
@@ -126,7 +142,7 @@ void RenderManager::doRender() const
 		trans.R.Set( m_camRot*(Gosu::pi/180.0) );
 		trans.position = b2Mul( trans.R, newPos);
 		trans.position.Set( trans.position.x + m_screenW/2 + 4, trans.position.y + m_screenH/2 - 4);
-		*/
+		* /
 		CameraTransform trans = m_Camera->worldToScreen( ibubble->x, ibubble->y, 0);
 		
 
@@ -206,7 +222,7 @@ void RenderManager::doRender() const
 			ibubble->text->draw(x, y, 19, 1.0, 1.0, Gosu::Colors::black);
 		else
 			m_Font.draw(ibubble->Message, x, y, 19, 1.0, 1.0, Gosu::Colors::black);
-	}
+	}*/
 }
 
 //
@@ -214,98 +230,123 @@ void RenderManager::doRender() const
 
 MessageBubble* RenderManager::createMessage(std::wstring _message, double _x, double _y, bool _static)
 {
-	MessageBubble nMB;
-	nMB.isStatic = _static;
-	nMB.Message = _message;
-	nMB.x = _x;
-	nMB.y = _y;
+	MessageBubble *nMB = new MessageBubble(_message, _static);
+	nMB->setX(_x);
+	nMB->setY(_y);
 
-	unsigned int width = Gosu::textWidth(nMB.Message, Gosu::defaultFontName(), 12);
-	nMB.width = (std::min)((unsigned)256, Gosu::textWidth(nMB.Message, Gosu::defaultFontName(), 12));
-	nMB.text = new Gosu::Image(
-		Core::getCurrentContext()->graphics(), Gosu::createText(
-			nMB.Message, 
-			Gosu::defaultFontName(), 
-			12, 
-			1, 
-			nMB.width, 
-			Gosu::taCenter));
-	nMB.height = nMB.text->height();
+	nMB->m_prev = NULL;
+	nMB->m_next = m_rendlist;
+	m_rendlist = nMB;
+	return nMB;
 
-	m_Messages.push_back(nMB);
-	return &(m_Messages.back());
+	//m_Messages.push_back(nMB);
+	//return &(m_Messages.back());
 }
 
 Sprite* RenderManager::createSprite(int _layer, std::wstring _filename)
 {
 	//m_Sprites[m_CurSpriteID] = new Sprite();
-	Sprite tsprite;
+	Sprite *tsprite = new Sprite();
 	if (m_Images.find(_filename) == m_Images.end()) {
 		m_Images[_filename] = new Gosu::Image(Core::getCurrentContext()->graphics(),_filename);
 	}
-	tsprite.setImage(m_Images[_filename]);
-	tsprite.setLayer((float)_layer);
-	m_Sprites.push_back(tsprite);
-	return &(m_Sprites.back());
+	tsprite->setImage(m_Images[_filename]);
+	tsprite->setLayer((float)_layer);
+
+	tsprite->m_prev = NULL;
+	tsprite->m_next = m_rendlist;
+	m_rendlist = tsprite;
+	return tsprite;
+	//m_Sprites.push_back(tsprite);
+	//return &(m_Sprites.back());
 }
 
 SpriteSheet* RenderManager::createSpriteSheet(
 	int _layer, std::wstring _filename, int _width, int _height, int _delay)
 {
-	SpriteSheet isheet( _filename, _width, _height, _delay );
-	isheet.setLayer(_layer);
-	m_SpriteSheets.push_back(isheet);
-	return &(m_SpriteSheets.back());
+	SpriteSheet *isheet = new SpriteSheet( _filename, _width, _height, _delay );
+	isheet->setLayer(_layer);
+
+	isheet->m_prev = NULL;
+	isheet->m_next = m_rendlist;
+	m_rendlist = isheet;
+	return isheet;
+	//m_SpriteSheets.push_back(isheet);
+	//return &(m_SpriteSheets.back());
 }
 
 //
 // Asset registration
 
+void RenderManager::registerRenderable(int _layer, Renderable* _r)
+{
+	_r->m_prev = NULL;
+	_r->m_next = m_rendlist;
+	m_rendlist = _r;
+	//m_Sprites.push_back(*_sp);
+}
+
 void RenderManager::registerSprite(int _layer, Sprite* _sp)
 {
-	m_Sprites.push_back(*_sp);
+	//m_Sprites.push_back(*_sp);
 }
 
 void RenderManager::registerSpriteSheet(int _layer, SpriteSheet* _ss)
 {
-	m_SpriteSheets.push_back(*_ss);
+	//m_SpriteSheets.push_back(*_ss);
 }
 
 //
 // Asset deletion
 
+void RenderManager::deleteRenderable(Renderable* _r)
+{ 
+	if (_r->m_prev) {
+		_r->m_prev->m_next = _r->m_next;
+	}
+
+	if (_r->m_next) {
+		_r->m_next->m_prev = _r->m_prev;
+	}
+
+	if (_r == m_rendlist) {
+		m_rendlist = _r->m_next;
+	}
+	delete _r;
+}
+
 void RenderManager::deleteSprite(Sprite* _sprite) 
 { 
-	std::list<Sprite>::iterator sit = m_Sprites.begin();
+	/*std::list<Sprite>::iterator sit = m_Sprites.begin();
 	while (sit != m_Sprites.end()) {
 		if (&(*sit) == _sprite) {
 			sit = m_Sprites.erase(sit);
 			continue;
 		}
 		sit++;
-	}
+	}*/
 }
 void RenderManager::deleteSpriteSheet(SpriteSheet* _sheet) 
 { 
-	std::list<SpriteSheet>::iterator sit = m_SpriteSheets.begin();
+	/*std::list<SpriteSheet>::iterator sit = m_SpriteSheets.begin();
 	while (sit != m_SpriteSheets.end()) {
 		if (&(*sit) == _sheet) {
 			sit = m_SpriteSheets.erase(sit);
 			continue;
 		}
 		sit++;
-	}
+	}*/
 }
 void RenderManager::deleteMessage(MessageBubble* _message)
 {
-	std::list<MessageBubble>::iterator sit = m_Messages.begin();
+	/*std::list<MessageBubble>::iterator sit = m_Messages.begin();
 	while (sit != m_Messages.end()) {
 		if (&(*sit) == _message) {
 			sit = m_Messages.erase(sit);
 			continue;
 		}
 		sit++;
-	}
+	}*/
 }
 
 /*
