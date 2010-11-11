@@ -91,6 +91,8 @@
 		E992E39D1262560800B0ECD9 /* b2RevoluteJoint.h in Headers */ = {isa = PBXBuildFile; fileRef = E992E3541262560800B0ECD9 /* b2RevoluteJoint.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E992E39E1262560800B0ECD9 /* b2WeldJoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E992E3551262560800B0ECD9 /* b2WeldJoint.cpp */; };
 		E992E39F1262560800B0ECD9 /* b2WeldJoint.h in Headers */ = {isa = PBXBuildFile; fileRef = E992E3561262560800B0ECD9 /* b2WeldJoint.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9F9E5ED128BBAD7009F57AB /* MessageBubble.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9F9E5EB128BBAD7009F57AB /* MessageBubble.cpp */; };
+		E9F9E5EE128BBAD7009F57AB /* MessageBubble.h in Headers */ = {isa = PBXBuildFile; fileRef = E9F9E5EC128BBAD7009F57AB /* MessageBubble.h */; };
 		E9FF6756125CBEC7003FF701 /* AudioManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9FF672B125CBEC7003FF701 /* AudioManager.cpp */; };
 		E9FF6757125CBEC7003FF701 /* AudioManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E9FF672C125CBEC7003FF701 /* AudioManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E9FF6758125CBEC7003FF701 /* Core.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9FF672E125CBEC7003FF701 /* Core.cpp */; };
@@ -220,6 +222,8 @@
 		E992E3541262560800B0ECD9 /* b2RevoluteJoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = b2RevoluteJoint.h; sourceTree = "<group>"; };
 		E992E3551262560800B0ECD9 /* b2WeldJoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = b2WeldJoint.cpp; sourceTree = "<group>"; };
 		E992E3561262560800B0ECD9 /* b2WeldJoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = b2WeldJoint.h; sourceTree = "<group>"; };
+		E9F9E5EB128BBAD7009F57AB /* MessageBubble.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MessageBubble.cpp; sourceTree = "<group>"; };
+		E9F9E5EC128BBAD7009F57AB /* MessageBubble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageBubble.h; sourceTree = "<group>"; };
 		E9FF672B125CBEC7003FF701 /* AudioManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioManager.cpp; sourceTree = "<group>"; };
 		E9FF672C125CBEC7003FF701 /* AudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioManager.h; sourceTree = "<group>"; };
 		E9FF672E125CBEC7003FF701 /* Core.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Core.cpp; sourceTree = "<group>"; };
@@ -541,6 +545,8 @@
 		E9FF6735125CBEC7003FF701 /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
+				E9F9E5EB128BBAD7009F57AB /* MessageBubble.cpp */,
+				E9F9E5EC128BBAD7009F57AB /* MessageBubble.h */,
 				E9FF6736125CBEC7003FF701 /* Camera.cpp */,
 				E9FF6737125CBEC7003FF701 /* Camera.h */,
 				E9FF6738125CBEC7003FF701 /* RenderManager.cpp */,
@@ -658,6 +664,7 @@
 				E992E39B1262560800B0ECD9 /* b2PulleyJoint.h in Headers */,
 				E992E39D1262560800B0ECD9 /* b2RevoluteJoint.h in Headers */,
 				E992E39F1262560800B0ECD9 /* b2WeldJoint.h in Headers */,
+				E9F9E5EE128BBAD7009F57AB /* MessageBubble.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -782,6 +789,7 @@
 				E992E39A1262560800B0ECD9 /* b2PulleyJoint.cpp in Sources */,
 				E992E39C1262560800B0ECD9 /* b2RevoluteJoint.cpp in Sources */,
 				E992E39E1262560800B0ECD9 /* b2WeldJoint.cpp in Sources */,
+				E9F9E5ED128BBAD7009F57AB /* MessageBubble.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
