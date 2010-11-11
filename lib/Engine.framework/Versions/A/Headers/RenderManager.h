@@ -35,11 +35,15 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include <map>
 #include <list>
 #include <json/json.h>
-#include "SpriteSheet.h"
-#include "Sprite.h"
+//#include "SpriteSheet.h"
+//#include "Sprite.h"
 #include "Camera.h"
 
-
+class Sprite;
+class SpriteSheet;
+class MessageBubble;
+//class Camera;
+/*
 struct MessageBubble
 {
 	Gosu::Image *text;
@@ -50,7 +54,22 @@ struct MessageBubble
 	double x;
 	double y;
 };
+*/
 
+class Renderable
+{
+public:
+	Renderable() : m_posX(0.0f), m_posY(0.0f), m_zoom(1.0f), m_angle(0.0f), m_layer(0.0f) {}
+	
+	virtual void draw(double _x, double _y, double _zoom = 1.0, double _angle = 0.0) const {}
+	virtual void update() {}
+
+protected:
+	friend class RenderManager;
+	Renderable *m_prev, *m_next;
+	double m_posX, m_posY, m_zoom, m_angle;
+	int m_layer;
+};
 /**
 *	Intended services 
 *		* simple resource managing for Gosu::Image in Sprites
@@ -60,6 +79,14 @@ struct MessageBubble
 *			- all given values are in world coordinates
 *			- scene manager tells camera orientation + position for rendering
 */
+//TODO: establish base renderable class with draw(x, y)
+//		use Gosu::Translate/Rotate stuff to do coordinate transform
+//		start using render groups (?)
+//== Order of transforms
+//	Global
+//		Translate to origin
+//		Rotate
+//		Translate to focus
 class RenderManager
 {
 public:
@@ -102,21 +129,20 @@ public:
 		}
 	};
 
+	Gosu::Font& font() { return m_Font; }
+
+	Camera& camera() { return *m_Camera; }
+
 	/// Updates all sprite sheets
 	/// This should be called every game tick
-	void updateSpriteSheets();
+	void update();
 
 	/// Call to run draw operations
 	void doRender() const;
 
 	/// Define scaling factor for a layer
 	void setLayerScale(int _layer, float _scale) { m_LayerScales[_layer] = _scale; }
-
-	/// create a sprite from JSON
-	Sprite* createSprite(int _layer, Json::Value _jval);
-	/// create a SpriteSheet from JSON
-	SpriteSheet* createSpriteSheet(int _layer, Json::Value _jval);
-
+	
 	/// create a message bubble
 	MessageBubble* createMessage(std::wstring _message, double _x, double _y, bool _static = true);
 	/// create a sprite
@@ -125,10 +151,18 @@ public:
 	SpriteSheet* createSpriteSheet(
 		int _layer, std::wstring _filename, int _width, int _height, int _delay = 1);
 
+	
+	/// register a Renderable
+	void registerRenderable(int _layer, Renderable* _r);
+
 	/// register a sprite
 	void registerSprite(int _layer, Sprite* _sp);
 	/// register a SpriteSheet
 	void registerSpriteSheet(int _layer, SpriteSheet* _ss);
+
+	
+	/// Delete a specific Renderable
+	void deleteRenderable(Renderable* _r);
 
 	/// Delete a specific sprite
 	void deleteSprite(Sprite* _sprite);
@@ -138,13 +172,13 @@ public:
 	void deleteMessage(MessageBubble* _message);
 
 	/// Release all Sprites
-	void clearSprites() { m_Sprites.clear(); }
+	//void clearSprites() { m_Sprites.clear(); }
 	/// Release all SpriteSheets
-	void clearSpriteSheets() { m_SpriteSheets.clear(); }
+	//void clearSpriteSheets() { m_SpriteSheets.clear(); }
 	/// Release all Message Bubbles
-	void clearMessages() { m_Messages.clear(); }
+	//void clearMessages() { m_Messages.clear(); }
 	/// Release all resources
-	void clearAll() { m_Sprites.clear(); m_SpriteSheets.clear(); m_Messages.clear(); }
+	//void clearAll() { m_Sprites.clear(); m_SpriteSheets.clear(); m_Messages.clear(); }
 
 	/// Static accessor to current render manager
 	static RenderManager* getCurrentContext() { return s_CurrentContext; }
@@ -163,14 +197,15 @@ protected:
 	std::map< int, float > m_LayerScales;
 
 	//Renderable objects
-	std::list< SpriteSheet > m_SpriteSheets;
-	std::list< Sprite > m_Sprites;
+	//std::list< SpriteSheet > m_SpriteSheets;
+	//std::list< Sprite > m_Sprites;
+	Renderable *m_rendlist;
 	//std::list< Animation > m_Animations;
-	std::list< MessageBubble > m_Messages;
+	//std::list< MessageBubble > m_Messages;
 
 	//Shared resources for message bubbles
-	SpriteSheet m_MessageCorners;
-	Gosu::Image m_MessageTip;
+	//SpriteSheet m_MessageCorners;
+	//Gosu::Image m_MessageTip;
 	Gosu::Font m_Font;
 	
 	int m_curImageID;

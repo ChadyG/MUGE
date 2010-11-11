@@ -39,8 +39,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 #include <Gosu/Gosu.hpp>
 #include <map>
+#include "RenderManager.h"
 
-class Sprite
+class Sprite : public Renderable
 {
 public:
 	/**
@@ -54,11 +55,18 @@ public:
 	
 	void setImage(Gosu::Image* _image);
 	
+	void setFileName(std::wstring _filename) { m_fileName = _filename; }
 	void setScaling(double _factorX, double _factorY);
 	void setCenter(double _centerX, double _centerY);
 	void setColorMod(Gosu::Color _colorMod);
 	void setAlphaMode(Gosu::AlphaMode _amode) { m_Alpha = _amode; }
-
+	
+	std::wstring fileName() const { return m_fileName; }
+	Gosu::Color colorMod() const { return m_ColorMod; }
+	double factX() const { return m_factX; }
+	double factY() const { return m_factY; }
+	double centerX() const { return m_centerX; }
+	double centerY() const { return m_centerY; }
 	double posX() const { return m_posX; }
 	double posY() const { return m_posY; }
 	double zoom() const { return m_zoom; }
@@ -86,8 +94,9 @@ public:
 private:
 	Gosu::Image* m_Image;
 
-	double m_posX, m_posY, m_zoom, m_angle;
-	int m_layer;
+	std::wstring m_fileName;
+	//double m_posX, m_posY, m_zoom, m_angle;
+	//int m_layer;
 	
 	bool m_visible;
 	//zoom factors
