@@ -105,6 +105,97 @@ void SceneGraph::loadFile(std::wstring _config)
 			m_Objects[obj->ID()] = obj;
 		}
 	}
+
+	// Physics joints must be created after objects
+	//e_revoluteJoint,
+	//e_prismaticJoint,
+	//e_distanceJoint,
+	//e_pulleyJoint,
+	//e_mouseJoint,
+	//e_gearJoint,
+	//e_lineJoint,
+    //e_weldJoint,
+	//e_frictionJoint, //figure out what this one is!
+	
+	for (int i = 0; i < m_json["Joints"].size(); ++i) {
+		if (m_json["Joints"][i]["Type"] == "Revolute") {
+			b2RevoluteJointDef jDef;
+			jDef.Initialize(
+				&((PhysComponent*)m_GroupRoot[m_json["Joints"][i].get("ObjectA", "").asString()]->getComponent("Physics"))->getBody(),
+				&((PhysComponent*)m_GroupRoot[m_json["Joints"][i].get("ObjectB", "").asString()]->getComponent("Physics"))->getBody(), 
+				b2Vec2(
+					m_json["Joints"][i]["Position"].get(0u, 0.0).asDouble(),
+					m_json["Joints"][i]["Position"].get(1u, 0.0).asDouble()));
+			jDef.upperAngle = m_json["Joints"][i].get("upperAngle", 0.0).asDouble();
+			jDef.lowerAngle = m_json["Joints"][i].get("lowerAngle", 0.0).asDouble();
+			jDef.enableMotor = m_json["Joints"][i].get("enableMotor", false).asBool();
+			jDef.enableLimit = m_json["Joints"][i].get("enableLimit", false).asBool();
+			jDef.maxMotorTorque = m_json["Joints"][i].get("maxMotorTorque", 0.0).asDouble();
+			jDef.motorSpeed = m_json["Joints"][i].get("motorSpeed", 0.0).asDouble();
+			m_World->CreateJoint(&jDef);
+		}
+		if (m_json["Joints"][i]["Type"] == "Prismatic") {
+			b2PrismaticJointDef jDef;
+			jDef.Initialize(
+				&((PhysComponent*)m_GroupRoot[m_json["Joints"][i].get("ObjectA", "").asString()]->getComponent("Physics"))->getBody(),
+				&((PhysComponent*)m_GroupRoot[m_json["Joints"][i].get("ObjectB", "").asString()]->getComponent("Physics"))->getBody(), 
+				b2Vec2(
+					m_json["Joints"][i]["Position"].get(0u, 0.0).asDouble(),
+					m_json["Joints"][i]["Position"].get(1u, 0.0).asDouble()),
+				b2Vec2(
+					m_json["Joints"][i]["Axis"].get(0u, 1.0).asDouble(),
+					m_json["Joints"][i]["Axis"].get(1u, 0.0).asDouble()));
+			jDef.lowerTranslation = m_json["Joints"][i].get("lowerTranslation", 0.0).asDouble();
+			jDef.upperTranslation = m_json["Joints"][i].get("upperTranslation", 0.0).asDouble();
+			jDef.referenceAngle = m_json["Joints"][i].get("referenceAngle", 0.0).asDouble();
+			jDef.enableLimit = m_json["Joints"][i].get("enableLimit", false).asBool();
+			jDef.enableMotor = m_json["Joints"][i].get("enableMotor", false).asBool();
+			jDef.maxMotorForce = m_json["Joints"][i].get("maxMotorForce", 0.0).asDouble();
+			jDef.motorSpeed = m_json["Joints"][i].get("motorSpeed", 0.0).asDouble();
+			m_World->CreateJoint(&jDef);
+		}
+		if (m_json["Joints"][i]["Type"] == "Distance") {
+			b2DistanceJointDef jDef;
+			jDef.Initialize(
+				&((PhysComponent*)m_GroupRoot[m_json["Joints"][i].get("ObjectA", "").asString()]->getComponent("Physics"))->getBody(),
+				&((PhysComponent*)m_GroupRoot[m_json["Joints"][i].get("ObjectB", "").asString()]->getComponent("Physics"))->getBody(), 
+				b2Vec2(
+					m_json["Joints"][i]["PositionA"].get(0u, 0.0).asDouble(),
+					m_json["Joints"][i]["PositionA"].get(1u, 0.0).asDouble()),
+				b2Vec2(
+					m_json["Joints"][i]["PositionB"].get(0u, 0.0).asDouble(),
+					m_json["Joints"][i]["PositionB"].get(1u, 0.0).asDouble()));
+			jDef.length  = m_json["Joints"][i].get("length", 1.0).asDouble();
+			jDef.frequencyHz  = m_json["Joints"][i].get("frequencyHz", 0.0).asDouble();
+			jDef.dampingRatio   = m_json["Joints"][i].get("dampingRatio", 0.0).asDouble();
+			m_World->CreateJoint(&jDef);
+		}
+		if (m_json["Joints"][i]["Type"] == "Pulley") {
+			b2PulleyJointDef jDef;
+			jDef.Initialize(
+				&((PhysComponent*)m_GroupRoot[m_json["Joints"][i].get("ObjectA", "").asString()]->getComponent("Physics"))->getBody(),
+				&((PhysComponent*)m_GroupRoot[m_json["Joints"][i].get("ObjectB", "").asString()]->getComponent("Physics"))->getBody(), 
+				b2Vec2(
+					m_json["Joints"][i]["GroundAnchorA"].get(0u, -1.0).asDouble(),
+					m_json["Joints"][i]["GroundAnchorA"].get(1u, 1.0).asDouble()),
+				b2Vec2(
+					m_json["Joints"][i]["GroundAnchorB"].get(0u, 1.0).asDouble(),
+					m_json["Joints"][i]["GroundAnchorB"].get(1u, 1.0).asDouble()),
+				b2Vec2(
+					m_json["Joints"][i]["AnchorA"].get(0u, -1.0).asDouble(),
+					m_json["Joints"][i]["AnchorA"].get(1u, 0.0).asDouble()),
+				b2Vec2(
+					m_json["Joints"][i]["AnchorB"].get(0u, 1.0).asDouble(),
+					m_json["Joints"][i]["AnchorB"].get(1u, 0.0).asDouble()),
+				m_json["Joints"][i].get("ratio", 1.0).asDouble());
+			jDef.lengthA  = m_json["Joints"][i].get("lengthA", 0.0).asDouble();
+			jDef.maxLengthA  = m_json["Joints"][i].get("maxLengthA", 0.0).asDouble();
+			jDef.lengthB  = m_json["Joints"][i].get("lengthB", 0.0).asDouble();
+			jDef.maxLengthB  = m_json["Joints"][i].get("maxLengthB", 0.0).asDouble();
+			jDef.collideConnected = m_json["Joints"][i].get("collideConnected", true).asBool();
+			m_World->CreateJoint(&jDef);
+		}
+	}
 }
 
 void SceneGraph::writeFile(std::wstring _outfile)

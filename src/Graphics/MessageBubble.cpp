@@ -41,14 +41,14 @@ Gosu::Image* MessageBubble::s_MessageTip = 0;
 MessageBubble::MessageBubble()
 : m_message(L""), m_isStatic(false), m_visible(true)
 {
-	int width = (std::min)((unsigned)256, Gosu::textWidth(m_message, Gosu::defaultFontName(), 12));
+	m_width = (std::min)((unsigned)256, Gosu::textWidth(m_message, Gosu::defaultFontName(), 12));
 	m_text = new Gosu::Image(
 		Core::getCurrentContext()->graphics(), Gosu::createText(
 			m_message, 
 			Gosu::defaultFontName(), 
 			12, 
 			1, 
-			width, 
+			m_width, 
 			Gosu::taCenter));
 	m_height = m_text->height();
 
@@ -61,14 +61,14 @@ MessageBubble::MessageBubble()
 MessageBubble::MessageBubble(std::wstring _message, bool _static)
 : m_message(_message), m_isStatic(_static), m_visible(true)
 {
-	int width = (std::min)((unsigned)256, Gosu::textWidth(m_message, Gosu::defaultFontName(), 12));
+	m_width = (std::min)((unsigned)256, Gosu::textWidth(m_message, Gosu::defaultFontName(), 12));
 	m_text = new Gosu::Image(
 		Core::getCurrentContext()->graphics(), Gosu::createText(
 			m_message, 
 			Gosu::defaultFontName(), 
 			12, 
 			1, 
-			width, 
+			m_width, 
 			Gosu::taCenter));
 	m_height = m_text->height();
 	
@@ -90,9 +90,11 @@ void MessageBubble::draw(double _x, double _y,
 	int camW = rman->camera().Width(), camH = rman->camera().Height();
 
 	if (m_visible) {
+		width = m_width;
 		if (!m_isStatic) {
 			width = (int)rman->font().textWidth(m_message);
 		}
+		height = m_height;
 
 		bool flip = false;
 		if (_y > (height + 48)) {

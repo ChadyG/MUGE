@@ -53,8 +53,8 @@ public:
 	MessageBubble();
 	MessageBubble(std::wstring _message, bool _static);
 	
-	void setMessage(std::wstring _message);
-	void setStatic(bool _static);
+	void setMessage(std::wstring _message) { m_message = _message; }
+	void setStatic(bool _static) { m_isStatic = _static; }
 	
 	int layer() const { return m_layer; }
 	bool visible() const { return m_visible; }
@@ -88,7 +88,7 @@ private:
 	Gosu::Image *m_text;
 	std::wstring m_message;
 	bool m_isStatic;
-	int m_height;
+	int m_height, m_width;
 };
 
 

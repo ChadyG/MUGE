@@ -32,13 +32,13 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include "../Core/Core.h"
 
 Sprite::Sprite()
-	: m_fileName(L""), m_centerX(0.5), m_centerY(0.5),
+	: m_fileName(L""), m_centerX(0.5), m_centerY(0.5), m_visible(true),
 	m_factX(1.0), m_factY(1.0), m_ColorMod(Gosu::Colors::white), m_Alpha(Gosu::amDefault)
 {
 }
 
 Sprite::Sprite(Gosu::Image* _image)
-	: m_centerX(0.5), m_centerY(0.5),
+	: m_centerX(0.5), m_centerY(0.5), m_visible(true),
 	m_factX(1.0), m_factY(1.0), m_ColorMod(Gosu::Colors::white), m_Alpha(Gosu::amDefault)
 {
 	m_Image = _image;//.Set( new Gosu::Image(Core::getCurrentContext()->graphics(), filename) );

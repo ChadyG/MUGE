@@ -137,12 +137,12 @@ void UIWindow::update()
 		m_mouseUp = false;
 		m_mouseDown = false;
 		m_mouseHeld = false;
-		if (input->query("Menu.Select") == InputManager::actnBegin) {
+		if (input->query("MouseDown") == InputManager::actnBegin) {
 			m_mouseUp = false;
 			m_mouseDown = true;
 			m_mouseHeld = false;
 		}
-		if (input->query("Menu.Select") == InputManager::actnActive) {
+		if (input->query("MouseDown") == InputManager::actnActive) {
 			m_mouseUp = false;
 			m_mouseDown = true;
 			m_mouseHeld = true;
@@ -214,7 +214,7 @@ void UIWindow::update()
 			m_mouseUp = true;
 		}*/
 
-		if (input->query("Menu.Select") == InputManager::actnFinish) {
+		if (input->query("MouseDown") == InputManager::actnFinish) {
 			if (m_MouseInObject != m_currentPage->end()) {
 				(*m_MouseInObject)->onMouseUp();
 				m_MouseInObject = m_currentPage->end();

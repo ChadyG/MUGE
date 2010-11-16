@@ -43,6 +43,11 @@ Core::Core(int _width, int _height, bool _fullscreen, double _updateInterval)
 	InputManager::setCurrentContext( &m_inputManager );
 	m_inputManager.enable();
 
+	m_inputManager.createAction("MouseDown");
+	m_inputManager.bindAction("MouseDown", Gosu::msLeft);
+
+	//m_font = new Gosu::Font(graphics(), Gosu::defaultFontName(), 10);
+
 	m_FPS = (int)(1000.0/_updateInterval);
 	m_curFPS = 1;
 	m_curTicks = 0;
@@ -188,7 +193,7 @@ void Core::update()
 
 void Core::draw()
 {
-	m_font->draw(m_message, 4, 4, 15);
+	//m_font->draw(m_message, 4, 4, 15);
 	m_UI->draw(20);
 	if (m_showCursor)
 		m_Cursor->draw(input().mouseX() - 7, input().mouseY(), 21);

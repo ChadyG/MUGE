@@ -59,6 +59,7 @@ public:
 	SceneGraph();
 	~SceneGraph();
 
+	// probably want to create a background object to joint with
 	void setPhysics( b2World *_world ) { m_World = _world; }
 	b2World* getPhysics() { return m_World; }
 

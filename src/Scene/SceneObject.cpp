@@ -66,8 +66,9 @@ void PhysComponent::update()
 {
 	if (m_Obj->hasComponent("Transform")) {
 		TransformComponent* tc = (TransformComponent*)m_Obj->getComponent("Transform");
-		b2Vec2 pos = m_Body->GetWorldCenter();
+		b2Vec2 pos = m_Body->GetPosition();
 		tc->setPosition((double)pos.x, (double)pos.y);
+		tc->setRotation( m_Body->GetAngle() * (180.0f / (float)Gosu::pi));
 	}
 }
 
@@ -121,7 +122,8 @@ void PhysComponent::initWith(Json::Value _val)
 	b2BodyDef bDef;
 	bDef.userData = m_Obj;
 	bDef.position.Set( (float32)_val["Position"].get(0u, 0.0).asDouble(), (float32)_val["Position"].get(1u, 0.0).asDouble() );
-	bDef.angle = (float32)_val.get("Angle", 0.0).asDouble();
+	bDef.angle = (float32)_val.get("angle", 0.0).asDouble();
+	bDef.fixedRotation = _val.get("fixedRotation", false).asBool();
 	//Extract body type, default to Dynamic
 	std::string tString = _val.get("Type", "").asString();
 	bDef.type = b2_dynamicBody;
@@ -134,7 +136,6 @@ void PhysComponent::initWith(Json::Value _val)
 	m_Body = SceneGraph::getCurrentContext()->getPhysics()->CreateBody(&bDef);
 
 	//Create our fixtures
-	uint16 filter = _val.get("Filter", 0).asInt();
 	if (!_val["Shapes"].isArray())
 		return;
 	for (unsigned int i = 0; i < _val.size(); ++i) {
@@ -145,24 +146,28 @@ void PhysComponent::initWith(Json::Value _val)
 						b2Vec2((float32)_val["Shapes"][i]["Position"].get(0u, 0.0).asDouble(), (float32)_val["Shapes"][i]["Position"].get(1u, 0.0).asDouble()), 0.f);
 			
 			b2FixtureDef fix;
-			fix.density = (float32)_val["Shapes"][i].get("Density", 1.0).asDouble();
-			fix.friction = (float32)_val["Shapes"][i].get("Friction", 1.0).asDouble();
-			fix.restitution = (float32)_val["Shapes"][i].get("Restitution", 1.0).asDouble();
-			fix.filter.categoryBits = filter;
+			fix.density = (float32)_val["Shapes"][i].get("density", 1.0).asDouble();
+			fix.friction = (float32)_val["Shapes"][i].get("friction", 1.0).asDouble();
+			fix.restitution = (float32)_val["Shapes"][i].get("restitution", 1.0).asDouble();
+			fix.filter.categoryBits = _val["Shapes"][i].get("categoryBits", 1).asInt();
+			fix.filter.maskBits = _val["Shapes"][i].get("maskBits", 0xFFFF).asInt();
+			fix.filter.groupIndex = _val["Shapes"][i].get("groupIndex", 0).asInt();
 			fix.shape = &poly;
 			
 			m_Body->CreateFixture(&fix);
 		}
 		if (tString == "Circle") {
 			b2CircleShape circle;
-			circle.m_radius = (float32)_val["Shapes"][i].get("Radius", 1.0).asDouble();
+			circle.m_radius = (float32)_val["Shapes"][i].get("radius", 1.0).asDouble();
 			circle.m_p.Set((float32)_val["Shapes"][i]["Position"].get(0u, 0.0).asDouble(), (float32)_val["Shapes"][i]["Position"].get(1u, 0.0).asDouble());
 			
 			b2FixtureDef fix;
-			fix.density = (float32)_val["Shapes"][i].get("Density", 1.0).asDouble();
-			fix.friction = (float32)_val["Shapes"][i].get("Friction", 1.0).asDouble();
-			fix.restitution = (float32)_val["Shapes"][i].get("Restitution", 1.0).asDouble();
-			fix.filter.categoryBits = filter;
+			fix.density = (float32)_val["Shapes"][i].get("density", 1.0).asDouble();
+			fix.friction = (float32)_val["Shapes"][i].get("friction", 1.0).asDouble();
+			fix.restitution = (float32)_val["Shapes"][i].get("restitution", 1.0).asDouble();
+			fix.filter.categoryBits = _val["Shapes"][i].get("categoryBits", 1).asInt();
+			fix.filter.maskBits = _val["Shapes"][i].get("maskBits", 0xFFFF).asInt();
+			fix.filter.groupIndex = _val["Shapes"][i].get("groupIndex", 0).asInt();
 			fix.shape = &circle;
 			
 			m_Body->CreateFixture(&fix);
@@ -181,10 +186,12 @@ void PhysComponent::initWith(Json::Value _val)
 			poly.Set(vertices, poly.m_vertexCount);
 			
 			b2FixtureDef fix;
-			fix.density = (float32)_val["Shapes"][i].get("Density", 1.0).asDouble();
-			fix.friction = (float32)_val["Shapes"][i].get("Friction", 1.0).asDouble();
-			fix.restitution = (float32)_val["Shapes"][i].get("Restitution", 1.0).asDouble();
-			fix.filter.categoryBits = filter;
+			fix.density = (float32)_val["Shapes"][i].get("density", 1.0).asDouble();
+			fix.friction = (float32)_val["Shapes"][i].get("friction", 1.0).asDouble();
+			fix.restitution = (float32)_val["Shapes"][i].get("restitution", 1.0).asDouble();
+			fix.filter.categoryBits = _val["Shapes"][i].get("categoryBits", 1).asInt();
+			fix.filter.maskBits = _val["Shapes"][i].get("maskBits", 0xFFFF).asInt();
+			fix.filter.groupIndex = _val["Shapes"][i].get("groupIndex", 0).asInt();
 			fix.shape = &poly;
 			
 			m_Body->CreateFixture(&fix);
@@ -242,7 +249,7 @@ Component* Transcom_maker::makeComponent(SceneObject *_obj)
 //	Render Component
 
 RenderComponent::RenderComponent(SceneObject *_obj)
-	: Component(_obj), m_Sprite(NULL), m_SpriteSheet(NULL), m_hidden(true)
+	: Component(_obj), m_Sprite(NULL), m_SpriteSheet(NULL), m_hidden(false)
 {
 }
 
@@ -254,6 +261,7 @@ void RenderComponent::update()
 			TransformComponent* tc = (TransformComponent*)m_Obj->getComponent("Transform");
 			m_Sprite->setX(tc->getPositionX());
 			m_Sprite->setY(tc->getPositionY());
+			m_Sprite->setAngle(tc->getRotation());
 		}
 	}
 	if (m_SpriteSheet) {
@@ -262,6 +270,7 @@ void RenderComponent::update()
 			TransformComponent* tc = (TransformComponent*)m_Obj->getComponent("Transform");
 			m_SpriteSheet->setX(tc->getPositionX());
 			m_SpriteSheet->setY(tc->getPositionY());
+			m_SpriteSheet->setAngle(tc->getRotation());
 		}
 	}
 }

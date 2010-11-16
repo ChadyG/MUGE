@@ -30,14 +30,14 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include "SpriteSheet.h"
 
 SpriteSheet::SpriteSheet( )
-: m_fileName(L""), m_width(0), m_height(0),
+: m_fileName(L""), m_width(0), m_height(0), m_visible(true),
 m_Delay(0), m_Frame(0), m_Timer(0), m_centerX(0.5), m_Speed(1.f),
 m_centerY(0.5), m_factX(1.0), m_factY(1.0), m_ColorMod(Gosu::Colors::white), m_Alpha(Gosu::amDefault)
 {
 }
 
 SpriteSheet::SpriteSheet( std::wstring _fileName, int _width, int _height, int _delay)
-: m_fileName(_fileName), m_width(_width), m_height(_height),
+: m_fileName(_fileName), m_width(_width), m_height(_height), m_visible(true),
 m_centerX(0.5), m_centerY(0.5), m_factX(1.0), m_factY(1.0), m_Speed(1.f),
 m_ColorMod(Gosu::Colors::white), m_Delay(_delay), m_Frame(0), m_Alpha(Gosu::amDefault)
 {

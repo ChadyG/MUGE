@@ -5,6 +5,14 @@ Box2D 2.1.2
 
 Engine Changelog
 ==========
+Nov 15 2010
+-------------------
+angle to TransformComponent and RenderComponent reads now
+filter data into shape defs in level file (categoryBits, maskBits, groupIndex)
+box2D attributes all properly cased as they are in box2D
+
+older
+-------------------
 moved to Box2D 2.1.2
 updated input manager to include reset fields function
 	called from Core::update in stack dirty
