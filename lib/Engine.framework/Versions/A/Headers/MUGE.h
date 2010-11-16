@@ -38,6 +38,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include <Scene/SceneGraph.h>
 
 #include <Graphics/RenderManager.h>
+#include <Graphics/Sprite.h>
+#include <Graphics/SpriteSheet.h>
+#include <Graphics/MessageBubble.h>
 #include <Audio/AudioManager.h>
 #include <Input/InputManager.h>
 
