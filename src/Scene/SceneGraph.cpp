@@ -29,7 +29,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #include "SceneGraph.h"
-#include <fstream>
 
 SceneGraph* SceneGraph::s_CurrentContext;
 
