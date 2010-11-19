@@ -74,13 +74,13 @@ void PhysComponent::update()
 
 void PhysComponent::encodeWith(Json::Value *_val)
 {
-	if (m_Body->GetType() == b2BodyType::b2_staticBody) {
+	if (m_Body->GetType() == b2_staticBody) {
 		(*_val)["Type"] = Json::Value("Static");
 	}
-	if (m_Body->GetType() == b2BodyType::b2_dynamicBody) {
+	if (m_Body->GetType() == b2_dynamicBody) {
 		(*_val)["Type"] = Json::Value("Dynamic");
 	}
-	if (m_Body->GetType() == b2BodyType::b2_kinematicBody) {
+	if (m_Body->GetType() == b2_kinematicBody) {
 		(*_val)["Type"] = Json::Value("Kinetic");
 	}
 	(*_val)["Rotation"] = Json::Value((double)m_Body->GetAngle());
