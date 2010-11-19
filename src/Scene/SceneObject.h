@@ -33,7 +33,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 #include <Gosu/Gosu.hpp>
 #include <json/json.h>
-#include <Box2D.h>
+#include <Box2D/Box2D.h>
 #include <list>
 
 class SpriteSheet;

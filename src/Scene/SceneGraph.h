@@ -32,7 +32,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 #define SCENEGRAPH_H
 
 #include <Gosu/Gosu.hpp>
-#include <Box2D.h>
+#include <Box2D/Box2D.h>
 #include <map>
 #include <list>
 #include <json/json.h>

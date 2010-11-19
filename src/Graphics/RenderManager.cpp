@@ -30,7 +30,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 #include <Gosu/Gosu.hpp>
 #include "RenderManager.h"
-#include <Box2D.h>
+#include <Box2D/Box2D.h>
 #include "../Core/Core.h"
 #include "MessageBubble.h"
 #include "SpriteSheet.h"

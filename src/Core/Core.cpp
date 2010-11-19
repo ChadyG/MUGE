@@ -28,7 +28,6 @@ OTHER DEALINGS IN THE SOFTWARE.
  */
 #include "Core.h"
 #include "GameState.h"
-#include <boost/bind.hpp>
 
 Core* Core::s_CurrentContext;
 

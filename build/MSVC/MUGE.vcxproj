@@ -11,13 +11,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\include\jsoncpp\src\lib_json\json_reader.cpp" />
-    <ClCompile Include="..\..\include\jsoncpp\src\lib_json\json_value.cpp" />
-    <ClCompile Include="..\..\include\jsoncpp\src\lib_json\json_writer.cpp" />
+    <ClCompile Include="..\..\jsoncpp\lib_json\json_reader.cpp" />
+    <ClCompile Include="..\..\jsoncpp\lib_json\json_value.cpp" />
+    <ClCompile Include="..\..\jsoncpp\lib_json\json_writer.cpp" />
     <ClCompile Include="..\..\src\Audio\AudioManager.cpp" />
     <ClCompile Include="..\..\src\Core\Core.cpp" />
     <ClCompile Include="..\..\src\Core\GameState.cpp" />
-    <ClCompile Include="..\..\src\Data\JSONFile.cpp" />
     <ClCompile Include="..\..\src\Graphics\Camera.cpp" />
     <ClCompile Include="..\..\src\Graphics\MessageBubble.cpp" />
     <ClCompile Include="..\..\src\Graphics\RenderManager.cpp" />
@@ -36,11 +35,10 @@
     <ClCompile Include="..\..\src\UI\UIWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\include\jsoncpp\src\lib_json\json_batchallocator.h" />
+    <ClInclude Include="..\..\jsoncpp\lib_json\json_batchallocator.h" />
     <ClInclude Include="..\..\src\Audio\AudioManager.h" />
     <ClInclude Include="..\..\src\Core\Core.h" />
     <ClInclude Include="..\..\src\Core\GameState.h" />
-    <ClInclude Include="..\..\src\Data\JSONFile.hpp" />
     <ClInclude Include="..\..\src\Graphics\Camera.h" />
     <ClInclude Include="..\..\src\Graphics\MessageBubble.h" />
     <ClInclude Include="..\..\src\Graphics\RenderManager.h" />
@@ -53,9 +51,9 @@
     <ClInclude Include="..\..\src\UI\GUIObjects.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\include\jsoncpp\src\lib_json\json_internalarray.inl" />
-    <None Include="..\..\include\jsoncpp\src\lib_json\json_internalmap.inl" />
-    <None Include="..\..\include\jsoncpp\src\lib_json\json_valueiterator.inl" />
+    <None Include="..\..\jsoncpp\lib_json\json_internalarray.inl" />
+    <None Include="..\..\jsoncpp\lib_json\json_internalmap.inl" />
+    <None Include="..\..\jsoncpp\lib_json\json_valueiterator.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>MUGE</ProjectName>
@@ -96,7 +94,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\include\jsoncpp\include;$(ProjectDir)\..\..\include\Box2D;$(ProjectDir)\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -118,7 +116,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\include\jsoncpp\include;$(ProjectDir)\..\..\include\Box2D;$(ProjectDir)\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>

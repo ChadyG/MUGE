@@ -28,6 +28,7 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
  */
 
+#include <Box2D/Box2D.h>
 #include "InputManager.h"
 #include "../Core/Core.h"
 
