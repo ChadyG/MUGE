@@ -92,7 +92,7 @@ public:
 	
 	//Call this to increment frame based on time delay
 	void update();
-
+	
 	void draw(double _x, double _y, double _zoom = 1.0, double _angle = 0.0) const;
 	void drawFrame(int _frame, double _x, double _y, double _zoom = 1.0, double _angle = 0.0) const;
 

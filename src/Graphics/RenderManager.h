@@ -179,7 +179,7 @@ public:
 	//void clearMessages() { m_Messages.clear(); }
 	/// Release all resources
 	//void clearAll() { m_Sprites.clear(); m_SpriteSheets.clear(); m_Messages.clear(); }
-
+	
 	/// Static accessor to current render manager
 	static RenderManager* getCurrentContext() { return s_CurrentContext; }
 

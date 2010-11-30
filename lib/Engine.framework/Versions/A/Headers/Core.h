@@ -114,8 +114,8 @@ private:
 	UITextArea *m_UIDialogue;
 	bool m_inDialog;
 
-	Gosu::Font *m_font;
-	std::wstring m_message;
+	//Gosu::Font *m_font;
+	//std::wstring m_message;
 };
 /*
 namespace Core

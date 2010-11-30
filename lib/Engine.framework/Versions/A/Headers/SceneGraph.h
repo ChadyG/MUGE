@@ -32,7 +32,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 #define SCENEGRAPH_H
 
 #include <Gosu/Gosu.hpp>
-#include <Box2D.h>
+#include <Box2D/Box2D.h>
 #include <map>
 #include <list>
 #include <json/json.h>
@@ -59,6 +59,7 @@ public:
 	SceneGraph();
 	~SceneGraph();
 
+	// probably want to create a background object to joint with
 	void setPhysics( b2World *_world ) { m_World = _world; }
 	b2World* getPhysics() { return m_World; }
 

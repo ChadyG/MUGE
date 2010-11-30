@@ -42,6 +42,17 @@ class Core;
 *		Menu
 *		Play
 *		Choreograph
+*
+*
+* State lifecycle
+*
+*	init
+*	update
+*	draw
+*	pause -> resume
+*	cleanup
+*
+* 
 */
 class GameState
 {
@@ -79,6 +90,8 @@ public:
 	bool inFocus() const { return m_hasFocus; };
 	void setDirty() { m_isDirty = true; };
 	bool dirty() const { return m_isDirty; };
+	void setPause(bool _pause) { m_isPaused = _pause; };
+	bool isPaused() const { return m_isPaused; };
 
 protected:
 	Core* m_Engine;
@@ -86,7 +99,7 @@ protected:
 private:
 	bool m_hasFocus;
 	bool m_isDirty;
-	
+	bool m_isPaused;
 };
 
 class State_maker

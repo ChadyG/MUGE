@@ -33,7 +33,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 #include <Gosu/Gosu.hpp>
 #include <json/json.h>
-#include <Box2D.h>
+#include <Box2D/Box2D.h>
 #include <list>
 
 class SpriteSheet;
@@ -121,6 +121,8 @@ public:
 	void Freeze() { m_Frozen = true; }
 	/// Resume physics operations
 	void Thaw() { m_Frozen = false; }
+
+	b2Body& getBody() { return *m_Body; }
 
 private:
 	bool isRectangle( b2PolygonShape *_poly );

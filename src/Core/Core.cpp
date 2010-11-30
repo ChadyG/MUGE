@@ -44,6 +44,13 @@ Core::Core(int _width, int _height, bool _fullscreen, double _updateInterval)
 
 	m_inputManager.createAction("MouseDown");
 	m_inputManager.bindAction("MouseDown", Gosu::msLeft);
+	
+	Json::Value jVal;
+	jVal["Dimension"][0u] = Json::Value(_width);
+	jVal["Dimension"][1u] = Json::Value(_height);
+	jVal["Fullscreen"] = Json::Value(_fullscreen);
+	jVal["UpdateInterval"] = Json::Value(_updateInterval);
+	m_data["Window"] = jVal;
 
 	//m_font = new Gosu::Font(graphics(), Gosu::defaultFontName(), 10);
 
@@ -103,7 +110,9 @@ void Core::buttonUp(Gosu::Button _button)
 
 void Core::changeState( GameState *state )
 {
+	// Deferred state changes
 	m_stackDirty = true;
+	// Set current state for deletion
 	if (!m_States.empty()) {
 		m_States.top()->setFocus(false);
 		m_States.top()->setDirty();
@@ -114,22 +123,27 @@ void Core::changeState( GameState *state )
 void Core::pushState( GameState *state )
 {
 	m_stackDirty = true;
-	if (!m_States.empty())
+	// take focus from current state and pause (not deleting)
+	if (!m_States.empty()) {
 		m_States.top()->setFocus(false);
+		m_States.top()->setPause(true);
+		m_States.top()->pause();
+	}
 	m_NextStates.push( boost::shared_ptr<GameState>(state) );
 }
 
 void Core::popState()
 {
+	if (m_States.empty()) 
+		close();
 	m_stackDirty = true;
 	m_States.top()->setFocus(false);
 	m_States.top()->setDirty();
-	if (m_States.empty()) 
-		close();
 }
 
 void Core::update()
 {
+	// Keep track of FPS for perf testing
 	m_curTicks++;
 	if (Gosu::milliseconds()/1000 != m_lastSecond) {
 		m_curFPS = m_curTicks;
@@ -137,6 +151,8 @@ void Core::update()
 		m_lastSecond = Gosu::milliseconds()/1000;
 	}
 	
+	// Perform deferred state changes 
+	//this needs to happen outside of any actual state callbacks
 	if (m_stackDirty) {
 		// Look for pending deletions
 		while (!m_States.empty() && m_States.top()->dirty()) {
@@ -149,8 +165,14 @@ void Core::update()
 			m_NextStates.front()->init();
 			m_NextStates.pop();
 		}
-		if (!m_States.empty())
+		// Give focus to current state and unpause if paused 
+		if (!m_States.empty()) {
 			m_States.top()->setFocus(true);
+			if (m_States.top()->isPaused()) {
+				m_States.top()->setPause(false);
+				m_States.top()->resume();
+			}
+		}
 		m_stackDirty = false;
 	}
 	
@@ -200,12 +222,7 @@ void Core::draw()
 	if (!m_States.empty())
 		m_States.top()->draw();
 }
-/*
-void Core::quitHandler()
-{
-	close();
-}
-*/
+
 int Core::getFPS()
 {
 	return m_curFPS;

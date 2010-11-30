@@ -32,6 +32,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include <Gosu/Gosu.hpp>
 #include <stack>
 #include <queue>
+#include <json/json.h>
 #include "../Input/InputManager.h"
 #include "../UI/GUIObjects.h"
 
@@ -80,6 +81,8 @@ public:
 
 	/// Returns set FPS
 	int getUpdateRate() { return m_FPS; }
+	
+	Json::Value& getData() { return m_data; }
 
 	/// Show or hide the cursor
 	void showCursor(bool _show) { m_showCursor = _show; m_cursorSetting = _show; }
@@ -104,6 +107,8 @@ private:
 	int m_lastSecond;
 	
 	bool m_stackDirty;
+	
+	Json::Value m_data;
 
 	bool m_showCursor, m_cursorSetting;
 	boost::scoped_ptr<Gosu::Image> m_Cursor;
