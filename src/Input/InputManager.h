@@ -33,9 +33,23 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 #include <Gosu/Gosu.hpp>
 #include <Box2D/Box2D.h>
+#include <json/json.h>
 #include <map>
 #include <list>
 #include <vector>
+
+//TODO: do I want to use this as the prototype for listening to input events on core?
+class InputListener
+{
+public:
+	InputListener() : m_prev(0), m_next(0) {}
+
+	virtual void buttonDown(Gosu::Button _button) = 0;
+	virtual void buttonUp(Gosu::Button _button) = 0;
+private:
+	friend class InputManager;
+	InputListener *m_prev, *m_next;
+};
 
 /**
 *	Intended services 
@@ -59,8 +73,12 @@ public:
 		actnFinish
 	};
 
-	InputManager() {}
+	InputManager() : m_listeners(0) {}
 	~InputManager();
+
+	/// Initialize inputs via json config
+	/// @param _jval json array of configurations
+	void initWith(Json::Value _jval);
 
 	/// Set parameters for window
 	/// @param _w screen width
@@ -91,6 +109,12 @@ public:
 	/// call this once per tick
 	void update();
 
+	/// Register an input listener
+	void registerListener(InputListener* _listen);
+
+	/// Remove a registered listener from this manager
+	void removeListener(InputListener* _listen);
+
 	/// Reset all inputs to idle
 	void resetInputs();
 
@@ -107,7 +131,7 @@ public:
 	/// @param _threshold the number of legal ticks between button presses
 	void createSequence(std::string _name, int _threshold);
 	/// Create a Chord with the given name
-	void createChord(std::string _name);
+	void createChord(std::string _name, int _threshold = 10);
 
 	/// Bind the button to the action
 	void bindAction(std::string _name, Gosu::ButtonName _button);
@@ -162,7 +186,7 @@ private:
 	struct sequencebuff
 	{
 		InputManager::sequence* sequence;
-		int timer;
+		unsigned long timer;
 		int index;
 		bool valid;
 	};
@@ -170,7 +194,8 @@ private:
 	{
 		std::list<btnVald> buttons;
 		actionState state;
-		int timer;
+		unsigned long timer;
+		int threshold;
 	};
 	struct action
 	{
@@ -186,6 +211,8 @@ private:
 
 	double m_camX, m_camY, m_camZoom, m_camRot;
 	int m_screenW, m_screenH, m_screenScale;
+
+	InputListener* m_listeners;
 };
 
 #endif

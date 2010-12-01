@@ -161,19 +161,22 @@ void InputManager::buttonDown(Gosu::Button _button)
 	for (cit = m_chords.begin(); cit != m_chords.end(); cit++) {
 		std::list<btnVald>::iterator bit;
 		for (bit = cit->second.buttons.begin(); bit != cit->second.buttons.end(); bit++) {
+			//do we match any buttons?
 			if (bit->button == _button) {
 				bit->valid = true;
+				//start processing?
 				if (cit->second.state == actnIdle) {
-					cit->second.timer = 10;
+					cit->second.timer = Gosu::milliseconds();
 					cit->second.state = actnProcess;
 				}else{
-					//Check Start state
+					//determine if this finishes the chord
 					std::list<btnVald>::iterator bit2;
 					bool valid = true;
 					for (bit2 = cit->second.buttons.begin(); bit2 != cit->second.buttons.end(); bit2++) {
 						if (bit2->valid == false)
 							valid = false;
 					}
+					//chord is complete
 					if (valid)
 						cit->second.state = actnBegin;
 				}
@@ -181,6 +184,7 @@ void InputManager::buttonDown(Gosu::Button _button)
 		}
 	}
 	//Update sequences with start state
+	//Sequences finish on button down, with previous hits on up
 	std::list<sequencebuff>::iterator sit;
 	for (sit = m_seqbuff.begin();sit != m_seqbuff.end(); sit++) {
 		if (sit->index == (sit->sequence->buttons.size()-1) && _button == sit->sequence->buttons[sit->index]) {
@@ -197,6 +201,11 @@ void InputManager::buttonDown(Gosu::Button _button)
 			}
 		}
 	}
+
+	//Pass down to listeners
+	for (InputListener *il = m_listeners; il != NULL; il = il->m_next) {
+		il->buttonDown(_button);
+	}
 }
 void InputManager::buttonUp(Gosu::Button _button)
 {
@@ -205,15 +214,18 @@ void InputManager::buttonUp(Gosu::Button _button)
 	std::list<sequencebuff>::iterator sit = m_seqbuff.begin();
 	while (sit != m_seqbuff.end()) {
 		if (_button != sit->sequence->buttons[sit->index]) {
+			//not next button in sequence, stop watching this sequence
 			if (sit->sequence->state != actnActive) {
 				sit->sequence->state = actnIdle;
 				sit = m_seqbuff.erase(sit);
 				continue;
 			}
 		}else{
-			sit->timer = 10;
+			//is next button, continue watching
+			sit->timer = sit->sequence->threshold;
 			sit->index++;
 			if (sit->index == sit->sequence->buttons.size()) {
+				//sequence is complete, stop watching
 				sit->sequence->state = actnFinish;
 				sit = m_seqbuff.erase(sit);
 				continue;
@@ -228,7 +240,7 @@ void InputManager::buttonUp(Gosu::Button _button)
 			sequencebuff sb;
 			sb.index = 1;
 			sb.sequence = &(ssit->second);
-			sb.timer = 10;
+			sb.timer = Gosu::milliseconds();
 			sb.valid = true;
 			m_seqbuff.push_back(sb);
 		}
@@ -261,6 +273,90 @@ void InputManager::buttonUp(Gosu::Button _button)
 			}
 		}
 	}
+
+	//Pass down to listeners
+	for (InputListener *il = m_listeners; il != NULL; il = il->m_next) {
+		il->buttonUp(_button);
+	}
+}
+
+void InputManager::initWith(Json::Value _jval)
+{
+	std::string str, str2;
+	for (int i = 0; i < _jval.size(); ++i) {
+		str = _jval[i].get("Type", "action").asString();
+		if (str == "action") {
+			str = _jval[i].get("Action", "default").asString();
+			createAction(str);
+			if (_jval[i].isMember("Key")) {
+				//There is only one key to be bound
+				str2 = _jval[i].get("Key", "kbA").asString();
+				bindAction(str, InputManager::strToButton(str2));
+			}else{
+				//There are multiple keys to be bound
+				for (int j = 0; j < _jval[i]["Keys"].size(); ++j) {
+					str2 = _jval[i]["Keys"].get(j,"kbA").asString();
+					bindAction(str, InputManager::strToButton(str2));
+				}
+			}
+			continue;
+		}
+		if (str == "chord") {
+			str = _jval[i].get("Chord", "default").asString();
+			int t = _jval[i].get("Threshold", 200).asInt();
+			createChord(str, t);
+			if (_jval[i].isMember("Key")) {
+				//There is only one key to be bound
+				str2 = _jval[i].get("Key", "kbA").asString();
+				addChord(str, InputManager::strToButton(str2));
+			}else{
+				//There are multiple keys to be bound
+				for (int j = 0; j < _jval[i]["Keys"].size(); ++j) {
+					str2 = _jval[i]["Keys"].get(j,"kbA").asString();
+					addChord(str, InputManager::strToButton(str2));
+				}
+			}
+			continue;
+		}
+		if (str == "sequence") {
+			str = _jval[i].get("Sequence", "default").asString();
+			int t = _jval[i].get("Threshold", 400).asInt();
+			createSequence(str, t);
+			if (_jval[i].isMember("Key")) {
+				//There is only one key to be bound
+				str2 = _jval[i].get("Key", "kbA").asString();
+				pushSequence(str, InputManager::strToButton(str2));
+			}else{
+				//There are multiple keys to be bound
+				for (int j = 0; j < _jval[i]["Keys"].size(); ++j) {
+					str2 = _jval[i]["Keys"].get(j,"kbA").asString();
+					pushSequence(str, InputManager::strToButton(str2));
+				}
+			}
+			continue;
+		}
+	}
+}
+
+void InputManager::registerListener(InputListener* _listen)
+{
+	_listen->m_next = m_listeners;
+	if (m_listeners && m_listeners->m_prev)
+		m_listeners->m_prev = _listen;
+	m_listeners = _listen;
+}
+
+void InputManager::removeListener(InputListener* _listen)
+{
+	for (InputListener *il = m_listeners; il != NULL; il = il->m_next) {
+		if (il == _listen) {
+			if (il->m_prev)
+				il->m_prev->m_next = il->m_next;
+			if(il->m_next) 
+				il->m_next->m_prev = il->m_prev;
+			return;
+		}
+	}
 }
 
 void InputManager::resetInputs()
@@ -287,34 +383,33 @@ void InputManager::resetInputs()
 
 void InputManager::update()
 {
+	unsigned long time;
 	//Update chords
 	//Invalidate old chords
 	std::map<std::string, chord>::iterator cit;
 	for (cit = m_chords.begin(); cit != m_chords.end(); cit++) {
+		time = Gosu::milliseconds() - cit->second.timer;
 		if(cit->second.state == actnBegin) {
 			cit->second.state = actnActive;
 		}else
 		if(cit->second.state == actnFinish) {
 			cit->second.state = actnIdle;
 		}else
-		if (cit->second.state == actnProcess && cit->second.timer <= 0) {
+		if (cit->second.state == actnProcess && time >= cit->second.threshold) {
 			cit->second.state = actnIdle;
 			std::list<btnVald>::iterator bit;
 			for (bit = cit->second.buttons.begin(); bit != cit->second.buttons.end(); bit++) {
 				bit->valid = false;
 			}
-		}else{
-			cit->second.timer--;
 		}
 	}
 	//Invalidate old sequences
 	std::list<sequencebuff>::iterator sit = m_seqbuff.begin();
 	while (sit != m_seqbuff.end()) {
-		if (sit->timer <= 0 && sit->sequence->state != actnActive) {
+		time = Gosu::milliseconds() - cit->second.timer;
+		if (time >= sit->sequence->threshold && sit->sequence->state != actnActive) {
 			sit = m_seqbuff.erase(sit);
 			continue;
-		}else{
-			sit->timer--;
 		}
 		sit++;
 	}
@@ -382,10 +477,11 @@ void InputManager::createSequence(std::string _name, int _threshold)
 	m_sequences[_name].state = actnIdle;
 	m_sequences[_name].threshold = _threshold;
 }
-void InputManager::createChord(std::string _name)
+void InputManager::createChord(std::string _name, int _threshold)
 {
 	m_chords[_name].state = actnIdle;
 	m_chords[_name].timer = -1;
+	m_chords[_name].threshold = _threshold;
 }
 
 void InputManager::bindAction(std::string _name, Gosu::ButtonName _button)

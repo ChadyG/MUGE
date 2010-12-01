@@ -1,0 +1,226 @@
+========================================
+MUGD - Manual
+========================================
+
+Contents
+========================================
+1 - Introduction
+2 - Game State stack
+3 - Game Objects
+4 - Rendering
+5 - Input
+6 - Audio
+7 - UI and other
+
+Introduction
+========================================
+This engine was built with the focus of establishing commonly used objects and structures that I use in my games.  It is
+built up from Gosu + box2D primarily with jsoncpp and boost providing extra functionality.  It is not meant to be fully modular,
+however some parts can be used separately.  
+
+The engine (or framework) itself is for 2D games, there is no 3D functionality and as of right now there are no plans to support
+3D rendering.  This is not to say that a 3D game cannot be made, it must however be rendered using 2D concepts.  
+
+Each of the managers follow certain rules and patterns.  They all act as factories for the corresponding objects they manage.
+They provide some query interface to get at the objects, usually via a string based name.  They are designed to be configurable
+but not require much more than a few callbacks after configuration to run.  To handle having a single world to screen transformation,
+a Camera class is used among them.  This class is described in the UI and other section.
+
+Game State stack
+========================================
+Differing gameplay logic sets are separated via game states.  These states are stored within the Core object on a stack.  The
+topmost state is the current state running.  A lifecycle of a state is defined by the following callbacks:
+
+void init();
+void cleanup();
+
+void pause();
+void resume();
+
+void update();
+void draw() const;
+
+A state is created using a standard constructor, but it is recommended to do all initialization inside the init callback.  This 
+is paired with the cleanup callback where you should clean up any allocated memory.  
+
+A state can be paused in favor of giving focus to another state.  The callback is provided in case you wish to do some temporary
+memory cleanup.  The resume callback allows you to reclaim any temporary memory needed.
+
+The update and draw callbacks are the most important, as they are each called once per game tick (update first).  This is where
+your logic will reside.  As per Gosu design, the draw is separate from update to promote good design and avoid sync issues
+during render operations.
+
+	
+
+
+Game Objects
+========================================
+The SceneGraph class provides a high level view of common scene management tasks.  It is built for a component based system
+which is implemented in the SceneObject and corresponding Component classes.  This is carried over to the defaul level storage
+schemas where a scene object is described in json format as an object composed of a list of components.  An example of the
+json format is shown below:
+
+"Objects" : [
+	{
+		"GroupName" : "Clouds_Background3",
+		"Children" : [
+			{
+				"Name" : "cloud1",
+				"Renderable" : {
+					"Type" : "Sprite",
+					"Layer" : -4,
+					"Image" : "Levels/cloud_1.png",
+					"ColorMod" : [255, 255, 255, 255],
+					"xScale" : 1.0,
+					"yScale" : 1.0
+				},
+				"Transform" : {
+					"Position" : [ 0.0, 0.0],
+					"Rotation" : 0.0
+				}
+			},
+			{...}
+		]
+	},
+	{...}
+]
+
+
+Here, you see the special component GroupComponent which is used for logical organization of scene objects.  This will provide
+a hierarchical structure which you can navigate at runtime.  Most scene objects are described as the cloud object shown as a 
+child of the cloud group.  Each object consists of an optional name and key:value pairs of components.  Each component is named
+and registered to a pluggable factory in the C++ code.  Interally, a Group is a SceneObject with a GroupComponent, but the
+data format allows a more succint description of this.
+
+-physics component detail-
+
+-relationship with transform component-
+
+-create new component-
+
+
+Rendering
+========================================
+The RenderManager class gives a clean interface to most rendering operations that you might desire.  It does this by providing 
+an abstract Renderable class which you may implement or simply use one of the pre-built classes.  The Renderable base class 
+has a update and draw methods on it.  Here, draw is the most important but for some cases update is needed.  The built in 
+renderables provide good examples of implementation.  Layers are used to manage draw order.  Gosu uses doubles for the layer
+attribute, but here we use integer.  This is to reserve some order management to the render manager itself.  Each supplied 
+renderable is supported in the RenderComponent and the json formats are described below along with descriptions.
+
+ - Sprite
+ A sprite is a single image that can be displayed anywhere in the world.  It has the default values from Renderable (position, 
+ zoom, rotation, layer) plus a visible flag, center position, and scaling factors.  The json format is as follows with default values 
+ shown.
+"Renderable" : {
+	"Type" : "Sprite",
+	"Layer" : 0,
+	"Image" : "defaultimg.png",
+	"ColorMod" : [255, 255, 255, 255],
+	"xScale" : 1.0,
+	"yScale" : 1.0,
+	"CenterX" : 0.0,
+	"CenterY" : 0.0
+}
+ 
+ - SpriteSheet
+ A sprite sheet is a collection of sprites.  They are collected from a single image with a uniform grid of sprites.  This class makes
+ use of the update method for animation.  
+ "Renderable" : {
+	"Type" : "SpriteSheet",
+	"Layer" : 0,
+	"Width" : 0,
+	"Height" : 0,
+	"Duration" : 20,
+	"Image" : "defaultimg.png",
+	"ColorMod" : [255, 255, 255, 255],
+	"xScale" : 1.0,
+	"yScale" : 1.0
+}
+
+ - MessageBubble
+ meh
+ 
+
+Input
+========================================
+The InputManager provided supports recognition of three types of input patterns.  These patterns are called Action, Chord and 
+Sequence.  Each are named to keep from having to hardcode any inputs and tie yourself to a single configuration.  Inputs are
+not unique so you may have several names correspond to the same inputs.  You can also have multiple names for different
+inputs, but this is not recommended. 
+
+ButtonMaps" : [
+	{
+		"Action" : "Game.Quit",
+		"Key" : "kbEscape",
+		"Type" : "action"
+	},
+	{
+		"Action" : "Menu.Select",
+		"Keys" : ["kbEnter", "kbSpace", "kbReturn"],
+		"Type" : "action"
+	},
+	{
+		"Chord" : "Play.PowerAttack",
+		"Threshold" : 200,
+		"Keys" : ["kbShift", "kbA"],
+		"Type" : "chord"
+	},
+	{
+		"Sequence" : "Play.Cheat1",
+		"Threshold" : 400,
+		"Keys" : ["kbUp", "kbUp", "kbDown", "kbDown", "kbLeft", "kbRight", "kbLeft", "kbRight", "kbB", "kbA"],
+		"Type" : "sequence"
+	}
+]
+
+An Action is simply a named button, this is useful for most applications where you simply need to detect the state of a 
+particular button.  An single action may be mapped to several buttons, each will generate the desired states for the button
+presses.
+
+A Chord is a set of buttons that must be pressed at once.  There is a default timeframe of 1/5 of a second (200 ms) where each 
+key must be hit after the first key in the set is pressed.  It does not matter which key is pressed first, but they must all be 
+pressed within that time frame for the chord to be triggered. 
+
+A Sequence is just as it sounds, a sequence of buttons.  The threshold parameter determines the maximum time in milliseconds
+that can pass between button presses for the sequence to remain in process, default is 400.  Once the last button is pressed, the sequence will 
+become active and when all buttons are released it will become idle.
+
+Each of these can be queried through a single interface (so be careful of name clashes).  The return value is one of six button
+states.  An invalid state means there is no input by that name,  idle means it is not active, process means the chord or sequence 
+is currently evaluating a potential match, begin means the input just became active (press), active means it is being held, and finish
+means it was just released.  The begin and finish states are what you need to check for if you wish to evaluate your inputs as events
+and not plain button states.
+
+enum actionState {
+	actnInvalid = -1,
+	actnIdle = 0,
+	actnProcess,
+	actnBegin,
+	actnActive,
+	actnFinish
+}
+
+-mouseget-
+
+Audio
+========================================
+The AudioManager handles driving long term and short term sounds.  There are two types of sounds, Song and Sample similar 
+to Gosu.  Samples can be played either as ambient sounds, or as stereo sounds.  When played as stereo, they are given a world
+coordinate to play from and the balance is determined within the manager to give the impression that the sound is coming from
+that point.  Both are referenced by a name.
+
+UI + other
+========================================
+There is a set of UI objects packaged with the framework.  It gives functionality for some basic UI features like buttons, textboxes, 
+and draggable windows.  A UI is built by creating a UIContainer, either UISheet or UIWindow.  A sheet will take up the whole screen
+without drawing anything, so you may play UI components anywhere.  A window will create a sized (resizing is currently not 
+supported) window that can be dragged by the mouse and closed via a close button.  Either container allows you to add UI
+objects to them via a paged interface.  This means that you may define a default page full of components, and a secondary page
+that you can switch between at runtime.  
+
+-creating objects example-
+
+The different object managers listed above each have some functionality that requires mapping screen coordinates to game world
+coordinates.  To faciliate this, there is a Camera class that can be implemented to define that transformation.  A parallax camera
+is provided to do full parallax rendering (zoom and rotation).
