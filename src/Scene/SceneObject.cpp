@@ -121,11 +121,11 @@ void PhysComponent::initWith(Json::Value _val)
 	//Create our body
 	b2BodyDef bDef;
 	bDef.userData = m_Obj;
-	bDef.position.Set( (float32)_val["Position"].get(0u, 0.0).asDouble(), (float32)_val["Position"].get(1u, 0.0).asDouble() );
+	bDef.position.Set( (float32)_val["position"].get(0u, 0.0).asDouble(), (float32)_val["position"].get(1u, 0.0).asDouble() );
 	bDef.angle = (float32)_val.get("angle", 0.0).asDouble();
 	bDef.fixedRotation = _val.get("fixedRotation", false).asBool();
 	//Extract body type, default to Dynamic
-	std::string tString = _val.get("Type", "").asString();
+	std::string tString = _val.get("type", "").asString();
 	bDef.type = b2_dynamicBody;
 	if (tString == "Static") {
 		bDef.type = b2_staticBody;
@@ -139,11 +139,11 @@ void PhysComponent::initWith(Json::Value _val)
 	if (!_val["Shapes"].isArray())
 		return;
 	for (unsigned int i = 0; i < _val.size(); ++i) {
-		tString = _val["Shapes"][i].get("Type", "").asString();
+		tString = _val["Shapes"][i].get("type", "").asString();
 		if (tString == "Rectangle") {
 			b2PolygonShape poly;
-			poly.SetAsBox((float32)_val["Shapes"][i].get("Width", 0.0).asDouble(), (float32)_val["Shapes"][i].get("Height", 0.0).asDouble(),
-						b2Vec2((float32)_val["Shapes"][i]["Position"].get(0u, 0.0).asDouble(), (float32)_val["Shapes"][i]["Position"].get(1u, 0.0).asDouble()), 0.f);
+			poly.SetAsBox((float32)_val["Shapes"][i].get("Width", 1.0).asDouble(), (float32)_val["Shapes"][i].get("Height", 1.0).asDouble(),
+						b2Vec2((float32)_val["Shapes"][i]["position"].get(0u, 0.0).asDouble(), (float32)_val["Shapes"][i]["position"].get(1u, 0.0).asDouble()), 0.f);
 			
 			b2FixtureDef fix;
 			fix.density = (float32)_val["Shapes"][i].get("density", 1.0).asDouble();
@@ -159,7 +159,7 @@ void PhysComponent::initWith(Json::Value _val)
 		if (tString == "Circle") {
 			b2CircleShape circle;
 			circle.m_radius = (float32)_val["Shapes"][i].get("radius", 1.0).asDouble();
-			circle.m_p.Set((float32)_val["Shapes"][i]["Position"].get(0u, 0.0).asDouble(), (float32)_val["Shapes"][i]["Position"].get(1u, 0.0).asDouble());
+			circle.m_p.Set((float32)_val["Shapes"][i]["position"].get(0u, 0.0).asDouble(), (float32)_val["Shapes"][i]["position"].get(1u, 0.0).asDouble());
 			
 			b2FixtureDef fix;
 			fix.density = (float32)_val["Shapes"][i].get("density", 1.0).asDouble();
@@ -177,7 +177,7 @@ void PhysComponent::initWith(Json::Value _val)
 			poly.m_vertexCount = 0;
 			b2Vec2 vertices[b2_maxPolygonVertices];
 			// Verts
-			Json::Value jArr = _val["Shapes"][i]["Vertices"];
+			Json::Value jArr = _val["Shapes"][i]["vertices"];
 			for (unsigned int j = 0; j < jArr.size(); ++j) {
 				vertices[poly.m_vertexCount++].Set(
 					(float32)jArr[j].get(0u, 0.0).asDouble(),
