@@ -1,19 +1,15 @@
-========================================
-MUGD - Manual
-========================================
+# MUGD - Manual
 
-Contents
-========================================
-1 - Introduction
-2 - Game State stack
-3 - Game Objects
-4 - Rendering
-5 - Input
-6 - Audio
-7 - UI and other
+## Contents
+1. Introduction
+2. Game State stack
+3. Game Objects
+4. Rendering
+5. Input
+6. Audio
+7. UI and other
 
-Introduction
-========================================
+# Introduction
 This engine was built with the focus of establishing commonly used objects and structures that I use in my games.  It is
 built up from Gosu + box2D primarily with jsoncpp and boost providing extra functionality.  It is not meant to be fully modular,
 however some parts can be used separately.  
@@ -26,8 +22,7 @@ They provide some query interface to get at the objects, usually via a string ba
 but not require much more than a few callbacks after configuration to run.  To handle having a single world to screen transformation,
 a Camera class is used among them.  This class is described in the UI and other section.
 
-Game State stack
-========================================
+# Game State stack
 Differing gameplay logic sets are separated via game states.  These states are stored within the Core object on a stack.  The
 topmost state is the current state running.  A lifecycle of a state is defined by the following callbacks:
 
@@ -53,13 +48,13 @@ during render operations.
 	
 
 
-Game Objects
-========================================
+# Game Objects
 The SceneGraph class provides a high level view of common scene management tasks.  It is built for a component based system
 which is implemented in the SceneObject and corresponding Component classes.  This is carried over to the defaul level storage
 schemas where a scene object is described in json format as an object composed of a list of components.  An example of the
 json format is shown below:
 
+```javascript
 "Objects" : [
 	{
 		"GroupName" : "Clouds_Background3",
@@ -84,7 +79,7 @@ json format is shown below:
 	},
 	{...}
 ]
-
+```
 
 Here, you see the special component GroupComponent which is used for logical organization of scene objects.  This will provide
 a hierarchical structure which you can navigate at runtime.  Most scene objects are described as the cloud object shown as a 
@@ -95,6 +90,7 @@ data format allows a more succint description of this.
 Physics components take care of holding a single box2d body with any number of shapes attached to it.  The shapes and body 
 are configured via json as demonstrated below.  
 
+```javascript
 "Physics" : {
 	"type" : "Dynamic",
 	"position" : [ 0.0, 0.0],
@@ -141,6 +137,7 @@ are configured via json as demonstrated below.
 		}
 	]
 }
+```
 
 The body is given parameters to set the type (Dynamic, Kinematic or Static), position, angle, and if it has a fixed rotation.  Fields
 directly from box2d are given the same casing as box2d's API.  There are three different shapes that can be described in the json 
@@ -154,6 +151,7 @@ way.
 
 To create a new component, you need to subclass two different classes, Component and Component_maker.  A Component is 
 defined as follows:
+```cpp
 class Component
 {
 public:
@@ -179,11 +177,12 @@ public:
 protected:
 	SceneObject* m_Obj;
 };
+```
 
 Where name would return a string of whatever you wish to refer to this component type as.  This must be the same as what you
 use for the maker.  The maker is a pluggable factory that gets registered with the base class.  Below is the code for the physics
 component as an example.  
-
+```cpp
 /* in header file */
 
 class Physcom_maker : public Component_maker
@@ -203,10 +202,9 @@ Component* Physcom_maker::makeComponent(SceneObject *_obj)
 {
 	return new PhysComponent(_obj);
 }
+```
 
-
-Rendering
-========================================
+#Rendering
 The RenderManager class gives a clean interface to most rendering operations that you might desire.  It does this by providing 
 an abstract Renderable class which you may implement or simply use one of the pre-built classes.  The Renderable base class 
 has a update and draw methods on it.  Here, draw is the most important but for some cases update is needed.  The built in 
@@ -214,10 +212,12 @@ renderables provide good examples of implementation.  Layers are used to manage 
 attribute, but here we use integer.  This is to reserve some order management to the render manager itself.  Each supplied 
 renderable is supported in the RenderComponent and the json formats are described below along with descriptions.
 
- - Sprite
+## Sprite
  A sprite is a single image that can be displayed anywhere in the world.  It has the default values from Renderable (position, 
  zoom, rotation, layer) plus a visible flag, center position, and scaling factors.  The json format is as follows with default values 
  shown.
+ 
+```javascript
 "Renderable" : {
 	"Type" : "Sprite",
 	"Layer" : 0,
@@ -228,10 +228,13 @@ renderable is supported in the RenderComponent and the json formats are describe
 	"CenterX" : 0.0,
 	"CenterY" : 0.0
 }
+```
  
- - SpriteSheet
+## SpriteSheet
  A sprite sheet is a collection of sprites.  They are collected from a single image with a uniform grid of sprites.  This class makes
  use of the update method for animation.  
+ 
+```javascript
  "Renderable" : {
 	"Type" : "SpriteSheet",
 	"Layer" : 0,
@@ -243,18 +246,19 @@ renderable is supported in the RenderComponent and the json formats are describe
 	"xScale" : 1.0,
 	"yScale" : 1.0
 }
+```
 
- - MessageBubble
+## MessageBubble
  meh
  
 
-Input
-========================================
+# Input
 The InputManager provided supports recognition of three types of input patterns.  These patterns are called Action, Chord and 
 Sequence.  Each are named to keep from having to hardcode any inputs and tie yourself to a single configuration.  Inputs are
 not unique so you may have several names correspond to the same inputs.  You can also have multiple names for different
 inputs, but this is not recommended. 
 
+```javascript
 ButtonMaps" : [
 	{
 		"Action" : "Game.Quit",
@@ -279,16 +283,17 @@ ButtonMaps" : [
 		"Type" : "sequence"
 	}
 ]
+```
 
-An Action is simply a named button, this is useful for most applications where you simply need to detect the state of a 
+An **Action** is simply a named button, this is useful for most applications where you simply need to detect the state of a 
 particular button.  An single action may be mapped to several buttons, each will generate the desired states for the button
 presses.
 
-A Chord is a set of buttons that must be pressed at once.  There is a default timeframe of 1/5 of a second (200 ms) where each 
+A **Chord** is a set of buttons that must be pressed at once.  There is a default timeframe of 1/5 of a second (200 ms) where each 
 key must be hit after the first key in the set is pressed.  It does not matter which key is pressed first, but they must all be 
 pressed within that time frame for the chord to be triggered. 
 
-A Sequence is just as it sounds, a sequence of buttons.  The threshold parameter determines the maximum time in milliseconds
+A **Sequence** is just as it sounds, a sequence of buttons.  The threshold parameter determines the maximum time in milliseconds
 that can pass between button presses for the sequence to remain in process, default is 400.  Once the last button is pressed, the sequence will 
 become active and when all buttons are released it will become idle.
 
@@ -298,6 +303,7 @@ is currently evaluating a potential match, begin means the input just became act
 means it was just released.  The begin and finish states are what you need to check for if you wish to evaluate your inputs as events
 and not plain button states.
 
+```cpp
 enum actionState {
 	actnInvalid = -1,
 	actnIdle = 0,
@@ -306,18 +312,15 @@ enum actionState {
 	actnActive,
 	actnFinish
 }
+```
 
--mouseget-
-
-Audio
-========================================
+# Audio
 The AudioManager handles driving long term and short term sounds.  There are two types of sounds, Song and Sample similar 
 to Gosu.  Samples can be played either as ambient sounds, or as stereo sounds.  When played as stereo, they are given a world
 coordinate to play from and the balance is determined within the manager to give the impression that the sound is coming from
 that point.  Both are referenced by a name.
 
-UI + other
-========================================
+# UI + other
 There is a set of UI objects packaged with the framework.  It gives functionality for some basic UI features like buttons, textboxes, 
 and draggable windows.  A UI is built by creating a UIContainer, either UISheet or UIWindow.  A sheet will take up the whole screen
 without drawing anything, so you may play UI components anywhere.  A window will create a sized (resizing is currently not 

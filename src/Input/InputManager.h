@@ -38,6 +38,8 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include <list>
 #include <vector>
 
+class Core;
+
 //TODO: do I want to use this as the prototype for listening to input events on core?
 class InputListener
 {
@@ -47,7 +49,7 @@ public:
 	virtual void buttonDown(Gosu::Button _button) = 0;
 	virtual void buttonUp(Gosu::Button _button) = 0;
 private:
-	friend class InputManager;
+	friend class Core;
 	InputListener *m_prev, *m_next;
 };
 
@@ -61,7 +63,7 @@ private:
 *		* Allow disabling of input
 *		* Provide a query based interface for action states
 */
-class InputManager
+class InputManager : public InputListener
 {
 public:
 	enum actionState {
@@ -73,7 +75,7 @@ public:
 		actnFinish
 	};
 
-	InputManager() : m_listeners(0) {}
+	InputManager() {}
 	~InputManager();
 
 	/// Initialize inputs via json config
@@ -108,12 +110,6 @@ public:
 	/// Update the system
 	/// call this once per tick
 	void update();
-
-	/// Register an input listener
-	void registerListener(InputListener* _listen);
-
-	/// Remove a registered listener from this manager
-	void removeListener(InputListener* _listen);
 
 	/// Reset all inputs to idle
 	void resetInputs();
@@ -211,8 +207,6 @@ private:
 
 	double m_camX, m_camY, m_camZoom, m_camRot;
 	int m_screenW, m_screenH, m_screenScale;
-
-	InputListener* m_listeners;
 };
 
 #endif

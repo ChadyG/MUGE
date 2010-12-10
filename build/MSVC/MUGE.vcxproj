@@ -14,6 +14,7 @@
     <ClCompile Include="..\..\jsoncpp\lib_json\json_reader.cpp" />
     <ClCompile Include="..\..\jsoncpp\lib_json\json_value.cpp" />
     <ClCompile Include="..\..\jsoncpp\lib_json\json_writer.cpp" />
+    <ClCompile Include="..\..\src\Animation\Paths.cpp" />
     <ClCompile Include="..\..\src\Audio\AudioManager.cpp" />
     <ClCompile Include="..\..\src\Core\Core.cpp" />
     <ClCompile Include="..\..\src\Core\GameState.cpp" />
@@ -36,6 +37,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\jsoncpp\lib_json\json_batchallocator.h" />
+    <ClInclude Include="..\..\src\Animation\Paths.h" />
     <ClInclude Include="..\..\src\Audio\AudioManager.h" />
     <ClInclude Include="..\..\src\Core\Core.h" />
     <ClInclude Include="..\..\src\Core\GameState.h" />

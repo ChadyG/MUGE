@@ -1,43 +1,44 @@
-========================================
-MUGD - TODO list
-========================================
- - move copyright into COPYING.txt
+# MUGD - TODO list
+ * move copyright into COPYING.txt
  
- - redo RenderManager worldtoscreen stuff incorporating Gosu::Transform
+ * redo RenderManager worldtoscreen stuff incorporating Gosu::Transform
  
+ * set up InputManager to use InputListener as an interface and place callback stuff on Core
+ * copy listener stuff to UI stuff as listeners to buttons etc.
+ * switch from scaling factor in render to viewport size to accomodate resolution independent rendering
  
- - Obfuscated data storage methods
- - Update platformer example :(
+ * Obfuscated data storage methods
+ * Update platformer example :(
  
- - change Layer attribute of Renderable component in level file to refer to layer names
- - use simple doubly linked lists for object connections in managers
- - adopt block allocation scheme 
- - create animation class
-		load using CSS3 like data
-		timeframe based (piecewise defined functions, use path functions from whereever that code is)
+ * change Layer attribute of Renderable component in level file to refer to layer names
+ * use simple doubly linked lists for object connections in managers
+ * adopt block allocation scheme 
+ * create animation class
+		* load using CSS3 like data
+		* timeframe based (piecewise defined functions, use path functions from whereever that code is)
 		
+
+
 		
-========================================
-MUGD - shit that got done
-========================================
- - clean up include shit for jsoncpp, box2d
+# shit that got done
+ * clean up include shit for jsoncpp, box2d
  
 
- - move key config loading into input manager
- - add a key listener thing to the inputmanager to grab any key press
- - fix InputManager to work off of time based thresholds (TEST THIS)
- - add timer to chord config
+ * move key config loading into input manager
+ * add a key listener thing to the inputmanager to grab any key press
+ * fix InputManager to work off of time based thresholds (TEST THIS)
+ * add timer to chord config
  
- - Generalize stuff in Rendermanager to inherit from Renderable base class, RM only needs to know about this class
-    - RenderComponent can use this too
- - UI stuff needs to use InputManager
- - rip out tinyjson stuff (and jsonfile)
- - motors and joints in level file
-		want to do moving platforms
-			- rotating
-			- treadmill
-			- lever based
+ * Generalize stuff in Rendermanager to inherit from Renderable base class, RM only needs to know about this class
+	* RenderComponent can use this too
+ * UI stuff needs to use InputManager
+ * rip out tinyjson stuff (and jsonfile)
+ * motors and joints in level file
+		* want to do moving platforms
+			* rotating
+			* treadmill
+			* lever based
 
 
- - Fix includes on game projects (frameworks force flat linking) - I think I did this
- - Game level data storage for stuff like settings
+ * Fix includes on game projects (frameworks force flat linking) * I think I did this
+ * Game level data storage for stuff like settings

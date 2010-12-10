@@ -87,6 +87,12 @@ public:
 	/// Show or hide the cursor
 	void showCursor(bool _show) { m_showCursor = _show; m_cursorSetting = _show; }
 
+	/// Register an input listener
+	void registerListener(InputListener* _listen);
+
+	/// Remove a registered listener from this manager
+	void removeListener(InputListener* _listen);
+
 	/// Static accessor to current state manager (central game class)
 	static Core* getCurrentContext() { return s_CurrentContext; }
 
@@ -96,8 +102,9 @@ public:
 private:
 	
 	static Core* s_CurrentContext;
-
+	
 	InputManager m_inputManager;
+	InputListener* m_listeners;
 	std::stack< boost::shared_ptr<GameState> > m_States;
 	std::queue< boost::shared_ptr<GameState> > m_NextStates;
 	

@@ -201,11 +201,6 @@ void InputManager::buttonDown(Gosu::Button _button)
 			}
 		}
 	}
-
-	//Pass down to listeners
-	for (InputListener *il = m_listeners; il != NULL; il = il->m_next) {
-		il->buttonDown(_button);
-	}
 }
 void InputManager::buttonUp(Gosu::Button _button)
 {
@@ -273,11 +268,6 @@ void InputManager::buttonUp(Gosu::Button _button)
 			}
 		}
 	}
-
-	//Pass down to listeners
-	for (InputListener *il = m_listeners; il != NULL; il = il->m_next) {
-		il->buttonUp(_button);
-	}
 }
 
 void InputManager::initWith(Json::Value _jval)
@@ -334,27 +324,6 @@ void InputManager::initWith(Json::Value _jval)
 				}
 			}
 			continue;
-		}
-	}
-}
-
-void InputManager::registerListener(InputListener* _listen)
-{
-	_listen->m_next = m_listeners;
-	if (m_listeners && m_listeners->m_prev)
-		m_listeners->m_prev = _listen;
-	m_listeners = _listen;
-}
-
-void InputManager::removeListener(InputListener* _listen)
-{
-	for (InputListener *il = m_listeners; il != NULL; il = il->m_next) {
-		if (il == _listen) {
-			if (il->m_prev)
-				il->m_prev->m_next = il->m_next;
-			if(il->m_next) 
-				il->m_next->m_prev = il->m_prev;
-			return;
 		}
 	}
 }

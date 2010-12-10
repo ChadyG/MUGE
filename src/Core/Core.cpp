@@ -42,6 +42,8 @@ Core::Core(int _width, int _height, bool _fullscreen, double _updateInterval)
 	InputManager::setCurrentContext( &m_inputManager );
 	m_inputManager.enable();
 
+	m_listeners = &m_inputManager;
+
 	m_inputManager.createAction("MouseDown");
 	m_inputManager.bindAction("MouseDown", Gosu::msLeft);
 	
@@ -100,12 +102,39 @@ Core::Core(int _width, int _height, bool _fullscreen, double _updateInterval)
 
 void Core::buttonDown(Gosu::Button _button)
 {
-	m_inputManager.buttonDown(_button);
+	//Pass down to listeners
+	for (InputListener *il = m_listeners; il != NULL; il = il->m_next) {
+		il->buttonDown(_button);
+	}
 }
 
 void Core::buttonUp(Gosu::Button _button)
 {
-	m_inputManager.buttonUp(_button);
+	//Pass down to listeners
+	for (InputListener *il = m_listeners; il != NULL; il = il->m_next) {
+		il->buttonUp(_button);
+	}
+}
+
+void Core::registerListener(InputListener* _listen)
+{
+	_listen->m_next = m_listeners;
+	if (m_listeners && m_listeners->m_prev)
+		m_listeners->m_prev = _listen;
+	m_listeners = _listen;
+}
+
+void Core::removeListener(InputListener* _listen)
+{
+	for (InputListener *il = m_listeners; il != NULL; il = il->m_next) {
+		if (il == _listen) {
+			if (il->m_prev)
+				il->m_prev->m_next = il->m_next;
+			if(il->m_next) 
+				il->m_next->m_prev = il->m_prev;
+			return;
+		}
+	}
 }
 
 void Core::changeState( GameState *state )
