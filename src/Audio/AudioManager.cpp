@@ -35,7 +35,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 AudioManager* AudioManager::s_CurrentContext;
 
 AudioManager::AudioManager()
-: m_camX(0), m_camY(0), m_camZoom(0), m_camRot(0) 
+: m_camX(0), m_camY(0), m_camZoom(0), m_camRot(0), m_Camera(0)
 {
 	m_curSong = m_Songs.end();
 }
@@ -54,8 +54,17 @@ AudioManager::~AudioManager()
 	}
 }
 
-void AudioManager::doPlay()
+void AudioManager::update()
 {
+	if (m_Camera) {
+		m_camX = m_Camera->X();
+		m_camY = m_Camera->Y(); 
+		m_camZoom = m_Camera->Zoom(); 
+		m_camRot = m_Camera->Rotation();
+		m_screenW = m_Camera->Width(); 
+		m_screenH = m_Camera->Height(); 
+		m_screenScale = m_Camera->Scale();
+	}
 	std::list< SamplePlay >::iterator it;
 	for (it = m_SampleQ.begin(); it != m_SampleQ.end(); ++it) {
 		double scale = 1.0;

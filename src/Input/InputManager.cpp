@@ -352,6 +352,16 @@ void InputManager::resetInputs()
 
 void InputManager::update()
 {
+	if (m_Camera) {
+		m_camX = m_Camera->X();
+		m_camY = m_Camera->Y(); 
+		m_camZoom = m_Camera->Zoom(); 
+		m_camRot = m_Camera->Rotation();
+		m_screenW = m_Camera->Width(); 
+		m_screenH = m_Camera->Height(); 
+		m_screenScale = m_Camera->Scale();
+	}
+
 	unsigned long time;
 	//Update chords
 	//Invalidate old chords
@@ -403,21 +413,19 @@ void InputManager::update()
 	}
 }
 
-b2Vec2 InputManager::getMouse()
+CameraTransform InputManager::getMouseWorld(Gosu::ZPos _z)
 {
-	b2Vec2 mouse(Core::getCurrentContext()->input().mouseX() - m_screenW/2, Core::getCurrentContext()->input().mouseY() - m_screenH/2);
+	return m_Camera->screenToWorld(Core::getCurrentContext()->input().mouseX(), Core::getCurrentContext()->input().mouseY(), _z);
+}
 
-	double scale = 1.0;
-	double zoom = 1.0 + scale * (m_camZoom - 1.0);
+double InputManager::getMouseX()
+{
+	return Core::getCurrentContext()->input().mouseX();
+}
 
-	b2Transform trans;
-	trans.R.Set( -m_camRot*(Gosu::pi/180.0) );
-	trans.position = b2Mul( trans.R, mouse);
-
-	mouse.Set((trans.position.x) / (scale * m_screenScale * zoom) + m_camX, 
-				  (trans.position.y) / (scale * m_screenScale * zoom) + m_camY);
-	
-	return mouse;
+double InputManager::getMouseY()
+{
+	return Core::getCurrentContext()->input().mouseY();
 }
 
 InputManager::actionState InputManager::query(std::string _action)

@@ -64,6 +64,8 @@ public:
 	/// @param _y World Y
 	void setFocus(double _x, double _y) { m_FocusX = _x, m_FocusY = _y; }
 
+	double X() { return m_FocusX; }
+	double Y() { return m_FocusY; }
 	double Zoom() { return m_Zoom; }
 	double Scale() { return m_Scale; }
 	double Rotation() { return m_Rot; }
@@ -77,6 +79,14 @@ public:
 	/// @param _z World Z (in Gosu layers)
 	/// @return CameraTransform screen coordinates with rotation for displaying on screen
 	virtual CameraTransform worldToScreen(double _x, double _y, Gosu::ZPos _z);
+
+	/// This tells the Render Manager where on screen a world coordinate currently is.
+	/// When creating your own camera, this method must be implemented.
+	/// @param _x World X 
+	/// @param _y World Y
+	/// @param _z World Z (in Gosu layers)
+	/// @return CameraTransform screen coordinates with rotation for displaying on screen
+	virtual CameraTransform screenToWorld(double _x, double _y, Gosu::ZPos _z);
 
 protected:
 
@@ -96,6 +106,8 @@ public:
 	
 	/// Come up with a batch mechanism
 	CameraTransform worldToScreen(double _x, double _y, Gosu::ZPos _z);
+
+	CameraTransform screenToWorld(double _x, double _y, Gosu::ZPos _z);
 
 private:
 

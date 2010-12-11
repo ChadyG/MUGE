@@ -37,6 +37,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include <map>
 #include <list>
 #include <vector>
+#include "../Graphics/Camera.h"
 
 class Core;
 
@@ -75,7 +76,7 @@ public:
 		actnFinish
 	};
 
-	InputManager() {}
+	InputManager() : m_Camera(0) {}
 	~InputManager();
 
 	/// Initialize inputs via json config
@@ -102,6 +103,19 @@ public:
 		m_camX = _x; m_camY = _y, m_camZoom = _zoom; m_camRot = _rot;
 	};
 
+	/// Set camera object to user defined type
+	/// This camera takes cares of the world to screen transformation.  
+	/// The default camera does a direct transformation (1:1 linear) from world space to screen space.
+	/// If this does not suit your needs, create a child class of the Camera type to perform your own transformation.
+	/// @param _cam A camera object created by the caller (RenderManager will not automatically initialize your Camera)
+	void setCamera( Camera *_cam )
+	{
+		if (_cam) {
+			delete m_Camera;
+			m_Camera = _cam;
+		}
+	};
+
 	/// Send button down callback from Gosu here
 	void buttonDown(Gosu::Button _button);
 	/// Send button up callback from Gosu here
@@ -119,7 +133,9 @@ public:
 	actionState query(std::string _action);
 
 	/// Get the world coordinates of the mouse
-	b2Vec2 getMouse();
+	CameraTransform getMouseWorld(Gosu::ZPos _z);
+	double getMouseX();
+	double getMouseY();
 
 	/// Create an Action with the given name
 	void createAction(std::string _name);
@@ -204,6 +220,8 @@ private:
 	std::map<std::string, action> m_actions;
 
 	bool m_enabled;
+
+	Camera *m_Camera;
 
 	double m_camX, m_camY, m_camZoom, m_camRot;
 	int m_screenW, m_screenH, m_screenScale;
