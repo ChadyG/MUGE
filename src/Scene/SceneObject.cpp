@@ -289,6 +289,9 @@ void RenderComponent::encodeWith(Json::Value *_val)
 		
 		(*_val)["Position"][0u] = Json::Value(m_Sprite->posX());
 		(*_val)["Position"][1u] = Json::Value(m_Sprite->posY());
+
+		
+		(*_val)["Rotation"] = Json::Value(m_Sprite->angle());
 		
 		Gosu::Color color = m_Sprite->colorMod();
 		(*_val)["ColorMod"][0u] = Json::Value(color.alpha());
@@ -413,6 +416,22 @@ void RenderComponent::show()
 		m_Sprite->setVisible(true);
 	if (m_SpriteSheet)
 		m_SpriteSheet->setVisible(true);
+}
+
+int RenderComponent::width()
+{
+	if (m_Sprite)
+		return m_Sprite->width();
+	if (m_SpriteSheet)
+		return m_SpriteSheet->width();
+}
+
+int RenderComponent::height()
+{
+	if (m_Sprite)
+		return m_Sprite->height();
+	if (m_SpriteSheet)
+		return m_SpriteSheet->height();
 }
 
 void RenderComponent::setSprite( Sprite *_sprite )
@@ -728,6 +747,45 @@ bool SceneObject::addComponent(Component* _com)
 		return true;
 	}
 	return false;
+}
+
+bool SceneObject::pointIn(double _x, double _y) 
+{
+	// Return false if we do not live in the world
+	if (!hasComponent("Transform"))
+		return false;
+	double x = ((TransformComponent*)m_Components["Transform"])->getPositionX();
+	double y = ((TransformComponent*)m_Components["Transform"])->getPositionY();
+	double width, height;
+	
+	// Are we visible?
+	if (hasComponent("Renderable")) {
+		Camera& cam = RenderManager::getCurrentContext()->camera();
+		int layer;
+		if (((RenderComponent*)m_Components["Renderable"])->hasSprite()) {
+			Sprite *spr = ((RenderComponent*)m_Components["Renderable"])->getSprite();
+			width = spr->width();
+			height = spr->height();
+			layer = spr->layer();
+		}
+		if (((RenderComponent*)m_Components["Renderable"])->hasSpriteSheet()) {
+			SpriteSheet *spr = ((RenderComponent*)m_Components["Renderable"])->getSpriteSheet();
+			width = spr->width();
+			height = spr->height();
+			layer = spr->layer();
+		}
+
+		CameraTransform ctrans = cam.screenToWorld(width, height, layer);
+		CameraTransform ctrans2 = cam.screenToWorld(0.0, 0.0, layer);
+		width = ctrans.x - ctrans2.x;
+		height = ctrans.y - ctrans2.y;
+	}else// If we aren't visible, do we have a shape?
+	if (hasComponent("Physics")) {
+
+	}else{
+		width = 0.5;
+		height = 0.5;
+	}
 }
 
 	

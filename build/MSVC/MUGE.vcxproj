@@ -56,6 +56,7 @@
     <None Include="..\..\jsoncpp\lib_json\json_internalarray.inl" />
     <None Include="..\..\jsoncpp\lib_json\json_internalmap.inl" />
     <None Include="..\..\jsoncpp\lib_json\json_valueiterator.inl" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>MUGE</ProjectName>

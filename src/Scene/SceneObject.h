@@ -224,6 +224,9 @@ public:
 	/// Enable rendering for this object 
 	void show();
 
+	int width();
+	int height();
+
 	bool hasSprite() { return m_Sprite != NULL; }
 	bool hasSpriteSheet() { return m_SpriteSheet != NULL; }
 
@@ -247,6 +250,79 @@ public:
 protected:
 	Component* makeComponent(SceneObject *_obj);
 	static Rendcom_maker s_RegisteredMaker;
+};
+
+
+class AnimationComponent : public Component
+{
+public:
+	AnimationComponent(SceneObject *_obj);
+
+	class TransformFrame()
+	{
+	public:
+		TransformFrame() : m_PosX(0.0), m_PosY(0.0), m_Rotation(0.0), m_Scale(0.0), m_prev(0), m_next(0) {}
+		double m_PosX, m_PosY, m_Rotation, m_Scale;
+		TransformFrame *m_prev, *m_next;
+	};
+
+	class KeyableObject
+	{
+	public:
+		KeyableObject() : m_Sprite(0), m_SpriteSheet(0), m_frames(0), m_children(0), m_prev(0), m_next(0) {}
+		Sprite* m_Sprite;
+		SpriteSheet* m_SpriteSheet;
+		TransformFrame *m_frames;
+		KeyableObject *m_children, *m_prev, *m_next;
+	};
+
+	//Returns the name of this component type
+	std::string name() { return std::string("Animation"); }
+	
+	//logic update callback
+	void update();
+
+	/// Physics callback
+	void onColStart(b2Fixture *_fix, SceneObject *_other, b2Manifold _manifold){}
+	void onColFinish(b2Fixture *_fix, SceneObject *_other, b2Manifold _manifold){}
+
+	/// Message passing
+	void onMessage(std::string _message){}
+
+	//Serialization/Deserialization
+	void encodeWith(Json::Value *_val);
+	void initWith(Json::Value _val);
+
+	/// Set this object to render as the given sprite
+	void setSprite( Sprite *_sprite );
+	/// Set this object to render as the given SpriteSheet
+	void setSpriteSheet( SpriteSheet *_anim);
+	/// Disable rendering for this object 
+	void hide();
+	/// Enable rendering for this object 
+	void show();
+
+	int width();
+	int height();
+
+private:
+	TransformFrame* initTransform(Json::Value _val);
+	KeyableObject initKeyable(Json::Value _val);
+	Sprite* initSprite(Json::Value _val);
+	SpriteSheet* initSpriteSheet(Json::Value _val);
+
+	KeyableObject *m_Keyables;
+	bool m_hidden;
+};
+
+/// Builder for Render component
+class Animcom_maker : public Component_maker
+{
+public:
+	Animcom_maker() : Component_maker("Animation") {}
+protected:
+	Component* makeComponent(SceneObject *_obj);
+	static Animcom_maker s_RegisteredMaker;
 };
 
 
@@ -428,6 +504,11 @@ public:
 	///@return whether or not component was added, if a component of the same type is already registered,
 	/// the component will not be added
 	bool addComponent(Component* _com);
+
+	//Editor crap
+
+	//Determine if the world position is within my boundaries
+	bool pointIn(double _x, double _y);
 	
 protected:
 	unsigned m_ID;

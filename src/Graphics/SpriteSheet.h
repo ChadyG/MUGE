@@ -61,8 +61,8 @@ public:
 
 	std::wstring fileName() const { return m_fileName; }
 	Gosu::Color colorMod() const { return m_ColorMod; }
-	int width() const { return m_width; }
-	int height() const { return m_height; }
+	int width() const { return m_width * m_factX; }
+	int height() const { return m_height * m_factY; }
 	double delay() const { return m_Delay; }
 	double factX() const { return m_factX; }
 	double factY() const { return m_factY; }

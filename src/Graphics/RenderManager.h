@@ -59,8 +59,12 @@ struct MessageBubble
 class Renderable
 {
 public:
-	Renderable() : m_posX(0.0f), m_posY(0.0f), m_zoom(1.0f), m_angle(0.0f), m_layer(0.0f) {}
+	Renderable() : m_posX(0.0f), m_posY(0.0f), m_zoom(1.0f), m_angle(0.0f), m_layer(0.0f), m_baseColor(Gosu::Color::WHITE), m_darkColor(Gosu::Color::WHITE) {}
 	
+	void setBaseColor(Gosu::Color _color) { m_baseColor = _color; }
+	void setDarkColor(Gosu::Color _color) { m_darkColor = _color; }
+	void setAlphaMode(Gosu::AlphaMode _alpha) { m_alphaMode = _alpha; }
+
 	virtual void draw(double _x, double _y, double _zoom = 1.0, double _angle = 0.0) const {}
 	virtual void update() {}
 
@@ -69,6 +73,10 @@ protected:
 	Renderable *m_prev, *m_next;
 	double m_posX, m_posY, m_zoom, m_angle;
 	int m_layer;
+	//apply color
+	//apply light (lighten => screen, darken => multiply)
+	Gosu::Color m_baseColor, m_darkColor;
+	Gosu::AlphaMode m_alphaMode;
 };
 /**
 *	Intended services 
@@ -123,10 +131,7 @@ public:
 	/// @param _cam A camera object created by the caller (RenderManager will not automatically initialize your Camera)
 	void setCamera( Camera *_cam )
 	{
-		if (_cam) {
-			delete m_Camera;
-			m_Camera = _cam;
-		}
+		m_Camera = _cam;
 	};
 
 	Gosu::Font& font() { return m_Font; }

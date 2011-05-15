@@ -110,10 +110,7 @@ public:
 	/// @param _cam A camera object created by the caller (RenderManager will not automatically initialize your Camera)
 	void setCamera( Camera *_cam )
 	{
-		if (_cam) {
-			delete m_Camera;
-			m_Camera = _cam;
-		}
+		m_Camera = _cam;
 	};
 
 	/// Send button down callback from Gosu here

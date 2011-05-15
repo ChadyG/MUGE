@@ -82,7 +82,7 @@ void Sprite::draw(double _x, double _y,
 						 m_centerY, 
 						 m_factX*_zoom*m_zoom, 
 						 m_factY*_zoom*m_zoom, 
-						 m_ColorMod, 
+						 m_ColorMod, //Gosu::multiply(m_baseColor, m_darkColor),
 						 m_Alpha);
 	}
 }

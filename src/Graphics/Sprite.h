@@ -71,6 +71,8 @@ public:
 	double posY() const { return m_posY; }
 	double zoom() const { return m_zoom; }
 	double angle() const { return m_angle; }
+	int width() const { return m_Image->width() * m_factX; }
+	int height() const { return m_Image->height() * m_factY; }
 	int layer() const { return m_layer; }
 	bool visible() const { return m_visible; }
 

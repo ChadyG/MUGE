@@ -1,9 +1,14 @@
 # MUGD - TODO list
  * move copyright into COPYING.txt
  
+ * RenderManager lighting
+		* groups (?)
+		* brighten (base color)
+		* darken (multiply base by dark
+		draw(..., multiply(base, darken))
+ 
  * redo RenderManager worldtoscreen stuff incorporating Gosu::Transform
  
- * set up InputManager to use InputListener as an interface and place callback stuff on Core
  * copy listener stuff to UI stuff as listeners to buttons etc.
  * switch from scaling factor in render to viewport size to accomodate resolution independent rendering
  
@@ -16,11 +21,14 @@
  * create animation class
 		* load using CSS3 like data
 		* timeframe based (piecewise defined functions, use path functions from whereever that code is)
+		* callbacks using listener interface
 		
 
 
 		
-# shit that got done
+# Shit That Got Done
+ * set up InputManager to use InputListener as an interface and place callback stuff on Core
+ 
  * clean up include shit for jsoncpp, box2d
  
 
