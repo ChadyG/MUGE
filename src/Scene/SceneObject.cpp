@@ -140,37 +140,28 @@ void PhysComponent::initWith(Json::Value _val)
 		return;
 	for (unsigned int i = 0; i < _val.size(); ++i) {
 		tString = _val["Shapes"][i].get("type", "").asString();
+
+		b2FixtureDef fix;
+		fix.density = (float32)_val["Shapes"][i].get("density", 1.0).asDouble();
+		fix.friction = (float32)_val["Shapes"][i].get("friction", 1.0).asDouble();
+		fix.restitution = (float32)_val["Shapes"][i].get("restitution", 1.0).asDouble();
+		fix.filter.categoryBits = _val["Shapes"][i].get("categoryBits", 1).asInt();
+		fix.filter.maskBits = _val["Shapes"][i].get("maskBits", 0xFFFF).asInt();
+		fix.filter.groupIndex = _val["Shapes"][i].get("groupIndex", 0).asInt();
+
 		if (tString == "Rectangle") {
 			b2PolygonShape poly;
 			poly.SetAsBox((float32)_val["Shapes"][i].get("Width", 1.0).asDouble(), (float32)_val["Shapes"][i].get("Height", 1.0).asDouble(),
 						b2Vec2((float32)_val["Shapes"][i]["position"].get(0u, 0.0).asDouble(), (float32)_val["Shapes"][i]["position"].get(1u, 0.0).asDouble()), 0.f);
 			
-			b2FixtureDef fix;
-			fix.density = (float32)_val["Shapes"][i].get("density", 1.0).asDouble();
-			fix.friction = (float32)_val["Shapes"][i].get("friction", 1.0).asDouble();
-			fix.restitution = (float32)_val["Shapes"][i].get("restitution", 1.0).asDouble();
-			fix.filter.categoryBits = _val["Shapes"][i].get("categoryBits", 1).asInt();
-			fix.filter.maskBits = _val["Shapes"][i].get("maskBits", 0xFFFF).asInt();
-			fix.filter.groupIndex = _val["Shapes"][i].get("groupIndex", 0).asInt();
 			fix.shape = &poly;
-			
-			m_Body->CreateFixture(&fix);
 		}
 		if (tString == "Circle") {
 			b2CircleShape circle;
 			circle.m_radius = (float32)_val["Shapes"][i].get("radius", 1.0).asDouble();
 			circle.m_p.Set((float32)_val["Shapes"][i]["position"].get(0u, 0.0).asDouble(), (float32)_val["Shapes"][i]["position"].get(1u, 0.0).asDouble());
 			
-			b2FixtureDef fix;
-			fix.density = (float32)_val["Shapes"][i].get("density", 1.0).asDouble();
-			fix.friction = (float32)_val["Shapes"][i].get("friction", 1.0).asDouble();
-			fix.restitution = (float32)_val["Shapes"][i].get("restitution", 1.0).asDouble();
-			fix.filter.categoryBits = _val["Shapes"][i].get("categoryBits", 1).asInt();
-			fix.filter.maskBits = _val["Shapes"][i].get("maskBits", 0xFFFF).asInt();
-			fix.filter.groupIndex = _val["Shapes"][i].get("groupIndex", 0).asInt();
 			fix.shape = &circle;
-			
-			m_Body->CreateFixture(&fix);
 		}
 		if (tString == "Polygon") {
 			b2PolygonShape poly;
@@ -185,17 +176,9 @@ void PhysComponent::initWith(Json::Value _val)
 			}
 			poly.Set(vertices, poly.m_vertexCount);
 			
-			b2FixtureDef fix;
-			fix.density = (float32)_val["Shapes"][i].get("density", 1.0).asDouble();
-			fix.friction = (float32)_val["Shapes"][i].get("friction", 1.0).asDouble();
-			fix.restitution = (float32)_val["Shapes"][i].get("restitution", 1.0).asDouble();
-			fix.filter.categoryBits = _val["Shapes"][i].get("categoryBits", 1).asInt();
-			fix.filter.maskBits = _val["Shapes"][i].get("maskBits", 0xFFFF).asInt();
-			fix.filter.groupIndex = _val["Shapes"][i].get("groupIndex", 0).asInt();
 			fix.shape = &poly;
-			
-			m_Body->CreateFixture(&fix);
 		}
+		m_Body->CreateFixture(&fix);
 	}
 }
 
@@ -484,6 +467,15 @@ void GroupComponent::onColFinish(b2Fixture *_fix, SceneObject *_other, b2Manifol
 		it->second->onColFinish(_fix, _other, _manifold);
 	}
 }
+bool GroupComponent::PreSolve(SceneObject *_other, b2Contact *_contact, b2Manifold *_manifold)
+{
+	std::map< int, SceneObject* >::iterator it;
+	for (it = m_Objects.begin(); it != m_Objects.end(); it++) {
+		if (!it->second->PreSolve(_other, _contact, _manifold))
+			return false;
+	}
+	return true;
+}
 
 	/// Message passing
 void GroupComponent::onMessage(std::string _message)
@@ -603,6 +595,10 @@ void TriggerComponent::onColFinish(b2Fixture *_fix, SceneObject *_other, b2Manif
 {
 	
 }
+bool TriggerComponent::PreSolve(SceneObject *_other, b2Contact *_contact, b2Manifold *_manifold)
+{
+	return true;
+}
 
 /// Message passing
 void TriggerComponent::onMessage(std::string _message)
@@ -682,6 +678,16 @@ void SceneObject::onColStart( b2Fixture *_fix, SceneObject *_other, b2Manifold _
 	for (cit = m_Components.begin(); cit != m_Components.end(); cit++) {
 		cit->second->onColStart(_fix, _other, _manifold);
 	}
+}
+
+bool SceneObject::PreSolve(SceneObject *_other, b2Contact *_contact, b2Manifold *_manifold) 
+{
+	std::map< std::string, Component* >::iterator cit;
+	for (cit = m_Components.begin(); cit != m_Components.end(); cit++) {
+		if (!cit->second->PreSolve(_other, _contact, _manifold))
+			return false;
+	}
+	return true;
 }
 
 void SceneObject::onColFinish( b2Fixture *_fix, SceneObject *_other, b2Manifold _manifold) 

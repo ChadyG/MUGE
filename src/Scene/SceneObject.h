@@ -67,6 +67,7 @@ public:
 	/// Physics callback
 	virtual void onColStart(b2Fixture *_fix, SceneObject *_other, b2Manifold _manifold) = 0;
 	virtual void onColFinish(b2Fixture *_fix, SceneObject *_other, b2Manifold _manifold) = 0;
+	virtual bool PreSolve(SceneObject *_other, b2Contact *_contact, b2Manifold *_manifold) = 0;
 
 	/// Message passing
 	virtual void onMessage(std::string _message) = 0;
@@ -107,8 +108,9 @@ public:
 	void update();
 
 	/// Physics callback
-	void onColStart(b2Fixture *_fix, SceneObject *_other, b2Manifold _manifold){}
-	void onColFinish(b2Fixture *_fix, SceneObject *_other, b2Manifold _manifold){}
+	void onColStart(b2Fixture *_fix, SceneObject *_other, b2Manifold _manifold) {}
+	void onColFinish(b2Fixture *_fix, SceneObject *_other, b2Manifold _manifold) {}
+	bool PreSolve(SceneObject *_other, b2Contact *_contact, b2Manifold *_manifold) {return true;}
 
 	/// Message passing
 	void onMessage(std::string _message){}
@@ -157,6 +159,7 @@ public:
 	/// Physics callback
 	void onColStart(b2Fixture *_fix, SceneObject *_other, b2Manifold _manifold){}
 	void onColFinish(b2Fixture *_fix, SceneObject *_other, b2Manifold _manifold){}
+	bool PreSolve(SceneObject *_other, b2Contact *_contact, b2Manifold *_manifold) {return true;}
 
 	/// Message passing
 	void onMessage(std::string _message){}
@@ -207,6 +210,7 @@ public:
 	/// Physics callback
 	void onColStart(b2Fixture *_fix, SceneObject *_other, b2Manifold _manifold){}
 	void onColFinish(b2Fixture *_fix, SceneObject *_other, b2Manifold _manifold){}
+	bool PreSolve(SceneObject *_other, b2Contact *_contact, b2Manifold *_manifold) {return true;}
 
 	/// Message passing
 	void onMessage(std::string _message){}
@@ -252,7 +256,7 @@ protected:
 	static Rendcom_maker s_RegisteredMaker;
 };
 
-
+/*
 class AnimationComponent : public Component
 {
 public:
@@ -325,7 +329,7 @@ protected:
 	static Animcom_maker s_RegisteredMaker;
 };
 
-
+*/
 
 class GroupComponent : public Component
 {
@@ -341,6 +345,7 @@ public:
 	/// Physics callback
 	void onColStart(b2Fixture *_fix, SceneObject *_other, b2Manifold _manifold);
 	void onColFinish(b2Fixture *_fix, SceneObject *_other, b2Manifold _manifold);
+	bool PreSolve(SceneObject *_other, b2Contact *_contact, b2Manifold *_manifold);
 
 	/// Message passing
 	void onMessage(std::string _message);
@@ -391,6 +396,7 @@ public:
 	/// Physics callback
 	void onColStart(b2Fixture *_fix, SceneObject *_other, b2Manifold _manifold);
 	void onColFinish(b2Fixture *_fix, SceneObject *_other, b2Manifold _manifold);
+	bool PreSolve(SceneObject *_other, b2Contact *_contact, b2Manifold *_manifold);
 
 	/// Message passing
 	void onMessage(std::string _message);
@@ -480,6 +486,7 @@ public:
 	//TODO: do I want to abstract this from box2d?
 	virtual void onColStart(b2Fixture *_fix, SceneObject *_other, b2Manifold _manifold);
 	virtual void onColFinish(b2Fixture *_fix, SceneObject *_other, b2Manifold _manifold);
+	virtual bool PreSolve(SceneObject *_other, b2Contact *_contact, b2Manifold *_manifold);
 
 	/// Message passing
 	virtual void onMessage(std::string _message);
