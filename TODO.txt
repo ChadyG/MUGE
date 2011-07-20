@@ -1,6 +1,8 @@
 # MUGD - TODO list
  * move copyright into COPYING.txt
  
+ * finish animation component
+ 
  * RenderManager lighting
 		* groups (?)
 		* brighten (base color)

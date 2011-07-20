@@ -138,7 +138,7 @@ void PhysComponent::initWith(Json::Value _val)
 	//Create our fixtures
 	if (!_val["Shapes"].isArray())
 		return;
-	for (unsigned int i = 0; i < _val.size(); ++i) {
+	for (unsigned int i = 0; i < _val["Shapes"].size(); ++i) {
 		tString = _val["Shapes"][i].get("type", "").asString();
 
 		b2FixtureDef fix;
@@ -148,23 +148,22 @@ void PhysComponent::initWith(Json::Value _val)
 		fix.filter.categoryBits = _val["Shapes"][i].get("categoryBits", 1).asInt();
 		fix.filter.maskBits = _val["Shapes"][i].get("maskBits", 0xFFFF).asInt();
 		fix.filter.groupIndex = _val["Shapes"][i].get("groupIndex", 0).asInt();
-
+		
+		b2PolygonShape poly;
+		b2CircleShape circle;
 		if (tString == "Rectangle") {
-			b2PolygonShape poly;
 			poly.SetAsBox((float32)_val["Shapes"][i].get("Width", 1.0).asDouble(), (float32)_val["Shapes"][i].get("Height", 1.0).asDouble(),
 						b2Vec2((float32)_val["Shapes"][i]["position"].get(0u, 0.0).asDouble(), (float32)_val["Shapes"][i]["position"].get(1u, 0.0).asDouble()), 0.f);
 			
 			fix.shape = &poly;
 		}
 		if (tString == "Circle") {
-			b2CircleShape circle;
 			circle.m_radius = (float32)_val["Shapes"][i].get("radius", 1.0).asDouble();
 			circle.m_p.Set((float32)_val["Shapes"][i]["position"].get(0u, 0.0).asDouble(), (float32)_val["Shapes"][i]["position"].get(1u, 0.0).asDouble());
 			
 			fix.shape = &circle;
 		}
 		if (tString == "Polygon") {
-			b2PolygonShape poly;
 			poly.m_vertexCount = 0;
 			b2Vec2 vertices[b2_maxPolygonVertices];
 			// Verts
