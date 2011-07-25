@@ -145,6 +145,7 @@ void PhysComponent::initWith(Json::Value _val)
 		fix.density = (float32)_val["Shapes"][i].get("density", 1.0).asDouble();
 		fix.friction = (float32)_val["Shapes"][i].get("friction", 1.0).asDouble();
 		fix.restitution = (float32)_val["Shapes"][i].get("restitution", 1.0).asDouble();
+		fix.conveyorBeltSpeed = (float32)_val["Shapes"][i].get("conveyorSpeed", 0.0).asDouble();
 		fix.filter.categoryBits = _val["Shapes"][i].get("categoryBits", 1).asInt();
 		fix.filter.maskBits = _val["Shapes"][i].get("maskBits", 0xFFFF).asInt();
 		fix.filter.groupIndex = _val["Shapes"][i].get("groupIndex", 0).asInt();
@@ -466,7 +467,7 @@ void GroupComponent::onColFinish(b2Fixture *_fix, SceneObject *_other, b2Manifol
 		it->second->onColFinish(_fix, _other, _manifold);
 	}
 }
-bool GroupComponent::PreSolve(SceneObject *_other, b2Contact *_contact, b2Manifold *_manifold)
+bool GroupComponent::PreSolve(SceneObject *_other, b2Contact *_contact, const b2Manifold *_manifold)
 {
 	std::map< int, SceneObject* >::iterator it;
 	for (it = m_Objects.begin(); it != m_Objects.end(); it++) {
@@ -594,7 +595,7 @@ void TriggerComponent::onColFinish(b2Fixture *_fix, SceneObject *_other, b2Manif
 {
 	
 }
-bool TriggerComponent::PreSolve(SceneObject *_other, b2Contact *_contact, b2Manifold *_manifold)
+bool TriggerComponent::PreSolve(SceneObject *_other, b2Contact *_contact, const b2Manifold *_manifold)
 {
 	return true;
 }
@@ -679,7 +680,7 @@ void SceneObject::onColStart( b2Fixture *_fix, SceneObject *_other, b2Manifold _
 	}
 }
 
-bool SceneObject::PreSolve(SceneObject *_other, b2Contact *_contact, b2Manifold *_manifold) 
+bool SceneObject::PreSolve(SceneObject *_other, b2Contact *_contact, const b2Manifold *_manifold) 
 {
 	std::map< std::string, Component* >::iterator cit;
 	for (cit = m_Components.begin(); cit != m_Components.end(); cit++) {

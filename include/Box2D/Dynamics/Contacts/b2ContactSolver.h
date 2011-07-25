@@ -54,6 +54,11 @@ struct b2ContactConstraint
 	float32 friction;
 	int32 pointCount;
 	b2Manifold* manifold;
+	
+	/// Conveyor
+	b2Fixture* fixtureA;
+	b2Fixture* fixtureB;
+	/// Conveyor
 };
 
 class b2ContactSolver

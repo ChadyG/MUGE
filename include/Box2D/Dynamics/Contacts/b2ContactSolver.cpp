@@ -73,6 +73,11 @@ b2ContactSolver::b2ContactSolver(b2Contact** contacts, int32 contactCount,
 		cc->radius = radiusA + radiusB;
 		cc->type = manifold->type;
 
+		//Conveyor
+		cc->fixtureA = fixtureA;
+		cc->fixtureB = fixtureB;
+		//End Conveyor
+
 		for (int32 j = 0; j < cc->pointCount; ++j)
 		{
 			b2ManifoldPoint* cp = manifold->points + j;
@@ -206,6 +211,8 @@ void b2ContactSolver::SolveVelocityConstraints()
 		float32 invIB = bodyB->m_invI;
 		b2Vec2 normal = c->normal;
 		b2Vec2 tangent = b2Cross(normal, 1.0f);
+		float32 convspeed1 = c->fixtureA->GetConveyorSpeed();
+		float32 convspeed2 = c->fixtureB->GetConveyorSpeed();
 		float32 friction = c->friction;
 
 		b2Assert(c->pointCount == 1 || c->pointCount == 2);
@@ -220,6 +227,13 @@ void b2ContactSolver::SolveVelocityConstraints()
 
 			// Compute tangent force
 			float32 vt = b2Dot(dv, tangent);
+
+			/// Conveyor
+			int flip = (c->manifold->type == b2Manifold::e_faceB ? -1 : 1);
+			vt += convspeed1 * flip;
+			vt -= convspeed2 * flip;
+			/// END Conveyor
+
 			float32 lambda = ccp->tangentMass * (-vt);
 
 			// b2Clamp the accumulated force

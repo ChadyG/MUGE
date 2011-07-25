@@ -55,6 +55,7 @@ struct b2FixtureDef
 		friction = 0.2f;
 		restitution = 0.0f;
 		density = 0.0f;
+		conveyorBeltSpeed = 0.0f;
 		filter.categoryBits = 0x0001;
 		filter.maskBits = 0xFFFF;
 		filter.groupIndex = 0;
@@ -79,6 +80,10 @@ struct b2FixtureDef
 	/// The density, usually in kg/m^2.
 	float32 density;
 
+	//Conveyor
+	float32 conveyorBeltSpeed;
+	//Conveyor
+
 	/// A sensor shape collects contact information but never generates a collision
 	/// response.
 	bool isSensor;
@@ -102,7 +107,6 @@ public:
 
 	/// Get the child shape. You can modify the child shape, however you should not change the
 	/// number of vertices because this will crash some collision caching mechanisms.
-	/// Manipulating the shape may lead to non-physical behavior.
 	b2Shape* GetShape();
 	const b2Shape* GetShape() const;
 
@@ -171,6 +175,12 @@ public:
 	/// Set the coefficient of restitution.
 	void SetRestitution(float32 restitution);
 
+	//Conveyor
+	float32 GetConveyorSpeed() const;
+
+	void SetConveyorSpeed(float32 speed);
+	//end Conveyor
+
 	/// Get the fixture's AABB. This AABB may be enlarge and/or stale.
 	/// If you need a more accurate AABB, compute it using the shape and
 	/// the body transform.
@@ -208,6 +218,10 @@ protected:
 
 	float32 m_friction;
 	float32 m_restitution;
+
+	//Conveyor
+	float32 m_conveyorBeltSpeed;
+	//Conveyor
 
 	int32 m_proxyId;
 	b2Filter m_filter;
@@ -301,6 +315,16 @@ inline float32 b2Fixture::GetRestitution() const
 inline void b2Fixture::SetRestitution(float32 restitution)
 {
 	m_restitution = restitution;
+}
+
+inline float32 b2Fixture::GetConveyorSpeed() const
+{
+	return m_conveyorBeltSpeed;
+}
+
+inline void b2Fixture::SetConveyorSpeed(float32 speed)
+{
+	m_conveyorBeltSpeed = speed;
 }
 
 inline bool b2Fixture::TestPoint(const b2Vec2& p) const

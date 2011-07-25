@@ -33,6 +33,7 @@ b2Fixture::b2Fixture()
 	m_proxyId = b2BroadPhase::e_nullProxy;
 	m_shape = NULL;
 	m_density = 0.0f;
+	m_conveyorBeltSpeed = 0.0f;
 }
 
 b2Fixture::~b2Fixture()
@@ -57,6 +58,9 @@ void b2Fixture::Create(b2BlockAllocator* allocator, b2Body* body, const b2Fixtur
 	m_shape = def->shape->Clone(allocator);
 
 	m_density = def->density;
+
+	//Conveyor
+	m_conveyorBeltSpeed = def->conveyorBeltSpeed;
 }
 
 void b2Fixture::Destroy(b2BlockAllocator* allocator)
