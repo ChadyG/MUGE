@@ -356,9 +356,23 @@ protected:
 */
 struct windowDef
 {
+	windowDef()
+	{
+		width = 10;
+		height = 10;
+		tileWidth = 32;
+		tileHeight = 32;
+		layer = 1;
+		canDrag = false;
+		canClose = true;
+	}
 	int width;
 	int height;
+	int tileWidth;
+	int tileHeight;
 	int layer;
+	bool canDrag;
+	bool canClose;
 };
 
 class UIWindow : public UIContainer, public UIObject
@@ -385,6 +399,8 @@ public:
 	bool pointIn(int _x, int _y);
 	bool isClosed();
 
+	void setPosition(int _x, int _y);
+
 	void update();
 	void draw(int _x, int _y, int _layer) const;
 
@@ -392,13 +408,18 @@ private:
 
 	boost::shared_ptr<UIButton> m_CloseButton;
 	//boost::scoped_ptr<Gosu::Image> m_TitleBar;
-	SpriteSheet m_TitleBar;
+	SpriteSheet m_TitleBar, m_Skin;
+
+	bool m_canClose;
+	bool m_canDrag;
 
 	bool m_closed;
 	bool m_dragging;
 
 	int m_Width;
 	int m_Height;
+	int m_tileWidth;
+	int m_tileHeight;
 	int m_X;
 	int m_Y;
 	int m_mouseOffX, m_mouseOffY;

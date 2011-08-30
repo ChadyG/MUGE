@@ -32,10 +32,14 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include "../Input/InputManager.h"
 
 UIWindow::UIWindow(windowDef& _def, Gosu::Graphics &_graphics, Gosu::Input &_input)
-: m_closed(false), m_dragging(false), UIContainer(_graphics, _input)
+: m_closed(false), m_dragging(false), m_tileWidth(32), m_tileHeight(32), UIContainer(_graphics, _input)
 {
 	m_visible = true;
 	m_hasFocus = true;
+	m_canClose = _def.canClose;
+	m_canDrag = _def.canDrag;
+	m_tileWidth = _def.tileWidth;
+	m_tileHeight = _def.tileHeight;
 	// Check width for minimum size
 	m_Width = _def.width;
 	m_Height = _def.height;
@@ -64,6 +68,9 @@ UIWindow::UIWindow(windowDef& _def, Gosu::Graphics &_graphics, Gosu::Input &_inp
 	}
 	*/
 
+	
+	m_Skin.setImage( Gosu::resourcePrefix() + L"Images/menus.png", m_Graphics, m_tileWidth, m_tileHeight);
+
 	//m_TitleBar.reset( new Gosu::Image(_graphics, titleBar) );
 	m_TitleBar.setImage( Gosu::resourcePrefix() + L"Images/titlebar.png", m_Graphics, 25, 25);
 	m_TitleBar.setCenter( 0.0, 0.0);
@@ -75,17 +82,20 @@ UIWindow::UIWindow(windowDef& _def, Gosu::Graphics &_graphics, Gosu::Input &_inp
 	def.width = 20;
 	def.height = 20;
 	
-	m_CloseButton.reset( new UIButton(def, m_Graphics, m_Input) );
-	m_currentPage->push_back( m_CloseButton );
+	if (m_canClose) {
+		m_CloseButton.reset( new UIButton(def, m_Graphics, m_Input) );
+		m_currentPage->push_back( m_CloseButton );
 	
-	std::wstring tString = Gosu::resourcePrefix() + L"Images/closebutton.png";
-	m_CloseButton->setImage( tString );
+		std::wstring tString = Gosu::resourcePrefix() + L"Images/closebutton.png";
+		m_CloseButton->setImage( tString );
+	}
 	
 }
 
 void UIWindow::addCloseToPage()
 {
-	m_currentPage->push_back( m_CloseButton );
+	if (m_canClose)
+		m_currentPage->push_back( m_CloseButton );
 }
 
 bool UIWindow::isClosed()
@@ -110,6 +120,12 @@ bool UIWindow::pointIn(int _x, int _y)
 		_y > m_Y && _y < (m_Y + m_Height)) 
 		return true;
 	return false;
+}
+
+void UIWindow::setPosition(int _x, int _y)
+{
+	m_X = _x;
+	m_Y = _y;
 }
 
 void UIWindow::update()
@@ -149,19 +165,21 @@ void UIWindow::update()
 		}
 
 		// Dragging logic
-		if (m_dragging) {
-			if (m_mouseHeld) {
-				m_X = mouseX - m_mouseOffX;
-				m_Y = mouseY - m_mouseOffY;
-			}else
-				m_dragging = false;
-		}
-		if (mouseX > m_X && mouseX < m_X + m_Width &&
-			mouseY > m_Y && mouseY < m_Y + 25) {
-			if (m_mouseDown && !m_mouseHeld) {
-				m_mouseOffX = mouseX - m_X;
-				m_mouseOffY = mouseY - m_Y;
-				m_dragging = true;
+		if (m_canDrag) {
+			if (m_dragging) {
+				if (m_mouseHeld) {
+					m_X = mouseX - m_mouseOffX;
+					m_Y = mouseY - m_mouseOffY;
+				}else
+					m_dragging = false;
+			}
+			if (mouseX > m_X && mouseX < m_X + m_Width &&
+				mouseY > m_Y && mouseY < m_Y + 25) {
+				if (m_mouseDown && !m_mouseHeld) {
+					m_mouseOffX = mouseX - m_X;
+					m_mouseOffY = mouseY - m_Y;
+					m_dragging = true;
+				}
 			}
 		}
 
@@ -222,8 +240,10 @@ void UIWindow::update()
 		}
 		
 		// Check status of close button
-		if (m_CloseButton->getState() == UIButton::btnPress) {
-			m_closed = true;
+		if(m_canClose) {
+			if (m_CloseButton->getState() == UIButton::btnPress) {
+				m_closed = true;
+			}
 		}
 
 		
@@ -234,6 +254,31 @@ void UIWindow::draw(int _x, int _y, int _layer) const
 {
 	if (m_visible) {
 		//m_TitleBar->draw(m_X, m_Y, _layer);
+		
+		m_Skin.drawFrameAt( 0, m_X, m_Y, _layer);
+		for (int i=m_tileWidth; i<(m_Width-m_tileWidth); i += m_tileWidth) {
+			m_Skin.drawFrameAt( 1, m_X + i, m_Y, _layer);
+		} 
+		m_Skin.drawFrameAt( 2, m_X + m_Width - 25, m_Y, _layer);
+		for (int i=m_tileHeight; i<(m_Height-m_tileHeight); i += m_tileHeight) {
+			m_Skin.drawFrameAt( 6, m_X + m_Width, m_Y + i, _layer);
+		} 
+		m_Skin.drawFrameAt( 9, m_X + m_Width - 25, m_Y, _layer);
+		for (int i=m_tileWidth; i<(m_Width-m_tileWidth); i += m_tileWidth) {
+			m_Skin.drawFrameAt( 1, m_X + i, m_Y + m_Height, _layer);
+		} 
+		m_Skin.drawFrameAt( 7, m_X + m_Width - 25, m_Y, _layer);
+		for (int i=m_tileHeight; i<(m_Height-m_tileHeight); i += m_tileHeight) {
+			m_Skin.drawFrameAt( 4, m_X + m_Width, m_Y + i, _layer);
+		}
+		for (int i=m_tileWidth; i<(m_Width-m_tileWidth); i += m_tileWidth) {
+			for (int j=m_tileHeight; j<(m_Height-m_tileHeight); j += m_tileHeight) {
+				m_Skin.drawFrameAt( 5, m_X + i, m_Y + j, _layer);
+			}
+		}
+
+		
+		/*
 		m_TitleBar.drawFrameAt( 0, m_X, m_Y, _layer);
 		for (int i=25; i<(m_Width-25); i += 25) {
 			m_TitleBar.drawFrameAt( 1, m_X + i, m_Y, _layer);
@@ -245,6 +290,7 @@ void UIWindow::draw(int _x, int _y, int _layer) const
 		m_Graphics.drawLine( m_X, m_Y + 25, Gosu::Colors::black, m_X, m_Y + m_Height, Gosu::Colors::black, _layer);
 		m_Graphics.drawLine( m_X, m_Y + m_Height, Gosu::Colors::black, m_X-1 + m_Width, m_Y + m_Height, Gosu::Colors::black, _layer);
 		m_Graphics.drawLine( m_X-1 + m_Width, m_Y + m_Height, Gosu::Colors::black, m_X-1 + m_Width, m_Y + 25, Gosu::Colors::black, _layer);
+		*/
 
 		std::list< boost::shared_ptr<UIObject> >::const_iterator itObj;
 		for (itObj = m_currentPage->begin(); itObj != m_currentPage->end(); itObj++) {

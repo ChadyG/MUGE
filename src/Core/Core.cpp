@@ -69,6 +69,8 @@ Core::Core(int _width, int _height, bool _fullscreen, double _updateInterval)
 	windowDef wDef;
 	wDef.height = 100;
 	wDef.width = 250;
+	wDef.tileWidth = 32;
+	wDef.tileHeight = 32;
 	m_UIWin = m_UI->createWindow(wDef);
 	m_UIWin->giveFocus();
 	m_UIWin->hide();
